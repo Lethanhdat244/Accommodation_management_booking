@@ -30,5 +30,4 @@ public class BookingDTO {
 
     private String status;
 
-    private int promotionId;
 }

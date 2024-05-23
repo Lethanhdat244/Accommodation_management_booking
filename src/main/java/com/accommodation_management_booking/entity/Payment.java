@@ -5,6 +5,7 @@ import jakarta.validation.constraints.DecimalMin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -36,12 +37,8 @@ public class Payment {
     private PaymentStatus paymentStatus;
 
     @Column(updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = LocalDateTime.now();
-    }
 
     public enum PaymentMethod {
         Cash, Card, BankTransfer
