@@ -1,11 +1,13 @@
 package com.accommodation_management_booking.dto;
 
+import com.accommodation_management_booking.entity.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
@@ -23,9 +25,10 @@ public class UserDTO {
     @Size(max = 255)
     private String password;
 
-    private Integer roleNumber;
+    @NotNull
+    private User.Role roleUser;
 
-    private String gender;
+    private User.Gender gender;
 
     private LocalDate birthdate;
 
@@ -42,14 +45,11 @@ public class UserDTO {
     @Size(max = 12)
     private String cccdNumber;
 
-    @Size(max = 255)
-    private String avatar;
+    private MultipartFile avatar;
 
-    @Size(max = 255)
-    private String frontCccdImage;
+    private MultipartFile frontCccdImage;
 
-    @Size(max = 255)
-    private String backCccdImage;
+    private MultipartFile backCccdImage;
 
     private boolean isActive;
 }
