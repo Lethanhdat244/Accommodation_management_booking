@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -14,11 +15,17 @@ public class CloudinaryService {
 
     private final Cloudinary cloudinary;
 
-    public Map upload(MultipartFile file)  {
-        try{
-            Map data = this.cloudinary.uploader().upload(file.getBytes(), Map.of());
-            return data;
-        }catch (IOException io){
+    public Map<String, Object> upload(MultipartFile[] files)  {
+        try {
+            Map<String, Object> uploadResult = new HashMap<>();
+            for (MultipartFile file : files) {
+                if (!file.isEmpty()) {
+                    Map<String, Object> data = this.cloudinary.uploader().upload(file.getBytes(), Map.of());
+                    uploadResult.put(file.getOriginalFilename(), data);
+                }
+            }
+            return uploadResult;
+        } catch (IOException io) {
             throw new RuntimeException("Image upload fail");
         }
     }

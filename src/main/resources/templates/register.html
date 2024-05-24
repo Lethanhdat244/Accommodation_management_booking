@@ -39,12 +39,7 @@
         <div th:if="${errorMessage}">
             <div class="alert alert-danger" th:text="${errorMessage}"></div>
         </div>
-        <form
-                method="post"
-                role="form"
-                th:action="@{/register/save}"
-                th:object="${user}">
-
+        <form method="post" role="form" th:action="@{/register/save}" th:object="${user}" enctype="multipart/form-data">
             <div th:if="${#fields.hasErrors('username')}">
                 <div class="alert alert-danger" th:errors="*{username}">Invalid username</div>
             </div>
@@ -74,15 +69,6 @@
                 <div class="alert alert-danger" th:errors="*{phoneNumber}">Invalid phone number</div>
             </div>
 
-            <label>Role: </label>
-            <select id="role" name="role" th:field="*{roleUser}">
-                <option value="ADMIN">Admin</option>
-                <option value="MANAGER">Manager</option>
-                <option value="EMPLOYEE">Employee</option>
-                <option value="USER">User</option>
-            </select><br/>
-
-
             <label>Phone: </label>
             <input id="phone" name="phone" placeholder="Enter phone number" th:field="*{phoneNumber}" type="text"/><br/>
 
@@ -93,7 +79,7 @@
             <input id="address" name="address" placeholder="Enter address" th:field="*{address}" type="text"/><br/>
 
             <label>Avatar: </label>
-            <input id="avatar" name="avatar" th:field="*{avatar}" type="file"/><br/>
+            <input id="avatar" name="avatar" type="file" multiple/><br/>
 
             <div th:if="${#fields.hasErrors('cccdNumber')}">
                 <div class="alert alert-danger" th:errors="*{cccdNumber}">Invalid ID card number</div>
@@ -101,11 +87,11 @@
             <label>Vietnamese Citizen ID Card: </label>
             <input id="idcard" name="idcard" placeholder="Enter Vietnamese citizen ID card" th:field="*{cccdNumber}" type="text"/><br/>
 
-            <label>Font face ID card: </label>
-            <input id="fontface" name="fontface" th:field="*{frontCccdImage}" type="file"/><br/>
+            <label>Front face ID card: </label>
+            <input id="frontface" name="frontface" type="file" multiple/><br/>
 
             <label>Back face ID card: </label>
-            <input id="backface" name="backface" th:field="*{backCccdImage}" type="file"/><br/>
+            <input id="backface" name="backface" type="file" multiple/><br/>
 
             <button type="submit">Register</button>
             <span>Already registered? <a th:href="@{/login}">Login here</a></span>
