@@ -30,7 +30,9 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
-    private Integer roleNumber;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
+    private Role roleUser;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -71,5 +73,8 @@ public class User {
 
     public enum Gender {
         Male, Female, Other
+    }
+    public enum Role {
+        ADMIN, MANAGER, EMPLOYEE, USER
     }
 }
