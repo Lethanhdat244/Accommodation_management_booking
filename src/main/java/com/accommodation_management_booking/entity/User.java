@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -28,7 +30,9 @@ public class User {
     @Column(nullable = false, length = 255)
     private String password;
 
-    private Integer roleNumber;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 10)
+    private Role roleUser;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
@@ -61,21 +65,16 @@ public class User {
     private boolean isActive = true;
 
     @Column(updatable = false)
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        createdAt = updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
     public enum Gender {
         Male, Female, Other
+    }
+    public enum Role {
+        ADMIN, MANAGER, EMPLOYEE, USER
     }
 }
