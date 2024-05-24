@@ -8,6 +8,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -18,21 +19,16 @@ import java.util.Map;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
-
-    private Cloudinary cloudinary;
+    private final UserRepository userRepository;
+    private final Cloudinary cloudinary;
 
     @Override
-    public void saveUser(UserDTO userDTO) {
+    public void saveUser(UserDTO userDTO, MultipartFile[] avatars, MultipartFile[] frontCccdImages, MultipartFile[] backCccdImages) {
         User user = new User();
         user.setUsername(userDTO.getUsername());
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
-        if (userDTO.getRoleUser() == null) {
-            user.setRoleUser(User.Role.USER);
-        } else {
-            user.setRoleUser(userDTO.getRoleUser());
-        }
+        user.setRoleUser(userDTO.getRoleUser() != null ? userDTO.getRoleUser() : User.Role.USER);
         user.setGender(userDTO.getGender());
         user.setBirthdate(userDTO.getBirthdate());
         user.setPhoneNumber(userDTO.getPhoneNumber());
@@ -40,19 +36,35 @@ public class UserServiceImpl implements UserService {
         user.setCccdNumber(userDTO.getCccdNumber());
 
         try {
-            Map uploadResult = cloudinary.uploader().upload(userDTO.getAvatar(), ObjectUtils.emptyMap());
-            user.setAvatar(uploadResult.get("url").toString());
-
-            uploadResult = cloudinary.uploader().upload(userDTO.getFrontCccdImage(), ObjectUtils.emptyMap());
-            user.setFrontCccdImage(uploadResult.get("url").toString());
-
-            uploadResult = cloudinary.uploader().upload(userDTO.getBackCccdImage(), ObjectUtils.emptyMap());
-            user.setBackCccdImage(uploadResult.get("url").toString());
-        } catch (Exception e) {
+            // Xử lý upload ảnh avatar
+            for (MultipartFile avatar : avatars) {
+                if (!avatar.isEmpty()) {
+                    user.setAvatar(uploadImage(avatar));
+                }
+            }
+            // Xử lý upload ảnh frontCccdImage
+            for (MultipartFile frontCccdImage : frontCccdImages) {
+                if (!frontCccdImage.isEmpty()) {
+                    user.setFrontCccdImage(uploadImage(frontCccdImage));
+                }
+            }
+            // Xử lý upload ảnh backCccdImage
+            for (MultipartFile backCccdImage : backCccdImages) {
+                if (!backCccdImage.isEmpty()) {
+                    user.setBackCccdImage(uploadImage(backCccdImage));
+                }
+            }
+        } catch (IOException e) {
             e.printStackTrace();
+            throw new RuntimeException("Error uploading files", e);
         }
 
         userRepository.save(user);
     }
 
+    private String uploadImage(MultipartFile file) throws IOException {
+        Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
+        return uploadResult.get("url").toString();
+    }
 }
+

@@ -20,8 +20,8 @@ public class CloudinaryImageUploadController {
     private final CloudinaryService cloudinaryService;
 
     @PostMapping
-    public ResponseEntity<Map> uploadImage(@RequestParam("image") MultipartFile file){
-        Map data = this.cloudinaryService.upload(file);
+    public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("images") MultipartFile[] files){
+        Map<String, Object> data = this.cloudinaryService.upload(files);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 }

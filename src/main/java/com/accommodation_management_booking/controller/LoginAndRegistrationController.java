@@ -7,10 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @AllArgsConstructor
@@ -26,14 +24,20 @@ public class LoginAndRegistrationController {
     }
 
     @PostMapping("/register/save")
-    public String registration(@ModelAttribute("user") UserDTO userDTO, BindingResult result, Model model) {
+    public String registration(@ModelAttribute("user") UserDTO userDTO,
+                               BindingResult result,
+                               Model model,
+                               @RequestParam("avatar") MultipartFile[] avatars,
+                               @RequestParam("frontface") MultipartFile[] frontCccdImages,
+                               @RequestParam("backface") MultipartFile[] backCccdImages) {
         if (result.hasErrors()) {
             // Nếu có lỗi validation, quay lại trang đăng ký
             System.out.println("Error reddddd");
             return "register";
         }
+
         try {
-            userService.saveUser(userDTO);
+            userService.saveUser(userDTO, avatars, frontCccdImages, backCccdImages);
         } catch (Exception e) {
             // Nếu có lỗi trong quá trình lưu, quay lại trang đăng ký với thông báo lỗi
             model.addAttribute("errorMessage", "There was an error registering the user. Please try again.");
