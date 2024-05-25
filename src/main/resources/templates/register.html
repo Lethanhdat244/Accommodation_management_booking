@@ -39,24 +39,15 @@
         <div th:if="${errorMessage}">
             <div class="alert alert-danger" th:text="${errorMessage}"></div>
         </div>
-        <form method="post" role="form" th:action="@{/register/save}" th:object="${user}" enctype="multipart/form-data">
-            <div th:if="${#fields.hasErrors('username')}">
-                <div class="alert alert-danger" th:errors="*{username}">Invalid username</div>
-            </div>
+        <form method="post" th:action="@{/register/save}" th:object="${user}" enctype="multipart/form-data">
             <label>Full Name: </label>
-            <input id="fullname" name="fullname" placeholder="Enter full name" th:field="*{username}" type="text"/><br/>
+            <input id="fullname" name="username" th:field="*{username}" type="text"/><br/>
 
-            <div th:if="${#fields.hasErrors('email')}">
-                <div class="alert alert-danger" th:errors="*{email}">Invalid email</div>
-            </div>
             <label>Email: </label>
-            <input id="email" name="email" placeholder="Enter email" th:field="*{email}" type="text"/><br/>
+            <input id="email" name="email" th:field="*{email}" type="text"/><br/>
 
-            <div th:if="${#fields.hasErrors('password')}">
-                <div class="alert alert-danger" th:errors="*{password}">Invalid password</div>
-            </div>
             <label>Password: </label>
-            <input id="password" name="password" placeholder="Enter password" th:field="*{password}" type="password"/><br/>
+            <input id="password" name="password" th:field="*{password}" type="password"/><br/>
 
             <label>Gender: </label>
             <input name="gender" th:field="*{gender}" value="Male" type="radio"/>Male
@@ -65,27 +56,17 @@
             <label>Birth Date: </label>
             <input id="birthdate" name="birthdate" th:field="*{birthdate}" type="date"/><br/>
 
-            <div th:if="${#fields.hasErrors('phoneNumber')}">
-                <div class="alert alert-danger" th:errors="*{phoneNumber}">Invalid phone number</div>
-            </div>
-
             <label>Phone: </label>
-            <input id="phone" name="phone" placeholder="Enter phone number" th:field="*{phoneNumber}" type="text"/><br/>
+            <input id="phone" name="phoneNumber" th:field="*{phoneNumber}" type="text"/><br/>
 
-            <div th:if="${#fields.hasErrors('address')}">
-                <div class="alert alert-danger" th:errors="*{address}">Invalid address</div>
-            </div>
             <label>Address: </label>
-            <input id="address" name="address" placeholder="Enter address" th:field="*{address}" type="text"/><br/>
+            <input id="address" name="address" th:field="*{address}" type="text"/><br/>
 
             <label>Avatar: </label>
             <input id="avatar" name="avatar" type="file" multiple/><br/>
 
-            <div th:if="${#fields.hasErrors('cccdNumber')}">
-                <div class="alert alert-danger" th:errors="*{cccdNumber}">Invalid ID card number</div>
-            </div>
             <label>Vietnamese Citizen ID Card: </label>
-            <input id="idcard" name="idcard" placeholder="Enter Vietnamese citizen ID card" th:field="*{cccdNumber}" type="text"/><br/>
+            <input id="idcard" name="cccdNumber" th:field="*{cccdNumber}" type="text"/><br/>
 
             <label>Front face ID card: </label>
             <input id="frontface" name="frontface" type="file" multiple/><br/>
@@ -96,6 +77,7 @@
             <button type="submit">Register</button>
             <span>Already registered? <a th:href="@{/login}">Login here</a></span>
         </form>
+
     </div>
 </div>
 </body>

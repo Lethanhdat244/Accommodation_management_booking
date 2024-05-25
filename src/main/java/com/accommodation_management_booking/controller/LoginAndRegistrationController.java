@@ -31,8 +31,6 @@ public class LoginAndRegistrationController {
                                @RequestParam("frontface") MultipartFile[] frontCccdImages,
                                @RequestParam("backface") MultipartFile[] backCccdImages) {
         if (result.hasErrors()) {
-            // Nếu có lỗi validation, quay lại trang đăng ký
-            System.out.println("Error reddddd");
             return "register";
         }
 
@@ -44,6 +42,11 @@ public class LoginAndRegistrationController {
             return "register";
         }
         return "redirect:/register?success";
+    }
+
+    @GetMapping("/login")
+    public String login(){
+        return "login";
     }
 
 }

@@ -5,7 +5,7 @@ CREATE TABLE user (
                       user_id INT AUTO_INCREMENT PRIMARY KEY,
                       username VARCHAR(50) NOT NULL,
                       password VARCHAR(255) NOT NULL,
-                      role_number INT,
+                      role_user ENUM('ADMIN', 'MANAGER', 'EMPLOYEE', 'USER'),
                       gender ENUM('Male', 'Female', 'Other'),
                       birthdate DATE,
                       phone_number VARCHAR(20),
