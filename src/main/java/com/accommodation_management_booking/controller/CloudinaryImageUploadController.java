@@ -24,4 +24,5 @@ public class CloudinaryImageUploadController {
         Map<String, Object> data = this.cloudinaryService.upload(files);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
+
 }

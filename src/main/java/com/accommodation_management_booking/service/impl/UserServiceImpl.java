@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
                     user.setAvatar(uploadImage(avatar));
                 }
             }
+
             // Xử lý upload ảnh frontCccdImage
             for (MultipartFile frontCccdImage : frontCccdImages) {
                 if (!frontCccdImage.isEmpty()) {

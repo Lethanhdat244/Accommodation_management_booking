@@ -31,6 +31,7 @@ public class CustomUserDetailService implements UserDetailsService {
             throw new UsernameNotFoundException("Invalid email or password");
         }
     }
+
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(List<String> roles) {
         return roles.stream()
                 .map(SimpleGrantedAuthority::new)

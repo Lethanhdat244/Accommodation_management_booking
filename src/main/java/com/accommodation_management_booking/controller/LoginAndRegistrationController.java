@@ -47,6 +47,7 @@ public class LoginAndRegistrationController {
     @GetMapping("/login")
     public String login(){
         return "login";
+
     }
 
 }
