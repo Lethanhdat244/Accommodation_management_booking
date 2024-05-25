@@ -65,6 +65,27 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public void completeUserProfile(UserDTO userDTO, MultipartFile avatar, MultipartFile frontCccdImage, MultipartFile backCccdImage) {
+        User user = userRepository.findByEmail(userDTO.getEmail());
+        if (user != null && !user.isProfileComplete()) {
+            try {
+                user.setRoleUser(userDTO.getRoleUser() != null ? userDTO.getRoleUser() : User.Role.USER);
+                user.setAvatar(uploadImage(avatar));
+                user.setFrontCccdImage(uploadImage(frontCccdImage));
+                user.setBackCccdImage(uploadImage(backCccdImage));
+            } catch (IOException e) {
+                // Handle the exception appropriately
+                e.printStackTrace();
+                return; // Or handle the error as needed
+            }
+            user.setProfileComplete(true);
+            userRepository.save(user);
+        }
+    }
+
+
+
     private String uploadImage(MultipartFile file) throws IOException {
         Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
         return uploadResult.get("url").toString();

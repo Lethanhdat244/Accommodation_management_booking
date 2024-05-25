@@ -37,7 +37,6 @@ public class LoginAndRegistrationController {
         try {
             userService.saveUser(userDTO, avatars, frontCccdImages, backCccdImages);
         } catch (Exception e) {
-            // Nếu có lỗi trong quá trình lưu, quay lại trang đăng ký với thông báo lỗi
             model.addAttribute("errorMessage", "There was an error registering the user. Please try again.");
             return "register";
         }
