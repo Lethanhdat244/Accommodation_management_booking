@@ -62,6 +62,23 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override
+    public UserDTO getUser(int id) throws Exception {
+            User user = userRepository.findById(id).get();
+                UserDTO userDTO = new UserDTO();
+                userDTO.setUserId(user.getUserId());
+                userDTO.setUsername(user.getUsername());
+                userDTO.setEmail(user.getEmail());
+                userDTO.setPassword(user.getPassword());
+                userDTO.setRoleUser(user.getRoleUser());
+                userDTO.setGender(user.getGender());
+                userDTO.setBirthdate(user.getBirthdate());
+                userDTO.setPhoneNumber(user.getPhoneNumber());
+                userDTO.setAddress(user.getAddress());
+                userDTO.setCccdNumber(user.getCccdNumber());
+                return userDTO;
+    }
+
     private String uploadImage(MultipartFile file) throws IOException {
         Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
         return uploadResult.get("url").toString();
