@@ -7,6 +7,162 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+    <script>
+        function validateEmail(email) {
+            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailPattern.test(email);
+        }
+
+        function validatePassword(password) {
+            var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
+            return passwordPattern.test(password);
+        }
+
+        function validateForm() {
+            var isValid = true;
+
+            // Full Name validation
+            var fullname = document.getElementById("fullname").value;
+            var fullnameError = document.getElementById("fullnameError");
+            if (!fullname) {
+                fullnameError.textContent = "Full Name is required.";
+                isValid = false;
+            } else {
+                fullnameError.textContent = "";
+            }
+
+            // Email validation
+            var email = document.getElementById("email").value;
+            var emailError = document.getElementById("emailError");
+            if (!email) {
+                emailError.textContent = "Email is required.";
+                isValid = false;
+            } else if (!validateEmail(email)) {
+                emailError.textContent = "Please enter a valid email address.";
+                isValid = false;
+            } else {
+                emailError.textContent = "";
+            }
+
+            // Password validation
+            var password = document.getElementById("password").value;
+            var passwordError = document.getElementById("passwordError");
+            if (!password) {
+                passwordError.textContent = "Password is required.";
+                isValid = false;
+            } else if (!validatePassword(password)) {
+                passwordError.textContent = "Password must be at least 10 characters long and include uppercase letters, lowercase letters, numbers, and special characters.";
+                isValid = false;
+            } else {
+                passwordError.textContent = "";
+            }
+
+            // Gender validation
+            var genderMale = document.querySelector("input[name='gender'][value='Male']").checked;
+            var genderFemale = document.querySelector("input[name='gender'][value='Female']").checked;
+            var genderError = document.getElementById("genderError");
+            if (!genderMale && !genderFemale) {
+                genderError.textContent = "Gender is required.";
+                isValid = false;
+            } else {
+                genderError.textContent = "";
+            }
+
+            // Birth Date validation
+            var birthdate = document.getElementById("birthdate").value;
+            var birthdateError = document.getElementById("birthdateError");
+            if (!birthdate) {
+                birthdateError.textContent = "Birth Date is required.";
+                isValid = false;
+            } else {
+                birthdateError.textContent = "";
+            }
+
+            // Phone validation
+            var phone = document.getElementById("phone").value;
+            var phoneError = document.getElementById("phoneError");
+            if (!phone) {
+                phoneError.textContent = "Phone number is required.";
+                isValid = false;
+            } else {
+                phoneError.textContent = "";
+            }
+
+            // Address validation
+            var address = document.getElementById("address").value;
+            var addressError = document.getElementById("addressError");
+            if (!address) {
+                addressError.textContent = "Address is required.";
+                isValid = false;
+            } else {
+                addressError.textContent = "";
+            }
+
+            // ID Card validation
+            var idcard = document.getElementById("idcard").value;
+            var idcardError = document.getElementById("idcardError");
+            if (!idcard) {
+                idcardError.textContent = "Vietnamese Citizen ID Card is required.";
+                isValid = false;
+            } else {
+                idcardError.textContent = "";
+            }
+
+            // Avatar validation
+            var avatar = document.getElementById("avatar").files.length;
+            var avatarError = document.getElementById("avatarError");
+            if (avatar === 0) {
+                avatarError.textContent = "Avatar is required.";
+                isValid = false;
+            } else {
+                avatarError.textContent = "";
+            }
+
+            // Front face ID card validation
+            var frontface = document.getElementById("frontface").files.length;
+            var frontfaceError = document.getElementById("frontfaceError");
+            if (frontface === 0) {
+                frontfaceError.textContent = "Front face ID card is required.";
+                isValid = false;
+            } else {
+                frontfaceError.textContent = "";
+            }
+
+            // Back face ID card validation
+            var backface = document.getElementById("backface").files.length;
+            var backfaceError = document.getElementById("backfaceError");
+            if (backface === 0) {
+                backfaceError.textContent = "Back face ID card is required.";
+                isValid = false;
+            } else {
+                backfaceError.textContent = "";
+            }
+
+            return isValid;
+        }
+
+        function addValidationListeners() {
+            document.getElementById("fullname").addEventListener("blur", validateForm);
+            document.getElementById("email").addEventListener("blur", validateForm);
+            document.getElementById("password").addEventListener("blur", validateForm);
+            document.querySelectorAll("input[name='gender']").forEach(input => input.addEventListener("blur", validateForm));
+            document.getElementById("birthdate").addEventListener("blur", validateForm);
+            document.getElementById("phone").addEventListener("blur", validateForm);
+            document.getElementById("address").addEventListener("blur", validateForm);
+            document.getElementById("avatar").addEventListener("change", validateForm);
+            document.getElementById("idcard").addEventListener("blur", validateForm);
+            document.getElementById("frontface").addEventListener("change", validateForm);
+            document.getElementById("backface").addEventListener("change", validateForm);
+        }
+
+        document.addEventListener("DOMContentLoaded", addValidationListeners);
+    </script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -27,58 +183,105 @@
 </nav>
 <br/><br/><br/>
 <div class="container">
-    <div class="row col-md-8 offset-md-2">
-        <div class="card-header">
-            <h2 class="text-center">Registration</h2>
-        </div>
-        <div th:if="${param.success}">
-            <div class="alert alert-info">
-                You have successfully registered our app!
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Registration</h2>
+                </div>
+                <div th:if="${param.success}">
+                    <div class="alert alert-info">
+                        You have successfully registered our app!
+                    </div>
+                </div>
+                <div th:if="${errorMessage}">
+                    <div class="alert alert-danger" th:text="${errorMessage}"></div>
+                </div>
+                <div class="card-body">
+                    <form method="post" th:action="@{/register/save}" th:object="${user}" enctype="multipart/form-data" onsubmit="return validateForm()">
+                        <div class="mb-3">
+                            <label for="fullname" class="form-label">Full Name:</label>
+                            <input id="fullname" name="username" th:field="*{username}" type="text" class="form-control"/>
+                            <div id="fullnameError" class="error"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input id="email" name="email" th:field="*{email}" type="email" class="form-control"/>
+                            <div id="emailError" class="error"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password:</label>
+                            <input id="password" name="password" th:field="*{password}" type="password" class="form-control"/>
+                            <div id="passwordError" class="error"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Gender:</label><br>
+                            <div class="form-check form-check-inline">
+                                <input id="genderMale" name="gender" th:field="*{gender}" value="Male" type="radio" class="form-check-input"/>
+                                <label for="genderMale" class="form-check-label">Male</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input id="genderFemale" name="gender" th:field="*{gender}" value="Female" type="radio" class="form-check-input"/>
+                                <label for="genderFemale" class="form-check-label">Female</label>
+                            </div>
+                            <div id="genderError" class="error"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="birthdate" class="form-label">Birth Date:</label>
+                            <input id="birthdate" name="birthdate" th:field="*{birthdate}" type="date" class="form-control"/>
+                            <div id="birthdateError" class="error"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone:</label>
+                            <input id="phone" name="phoneNumber" th:field="*{phoneNumber}" type="text" class="form-control"/>
+                            <div id="phoneError" class="error"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address:</label>
+                            <input id="address" name="address" th:field="*{address}" type="text" class="form-control"/>
+                            <div id="addressError" class="error"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="avatar" class="form-label">Avatar:</label>
+                            <input id="avatar" name="avatar" type="file" multiple class="form-control"/>
+                            <div id="avatarError" class="error"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="idcard" class="form-label">Vietnamese Citizen ID Card:</label>
+                            <input id="idcard" name="cccdNumber" th:field="*{cccdNumber}" type="text" class="form-control"/>
+                            <div id="idcardError" class="error"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="frontface" class="form-label">Front face ID card:</label>
+                            <input id="frontface" name="frontface" type="file" multiple class="form-control"/>
+                            <div id="frontfaceError" class="error"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="backface" class="form-label">Back face ID card:</label>
+                            <input id="backface" name="backface" type="file" multiple class="form-control"/>
+                            <div id="backfaceError" class="error"></div>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Register</button>
+                        </div>
+                        <div class="mt-3 text-center">
+                            <span>Already registered? <a th:href="@{/login}">Login here</a></span>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div th:if="${errorMessage}">
-            <div class="alert alert-danger" th:text="${errorMessage}"></div>
-        </div>
-        <form method="post" th:action="@{/register/save}" th:object="${user}" enctype="multipart/form-data">
-            <label>Full Name: </label>
-            <input id="fullname" name="username" th:field="*{username}" type="text"/><br/>
-
-            <label>Email: </label>
-            <input id="email" name="email" th:field="*{email}" type="text"/><br/>
-
-            <label>Password: </label>
-            <input id="password" name="password" th:field="*{password}" type="password"/><br/>
-
-            <label>Gender: </label>
-            <input name="gender" th:field="*{gender}" value="Male" type="radio"/>Male
-            <input name="gender" th:field="*{gender}" value="Female" type="radio"/>Female<br/>
-
-            <label>Birth Date: </label>
-            <input id="birthdate" name="birthdate" th:field="*{birthdate}" type="date"/><br/>
-
-            <label>Phone: </label>
-            <input id="phone" name="phoneNumber" th:field="*{phoneNumber}" type="text"/><br/>
-
-            <label>Address: </label>
-            <input id="address" name="address" th:field="*{address}" type="text"/><br/>
-
-            <label>Avatar: </label>
-            <input id="avatar" name="avatar" type="file" multiple/><br/>
-
-
-            <label>Vietnamese Citizen ID Card: </label>
-            <input id="idcard" name="cccdNumber" th:field="*{cccdNumber}" type="text"/><br/>
-
-            <label>Front face ID card: </label>
-            <input id="frontface" name="frontface" type="file" multiple/><br/>
-
-            <label>Back face ID card: </label>
-            <input id="backface" name="backface" type="file" multiple/><br/>
-
-            <button type="submit">Register</button>
-            <span>Already registered? <a th:href="@{/login}">Login here</a></span>
-        </form>
-
     </div>
 </div>
 </body>

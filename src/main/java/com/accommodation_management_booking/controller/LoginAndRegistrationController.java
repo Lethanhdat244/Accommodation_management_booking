@@ -30,12 +30,12 @@ public class LoginAndRegistrationController {
                                @RequestParam("avatar") MultipartFile[] avatars,
                                @RequestParam("frontface") MultipartFile[] frontCccdImages,
                                @RequestParam("backface") MultipartFile[] backCccdImages) {
-        if (result.hasErrors()) {
-            return "register";
-        }
 
         try {
             userService.saveUser(userDTO, avatars, frontCccdImages, backCccdImages);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "register";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "There was an error registering the user. Please try again.");
             return "register";
