@@ -1,202 +1,625 @@
 <!DOCTYPE html>
-<html lang="en"
-    xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <title>Homeland &mdash; Colorlib Website Template</title>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>About Us</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap core CSS -->
-    <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/homepage_user/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-    <!-- Custom styles for this template -->
-    <link href="/static/homepage_user/css/style.css" rel="stylesheet">
-    <link href="/static/homepage_user/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
-    <link rel="stylesheet" href="/static/homepage_user/css/lightbox.min.css">
-    <link href="/static/homepage_user/css/responsive.css" rel="stylesheet">
-    <script src="/static/homepage_user/js/jquery.min.js" type="text/javascript"></script>
-    <script src="/static/homepage_user/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="/static/homepage_user/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
-    <script src="/static/homepage_user/js/instafeed.min.js" type="text/javascript"></script>
-    <script src="/static/homepage_user/js/custom.js" type="text/javascript"></script>
+    <link rel="stylesheet"
+          th:href="@{https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,700,900|Roboto+Mono:300,400,500}">
+    <link rel="stylesheet" th:href="@{/fonts/icomoon/style.css}">
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/magnific-popup.css}">
+    <link rel="stylesheet" th:href="@{/css/jquery-ui.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+    <link rel="stylesheet" th:href="@{/css/owl.theme.default.min.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-datepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/mediaelementplayer.css}">
+    <link rel="stylesheet" th:href="@{/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/fonts/flaticon/font/flaticon.css}">
+    <link rel="stylesheet" th:href="@{/css/fl-bigmug-line.css}">
+    <link rel="stylesheet" th:href="@{/css/aos.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<div id="page">
-    <!---header top---->
-    <div class="top-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <!-- Additional contact or announcement info can go here -->
+
+<div class="site-loader"></div>
+
+<div class="site-wrap">
+
+    <div class="site-mobile-menu">
+        <div class="site-mobile-menu-header">
+            <div class="site-mobile-menu-close mt-3">
+                <span class="icon-close2 js-menu-toggle"></span>
+            </div>
+        </div>
+        <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
+
+    <div class="site-navbar mt-4">
+        <div class="container py-1">
+            <div class="row align-items-center">
+                <div class="col-8 col-md-8 col-lg-4">
+                    <h1 class="mb-0"><a href="index.html" class="text-white h2 mb-0"><strong>Dormitory<span
+                            class="text-danger">.</span></strong></a></h1>
                 </div>
-                <div class="col-md-6">
-                    <div class="social-grid">
-                        <ul class="list-unstyled text-right">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                <div class="col-4 col-md-4 col-lg-8">
+                    <nav class="site-navigation text-right text-md-right" role="navigation">
+
+                        <div class="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#"
+                                                                                      class="site-menu-toggle js-menu-toggle text-white"><span
+                                class="icon-menu h3"></span></a></div>
+
+                        <ul class="site-menu js-clone-nav d-none d-lg-block">
+                            <li>
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li><a href="profile.html">Buy</a></li>
+                            <li><a href="rent.html">Rent</a></li>
+                            <li class="has-children">
+                                <a href="properties.html">Properties</a>
+                                <ul class="dropdown arrow-top">
+                                    <li><a href="#">Condo</a></li>
+                                    <li><a href="#">Property Land</a></li>
+                                    <li><a href="#">Commercial Building</a></li>
+                                    <li class="has-children">
+                                        <a href="#">Sub Menu</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">Menu One</a></li>
+                                            <li><a href="#">Menu Two</a></li>
+                                            <li><a href="#">Menu Three</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><a href="blog.html">Blog</a></li>
+                            <li class="active"><a href="about.html">About</a></li>
+                            <li><a href="contact.html">Contact</a></li>
                         </ul>
-                    </div>
+                    </nav>
                 </div>
+
+
             </div>
         </div>
     </div>
-    <!--header--->
-    <header class="header-container">
-        <div class="container">
-            <div class="top-row">
-                <div class="row">
-                    <div class="col-md-2 col-sm-6 col-xs-6">
-                        <div id="logo">
-                            <a th:href="@{/fpt-dorm/home}"><span>FPT</span> Dorm</a>
-                        </div>
-                    </div>
-                    <div class="col-sm-6 visible-sm">
-                        <div class="text-right">
-                            <a href="/fpt-dorm/home-user" class="book-now-btn">Book Now</a>
-                        </div>
-                    </div>
-                    <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
-                        <nav class="navbar navbar-default">
-                            <div class="navbar-header page-scroll">
-                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-                                    <span class="sr-only">Toggle navigation</span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                    <span class="icon-bar"></span>
-                                </button>
+</div>
+
+<div class="site-blocks-cover inner-page-cover overlay" style="background-image: url(images/hero_bg_2.jpg);"
+     data-aos="fade" data-stellar-background-ratio="0.5">
+    <div class="container">
+        <div class="row align-items-center justify-content-center text-center">
+            <div class="col-md-10">
+                <h1 class="mb-2">About Dormitory</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--    <div class="site-section">-->
+<!--      <div class="container">-->
+<!--        <div class="row">-->
+<!--          <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">-->
+<!--            <img src="images/about.jpg" alt="Image" class="img-fluid">-->
+<!--          </div>-->
+<!--          <div class="col-md-5 ml-auto"  data-aos="fade-up" data-aos-delay="200">-->
+<!--            <div class="site-section-title">-->
+<!--              <h2>About Us</h2>-->
+<!--            </div>-->
+<!--            <p>Chào mừng các bạn đến với ký túc xá của chúng tôi! Là admin của ký túc xá, tôi rất vui mừng được giới thiệu về môi trường sống tuyệt vời và tiện nghi mà chúng tôi cung cấp. Ký túc xá của chúng tôi không chỉ đơn thuần là nơi ở, mà còn là một cộng đồng năng động, nơi các bạn có thể học tập, sinh hoạt và phát triển bản thân trong một môi trường an toàn và hỗ trợ. Chúng tôi trang bị đầy đủ các tiện ích hiện đại như phòng ngủ thoải mái, phòng học yên tĩnh, khu vực sinh hoạt chung, nhà ăn với các bữa ăn dinh dưỡng, phòng giặt ủi tiện lợi và khu vui chơi giải trí đa dạng. Ngoài ra, chúng tôi luôn có đội ngũ nhân viên thân thiện và chuyên nghiệp sẵn sàng hỗ trợ các bạn 24/7. Chúng tôi tin rằng ký túc xá không chỉ là nơi bạn sống, mà còn là nơi bạn trưởng thành và tạo dựng những kỷ niệm đáng nhớ. Hãy đến và trải nghiệm môi trường sống lý tưởng tại ký túc xá của chúng tôi!</p>-->
+<!--&lt;!&ndash;            <p><a href="#" class="btn btn-outline-primary rounded-0 py-2 px-5">Read More</a></p>&ndash;&gt;-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--  <div class="site-section">-->
+<!--    <div class="container">-->
+<!--      <div class="row">-->
+<!--        <div class="col-md-5 ml-auto"  data-aos="fade-up" data-aos-delay="200">-->
+<!--          <div class="site-section-title">-->
+<!--            <h2>Privacy Policy</h2>-->
+<!--          </div>-->
+<!--          <p>Chào mừng các bạn đến với ký túc xá của chúng tôi! Là admin của ký túc xá, tôi rất vui mừng được giới thiệu về môi trường sống tuyệt vời và tiện nghi mà chúng tôi cung cấp. Ký túc xá của chúng tôi không chỉ đơn thuần là nơi ở, mà còn là một cộng đồng năng động, nơi các bạn có thể học tập, sinh hoạt và phát triển bản thân trong một môi trường an toàn và hỗ trợ. Chúng tôi trang bị đầy đủ các tiện ích hiện đại như phòng ngủ thoải mái, phòng học yên tĩnh, khu vực sinh hoạt chung, nhà ăn với các bữa ăn dinh dưỡng, phòng giặt ủi tiện lợi và khu vui chơi giải trí đa dạng. Ngoài ra, chúng tôi luôn có đội ngũ nhân viên thân thiện và chuyên nghiệp sẵn sàng hỗ trợ các bạn 24/7. Chúng tôi tin rằng ký túc xá không chỉ là nơi bạn sống, mà còn là nơi bạn trưởng thành và tạo dựng những kỷ niệm đáng nhớ. Hãy đến và trải nghiệm môi trường sống lý tưởng tại ký túc xá của chúng tôi!</p>-->
+<!--          &lt;!&ndash;            <p><a href="#" class="btn btn-outline-primary rounded-0 py-2 px-5">Read More</a></p>&ndash;&gt;-->
+<!--        </div>-->
+<!--        <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">-->
+<!--          <img src="images/about.jpg" alt="Image" class="img-fluid">-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+
+
+<!--    <div class="site-section">-->
+<!--    <div class="container">-->
+<!--      <div class="row mb-5 justify-content-center"  data-aos="fade-up" >-->
+<!--        <div class="col-md-7">-->
+<!--          <div class="site-section-title text-center">-->
+<!--            <h2>Leadership</h2>-->
+<!--            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero magnam officiis ipsa eum pariatur labore fugit amet eaque iure vitae, repellendus laborum in modi reiciendis quis! Optio minima quibusdam, laboriosam.</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="row">-->
+<!--          <div class="col-md-6 col-lg-4 mb-5 mb-lg-5"  data-aos="fade-up" data-aos-delay="200">-->
+<!--            <div class="team-member">-->
+
+<!--              <img src="images/person_1.jpg" alt="Image" class="img-fluid rounded mb-4">-->
+
+<!--              <div class="text">-->
+
+<!--                <h2 class="mb-2 font-weight-light text-black h4">Megan Smith</h2>-->
+<!--                <span class="d-block mb-3 text-white-opacity-05">Real Estate Agent</span>-->
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi dolorem totam non quis facere blanditiis praesentium est. Totam atque corporis nisi, veniam non. Tempore cupiditate, vitae minus obcaecati provident beatae!</p>-->
+<!--                <p>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-facebook"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-twitter"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-linkedin"></span></a>-->
+<!--                </p>-->
+<!--              </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="col-md-6 col-lg-4 mb-5 mb-lg-5"  data-aos="fade-up" data-aos-delay="300">-->
+<!--            <div class="team-member">-->
+
+<!--              <img src="images/person_2.jpg" alt="Image" class="img-fluid rounded mb-4">-->
+
+<!--              <div class="text">-->
+
+<!--                <h2 class="mb-2 font-weight-light text-black h4">Brooke Cagle</h2>-->
+<!--                <span class="d-block mb-3 text-white-opacity-05">Real Estate Agent</span>-->
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis, cumque vitae voluptates culpa earum similique corrupti itaque veniam doloribus amet perspiciatis recusandae sequi nihil tenetur ad, modi quos id magni!</p>-->
+<!--                <p>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-facebook"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-twitter"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-linkedin"></span></a>-->
+<!--                </p>-->
+<!--              </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="col-md-6 col-lg-4 mb-5 mb-lg-5"  data-aos="fade-up" data-aos-delay="400">-->
+<!--            <div class="team-member">-->
+
+<!--              <img src="images/person_3.jpg" alt="Image" class="img-fluid rounded mb-4">-->
+
+<!--              <div class="text">-->
+
+<!--                <h2 class="mb-2 font-weight-light text-black h4">Philip Martin</h2>-->
+<!--                <span class="d-block mb-3 text-white-opacity-05">Real Estate Agent</span>-->
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores illo iusto, inventore, iure dolorum officiis modi repellat nobis, praesentium perspiciatis, explicabo. Atque cupiditate, voluptates pariatur odit officia libero veniam quo.</p>-->
+<!--                <p>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-facebook"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-twitter"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-linkedin"></span></a>-->
+<!--                </p>-->
+<!--              </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+
+
+<!--        </div>-->
+<!--    </div>-->
+<!--    </div>-->
+
+
+<!--    <div class="site-section bg-light">-->
+<!--      <div class="container" data-aos="fade">-->
+<!--        <div class="row mb-5 justify-content-center">-->
+<!--          <div class="col-md-7">-->
+<!--            <div class="site-section-title text-center">-->
+<!--              <h2>Our Agents</h2>-->
+<!--              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero magnam officiis ipsa eum pariatur labore fugit amet eaque iure vitae, repellendus laborum in modi reiciendis quis! Optio minima quibusdam, laboriosam.</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row">-->
+
+<!--          <div class="col-md-6 col-lg-4 mb-5 mb-lg-5">-->
+<!--            <div class="team-member">-->
+
+<!--              <img src="images/person_4.jpg" alt="Image" class="img-fluid rounded mb-4">-->
+
+<!--              <div class="text">-->
+
+<!--                <h2 class="mb-2 font-weight-light text-black h4">Steven Ericson</h2>-->
+<!--                <span class="d-block mb-3 text-white-opacity-05">Real Estate Agent</span>-->
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptates sed qui at harum ipsum earum voluptas a unde error sapiente, sint perspiciatis, fugiat neque iure rerum repellendus tempora odio doloribus.</p>-->
+<!--                <p>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-facebook"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-twitter"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-linkedin"></span></a>-->
+<!--                </p>-->
+<!--              </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="col-md-6 col-lg-4 mb-5 mb-lg-5">-->
+<!--            <div class="team-member">-->
+
+<!--              <img src="images/person_5.jpg" alt="Image" class="img-fluid rounded mb-4">-->
+
+<!--              <div class="text">-->
+
+<!--                <h2 class="mb-2 font-weight-light text-black h4">Nathan Dumlao</h2>-->
+<!--                <span class="d-block mb-3 text-white-opacity-05">Real Estate Agent</span>-->
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo nobis commodi rerum dicta, nulla. Delectus neque hic deserunt consequuntur esse facere, necessitatibus corrupti! Blanditiis ratione consequuntur beatae adipisci, voluptatum consequatur.</p>-->
+<!--                <p>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-facebook"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-twitter"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-linkedin"></span></a>-->
+<!--                </p>-->
+<!--              </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="col-md-6 col-lg-4 mb-5 mb-lg-5">-->
+<!--            <div class="team-member">-->
+
+<!--              <img src="images/person_2.jpg" alt="Image" class="img-fluid rounded mb-4">-->
+
+<!--              <div class="text">-->
+
+<!--                <h2 class="mb-2 font-weight-light text-black h4">Brooke Cagle</h2>-->
+<!--                <span class="d-block mb-3 text-white-opacity-05">Real Estate Agent</span>-->
+<!--                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa nam tenetur molestiae maiores officiis consectetur, distinctio aperiam in illum praesentium corrupti, harum porro reiciendis magnam non enim dolorem aut explicabo.</p>-->
+<!--                <p>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-facebook"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-twitter"></span></a>-->
+<!--                  <a href="#" class="text-black p-2"><span class="icon-linkedin"></span></a>-->
+<!--                </p>-->
+<!--              </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<div class="site-section">
+    <div class="container">
+
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-7 text-center">
+                <div class="site-section-title">
+                    <h2>Frequently Ask Questions</h2>
+                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis maiores quisquam saepe architecto
+                    error corporis aliquam. Cum ipsam a consectetur aut sunt sint animi, pariatur corporis, eaque,
+                    deleniti cupiditate officia.</p>
+            </div>
+        </div>
+
+        <div class="row justify-content-center" data-aos="fade" data-aos-delay="100">
+            <div class="col-md-8">
+                <div class="accordion unit-8" id="accordion">
+                    <div class="accordion-item">
+                        <h3 class="mb-0 heading">
+                            <a class="btn-block" data-toggle="collapse" href="#collapseOne" role="button"
+                               aria-expanded="true" aria-controls="collapseOne">About Us<span class="icon"></span></a>
+                        </h3>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                             data-parent="#accordion">
+                            <div class="body-text">
+                                <p>
+                                    Chào mừng các bạn đến với ký túc xá của chúng tôi! Là admin của ký túc xá, tôi rất
+                                    vui mừng được giới thiệu về môi trường sống tuyệt vời và tiện nghi mà chúng tôi cung
+                                    cấp. Ký túc xá của chúng tôi không chỉ đơn thuần là nơi ở, mà còn là một cộng đồng
+                                    năng động, nơi các bạn có thể học tập, sinh hoạt và phát triển bản thân trong một
+                                    môi trường an toàn và hỗ trợ. Chúng tôi trang bị đầy đủ các tiện ích hiện đại như
+                                    phòng ngủ thoải mái, phòng học yên tĩnh, khu vực sinh hoạt chung, nhà ăn với các bữa
+                                    ăn dinh dưỡng, phòng giặt ủi tiện lợi và khu vui chơi giải trí đa dạng. Ngoài ra,
+                                    chúng tôi luôn có đội ngũ nhân viên thân thiện và chuyên nghiệp sẵn sàng hỗ trợ các
+                                    bạn 24/7. Chúng tôi tin rằng ký túc xá không chỉ là nơi bạn sống, mà còn là nơi bạn
+                                    trưởng thành và tạo dựng những kỷ niệm đáng nhớ. Hãy đến và trải nghiệm môi trường
+                                    sống lý tưởng tại ký túc xá của chúng tôi! </p>
                             </div>
-                            <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
-                                <ul class="list-unstyled nav1 cl-effect-10">
-                                    <li><a data-hover="Home" th:href="@{/fpt-dorm/home}"><span>Home</span></a></li>
-                                    <li><a data-hover="About" class="active"><span>About</span></a></li>
-                                    <li><a data-hover="Rooms" th:href="@{/fpt-dorm/home/room}"><span>Rooms</span></a></li>
-                                    <li><a data-hover="Gallery" th:href="@{/fpt-dorm/home/gallery}"><span>Gallery</span></a></li>
-                                    <li><a data-hover="Contact Us" th:href="@{/fpt-dorm/home/contact}"><span>Contact Us</span></a></li>
-                                </ul>
-                            </div>
-                        </nav>
-                    </div>
-                    <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
-                        <div class="text-right">
-                            <a href="/fpt-dorm/home-user" class="book-now-btn">Book Now</a>
                         </div>
-                    </div>
+                    </div> <!-- .accordion-item -->
+
+                    <div class="accordion-item">
+                        <h3 class="mb-0 heading">
+                            <a class="btn-block" data-toggle="collapse" href="#collapseTwo" role="button"
+                               aria-expanded="false" aria-controls="collapseTwo">Privacy Policy<span
+                                    class="icon"></span></a>
+                        </h3>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="body-text">
+                                <p>
+                                    Chúng tôi cam kết bảo vệ quyền riêng tư và thông tin cá nhân của tất cả cư dân trong
+                                    ký túc xá. Chính sách bảo mật này giải thích cách chúng tôi thu thập, sử dụng, và
+                                    bảo vệ thông tin của bạn.
+                                </p><br>
+                                <p>
+                                    <strong> 1. Thu thập Thông tin Cá nhân: </strong></p> <br>
+                                <p>
+                                    Chúng tôi chỉ thu thập những thông tin cần thiết để
+                                    quản lý và cung cấp các dịch vụ của ký túc xá, bao gồm họ tên, ngày sinh, địa chỉ,
+                                    số điện thoại, email, và các thông tin liên quan khác khi bạn đăng ký cư trú.
+                                </p><br>
+                                <strong> 2. Sử dụng Thông tin Cá nhân: </strong></p> <br>
+                                <p>
+                                    Thông tin của bạn được sử dụng để quản lý hợp đồng cư
+                                    trú, hỗ trợ dịch vụ, liên lạc khẩn cấp, và cải thiện chất lượng dịch vụ. Chúng tôi
+                                    không chia sẻ thông tin cá nhân của bạn với bất kỳ bên thứ ba nào, trừ khi được pháp
+                                    luật yêu cầu hoặc có sự đồng ý của bạn.
+                                </p><br>
+                                <strong> 3. Bảo vệ Thông tin Cá nhân: </strong></p> <br>
+
+                                <p>
+                                    Chúng tôi áp dụng các biện pháp bảo mật kỹ thuật và tổ
+                                    chức hợp lý để bảo vệ thông tin cá nhân của bạn khỏi mất mát, truy cập trái phép,
+                                    tiết lộ hoặc phá hoại. Chỉ những nhân viên có nhiệm vụ cụ thể mới được phép truy cập
+                                    vào thông tin cá nhân của bạn.
+                                </p><br>
+                                <strong> 4. Quyền của Bạn: </strong></p> <br>
+
+                                <p>
+                                    Bạn có quyền truy cập, chỉnh sửa hoặc yêu cầu xóa thông tin cá
+                                    nhân của mình bất cứ lúc nào. Nếu bạn có bất kỳ thắc mắc hoặc yêu cầu nào liên quan
+                                    đến quyền riêng tư, vui lòng liên hệ với bộ phận quản lý ký túc xá.
+                                </p><br>
+                                <strong> 5. Thay đổi Chính sách:</strong></p> <br>
+
+                                <p>
+                                    Chúng tôi có thể cập nhật chính sách bảo mật này để phản ánh
+                                    những thay đổi trong thực tiễn hoặc pháp luật. Mọi thay đổi sẽ được thông báo kịp
+                                    thời trên bảng thông báo của ký túc xá và trên trang web của chúng tôi.
+                                </p><br>
+
+                                <p>
+                                    Chúng tôi trân trọng sự tin tưởng của bạn và cam kết sẽ làm hết sức để bảo vệ quyền
+                                    riêng tư của bạn. Nếu có bất kỳ câu hỏi nào về chính sách bảo mật, xin vui lòng liên
+                                    hệ với chúng tôi qua thông tin liên lạc được cung cấp.
+                                </p>
+                            </div>
+                        </div>
+                    </div> <!-- .accordion-item -->
+
+                    <div class="accordion-item">
+                        <h3 class="mb-0 heading">
+                            <a class="btn-block" data-toggle="collapse" href="#collapseThree" role="button"
+                               aria-expanded="false" aria-controls="collapseThree">Contact Us <span
+                                    class="icon"></span></a>
+                        </h3>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="body-text">
+                                <p>
+                                    Chúng tôi luôn sẵn sàng hỗ trợ và giải đáp mọi thắc mắc của bạn. Nếu bạn có bất kỳ
+                                    câu hỏi nào về ký túc xá, quy trình đăng ký, dịch vụ hoặc bất kỳ vấn đề nào khác,
+                                    vui lòng liên hệ với chúng tôi qua các kênh sau:
+                                </p> <br>
+                                <p>
+                                    Địa chỉ:
+                                    Ký túc xá XYZ
+                                    123 Đường ABC, Phường DEF
+                                    Thành phố GHI, Việt Nam
+                                </p> <br>
+                                <p>
+                                    Điện thoại:
+                                    0962421686
+                                </p> <br>
+                                <p>
+                                    Email:
+                                    sonxs011@gmail.com
+                                </p> <br>
+                                <p>
+                                    Giờ làm việc: 8h đến 17h
+                                </p> <br>
+                                <p>
+                                    Thứ Hai - Thứ Sáu: 8:00 - 17:00
+                                    Thứ Bảy: 8:00 - 12:00
+                                    Chủ Nhật: Nghỉ
+
+                                </p> <br>
+                                <p>
+                                    Mạng xã hội:</p> <br>
+                                <a href="https://www.facebook.com/" class="pl-0 pr-3"><span
+                                        class="icon-facebook"></span></a>
+                                Facebook
+                                </p> <br>
+                                <p>
+                                    Phản hồi và Góp ý:
+                                    Chúng tôi luôn mong muốn nhận được phản hồi và góp ý từ các bạn để cải thiện chất
+                                    lượng dịch vụ. Hãy gửi phản hồi của bạn qua email hoặc liên hệ trực tiếp với phòng
+                                    quản lý ký túc xá.
+                                </p> <br>
+                                <p>
+                                    Cảm ơn bạn đã tin tưởng và lựa chọn ký túc xá XYZ làm nơi ở và học tập. Chúng tôi
+                                    rất mong được phục vụ bạn và cùng bạn tạo dựng những trải nghiệm tuyệt vời tại đây.
+                                </p>
+                            </div>
+                        </div>
+                    </div> <!-- .accordion-item -->
+
+                    <div class="accordion-item">
+                        <h3 class="mb-0 heading">
+                            <a class="btn-block" data-toggle="collapse" href="#collapseFour" role="button"
+                               aria-expanded="false" aria-controls="collapseFour">Terms<span class="icon"></span></a>
+                        </h3>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                            <div class="body-text">
+                                <p>
+                                    <strong>Điều khoản và Điều kiện</strong>
+                                </p> <br>
+                                <p>
+                                    Chào mừng bạn đến với ký túc xá XYZ. Dưới đây là các điều khoản và điều kiện khi cư
+                                    trú tại ký túc xá của chúng tôi. Việc đăng ký và cư trú tại đây đồng nghĩa với việc
+                                    bạn đồng ý tuân thủ các điều khoản và điều kiện này.
+                                </p> <br>
+                                <p>
+                                    <strong> 1. Đăng ký và Thanh toán:</strong></p> <br>
+
+                                <p>
+                                    - Mọi cư dân phải hoàn tất thủ tục đăng ký và thanh toán các khoản phí liên quan
+                                    trước khi nhận phòng.</p> <br>
+
+                                <p>
+                                    - Các khoản phí bao gồm phí ký túc xá, phí dịch vụ và các khoản đặt cọc (nếu có)
+                                    phải được thanh toán đúng hạn.</p> <br>
+
+                                <p>
+                                    <strong>2. Quyền và Trách nhiệm của Cư dân:</strong></p> <br>
+                                <p>
+                                    - Cư dân có quyền sử dụng các tiện ích và dịch vụ do ký túc xá cung cấp.</p> <br>
+                                <p>
+                                    - Cư dân phải tuân thủ các quy định và nội quy của ký túc xá, bao gồm giờ giấc sinh
+                                    hoạt, vệ sinh, an ninh, và các quy định khác.</p> <br>
+                                <p>
+                                    - Cư dân phải giữ gìn tài sản chung và cá nhân, không gây mất trật tự hoặc hư hỏng
+                                    tài sản.</p> <br>
+                                <p>
+                                    <strong>3. Bảo mật và Quyền riêng tư:</strong></p> <br>
+                                <p>
+                                    - Chúng tôi cam kết bảo vệ thông tin cá nhân của cư dân. Thông tin này chỉ được sử
+                                    dụng cho mục đích quản lý và cung cấp dịch vụ.</p> <br>
+                                <p>
+                                    - Cư dân phải tôn trọng quyền riêng tư của người khác và không xâm phạm không gian
+                                    cá nhân của các cư dân khác.</p> <br>
+                                <p>
+                                    <strong>4. An ninh và An toàn:</strong></p> <br>
+                                <p>
+                                    - Cư dân phải tuân thủ các quy định về an ninh và an toàn của ký túc xá.</p> <br>
+                                <p>
+                                    - Cấm mang vào ký túc xá các vật dụng nguy hiểm, chất cấm, hoặc vật liệu dễ cháy
+                                    nổ.</p> <br>
+                                <p>
+                                    - Trong trường hợp khẩn cấp, cư dân phải tuân theo hướng dẫn của nhân viên ký túc xá
+                                    và các cơ quan chức năng.</p> <br>
+                                <p>
+                                    <strong>5. Chấm dứt Hợp đồng:</strong></p> <br>
+                                <p>
+                                    - Hợp đồng cư trú có thể bị chấm dứt nếu cư dân vi phạm nghiêm trọng các điều khoản
+                                    và điều kiện, hoặc theo thỏa thuận giữa hai bên.</p> <br>
+                                <p>
+                                    - Trong trường hợp chấm dứt hợp đồng, cư dân phải rời khỏi ký túc xá và thanh toán
+                                    các khoản phí liên quan.</p> <br>
+                                <p>
+                                    <strong>6. Sửa đổi Điều khoản và Điều kiện:</strong></p> <br>
+
+                                <p>
+                                    - Ký túc xá XYZ có quyền sửa đổi các điều khoản và điều kiện này vào bất kỳ thời
+                                    điểm nào. Các thay đổi sẽ được thông báo kịp thời trên bảng thông báo và trang web
+                                    của ký túc xá.</p> <br>
+                                <p>
+                                    - Cư dân có trách nhiệm cập nhật và tuân thủ các điều khoản và điều kiện mới
+                                    nhất.</p> <br>
+                                <p>
+                                </p> <br>
+                                <p>
+                                    Chúng tôi hy vọng rằng các bạn sẽ có một trải nghiệm tuyệt vời và đáng nhớ tại ký
+                                    túc xá XYZ. Nếu có bất kỳ thắc mắc hoặc cần hỗ trợ, vui lòng liên hệ với phòng quản
+                                    lý ký túc xá. Cảm ơn các bạn đã lựa chọn ký túc xá XYZ!</p> <br>
+                                <p>
+                                </p>
+                            </div>
+                        </div>
+                    </div> <!-- .accordion-item -->
+
                 </div>
             </div>
         </div>
-    </header>
 
-    <!--end-->
-    <section class="image-head-wrapper" style="background-image: url('/static/homepage_user/images/banner_about.png');">
-        <div class="inner-wrapper">
-            <h1>About Us</h1>
-        </div>
-    </section>
-    <div class="clearfix"></div>
+    </div>
+</div>
 
-    <section class="about-block">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5 about-left">
-                    <p>FPT University <label>Dormitory</label></p>
-                </div>
-                <div class="col-md-7 about-right">
-                    <h3>Welcome to FPT University Dormitory Booking</h3>
-                    <p>At FPT University, we strive to provide a comfortable and convenient living experience for our students. Our dormitories are designed to meet the needs of our diverse student population, offering a variety of room options and modern amenities.</p>
-                    <ul class="list-unstyled list-inline">
-                        <li>Spacious and well-furnished rooms</li>
-                        <li>24/7 security and surveillance</li>
-                        <li>High-speed internet connectivity</li>
-                        <li>Common areas for study and social activities</li>
-                        <li>On-site dining facilities</li>
-                        <li>Regular cleaning and maintenance services</li>
-                    </ul>
-                    <span>We are committed to ensuring that your stay at FPT University is as pleasant and productive as possible.</span>
+
+<footer class="site-footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="mb-5">
+                    <h3 class="footer-heading mb-4">About Homeland</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe pariatur reprehenderit vero
+                        atque, consequatur id ratione, et non dignissimos culpa? Ut veritatis, quos illum totam quis
+                        blanditiis, minima minus odio!</p>
                 </div>
             </div>
-            <div class="clearfix"> </div>
-        </div>
-    </section>
-
-    <!---footer--->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12 width-set-50">
-                    <div class="footer-details">
-                        <h4>Get in touch</h4>
-                        <ul class="list-unstyled footer-contact-list">
-                            <li>
-                                <i class="fa fa-map-marker fa-lg"></i>
-                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch Thất, TP. HN</p>
-                            </li>
-                            <li>
-                                <i class="fa fa-phone fa-lg"></i>
-                                <p><a href="tel:+84-24-7300-1866"> +84-24-7300-1866</a></p>
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope-o fa-lg"></i>
-                                <p><a href="mailto:dormbooking@fpt.edu.vn"> dormbooking@fpt.edu.vn</a></p>
-                            </li>
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <div class="row mb-5">
+                    <div class="col-md-12">
+                        <h3 class="footer-heading mb-4">Navigations</h3>
+                    </div>
+                    <div class="col-md-6 col-lg-6">
+                        <ul class="list-unstyled">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Buy</a></li>
+                            <li><a href="#">Rent</a></li>
+                            <li><a href="#">Properties</a></li>
                         </ul>
-                        <div class="footer-social-icon">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        </div>
-                        <div class="input-group" id="subscribe">
-                            <input type="text" class="form-control subscribe-box" value="" name="subscribe" placeholder="EMAIL ID">
-                            <span class="input-group-btn">
-                                        <button type="button" class="btn subscribe-button"><i class="fa fa-paper-plane fa-lg"></i></button>
-                                    </span>
-                        </div>
                     </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 width-50 width-set-50">
-                    <div class="footer-details">
-                        <h4>Explore</h4>
-                        <ul class="list-unstyled footer-links">
-                            <li><a th:href="@{/fpt-dorm/home}">Home</a></li>
-                            <li class="active"><a>About</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/room}">Rooms</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/gallery}">Gallery</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/dinning}">Dining</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/contact}">Contact</a></li>
+                    <div class="col-md-6 col-lg-6">
+                        <ul class="list-unstyled">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Terms</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="footer-details">
-                        <h4>Now On Instagram</h4>
-                        <div class="row">
-                            <div class="instagram-images">
-                                <div id="instafeed"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+
             </div>
 
-            <div class="copyright">
-                &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home" target="_blank">SWP391</a>.
+            <div class="col-lg-4 mb-5 mb-lg-0">
+                <h3 class="footer-heading mb-4">Follow Us</h3>
+
+                <div>
+                    <a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>
+                    <a href="#" class="pl-3 pr-3"><span class="icon-twitter"></span></a>
+                    <a href="#" class="pl-3 pr-3"><span class="icon-instagram"></span></a>
+                    <a href="#" class="pl-3 pr-3"><span class="icon-linkedin"></span></a>
+                </div>
+
+
             </div>
 
         </div>
-    </footer>
+        <div class="row pt-5 mt-5 text-center">
+            <div class="col-md-12">
+                <p>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    Copyright &copy;<script data-cfasync="false"
+                                            src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+                    <script>document.write(new Date().getFullYear());</script>
+                    All rights reserved | This template is made with <i class="icon-heart text-danger"
+                                                                        aria-hidden="true"></i> by <a
+                        href="https://colorlib.com" target="_blank">Colorlib</a>
+                    <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                </p>
+            </div>
 
-    <!--back to top--->
-    <a style="display: none;" href="javascript:void(0);" class="scrollTop back-to-top" id="back-to-top">
-        <span><i aria-hidden="true" class="fa fa-angle-up fa-lg"></i></span>
-        <span>Top</span>
-    </a>
+        </div>
+    </div>
+</footer>
 
 </div>
+
+<script src="js/jquery-3.3.1.min.js"></script>
+<script src="js/jquery-migrate-3.0.1.min.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/mediaelement-and-player.min.js"></script>
+<script src="js/jquery.stellar.min.js"></script>
+<script src="js/jquery.countdown.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/bootstrap-datepicker.min.js"></script>
+<script src="js/aos.js"></script>
+<script src="js/circleaudioplayer.js"></script>
+
+<script src="js/main.js"></script>
+
 </body>
 </html>
