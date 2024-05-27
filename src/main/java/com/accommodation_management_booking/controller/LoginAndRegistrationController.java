@@ -2,7 +2,6 @@ package com.accommodation_management_booking.controller;
 
 import com.accommodation_management_booking.dto.UserDTO;
 import com.accommodation_management_booking.service.UserService;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +45,6 @@ public class LoginAndRegistrationController {
     @GetMapping("/login")
     public String login(){
         return "login";
-
     }
 
 }

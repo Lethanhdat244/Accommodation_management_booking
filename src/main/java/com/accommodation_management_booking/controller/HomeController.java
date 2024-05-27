@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
+    @GetMapping("/")
+    public String redirectToHome() {
+        return "redirect:/home";
+    }
 
     @GetMapping("home")
     public String homepage(){

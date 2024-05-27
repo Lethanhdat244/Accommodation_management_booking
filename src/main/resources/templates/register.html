@@ -12,6 +12,25 @@
             color: red;
             font-size: 0.9em;
         }
+        .container {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            border-radius: 10px;
+            padding: 20px;
+            color: white;
+        }
+        .form-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            color: black;
+        }
+        .form-card h2 {
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            border: none;
+        }
     </style>
     <script>
         function validateEmail(email) {
@@ -185,7 +204,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card form-card">
                 <div class="card-header text-center">
                     <h2>Registration</h2>
                 </div>
@@ -199,7 +218,9 @@
                 </div>
                 <div class="card-body">
                     <form method="post" th:action="@{/register/save}" th:object="${user}" enctype="multipart/form-data" onsubmit="return validateForm()">
-                        <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
                             <label for="fullname" class="form-label">Full Name:</label>
                             <input id="fullname" name="username" th:field="*{username}" type="text" class="form-control"/>
                             <div id="fullnameError" class="error"></div>
@@ -235,54 +256,57 @@
                             <input id="birthdate" name="birthdate" th:field="*{birthdate}" type="date" class="form-control"/>
                             <div id="birthdateError" class="error"></div>
                         </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone:</label>
+                        <input id="phone" name="phoneNumber" th:field="*{phoneNumber}" type="text" class="form-control"/>
+                        <div id="phoneError" class="error"></div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone:</label>
-                            <input id="phone" name="phoneNumber" th:field="*{phoneNumber}" type="text" class="form-control"/>
-                            <div id="phoneError" class="error"></div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address:</label>
+                        <input id="address" name="address" th:field="*{address}" type="text" class="form-control"/>
+                        <div id="addressError" class="error"></div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address:</label>
-                            <input id="address" name="address" th:field="*{address}" type="text" class="form-control"/>
-                            <div id="addressError" class="error"></div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="idcard" class="form-label">Vietnamese Citizen ID Card:</label>
+                        <input id="idcard" name="cccdNumber" th:field="*{cccdNumber}" type="text" class="form-control"/>
+                        <div id="idcardError" class="error"></div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="avatar" class="form-label">Avatar:</label>
-                            <input id="avatar" name="avatar" type="file" multiple class="form-control"/>
-                            <div id="avatarError" class="error"></div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="avatar" class="form-label">Avatar:</label>
+                        <input id="avatar" name="avatar" type="file" multiple class="form-control"/>
+                        <div id="avatarError" class="error"></div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="idcard" class="form-label">Vietnamese Citizen ID Card:</label>
-                            <input id="idcard" name="cccdNumber" th:field="*{cccdNumber}" type="text" class="form-control"/>
-                            <div id="idcardError" class="error"></div>
-                        </div>
+                    <div class="mb-3">
+                        <label for="frontface" class="form-label">Front face ID card:</label>
+                        <input id="frontface" name="frontface" type="file" multiple class="form-control"/>
+                        <div id="frontfaceError" class="error"></div>
+                    </div>
 
-                        <div class="mb-3">
-                            <label for="frontface" class="form-label">Front face ID card:</label>
-                            <input id="frontface" name="frontface" type="file" multiple class="form-control"/>
-                            <div id="frontfaceError" class="error"></div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="backface" class="form-label">Back face ID card:</label>
-                            <input id="backface" name="backface" type="file" multiple class="form-control"/>
-                            <div id="backfaceError" class="error"></div>
-                        </div>
-
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Register</button>
-                        </div>
-                        <div class="mt-3 text-center">
-                            <span>Already registered? <a th:href="@{/login}">Login here</a></span>
-                        </div>
-                    </form>
+                    <div class="mb-3">
+                        <label for="backface" class="form-label">Back face ID card:</label>
+                        <input id="backface" name="backface" type="file" multiple class="form-control"/>
+                        <div id="backfaceError" class="error"></div>
+                    </div>
                 </div>
             </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary">Register</button>
+            </div>
+            <div class="mt-3 text-center">
+                <span>Already registered? <a th:href="@{/login}">Login here</a></span>
+            </div>
+            </form>
         </div>
     </div>
+</div>
+</div>
 </div>
 </body>
 </html>
