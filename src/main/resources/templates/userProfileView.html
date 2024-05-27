@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Profile</title>
@@ -8,23 +8,27 @@
 <div id="content1">
     <img src="" height="60px" width="40px">
 </div>
-<div id="content2">
-    <label for="username"/>
-    <input type="text" id="username" class="" value="">
-    <label for="password"/>
-    <input type="password" id="password" class="" value="">
-    <label for="roleUser"/>
-    <input type="text" id="roleUser" class="" value="">
-    <label for="gender"/>
-    <input type="text" id="gender" class="" value="">
-    <label for="birthdate"/>
-    <input type="text" id="birthdate" class="" value="">
-    <label for="phoneNumber"/>
-    <input type="" id="phoneNumber" class="" value="">
-    <label for="address"/>
-    <input type="text" id="address" class="" value="">
-    <label for="email"/>
-    <input type="text" id="email" class="" value="">
+<div id="content2" >
+    <form action="/find" method="post">
+        <input type="text" name="id" placeholder="Enter User ID">
+        <button type="submit">Send</button>
+    </form>
+    <div>
+        <h2>User Information</h2>
+        <table>
+            <tbody th:object="${user}">
+            <tr>
+                <td>User Name:</td>
+                <td th:text="*{username}"></td>
+            </tr>
+            <tr>
+                <td>Age:</td>
+                <td></td>
+            </tr>
+            <!-- Add more fields as necessary -->
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
