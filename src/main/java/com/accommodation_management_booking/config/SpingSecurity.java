@@ -28,6 +28,8 @@ public class SpingSecurity {
         http.csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/register/**").permitAll()
+                .requestMatchers("/forgot-password").permitAll()
+                .requestMatchers("/reset-password").permitAll()
                 .requestMatchers("/home").permitAll()
                 .anyRequest().authenticated()
                 .and()

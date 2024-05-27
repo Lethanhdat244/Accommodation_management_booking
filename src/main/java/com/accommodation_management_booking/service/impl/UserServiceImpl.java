@@ -1,8 +1,11 @@
 package com.accommodation_management_booking.service.impl;
 
 import com.accommodation_management_booking.dto.UserDTO;
+import com.accommodation_management_booking.entity.PasswordResetToken;
 import com.accommodation_management_booking.entity.User;
+import com.accommodation_management_booking.repository.PasswordResetTokenRepository;
 import com.accommodation_management_booking.repository.UserRepository;
+import com.accommodation_management_booking.service.EmailService;
 import com.accommodation_management_booking.service.UserService;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
@@ -13,8 +16,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -23,6 +28,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final Cloudinary cloudinary;
     private PasswordEncoder passwordEncoder;
+    private PasswordResetTokenRepository tokenRepository;
+    private EmailService emailService;
 
     @Override
     public void saveUser(UserDTO userDTO, MultipartFile[] avatars, MultipartFile[] frontCccdImages, MultipartFile[] backCccdImages) {
@@ -41,6 +48,7 @@ public class UserServiceImpl implements UserService {
         user.setPhoneNumber(userDTO.getPhoneNumber());
         user.setAddress(userDTO.getAddress());
         user.setCccdNumber(userDTO.getCccdNumber());
+        user.setProfileComplete(true);
 
         try {
             // Xử lý upload ảnh avatar
@@ -69,6 +77,32 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
     }
+
+    @Override
+    public void processForgotPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new IllegalArgumentException("No user found with email: " + email);
+        }
+        String token = UUID.randomUUID().toString();
+        PasswordResetToken resetToken = new PasswordResetToken(token, user, LocalDateTime.now().plusHours(24));
+        tokenRepository.save(resetToken);
+        String resetLink = "http://localhost:8080/reset-password?token=" + token;
+        emailService.sendPasswordResetEmail(user.getEmail(), resetLink);
+    }
+
+    @Override
+    public void resetPassword(String token, String newPassword) {
+        PasswordResetToken resetToken = tokenRepository.findByToken(token);
+        if (resetToken == null || resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Invalid or expired password reset token.");
+        }
+        User user = resetToken.getUser();
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        tokenRepository.delete(resetToken);
+    }
+
 
     @Override
     public void completeUserProfile(UserDTO userDTO, MultipartFile avatar, MultipartFile frontCccdImage, MultipartFile backCccdImage) {
