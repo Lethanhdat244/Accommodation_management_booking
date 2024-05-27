@@ -2,7 +2,6 @@ package com.accommodation_management_booking.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
@@ -13,10 +12,36 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("admin/home")
+    public String adminHomepage(){
+        return "admin/index";
+    }
+
 
     @GetMapping("contact")
     public String contact(){
         return "contact";
+    }
+
+    @GetMapping("about")
+    public String about(){
+        return "about";
+    }
+
+    @GetMapping("user-management")
+    public String userManagement(){
+        return "user-management";
+    }
+
+    @GetMapping("student-management")
+    public String studentManagement(){
+        return "student-management";
+    }
+
+
+    @GetMapping("profile")
+    public String profile(){
+        return "profile";
     }
 
     @GetMapping("index")
@@ -31,7 +56,7 @@ public class HomeController {
 
     @GetMapping("buy")
     public String buy(){
-        return "buy";
+        return "profile";
     }
 
     @GetMapping("properties")
