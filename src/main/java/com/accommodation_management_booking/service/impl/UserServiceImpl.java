@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUser(int id) throws Exception {
+    public UserDTO getUser(int id) {
             User user = userRepository.findById(id).get();
                 UserDTO userDTO = new UserDTO();
                 userDTO.setUserId(user.getUserId());

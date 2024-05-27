@@ -25,8 +25,34 @@ public class UserController {
         }
         return "userProfileView";  // Tên của template view (userProfileView.html)
     }
+    @GetMapping("/password-permission")
+    public String UserPasswordPermission(@RequestParam(name = "id")int id,Model model) {
+        model.addAttribute("user_id", id);
+        return "changePasswordRequest";
+    }
     @GetMapping("/change-password")
-    public String ChangePassword(Model model) {
-        return "changePassword";
+    public String ChangePassword(@RequestParam(name = "user_id")int id, @RequestParam(name = "password") String password, Model model) {
+            UserDTO user = userService.getUser(id);
+            if(user.getPassword().equals(password)) {
+                model.addAttribute("user_id", user.getUserId());
+                return "changePassword";
+            }
+            else {
+                model.addAttribute("errorMessage", "Incorrect Password.");
+                return "changePassword";
+            }
+    }
+    @PostMapping("/save-password")
+    public String SavePassword(@RequestParam(name = "user_id")int id,@RequestParam(name = "NewPassword") String NewPassword,@RequestParam(name = "ReNewPassword") String ReNewPassword,Model model){
+            if(NewPassword.equals(ReNewPassword)){
+                UserDTO user = userService.getUser(id);
+                user.setPassword(NewPassword);
+//                userService.saveUser(user);
+                return "/profile";
+            }
+            else {
+                model.addAttribute("errorMessage", "Incorrect Password.");
+                return "changePassword";
+            }
     }
 }

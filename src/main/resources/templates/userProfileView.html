@@ -16,7 +16,7 @@
             <tr>
                 <td>User Name:</td>
                 <td th:text="*{username}"></td>
-                <td><a th:href="@{/change-password}">Change Password</a></td>
+                <td><a th:href="@{/password-permission(id=${user.userId})}">Change Password</a></td>
             </tr>
             <tr>
                 <td>Gender:</td>
