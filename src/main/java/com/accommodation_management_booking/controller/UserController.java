@@ -15,20 +15,18 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/profile/view")
+    @GetMapping("/profile")
     public String UserProfile(Model model) {
-        // Mã để hiển thị trang người dùng
-        return "userProfileView";  // Tên của template view (userProfileView.html)
-    }
-
-    @PostMapping("/find")
-    public String get(@RequestParam(name = "id") int id, Model model) {
         try {
-            UserDTO user = userService.getUser(id);
+            UserDTO user = userService.getUser(1);
             model.addAttribute("user", user);
         } catch (Exception ex) {
             model.addAttribute("errorMessage", "User not found or an error occurred while retrieving the user.");
         }
-        return "userProfileView";
+        return "userProfileView";  // Tên của template view (userProfileView.html)
+    }
+    @GetMapping("/change-password")
+    public String ChangePassword(Model model) {
+        return "changePassword";
     }
 }
