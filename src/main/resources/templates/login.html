@@ -70,6 +70,9 @@
             <div th:if="${param.logout}">
                 <div class="alert alert-success"> You have been logged out.</div>
             </div>
+            <div th:if="${param.resetSuccess}">
+                <div class="alert alert-success">Your password has been reset successfully.</div>
+            </div>
 
             <div class="card">
                 <div class="card-header">
