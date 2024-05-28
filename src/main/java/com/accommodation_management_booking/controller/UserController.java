@@ -38,20 +38,21 @@ public class UserController {
                 return "changePassword";
             }
             else {
+                model.addAttribute("user_id", id);
                 model.addAttribute("errorMessage", "Incorrect Password.");
-                return "changePassword";
+                return "changePasswordRequest";
             }
     }
     @PostMapping("/save-password")
     public String SavePassword(@RequestParam(name = "user_id")int id,@RequestParam(name = "NewPassword") String NewPassword,@RequestParam(name = "ReNewPassword") String ReNewPassword,Model model){
             if(NewPassword.equals(ReNewPassword)){
-                UserDTO user = userService.getUser(id);
-                user.setPassword(NewPassword);
-//                userService.saveUser(user);
-                return "/profile";
+                userService.updatePassword(id, NewPassword);
+                model.addAttribute("succeedMessage", "Password changed.");
+                return "redirect:/profile";
             }
             else {
-                model.addAttribute("errorMessage", "Incorrect Password.");
+                model.addAttribute("user_id", id);
+                model.addAttribute("errorMessage", "Password not match.");
                 return "changePassword";
             }
     }

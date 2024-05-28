@@ -38,12 +38,16 @@
                 <td>Indentify ID: </td>
                 <td th:text="*{cccdNumber}"></td>
             </tr>
+            <tr>
+                <td>Email: </td>
+                <td th:text="*{email}"></td>
+            </tr>
             <!-- Add more fields as necessary -->
             </tbody>
         </table>
     </div>
-    <div th:if="${errorMessage != null}">
-        <p th:text="${errorMessage}"></p>
+    <div th:if="${errorMessage != null || succeedMessage != null}">
+        <p th:text="${errorMessage} || ${succeedMessage}"></p>
     </div>
 </div>
 </body>

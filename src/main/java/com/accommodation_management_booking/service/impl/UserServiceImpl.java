@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -77,6 +78,18 @@ public class UserServiceImpl implements UserService {
                 userDTO.setAddress(user.getAddress());
                 userDTO.setCccdNumber(user.getCccdNumber());
                 return userDTO;
+    }
+
+    @Override
+    public void updatePassword(int userId, String password) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setPassword(password);
+            userRepository.save(user);
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
     }
 
     private String uploadImage(MultipartFile file) throws IOException {
