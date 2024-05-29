@@ -32,7 +32,8 @@ public class SpingSecurity {
                 .requestMatchers("/forgot-password").permitAll()
                 .requestMatchers("/reset-password").permitAll()
                 .requestMatchers("/home").permitAll()
-                .requestMatchers("/").permitAll()
+                .requestMatchers("/home/**").permitAll()
+                .requestMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(form -> form
