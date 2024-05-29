@@ -7,13 +7,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
     <title> Dashboard | Dashboard</title>
     <!-- Favicon -->
-<!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
+    <link rel="shortcut icon" href="static/admin_homepage/img/svg/logo.svg" type="image/x-icon">
     <!-- Custom styles -->
-    <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
-
+    <link rel="stylesheet" href="static/admin_homepage/css/style.min.css">
 </head>
 
 <body>
@@ -29,7 +27,7 @@
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">FPT Dorm</span>
+                        <span class="logo-title">Dormitory</span>
                         <span class="logo-subtitle">Dashboard</span>
                     </div>
 
@@ -45,8 +43,8 @@
                         <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn" th:href="@{admin/admin_list_student}">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                        <a class="show-cat-btn" th:href="@{admin_list_student}">
+                            <span class="icon document" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -63,7 +61,7 @@
                     </li>
                     <li>
                         <a class="show-cat-btn" >
-                            <span class="icon folder" aria-hidden="true"></span>Room
+                            <span class="icon document" aria-hidden="true"></span>Room
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -71,7 +69,7 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_room}">All Rooms</a>
+                                <a th:href="@{admin_list_room.html}">All Rooms</a>
                             </li>
                             <li>
                                 <a th:href="@{admin_add_new_room}">Add new room</a>
@@ -82,10 +80,19 @@
                         </ul>
                     </li>
 
-
                     <li>
-                        <a class="show-cat-btn" >
-                            <span class="icon folder" aria-hidden="true"></span>Employee
+                        <a class="active" th:href="@{admin_payment_list}"><span class="icon home" aria-hidden="true"></span>Payment List</a>
+                    </li>
+
+                </ul>
+                <span class="system-menu__title">system</span>
+                <ul class="sidebar-body-menu">
+                    <li>
+                        <a href="appearance.html"><span class="icon edit" aria-hidden="true"></span>Appearance</a>
+                    </li>
+                    <li>
+                        <a class="show-cat-btn" href="##">
+                            <span class="icon category" aria-hidden="true"></span>Extentions
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -93,113 +100,43 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_employees}">All Employees</a>
+                                <a href="extention-01.html">Extentions-01</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_employee}">Add new employee</a>
+                                <a href="extention-02.html">Extentions-02</a>
                             </li>
                         </ul>
                     </li>
-
-
                     <li>
-                        <a th:href="@{admin/admin_payment_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Payment
+                        <a class="show-cat-btn" href="##">
+                            <span class="icon user-3" aria-hidden="true"></span>Users
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a href="users-01.html">Users-01</a>
+                            </li>
+                            <li>
+                                <a href="users-02.html">Users-02</a>
+                            </li>
+                        </ul>
                     </li>
-
-
                     <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
-                        </a>
+                        <a href="##"><span class="icon setting" aria-hidden="true"></span>Settings</a>
                     </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_booking_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_list_complaint}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Complaint
-                        </a>
-                    </li>
-
-
-
                 </ul>
-                <!--&lt;!&ndash;                <span class="system-menu__title">system</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                <ul class="sidebar-body-menu">&ndash;&gt;-->
-                <!--&lt;!&ndash;                    <li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        <a href="appearance.html"><span class="icon edit" aria-hidden="true"></span>Appearance</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                    <li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        <a class="show-cat-btn" href="##">&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <span class="icon category" aria-hidden="true"></span>Extentions&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <span class="category__btn transparent-btn" title="Open list">&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <span class="sr-only">Open list</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <span class="icon arrow-down" aria-hidden="true"></span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        </a>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        <ul class="cat-sub-menu">&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                <a href="extention-01.html">Extentions-01</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;                            </li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                <a href="extention-02.html">Extentions-02</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;                            </li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        </ul>&ndash;&gt;-->
-                <!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-                <!--                    <li>-->
-                <!--                        <a class="show-cat-btn" href="##">-->
-                <!--&lt;!&ndash;                            <span class="icon user-3" aria-hidden="true"></span>Users&ndash;&gt;-->
-                <!--                            <span class="category__btn transparent-btn" title="Open list">-->
-                <!--                            <span class="sr-only">Open list</span>-->
-                <!--                            <span class="icon arrow-down" aria-hidden="true"></span>-->
-                <!--                        </span>-->
-                <!--                        </a>-->
-                <!--                        <ul class="cat-sub-menu">-->
-                <!--                            <li>-->
-                <!--&lt;!&ndash;                                <a href="users-01.html">Users-01</a>&ndash;&gt;-->
-                <!--                            </li>-->
-                <!--                            <li>-->
-                <!--&lt;!&ndash;                                <a href="users-02.html">Users-02</a>&ndash;&gt;-->
-                <!--                            </li>-->
-                <!--                        </ul>-->
-                <!--                    </li>-->
-                <!--                    <li>-->
-                <!--&lt;!&ndash;                        <a href="##"><span class="icon setting" aria-hidden="true"></span>Settings</a>&ndash;&gt;-->
-                <!--                    </li>-->
-                <!--                </ul>-->
             </div>
         </div>
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="./img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="./img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">AI</span>
+                    <span class="sidebar-user__title">Nafisa Sh.</span>
                     <span class="sidebar-user__subtitle">Support manager</span>
                 </div>
             </a>
@@ -212,7 +149,7 @@
                 <div class="main-nav-start">
                     <div class="search-wrapper">
                         <i data-feather="search" aria-hidden="true"></i>
-                        <!--                        <input type="text" placeholder="Enter keywords ..." required>-->
+<!--                        <input type="text" placeholder="Enter keywords ..." required>-->
                     </div>
                 </div>
                 <div class="main-nav-end">
@@ -220,17 +157,17 @@
                         <span class="sr-only">Toggle menu</span>
                         <span class="icon menu-toggle--gray" aria-hidden="true"></span>
                     </button>
-                    <!--                    <div class="lang-switcher-wrapper">-->
-                    <!--                        <button class="lang-switcher transparent-btn" type="button">-->
-                    <!--                            EN-->
-                    <!--                            <i data-feather="chevron-down" aria-hidden="true"></i>-->
-                    <!--                        </button>-->
-                    <!--                        <ul class="lang-menu dropdown">-->
-                    <!--                            <li><a href="##">English</a></li>-->
-                    <!--                            <li><a href="##">French</a></li>-->
-                    <!--                            <li><a href="##">Uzbek</a></li>-->
-                    <!--                        </ul>-->
-                    <!--                    </div>-->
+<!--                    <div class="lang-switcher-wrapper">-->
+<!--                        <button class="lang-switcher transparent-btn" type="button">-->
+<!--                            EN-->
+<!--                            <i data-feather="chevron-down" aria-hidden="true"></i>-->
+<!--                        </button>-->
+<!--                        <ul class="lang-menu dropdown">-->
+<!--                            <li><a href="##">English</a></li>-->
+<!--                            <li><a href="##">French</a></li>-->
+<!--                            <li><a href="##">Uzbek</a></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
                     <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
                         <span class="sr-only">Switch theme</span>
                         <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
@@ -286,18 +223,19 @@
                         <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
-            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
+            <picture><source srcset="static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a href="##">
-                                <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+                                <i data-feather="user" aria-hidden="true"></i>
+                                <span>Profile</span>
                             </a></li>
-                            <!--                            <li><a href="##">-->
-                            <!--                                <i data-feather="settings" aria-hidden="true"></i>-->
-                            <!--                                <span>Account settings</span>-->
-                            <!--                            </a></li>-->
-                            <li><a class="danger" th:href="@{/fpt-dorm/logout}">
+                            <li><a href="##">
+                                <i data-feather="settings" aria-hidden="true"></i>
+                                <span>Account settings</span>
+                            </a></li>
+                            <li><a class="danger" href="##">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
                             </a></li>
@@ -317,8 +255,8 @@
                                 <i data-feather="bar-chart-2" aria-hidden="true"></i>
                             </div>
                             <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of member</p>
+                                <p class="stat-cards-info__num">1478 286</p>
+                                <p class="stat-cards-info__title">Total visits</p>
                                 <p class="stat-cards-info__progress">
                   <span class="stat-cards-info__profit success">
                     <i data-feather="trending-up" aria-hidden="true"></i>4.07%
@@ -334,8 +272,8 @@
                                 <i data-feather="file" aria-hidden="true"></i>
                             </div>
                             <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of room</p>
+                                <p class="stat-cards-info__num">1478 286</p>
+                                <p class="stat-cards-info__title">Total visits</p>
                                 <p class="stat-cards-info__progress">
                   <span class="stat-cards-info__profit success">
                     <i data-feather="trending-up" aria-hidden="true"></i>0.24%
@@ -351,8 +289,8 @@
                                 <i data-feather="file" aria-hidden="true"></i>
                             </div>
                             <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of room đã đc dùng</p>
+                                <p class="stat-cards-info__num">1478 286</p>
+                                <p class="stat-cards-info__title">Total visits</p>
                                 <p class="stat-cards-info__progress">
                   <span class="stat-cards-info__profit danger">
                     <i data-feather="trending-down" aria-hidden="true"></i>1.64%
@@ -368,8 +306,8 @@
                                 <i data-feather="feather" aria-hidden="true"></i>
                             </div>
                             <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of emplyee</p>
+                                <p class="stat-cards-info__num">1478 286</p>
+                                <p class="stat-cards-info__title">Total visits</p>
                                 <p class="stat-cards-info__progress">
                   <span class="stat-cards-info__profit warning">
                     <i data-feather="trending-up" aria-hidden="true"></i>0.00%
@@ -391,7 +329,7 @@
                                 <tr class="users-table-info">
                                     <th>
                                         <label class="users-table__checkbox ms-20">
-                                            <input type="checkbox" class="check-all">Room image
+                                            <input type="checkbox" class="check-all">Thumbnail
                                         </label>
                                     </th>
                                     <th>Title</th>
@@ -407,16 +345,16 @@
                                         <label class="users-table__checkbox">
                                             <input type="checkbox" class="check">
                                             <div class="categories-table-img">
-                                                <picture><source srcset="/static/admin_homepage/img/categories/01.webp" type="image/webp"><img src="/static/admin_homepage/img/categories/01.jpg" alt="category"></picture>
+                                                <picture><source srcset="./img/categories/01.webp" type="image/webp"><img src="./img/categories/01.jpg" alt="category"></picture>
                                             </div>
                                         </label>
                                     </td>
                                     <td>
-                                        Detail
+                                        Starting your traveling blog with Vasco
                                     </td>
                                     <td>
                                         <div class="pages-table-img">
-                                            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-face-04.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-face-04.png" alt="User Name"></picture>
+                                            <picture><source srcset="./img/avatar/avatar-face-04.webp" type="image/webp"><img src="./img/avatar/avatar-face-04.png" alt="User Name"></picture>
                                             Jenny Wilson
                                         </div>
                                     </td>
@@ -436,7 +374,176 @@
                       </span>
                                     </td>
                                 </tr>
-
+                                <tr>
+                                    <td>
+                                        <label class="users-table__checkbox">
+                                            <input type="checkbox" class="check">
+                                            <div class="categories-table-img">
+                                                <picture><source srcset="./img/categories/02.webp" type="image/webp"><img src="./img/categories/02.jpg" alt="category"></picture>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        Start a blog to reach your creative peak
+                                    </td>
+                                    <td>
+                                        <div class="pages-table-img">
+                                            <picture><source srcset="./img/avatar/avatar-face-03.webp" type="image/webp"><img src="./img/avatar/avatar-face-03.png" alt="User Name"></picture>
+                                            Annette Black
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-pending">Pending</span></td>
+                                    <td>23.04.2021</td>
+                                    <td>
+                      <span class="p-relative">
+                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                          <div class="sr-only">More info</div>
+                          <i data-feather="more-horizontal" aria-hidden="true"></i>
+                        </button>
+                        <ul class="users-item-dropdown dropdown">
+                          <li><a href="##">Edit</a></li>
+                          <li><a href="##">Quick edit</a></li>
+                          <li><a href="##">Trash</a></li>
+                        </ul>
+                      </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="users-table__checkbox">
+                                            <input type="checkbox" class="check">
+                                            <div class="categories-table-img">
+                                                <picture><source srcset="./img/categories/03.webp" type="image/webp"><img src="./img/categories/03.jpg" alt="category"></picture>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        Helping a local business reinvent itself
+                                    </td>
+                                    <td>
+                                        <div class="pages-table-img">
+                                            <picture><source srcset="./img/avatar/avatar-face-02.webp" type="image/webp"><img src="./img/avatar/avatar-face-02.png" alt="User Name"></picture>
+                                            Kathryn Murphy
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-active">Active</span></td>
+                                    <td>17.04.2021</td>
+                                    <td>
+                      <span class="p-relative">
+                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                          <div class="sr-only">More info</div>
+                          <i data-feather="more-horizontal" aria-hidden="true"></i>
+                        </button>
+                        <ul class="users-item-dropdown dropdown">
+                          <li><a href="##">Edit</a></li>
+                          <li><a href="##">Quick edit</a></li>
+                          <li><a href="##">Trash</a></li>
+                        </ul>
+                      </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="users-table__checkbox">
+                                            <input type="checkbox" class="check">
+                                            <div class="categories-table-img">
+                                                <picture><source srcset="./img/categories/04.webp" type="image/webp"><img src="./img/categories/04.jpg" alt="category"></picture>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        Caring is the new marketing
+                                    </td>
+                                    <td>
+                                        <div class="pages-table-img">
+                                            <picture><source srcset="./img/avatar/avatar-face-05.webp" type="image/webp"><img src="./img/avatar/avatar-face-05.png" alt="User Name"></picture>
+                                            Guy Hawkins
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-active">Active</span></td>
+                                    <td>17.04.2021</td>
+                                    <td>
+                      <span class="p-relative">
+                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                          <div class="sr-only">More info</div>
+                          <i data-feather="more-horizontal" aria-hidden="true"></i>
+                        </button>
+                        <ul class="users-item-dropdown dropdown">
+                          <li><a href="##">Edit</a></li>
+                          <li><a href="##">Quick edit</a></li>
+                          <li><a href="##">Trash</a></li>
+                        </ul>
+                      </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="users-table__checkbox">
+                                            <input type="checkbox" class="check">
+                                            <div class="categories-table-img">
+                                                <picture><source srcset="./img/categories/01.webp" type="image/webp"><img src="./img/categories/01.jpg" alt="category"></picture>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        How to build a loyal community online and offline
+                                    </td>
+                                    <td>
+                                        <div class="pages-table-img">
+                                            <picture><source srcset="./img/avatar/avatar-face-03.webp" type="image/webp"><img src="./img/avatar/avatar-face-03.png" alt="User Name"></picture>
+                                            Robert Fox
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-active">Active</span></td>
+                                    <td>17.04.2021</td>
+                                    <td>
+                      <span class="p-relative">
+                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                          <div class="sr-only">More info</div>
+                          <i data-feather="more-horizontal" aria-hidden="true"></i>
+                        </button>
+                        <ul class="users-item-dropdown dropdown">
+                          <li><a href="##">Edit</a></li>
+                          <li><a href="##">Quick edit</a></li>
+                          <li><a href="##">Trash</a></li>
+                        </ul>
+                      </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label class="users-table__checkbox">
+                                            <input type="checkbox" class="check">
+                                            <div class="categories-table-img">
+                                                <picture><source srcset="./img/categories/03.webp" type="image/webp"><img src="./img/categories/03.jpg" alt="category"></picture>
+                                            </div>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        How to build a loyal community online and offline
+                                    </td>
+                                    <td>
+                                        <div class="pages-table-img">
+                                            <picture><source srcset="./img/avatar/avatar-face-03.webp" type="image/webp"><img src="./img/avatar/avatar-face-03.png" alt="User Name"></picture>
+                                            Robert Fox
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-active">Active</span></td>
+                                    <td>17.04.2021</td>
+                                    <td>
+                      <span class="p-relative">
+                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                          <div class="sr-only">More info</div>
+                          <i data-feather="more-horizontal" aria-hidden="true"></i>
+                        </button>
+                        <ul class="users-item-dropdown dropdown">
+                          <li><a href="##">Edit</a></li>
+                          <li><a href="##">Quick edit</a></li>
+                          <li><a href="##">Trash</a></li>
+                        </ul>
+                      </span>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -464,7 +571,76 @@
                                         </div>
                                     </a>
                                 </li>
-
+                                <li>
+                                    <a href="##">
+                                        <div class="top-cat-list__title">
+                                            Tutorials <span>8.2k</span>
+                                        </div>
+                                        <div class="top-cat-list__subtitle">
+                                            Coding tutorials <span class="blue">+472</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="##">
+                                        <div class="top-cat-list__title">
+                                            Technology <span>8.2k</span>
+                                        </div>
+                                        <div class="top-cat-list__subtitle">
+                                            Dailiy technology articles <span class="danger">+472</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="##">
+                                        <div class="top-cat-list__title">
+                                            UX design <span>8.2k</span>
+                                        </div>
+                                        <div class="top-cat-list__subtitle">
+                                            UX design tips <span class="success">+472</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="##">
+                                        <div class="top-cat-list__title">
+                                            Interaction tips <span>8.2k</span>
+                                        </div>
+                                        <div class="top-cat-list__subtitle">
+                                            Interaction articles <span class="warning">+472</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="##">
+                                        <div class="top-cat-list__title">
+                                            App development <span>8.2k</span>
+                                        </div>
+                                        <div class="top-cat-list__subtitle">
+                                            Mobile development articles <span class="warning">+472</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="##">
+                                        <div class="top-cat-list__title">
+                                            Nature <span>8.2k</span>
+                                        </div>
+                                        <div class="top-cat-list__subtitle">
+                                            Wildlife animal articles <span class="warning">+472</span>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="##">
+                                        <div class="top-cat-list__title">
+                                            Geography <span>8.2k</span>
+                                        </div>
+                                        <div class="top-cat-list__subtitle">
+                                            Geography articles <span class="primary">+472</span>
+                                        </div>
+                                    </a>
+                                </li>
                             </ul>
                         </article>
                     </div>
@@ -474,25 +650,25 @@
         <!-- ! Footer -->
         <footer class="footer">
             <div class="container footer--flex">
-                <!--                <div class="footer-start">-->
-                <!--                    <p>2024 © Manager Dashboard - <a href="elegant-dashboard.com" target="_blank"-->
-                <!--                                                     rel="noopener noreferrer">Manager-dashboard.com</a></p>-->
-                <!--                </div>-->
-                <!--                <ul class="footer-end">-->
-                <!--                    <li><a href="##">About</a></li>-->
-                <!--                    <li><a href="##">Support</a></li>-->
-                <!--                    <li><a href="##">Puchase</a></li>-->
-                <!--                </ul>-->
+                <div class="footer-start">
+                    <p>2021 © Elegant Dashboard - <a href="elegant-dashboard.com" target="_blank"
+                                                     rel="noopener noreferrer">elegant-dashboard.com</a></p>
+                </div>
+                <ul class="footer-end">
+                    <li><a href="##">About</a></li>
+                    <li><a href="##">Support</a></li>
+                    <li><a href="##">Puchase</a></li>
+                </ul>
             </div>
         </footer>
     </div>
 </div>
 <!-- Chart library -->
-<script src="/static/admin_homepage/plugins/chart.min.js"></script>
+<script src="static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
-<script src="/static/admin_homepage/plugins/feather.min.js"></script>
+<script src="static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
-<script src="/static/admin_homepage/js/script.js"></script>
+<script src="static/admin_homepage/js/script.js"></script>
 </body>
 
 </html>

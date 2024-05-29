@@ -3499,7 +3499,7 @@ label {
 
 @media (min-width: 576px) {
   .container {
-    max-width: 540px!important;
+    max-width: 540px;
   }
 
   .col-sm {
@@ -3606,7 +3606,7 @@ label {
 
 @media (min-width: 768px) {
   .container {
-    max-width: 720px!important;
+    max-width: 720px;
   }
 
   .col-md {
@@ -3713,7 +3713,7 @@ label {
 
 @media (min-width: 992px) {
   .container {
-    max-width: 960px!important;
+    max-width: 960px;
   }
 
   .col-lg {
@@ -3820,7 +3820,7 @@ label {
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 1140px!important;
+    max-width: 1140px;
   }
 
   .col-xl {
@@ -4005,7 +4005,7 @@ label {
 
 @media (min-width: 1520px) {
   .container {
-    max-width: 1480px!important;
+    max-width: 1480px;
   }
 
   .col-xxl {
