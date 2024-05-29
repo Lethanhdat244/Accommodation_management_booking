@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Complete Profile</title>
+</head>
+<body>
+<h1>Complete Your Profile</h1>
+<form th:action="@{/profile/complete}" th:object="${user}" method="post" enctype="multipart/form-data">
+    <label for="avatar">Avatar:</label>
+    <input type="file" id="avatar" name="avatar" accept="image/*"><br>
+
+    <label for="frontCccdImage">Front CCCD Image:</label>
+    <input type="file" id="frontCccdImage" name="frontCccdImage" accept="image/*"><br>
+
+    <label for="backCccdImage">Back CCCD Image:</label>
+    <input type="file" id="backCccdImage" name="backCccdImage" accept="image/*"><br>
+
+    <input type="hidden" th:field="*{email}">
+    <button type="submit">Complete Profile</button>
+</form>
+</body>
+</html>

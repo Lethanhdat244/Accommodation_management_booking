@@ -6,10 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class RoomController {
 
-    @GetMapping("fpt-dorm/home/room")
+    @GetMapping("home/room")
     public String room(){
         return "room";
     }
-
 
 }
