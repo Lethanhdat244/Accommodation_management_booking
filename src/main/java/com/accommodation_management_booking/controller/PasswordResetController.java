@@ -24,11 +24,11 @@ public class PasswordResetController {
     public String processResetPassword(@RequestParam("token") String token, @RequestParam("password") String password, Model model) {
         try {
             userService.resetPassword(token, password);
-            return "redirect:/login?resetSuccess";
+            model.addAttribute("message", "Your password has been reset successfully.");
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "reset_password";
         }
-//        return "redirect:/login?resetSuccess";
+        return "redirect:/reset-password?success";
     }
 }

@@ -27,10 +27,13 @@ public class SpingSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomOAuth2UserService customOAuth2UserService) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests()
+                .requestMatchers("/static/**").permitAll()
                 .requestMatchers("/register/**").permitAll()
                 .requestMatchers("/forgot-password").permitAll()
                 .requestMatchers("/reset-password").permitAll()
                 .requestMatchers("/home").permitAll()
+                .requestMatchers("/home/**").permitAll()
+                .requestMatchers("/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(form -> form
