@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -130,6 +131,35 @@ public class UserServiceImpl implements UserService {
     }
 
 
+
+    @Override
+    public UserDTO getUser(int id) {
+            User user = userRepository.findById(id).get();
+                UserDTO userDTO = new UserDTO();
+                userDTO.setUserId(user.getUserId());
+                userDTO.setUsername(user.getUsername());
+                userDTO.setEmail(user.getEmail());
+                userDTO.setPassword(user.getPassword());
+                userDTO.setRoleUser(user.getRoleUser());
+                userDTO.setGender(user.getGender());
+                userDTO.setBirthdate(user.getBirthdate());
+                userDTO.setPhoneNumber(user.getPhoneNumber());
+                userDTO.setAddress(user.getAddress());
+                userDTO.setCccdNumber(user.getCccdNumber());
+                return userDTO;
+    }
+
+    @Override
+    public void updatePassword(int userId, String password) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setPassword(password);
+            userRepository.save(user);
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+    }
 
     private String uploadImage(MultipartFile file) throws IOException {
         Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
