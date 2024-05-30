@@ -7,6 +7,7 @@
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+    <link href="/static/homepage_user/css/style.css" rel="stylesheet">
     <style>
         .error {
             color: red;
@@ -43,165 +44,187 @@
             return passwordPattern.test(password);
         }
 
-        function validateForm() {
-            var isValid = true;
-
-            // Full Name validation
+        function validateFullName() {
             var fullname = document.getElementById("fullname").value;
             var fullnameError = document.getElementById("fullnameError");
             if (!fullname) {
                 fullnameError.textContent = "Full Name is required.";
-                isValid = false;
+                return false;
             } else {
                 fullnameError.textContent = "";
+                return true;
             }
+        }
 
-            // Email validation
+        function validateEmailField() {
             var email = document.getElementById("email").value;
             var emailError = document.getElementById("emailError");
             if (!email) {
                 emailError.textContent = "Email is required.";
-                isValid = false;
+                return false;
             } else if (!validateEmail(email)) {
                 emailError.textContent = "Please enter a valid email address.";
-                isValid = false;
+                return false;
             } else {
                 emailError.textContent = "";
+                return true;
             }
+        }
 
-            // Password validation
+        function validatePasswordField() {
             var password = document.getElementById("password").value;
             var passwordError = document.getElementById("passwordError");
             if (!password) {
                 passwordError.textContent = "Password is required.";
-                isValid = false;
+                return false;
             } else if (!validatePassword(password)) {
                 passwordError.textContent = "Password must be at least 10 characters long and include uppercase letters, lowercase letters, numbers, and special characters.";
-                isValid = false;
+                return false;
             } else {
                 passwordError.textContent = "";
+                return true;
             }
+        }
 
-            // Gender validation
+        function validateGender() {
             var genderMale = document.querySelector("input[name='gender'][value='Male']").checked;
             var genderFemale = document.querySelector("input[name='gender'][value='Female']").checked;
+            var genderOther = document.querySelector("input[name='gender'][value='Other']").checked;
             var genderError = document.getElementById("genderError");
-            if (!genderMale && !genderFemale) {
+            if (!genderMale && !genderFemale && !genderOther) {
                 genderError.textContent = "Gender is required.";
-                isValid = false;
+                return false;
             } else {
                 genderError.textContent = "";
+                return true;
             }
+        }
 
-            // Birth Date validation
+        function validateBirthdate() {
             var birthdate = document.getElementById("birthdate").value;
             var birthdateError = document.getElementById("birthdateError");
             if (!birthdate) {
                 birthdateError.textContent = "Birth Date is required.";
-                isValid = false;
+                return false;
             } else {
                 birthdateError.textContent = "";
+                return true;
             }
+        }
 
-            // Phone validation
+        function validatePhone() {
             var phone = document.getElementById("phone").value;
             var phoneError = document.getElementById("phoneError");
             if (!phone) {
                 phoneError.textContent = "Phone number is required.";
-                isValid = false;
+                return false;
             } else {
                 phoneError.textContent = "";
+                return true;
             }
+        }
 
-            // Address validation
+        function validateAddress() {
             var address = document.getElementById("address").value;
             var addressError = document.getElementById("addressError");
             if (!address) {
                 addressError.textContent = "Address is required.";
-                isValid = false;
+                return false;
             } else {
                 addressError.textContent = "";
+                return true;
             }
+        }
 
-            // ID Card validation
+        function validateIDCard() {
             var idcard = document.getElementById("idcard").value;
             var idcardError = document.getElementById("idcardError");
             if (!idcard) {
                 idcardError.textContent = "Vietnamese Citizen ID Card is required.";
-                isValid = false;
+                return false;
             } else {
                 idcardError.textContent = "";
+                return true;
             }
+        }
 
-            // Avatar validation
+        function validateAvatar() {
             var avatar = document.getElementById("avatar").files.length;
             var avatarError = document.getElementById("avatarError");
             if (avatar === 0) {
                 avatarError.textContent = "Avatar is required.";
-                isValid = false;
+                return false;
             } else {
                 avatarError.textContent = "";
+                return true;
             }
+        }
 
-            // Front face ID card validation
+        function validateFrontFace() {
             var frontface = document.getElementById("frontface").files.length;
             var frontfaceError = document.getElementById("frontfaceError");
             if (frontface === 0) {
                 frontfaceError.textContent = "Front face ID card is required.";
-                isValid = false;
+                return false;
             } else {
                 frontfaceError.textContent = "";
+                return true;
             }
+        }
 
-            // Back face ID card validation
+        function validateBackFace() {
             var backface = document.getElementById("backface").files.length;
             var backfaceError = document.getElementById("backfaceError");
             if (backface === 0) {
                 backfaceError.textContent = "Back face ID card is required.";
-                isValid = false;
+                return false;
             } else {
                 backfaceError.textContent = "";
+                return true;
             }
-
-            return isValid;
         }
 
         function addValidationListeners() {
-            document.getElementById("fullname").addEventListener("blur", validateForm);
-            document.getElementById("email").addEventListener("blur", validateForm);
-            document.getElementById("password").addEventListener("blur", validateForm);
-            document.querySelectorAll("input[name='gender']").forEach(input => input.addEventListener("blur", validateForm));
-            document.getElementById("birthdate").addEventListener("blur", validateForm);
-            document.getElementById("phone").addEventListener("blur", validateForm);
-            document.getElementById("address").addEventListener("blur", validateForm);
-            document.getElementById("avatar").addEventListener("change", validateForm);
-            document.getElementById("idcard").addEventListener("blur", validateForm);
-            document.getElementById("frontface").addEventListener("change", validateForm);
-            document.getElementById("backface").addEventListener("change", validateForm);
+            document.getElementById("fullname").addEventListener("blur", validateFullName);
+            document.getElementById("email").addEventListener("blur", validateEmailField);
+            document.getElementById("password").addEventListener("blur", validatePasswordField);
+            document.querySelectorAll("input[name='gender']").forEach(input => input.addEventListener("blur", validateGender));
+            document.getElementById("birthdate").addEventListener("blur", validateBirthdate);
+            document.getElementById("phone").addEventListener("blur", validatePhone);
+            document.getElementById("address").addEventListener("blur", validateAddress);
+            document.getElementById("avatar").addEventListener("change", validateAvatar);
+            document.getElementById("idcard").addEventListener("blur", validateIDCard);
+            document.getElementById("frontface").addEventListener("change", validateFrontFace);
+            document.getElementById("backface").addEventListener("change", validateBackFace);
         }
 
         document.addEventListener("DOMContentLoaded", addValidationListeners);
+
+        function validateForm() {
+            var isValid = true;
+
+            if (!validateFullName()) isValid = false;
+            if (!validateEmailField()) isValid = false;
+            if (!validatePasswordField()) isValid = false;
+            if (!validateGender()) isValid = false;
+            if (!validateBirthdate()) isValid = false;
+            if (!validatePhone()) isValid = false;
+            if (!validateAddress()) isValid = false;
+            if (!validateIDCard()) isValid = false;
+            if (!validateAvatar()) isValid = false;
+            if (!validateFrontFace()) isValid = false;
+            if (!validateBackFace()) isValid = false;
+
+            return isValid;
+        }
     </script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/home}">Registration and Login System</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav>
-<br/><br/><br/>
+
 <div class="container">
+    <div id="logo">
+        <a th:href="@{/fpt-dorm/home}"><span>FPT</span>Dorm</a>
+    </div>
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card form-card">
@@ -217,96 +240,100 @@
                     <div class="alert alert-danger" th:text="${errorMessage}"></div>
                 </div>
                 <div class="card-body">
-                    <form method="post" th:action="@{/register/save}" th:object="${user}" enctype="multipart/form-data" onsubmit="return validateForm()">
+                    <form method="post" th:action="@{/fpt-dorm/register/save}" th:object="${user}" enctype="multipart/form-data" onsubmit="return validateForm()">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3">
-                            <label for="fullname" class="form-label">Full Name:</label>
-                            <input id="fullname" name="username" th:field="*{username}" type="text" class="form-control"/>
-                            <div id="fullnameError" class="error"></div>
-                        </div>
+                                    <label for="fullname" class="form-label">Full Name:</label>
+                                    <input id="fullname" name="username" th:field="*{username}" type="text" class="form-control"/>
+                                    <div id="fullnameError" class="error"></div>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email:</label>
-                            <input id="email" name="email" th:field="*{email}" type="email" class="form-control"/>
-                            <div id="emailError" class="error"></div>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email:</label>
+                                    <input id="email" name="email" th:field="*{email}" type="email" class="form-control"/>
+                                    <div id="emailError" class="error"></div>
+                                </div>
 
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password:</label>
-                            <input id="password" name="password" th:field="*{password}" type="password" class="form-control"/>
-                            <div id="passwordError" class="error"></div>
-                        </div>
+                                <div class="mb-3">
+                                    <label for="password" class="form-label">Password:</label>
+                                    <input id="password" name="password" th:field="*{password}" type="password" class="form-control"/>
+                                    <div id="passwordError" class="error"></div>
+                                </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Gender:</label><br>
-                            <div class="form-check form-check-inline">
-                                <input id="genderMale" name="gender" th:field="*{gender}" value="Male" type="radio" class="form-check-input"/>
-                                <label for="genderMale" class="form-check-label">Male</label>
+                                <div class="mb-3">
+                                    <label class="form-label">Gender:</label><br>
+                                    <div class="form-check form-check-inline">
+                                        <input id="genderMale" name="gender" th:field="*{gender}" value="Male" type="radio" class="form-check-input"/>
+                                        <label for="genderMale" class="form-check-label">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input id="genderFemale" name="gender" th:field="*{gender}" value="Female" type="radio" class="form-check-input"/>
+                                        <label for="genderFemale" class="form-check-label">Female</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input id="genderOther" name="gender" th:field="*{gender}" value="Other" type="radio" class="form-check-input"/>
+                                        <label for="genderOther" class="form-check-label">Other</label>
+                                    </div>
+                                    <div id="genderError" class="error"></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="birthdate" class="form-label">Birth Date:</label>
+                                    <input id="birthdate" name="birthdate" th:field="*{birthdate}" type="date" class="form-control"/>
+                                    <div id="birthdateError" class="error"></div>
+                                </div>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input id="genderFemale" name="gender" th:field="*{gender}" value="Female" type="radio" class="form-check-input"/>
-                                <label for="genderFemale" class="form-check-label">Female</label>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">Phone:</label>
+                                    <input id="phone" name="phoneNumber" th:field="*{phoneNumber}" type="text" class="form-control"/>
+                                    <div id="phoneError" class="error"></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="address" class="form-label">Address:</label>
+                                    <input id="address" name="address" th:field="*{address}" type="text" class="form-control"/>
+                                    <div id="addressError" class="error"></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="idcard" class="form-label">Vietnamese Citizen ID Card:</label>
+                                    <input id="idcard" name="cccdNumber" th:field="*{cccdNumber}" type="text" class="form-control"/>
+                                    <div id="idcardError" class="error"></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="avatar" class="form-label">Avatar:</label>
+                                    <input id="avatar" name="avatar" type="file" multiple class="form-control"/>
+                                    <div id="avatarError" class="error"></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="frontface" class="form-label">Front face ID card:</label>
+                                    <input id="frontface" name="frontface" type="file" multiple class="form-control"/>
+                                    <div id="frontfaceError" class="error"></div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="backface" class="form-label">Back face ID card:</label>
+                                    <input id="backface" name="backface" type="file" multiple class="form-control"/>
+                                    <div id="backfaceError" class="error"></div>
+                                </div>
                             </div>
-                            <div id="genderError" class="error"></div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="birthdate" class="form-label">Birth Date:</label>
-                            <input id="birthdate" name="birthdate" th:field="*{birthdate}" type="date" class="form-control"/>
-                            <div id="birthdateError" class="error"></div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Register</button>
                         </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone:</label>
-                        <input id="phone" name="phoneNumber" th:field="*{phoneNumber}" type="text" class="form-control"/>
-                        <div id="phoneError" class="error"></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address:</label>
-                        <input id="address" name="address" th:field="*{address}" type="text" class="form-control"/>
-                        <div id="addressError" class="error"></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="idcard" class="form-label">Vietnamese Citizen ID Card:</label>
-                        <input id="idcard" name="cccdNumber" th:field="*{cccdNumber}" type="text" class="form-control"/>
-                        <div id="idcardError" class="error"></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="avatar" class="form-label">Avatar:</label>
-                        <input id="avatar" name="avatar" type="file" multiple class="form-control"/>
-                        <div id="avatarError" class="error"></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="frontface" class="form-label">Front face ID card:</label>
-                        <input id="frontface" name="frontface" type="file" multiple class="form-control"/>
-                        <div id="frontfaceError" class="error"></div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="backface" class="form-label">Back face ID card:</label>
-                        <input id="backface" name="backface" type="file" multiple class="form-control"/>
-                        <div id="backfaceError" class="error"></div>
-                    </div>
+                        <div class="mt-3 text-center">
+                            <span>Already registered? <a th:href="@{/fpt-dorm/login}">Login here</a></span>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary">Register</button>
-            </div>
-            <div class="mt-3 text-center">
-                <span>Already registered? <a th:href="@{/login}">Login here</a></span>
-            </div>
-            </form>
         </div>
     </div>
-</div>
-</div>
 </div>
 </body>
 </html>

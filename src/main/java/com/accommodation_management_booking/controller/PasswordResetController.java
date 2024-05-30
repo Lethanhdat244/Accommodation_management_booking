@@ -12,13 +12,13 @@ public class PasswordResetController {
 
     private final UserService userService;
 
-    @GetMapping("/reset-password")
+    @GetMapping("/fpt-dorm/reset-password")
     public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
         model.addAttribute("token", token);
         return "reset_password";
     }
 
-    @PostMapping("/reset-password")
+    @PostMapping("/fpt-dorm/reset-password")
     public String processResetPassword(@RequestParam("token") String token, @RequestParam("password") String password, Model model) {
         try {
             userService.resetPassword(token, password);
@@ -27,6 +27,6 @@ public class PasswordResetController {
             model.addAttribute("errorMessage", e.getMessage());
             return "reset_password";
         }
-        return "redirect:/reset-password?success";
+        return "redirect:/fpt-dorm/reset-password?success";
     }
 }
