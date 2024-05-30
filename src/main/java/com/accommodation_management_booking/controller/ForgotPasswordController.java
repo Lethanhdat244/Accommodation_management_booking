@@ -12,12 +12,12 @@ public class ForgotPasswordController {
 
     private final UserService userService;
 
-    @GetMapping("/forgot-password")
+    @GetMapping("fpt-dorm/forgot-password")
     public String showForgotPasswordForm() {
         return "forgot_password";
     }
 
-    @PostMapping("/forgot-password")
+    @PostMapping("fpt-dorm/forgot-password")
     public String processForgotPassword(@RequestParam("email") String email, Model model) {
         try {
             userService.processForgotPassword(email);
@@ -26,6 +26,6 @@ public class ForgotPasswordController {
             model.addAttribute("errorMessage", e.getMessage());
             return "forgot_password";
         }
-        return "redirect:/forgot-password?success";
+        return "redirect:/fpt-dorm/forgot-password?success";
     }
 }

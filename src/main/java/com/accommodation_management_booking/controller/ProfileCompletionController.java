@@ -22,7 +22,7 @@ public class ProfileCompletionController {
     private final UserRepository userRepository;
     private final UserService userService;
 
-    @GetMapping("/profile/complete")
+    @GetMapping("/fpt-dorm/profile/complete")
     public String showCompleteProfileForm(Model model, @AuthenticationPrincipal OAuth2User oAuth2User) {
         String email = oAuth2User.getAttribute("email");
         User user = userRepository.findByEmail(email);
@@ -32,10 +32,10 @@ public class ProfileCompletionController {
             model.addAttribute("user", userDTO);
             return "completeProfile";
         }
-        return "redirect:/home";
+        return "redirect:/fpt-dorm/home-user";
     }
 
-    @PostMapping("/profile/complete")
+    @PostMapping("/fpt-dorm/profile/complete")
     public String completeProfile(@ModelAttribute("user") UserDTO userDTO,
                                   @RequestParam("avatar") MultipartFile avatar,
                                   @RequestParam("frontCccdImage") MultipartFile frontCccdImage,
@@ -46,6 +46,6 @@ public class ProfileCompletionController {
         if (user != null) {
             userService.completeUserProfile(userDTO, avatar, frontCccdImage, backCccdImage);
         }
-        return "redirect:/home";
+        return "redirect:/fpt-dorm/home-user";
     }
 }

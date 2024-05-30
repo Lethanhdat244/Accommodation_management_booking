@@ -15,14 +15,14 @@ public class LoginAndRegistrationController {
 
     private UserService userService;
 
-    @GetMapping("register")
+    @GetMapping("fpt-dorm/register")
     public String registerUser(Model model) {
         UserDTO user = new UserDTO();
         model.addAttribute("user", user);
         return "register";
     }
 
-    @PostMapping("/register/save")
+    @PostMapping("fpt-dorm/register/save")
     public String registration(@ModelAttribute("user") UserDTO userDTO,
                                BindingResult result,
                                Model model,
@@ -39,10 +39,10 @@ public class LoginAndRegistrationController {
             model.addAttribute("errorMessage", "There was an error registering the user. Please try again.");
             return "register";
         }
-        return "redirect:/register?success";
+        return "redirect:/fpt-dorm/register?success";
     }
 
-    @GetMapping("/login")
+    @GetMapping("/fpt-dorm/login")
     public String login(){
         return "login";
     }

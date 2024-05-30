@@ -4,7 +4,7 @@ use bookingDormFPT;
 CREATE TABLE user (
                       user_id INT AUTO_INCREMENT PRIMARY KEY,
                       username VARCHAR(50) NOT NULL,
-                      password VARCHAR(255) NOT NULL,
+                      password VARCHAR(255),
                       role_user ENUM('ADMIN', 'MANAGER', 'EMPLOYEE', 'USER'),
                       gender ENUM('Male', 'Female', 'Other'),
                       birthdate DATE,
@@ -16,9 +16,11 @@ CREATE TABLE user (
                       front_cccd_image VARCHAR(255),
                       back_cccd_image VARCHAR(255),
                       is_active BOOLEAN DEFAULT TRUE,
+                      is_profile_complete BOOLEAN DEFAULT FALSE,
                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE booking (
                          booking_id INT AUTO_INCREMENT PRIMARY KEY,
