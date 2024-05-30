@@ -35,6 +35,7 @@ public class SpingSecurity {
 //                .requestMatchers("/fpt-dorm/home-user/**").permitAll()
                 .requestMatchers("/fpt-dorm/home/**").permitAll()
                 .requestMatchers("/fpt-dorm").permitAll()
+                .requestMatchers("/fpt-dorm/admin/**").authenticated()
                 .requestMatchers("/fpt-dorm/profile/complete").authenticated()
                 .anyRequest().authenticated()
                 .and()
