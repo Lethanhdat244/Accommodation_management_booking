@@ -29,6 +29,6 @@ public class PasswordResetController {
             model.addAttribute("errorMessage", e.getMessage());
             return "reset_password";
         }
-        return "redirect:/reset-password?success";
+        return "redirect:/login?successReset";
     }
 }
