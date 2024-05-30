@@ -31,29 +31,30 @@ public class UserController {
         return "changePasswordRequest";
     }
     @GetMapping("/change-password")
-    public String ChangePassword(@RequestParam(name = "user_id")int id, @RequestParam(name = "password") String password, Model model) {
+    public String ChangePassword(@RequestParam(name = "user_id")int id,
+                                 @RequestParam(name = "password") String password,
+                                 @RequestParam(name = "NewPassword") String NewPassword,
+                                 @RequestParam(name = "ReNewPassword") String ReNewPassword,
+                                 Model model) {
             UserDTO user = userService.getUser(id);
-            if(user.getPassword().equals(password)) {
-                model.addAttribute("user_id", user.getUserId());
-                return "changePassword";
-            }
-            else {
-                model.addAttribute("user_id", id);
-                model.addAttribute("errorMessage", "Incorrect Password.");
-                return "changePasswordRequest";
-            }
-    }
-    @PostMapping("/save-password")
-    public String SavePassword(@RequestParam(name = "user_id")int id,@RequestParam(name = "NewPassword") String NewPassword,@RequestParam(name = "ReNewPassword") String ReNewPassword,Model model){
-            if(NewPassword.equals(ReNewPassword)){
-                userService.updatePassword(id, NewPassword);
-                model.addAttribute("succeedMessage", "Password changed.");
-                return "redirect:/profile";
+            if(user.getPassword().equals(password)){
+                if(NewPassword.equals(ReNewPassword)){
+                    userService.updatePassword(id, NewPassword);
+                    model.addAttribute("user_id", id);
+                    model.addAttribute("succeedMessage", "Password changed.");
+                    return "changePasswordRequest";
+                }
+                else {
+                    model.addAttribute("user_id", id);
+                    model.addAttribute("errorMessage", "Not match to new password.");
+                    return "changePasswordRequest";
+                }
             }
             else {
                 model.addAttribute("user_id", id);
                 model.addAttribute("errorMessage", "Password not match.");
-                return "changePassword";
+                return "changePasswordRequest";
             }
     }
+
 }
