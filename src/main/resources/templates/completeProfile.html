@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], input[type="password"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+        input[type="radio"] {
+            margin-right: 5px;
+        }
+        input[type="file"] {
+            margin-bottom: 15px;
+        }
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h1>Registration</h1>
+<form th:action="@{/fpt-dorm/profile/complete}" th:object="${user}" method="post" enctype="multipart/form-data">
+    <label>Gender:</label>
+    <div style="display: flex; align-items: center;">
+    <span>
+        <input id="genderMale" name="gender" th:field="*{gender}" value="Male" type="radio" class="form-check-input"/>
+        <label for="genderMale" class="form-check-label">Male</label>
+    </span>
+        <span style="margin-left: 10px;">
+        <input id="genderFemale" name="gender" th:field="*{gender}" value="Female" type="radio" class="form-check-input"/>
+            <label for="genderFemale" class="form-check-label">Female</label>
+    </span>
+        <span style="margin-left: 10px;">
+        <input id="genderOther" name="gender" th:field="*{gender}" value="Other" type="radio" class="form-check-input"/>
+            <label for="genderOther" class="form-check-label">Other</label>
+    </span>
+    </div>
+
+    <label for="birthdate">Birthdate:</label>
+    <input type="date" id="birthdate" name="birthdate" th:field="*{birthdate}"><br>
+
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" name="address" th:field="*{address}"><br>
+
+    <label for="address">ID Card:</label>
+    <input type="text" id="idcard" name="address" th:field="*{cccdNumber}"><br>
+
+    <label for="avatar">Avatar:</label>
+    <input type="file" id="avatar" name="avatar" accept="image/*"><br>
+
+    <label for="frontCccdImage">Front CCCD Image:</label>
+    <input type="file" id="frontCccdImage" name="frontCccdImage" accept="image/*"><br>
+
+    <label for="backCccdImage">Back CCCD Image:</label>
+    <input type="file" id="backCccdImage" name="backCccdImage" accept="image/*"><br>
+
+    <input type="hidden" th:field="*{email}">
+    <button type="submit">Complete Profile</button>
+</form>
+</body>
+</html>
