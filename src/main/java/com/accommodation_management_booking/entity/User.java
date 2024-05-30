@@ -22,11 +22,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
 
-    @NotNull
     @Column(nullable = false, length = 50)
     private String username;
 
-    @NotNull
     @Column(nullable = false, length = 255)
     private String password;
 
@@ -46,7 +44,7 @@ public class User {
     private String address;
 
     @Email
-    @Column(length = 100)
+    @Column(length = 100, unique = true, nullable = false)
     private String email;
 
     @Column(length = 12)
@@ -63,6 +61,9 @@ public class User {
 
     @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
     private boolean isActive = true;
+
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isProfileComplete = false;
 
     @Column(updatable = false)
     @CreationTimestamp

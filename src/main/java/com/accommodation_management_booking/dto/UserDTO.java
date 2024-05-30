@@ -21,7 +21,6 @@ public class UserDTO {
     @Size(max = 50)
     private String username;
 
-    @NotNull
     @Size(max = 255)
     private String password;
 
@@ -38,6 +37,7 @@ public class UserDTO {
     @Size(max = 255)
     private String address;
 
+    @NotNull
     @Email
     @Size(max = 100)
     private String email;

@@ -7,4 +7,10 @@ public interface UserService {
     void saveUser(UserDTO userDTO, MultipartFile[] avatars, MultipartFile[] frontCccdImages, MultipartFile[] backCccdImages);
     UserDTO getUser(int id);
     void updatePassword(int id,  String pass);
+
+    void completeUserProfile(UserDTO userDTO, MultipartFile avatar, MultipartFile frontCccdImage, MultipartFile backCccdImage);
+
+    void processForgotPassword(String email);
+
+    void resetPassword(String token, String newPassword);
 }
