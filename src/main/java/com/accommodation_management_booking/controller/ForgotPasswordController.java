@@ -28,6 +28,6 @@ public class ForgotPasswordController {
             model.addAttribute("errorMessage", e.getMessage());
             return "forgot_password";
         }
-        return "redirect:/forgot-password?success";
+        return "redirect:/login?successForgot";
     }
 }

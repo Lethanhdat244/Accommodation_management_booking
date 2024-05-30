@@ -75,4 +75,14 @@ public class HomeController {
     public String admin_add_new_room(){
         return "admin_add_new_room";
     }
+
+    @GetMapping("admin_list_feedback")
+    public String admin_list_feedback(){
+        return "admin_list_feedback";
+    }
+
+    @GetMapping("admin_list_complaint")
+    public String admin_list_complaint(){
+        return "admin_list_complaint";
+    }
 }
