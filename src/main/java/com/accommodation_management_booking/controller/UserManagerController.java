@@ -22,7 +22,14 @@ public class UserManagerController {
 
     @GetMapping({"", "/"})
     public String showUserList(Model model) {
-        List<User> users = repo.findAll(Sort.by(Sort.Direction.ASC, "userId"));
+        List<User> users = repo.findAllByRole(User.Role.USER);
+        model.addAttribute("users", users);
+        return "user-manager/index";
+    }
+
+    @GetMapping({"/employees"})
+    public String showEmployeeList(Model model) {
+        List<User> users = repo.findAllByRole(User.Role.EMPLOYEE);
         model.addAttribute("users", users);
         return "user-manager/index";
     }

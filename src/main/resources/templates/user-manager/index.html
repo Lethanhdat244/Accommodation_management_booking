@@ -8,19 +8,22 @@
 </head>
 <body>
 <h1>User List</h1>
-<a class="btn btn-primary" href="/home">Home</a>
-<a class="btn btn-primary" href="/user-manager/create">Create</a><br>
-<form th:action="@{/user-manager/search}" method="get">
-    <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."/>
-    <select name="category">
-        <option value="" th:text="'All Categories'" th:selected="${selectedCategory == null}"></option>
-        <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
-        <option value="Name" th:text="'Name'" th:selected="${selectedCategory == 'Name'}"></option>
-        <option value="Email" th:text="'Email'" th:selected="${selectedCategory == 'Email'}"></option>
-        <option value="Phone" th:text="'Phone'" th:selected="${selectedCategory == 'Phone'}"></option>
-    </select>
-    <button type="submit">Search</button>
-</form>
+<a class="btn btn-primary" href="/fpt-dorm/admin/home">Home</a>
+<a class="btn btn-primary" href="/user-manager/create">Create</a>
+
+<div style="text-align: right;">
+    <form th:action="@{/user-manager/search}" method="get">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."/>
+        <select name="category">
+            <option value="" th:text="'All Categories'" th:selected="${selectedCategory == null}"></option>
+            <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
+            <option value="Name" th:text="'Name'" th:selected="${selectedCategory == 'Name'}"></option>
+            <option value="Email" th:text="'Email'" th:selected="${selectedCategory == 'Email'}"></option>
+            <option value="Phone" th:text="'Phone'" th:selected="${selectedCategory == 'Phone'}"></option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+</div>
 <table class="table">
     <thead>
     <tr>

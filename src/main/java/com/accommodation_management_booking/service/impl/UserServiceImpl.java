@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -128,6 +131,21 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         }
     }
+
+    @Override
+    public boolean changePassword(String currentPassword, String newPassword) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        User user = userRepository.findByEmail(currentUsername);
+
+        if (user != null && passwordEncoder.matches(currentPassword, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
 
 
 

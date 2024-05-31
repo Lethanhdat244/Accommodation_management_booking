@@ -38,7 +38,7 @@
 
             <div class="row mb-3">
                 <div class="offset-sm-4 col-sm-8">
-                    <img th:src="@{'/images/' + ${user.avatar}}" th:alt="${userDTO.avatar}" width="150">
+                    <img th:src="${user.avatar}" th:alt="${userDTO.avatar}" width="150">
                 </div>
             </div>
 
@@ -121,7 +121,7 @@
 
             <div class="row mb-3">
                 <div class="offset-sm-4 col-sm-8">
-                    <img th:src="@{'/images/' + ${user.frontCccdImage}}" th:alt="${userDTO.frontCccdImage}" width="150">
+                    <img th:src="${user.frontCccdImage}" th:alt="${userDTO.frontCccdImage}" width="150">
                 </div>
             </div>
             <div class="row mb-3">
@@ -134,7 +134,7 @@
 
             <div class="row mb-3">
                 <div class="offset-sm-4 col-sm-8">
-                    <img th:src="@{'/images/' + ${user.backCccdImage}}" th:alt="${userDTO.backCccdImage}" width="150">
+                    <img th:src="${user.backCccdImage}" th:alt="${userDTO.backCccdImage}" width="150">
                 </div>
             </div>
             <div class="row mb-3">

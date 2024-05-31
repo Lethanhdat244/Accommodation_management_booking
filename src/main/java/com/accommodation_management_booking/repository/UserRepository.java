@@ -9,6 +9,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String username);
     boolean existsByEmail(String email);
 
+    @Query("SELECT u FROM User u WHERE (u.roleUser = :keyword)")
+    List<User> findAllByRole(@Param("keyword") User.Role role);
+
     @Query("SELECT u FROM User u WHERE (u.username LIKE %:keyword% OR u.email LIKE %:keyword% OR u.phoneNumber LIKE %:keyword%)")
     List<User> searchAllBy(@Param("keyword") String keyword);
 
@@ -20,4 +23,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE (u.phoneNumber LIKE %:keyword%)")
     List<User> searchByPhoneNumber(@Param("keyword") String keyword);
+
+
 }
