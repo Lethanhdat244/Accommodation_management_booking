@@ -1,6 +1,7 @@
 package com.accommodation_management_booking.controller;
 
 import com.accommodation_management_booking.service.UserService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
