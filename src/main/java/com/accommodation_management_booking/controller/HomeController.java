@@ -2,42 +2,46 @@ package com.accommodation_management_booking.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class HomeController {
 
-    @GetMapping("/")
+    @GetMapping("/fpt-dorm")
     public String redirectToHome() {
-        return "redirect:/home";
+        return "redirect:/fpt-dorm/home";
     }
 
-    @GetMapping("home")
+    @GetMapping("fpt-dorm/home")
     public String homepage(){
-        return "homepage_user";
+        return "homepage";
     }
 
-    @GetMapping("home/about")
+    @GetMapping("fpt-dorm/home-user")
+    public String booking(){
+        return "home_user";
+    }
+
+    @GetMapping("fpt-dorm/home/about")
     public String about(){
         return "about";
     }
 
-    @GetMapping("home/gallery")
+    @GetMapping("fpt-dorm/home/gallery")
     public String gallery(){
         return "gallery";
     }
 
-    @GetMapping("home/dinning")
+    @GetMapping("fpt-dorm/home/dinning")
     public String dinning(){
         return "dinning";
     }
 
-    @GetMapping("home/new")
+    @GetMapping("fpt-dorm/home/new")
     public String news(){
         return "new";
     }
 
-    @GetMapping("home/contact")
+    @GetMapping("fpt-dorm/home/contact")
     public String contact(){
         return "contact";
     }

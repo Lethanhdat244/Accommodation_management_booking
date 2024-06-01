@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -88,7 +91,7 @@ public class UserServiceImpl implements UserService {
         String token = UUID.randomUUID().toString();
         PasswordResetToken resetToken = new PasswordResetToken(token, user, LocalDateTime.now().plusHours(24));
         tokenRepository.save(resetToken);
-        String resetLink = "http://localhost:8080/reset-password?token=" + token;
+        String resetLink = "http://localhost:8080/fpt-dorm/reset-password?token=" + token;
         emailService.sendPasswordResetEmail(user.getEmail(), resetLink);
     }
 
@@ -114,15 +117,36 @@ public class UserServiceImpl implements UserService {
                 user.setAvatar(uploadImage(avatar));
                 user.setFrontCccdImage(uploadImage(frontCccdImage));
                 user.setBackCccdImage(uploadImage(backCccdImage));
+                user.setGender(userDTO.getGender());
+                user.setBirthdate(userDTO.getBirthdate());
+                user.setPhoneNumber(userDTO.getPhoneNumber());
+                user.setAddress(userDTO.getAddress());
+                user.setCccdNumber(userDTO.getCccdNumber());
             } catch (IOException e) {
                 // Handle the exception appropriately
                 e.printStackTrace();
+                System.out.println("Lỗi");
                 return; // Or handle the error as needed
             }
             user.setProfileComplete(true);
             userRepository.save(user);
         }
     }
+
+    @Override
+    public boolean changePassword(String currentPassword, String newPassword) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        User user = userRepository.findByEmail(currentUsername);
+
+        if (user != null && passwordEncoder.matches(currentPassword, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
 
 
 
