@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Home | Employee</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">
+<!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
+    <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
 
@@ -53,7 +54,7 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_student}">All Students</a>
+                                <a th:href="@{/fpt-dorm/employee/students-list}">All Students</a>
                             </li>
 <!--                            <li>-->
 <!--                                <a th:href="@{admin_add_student}">Add new student</a>-->
@@ -138,7 +139,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
