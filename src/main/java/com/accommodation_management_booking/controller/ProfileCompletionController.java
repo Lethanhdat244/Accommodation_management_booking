@@ -3,6 +3,7 @@ package com.accommodation_management_booking.controller;
 import com.accommodation_management_booking.dto.UserDTO;
 import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.UserRepository;
+import com.accommodation_management_booking.service.EmailService;
 import com.accommodation_management_booking.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,6 +22,7 @@ public class ProfileCompletionController {
 
     private final UserRepository userRepository;
     private final UserService userService;
+    private EmailService emailService;
 
     @GetMapping("/fpt-dorm/profile/complete")
     public String showCompleteProfileForm(Model model, @AuthenticationPrincipal OAuth2User oAuth2User) {
@@ -40,11 +42,23 @@ public class ProfileCompletionController {
                                   @RequestParam("avatar") MultipartFile avatar,
                                   @RequestParam("frontCccdImage") MultipartFile frontCccdImage,
                                   @RequestParam("backCccdImage") MultipartFile backCccdImage,
-                                  @AuthenticationPrincipal OAuth2User oAuth2User) {
-        String email = oAuth2User.getAttribute("email");
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
-            userService.completeUserProfile(userDTO, avatar, frontCccdImage, backCccdImage);
+                                  @AuthenticationPrincipal OAuth2User oAuth2User,
+                                  Model model) {
+        try{
+            String email = oAuth2User.getAttribute("email");
+            User user = userRepository.findByEmail(email);
+            if (user != null) {
+                userService.completeUserProfile(userDTO, avatar, frontCccdImage, backCccdImage);
+                String emailContent = String.format(
+                        "<p>Thank you for completing your profile. Please enjoy our services.</p>" +
+                                "<p><a href=\"http://localhost:8080/fpt-dorm/home\">Go to Home</a></p>"
+                );
+
+                emailService.sendCompleteRegistrationEmail(userDTO.getEmail(), emailContent);
+            }
+        }catch (Exception e){
+            model.addAttribute("errorMessage", "Please enter information about your profile");
+            return "completeProfile";
         }
         return "redirect:/fpt-dorm/home-user";
     }

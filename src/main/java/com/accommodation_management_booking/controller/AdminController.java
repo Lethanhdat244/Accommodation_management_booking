@@ -14,7 +14,12 @@ public class AdminController {
 
     @GetMapping("fpt-dorm/admin/admin_list_student")
     public String admin_list_student(){
-        return "admin_list_student";
+        return "redirect:/user-manager";
+    }
+
+    @GetMapping("fpt-dorm/admin/admin_list_employees")
+    public String admin_list_employees(){
+        return "redirect:/user-manager/employees";
     }
 
     @GetMapping("fpt-dorm/admin/admin_add_student")

@@ -11,4 +11,6 @@ public interface UserService {
     void processForgotPassword(String email);
 
     void resetPassword(String token, String newPassword);
+
+    boolean changePassword(String currentPassword, String newPassword);
 }
