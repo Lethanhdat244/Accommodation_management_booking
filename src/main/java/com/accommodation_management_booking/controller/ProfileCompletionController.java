@@ -34,8 +34,7 @@ public class ProfileCompletionController {
             model.addAttribute("user", userDTO);
             return "completeProfile";
         }
-        System.out.println("helo");
-        return redirectToRoleBasedHome(user);
+        return "redirect:/fpt-dorm/home-user";
     }
 
     @PostMapping("/fpt-dorm/profile/complete")
@@ -45,7 +44,7 @@ public class ProfileCompletionController {
                                   @RequestParam("backCccdImage") MultipartFile backCccdImage,
                                   @AuthenticationPrincipal OAuth2User oAuth2User,
                                   Model model) {
-        try {
+        try{
             String email = oAuth2User.getAttribute("email");
             User user = userRepository.findByEmail(email);
             if (user != null) {
@@ -56,24 +55,11 @@ public class ProfileCompletionController {
                 );
 
                 emailService.sendCompleteRegistrationEmail(userDTO.getEmail(), emailContent);
-                return redirectToRoleBasedHome(user);
             }
-        } catch (Exception e) {
+        }catch (Exception e){
             model.addAttribute("errorMessage", "Please enter information about your profile");
             return "completeProfile";
         }
         return "redirect:/fpt-dorm/home-user";
-    }
-
-    private String redirectToRoleBasedHome(User user) {
-        switch (user.getRoleUser()) {
-            case ADMIN:
-                return "redirect:/fpt-dorm/admin/home";
-            case EMPLOYEE:
-                return "redirect:/fpt-dorm/employee/home";
-            case USER:
-            default:
-                return "redirect:/fpt-dorm/home-user";
-        }
     }
 }
