@@ -22,6 +22,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -131,22 +132,6 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
         }
     }
-
-    @Override
-    public boolean changePassword(String currentPassword, String newPassword) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-        User user = userRepository.findByEmail(currentUsername);
-
-        if (user != null && passwordEncoder.matches(currentPassword, user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(user);
-            return true;
-        }
-        return false;
-    }
-
-
 
 
     private String uploadImage(MultipartFile file) throws IOException {
