@@ -14,9 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -130,52 +127,6 @@ public class UserServiceImpl implements UserService {
             }
             user.setProfileComplete(true);
             userRepository.save(user);
-        }
-    }
-
-    @Override
-    public boolean changePassword(String currentPassword, String newPassword) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-        User user = userRepository.findByEmail(currentUsername);
-
-        if (user != null && passwordEncoder.matches(currentPassword, user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(user);
-            return true;
-        }
-        return false;
-    }
-
-
-
-
-    @Override
-    public UserDTO getUser(int id) {
-            User user = userRepository.findById(id).get();
-                UserDTO userDTO = new UserDTO();
-                userDTO.setUserId(user.getUserId());
-                userDTO.setUsername(user.getUsername());
-                userDTO.setEmail(user.getEmail());
-                userDTO.setPassword(user.getPassword());
-                userDTO.setRoleUser(user.getRoleUser());
-                userDTO.setGender(user.getGender());
-                userDTO.setBirthdate(user.getBirthdate());
-                userDTO.setPhoneNumber(user.getPhoneNumber());
-                userDTO.setAddress(user.getAddress());
-                userDTO.setCccdNumber(user.getCccdNumber());
-                return userDTO;
-    }
-
-    @Override
-    public void updatePassword(int userId, String password) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setPassword(password);
-            userRepository.save(user);
-        } else {
-            throw new RuntimeException("User not found with ID: " + userId);
         }
     }
 
