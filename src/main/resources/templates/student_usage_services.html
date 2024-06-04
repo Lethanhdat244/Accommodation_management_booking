@@ -40,6 +40,10 @@
             padding: 20px;
             box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
+            /*position: fixed;*/
+            /*top: 150px; !* Adjust this value as needed *!*/
+            /*right: 120px; !* Adjust this value as needed *!*/
+            /*height: 400px;*/
         }
         h1{
             font-weight: 700;
@@ -47,6 +51,7 @@
         }
         .request_list{
             padding: 20px;
+            height: 1000px;
             margin-bottom: 30px;
             margin-right: auto;
         }
@@ -103,57 +108,51 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-sm-12 request_list">
-                <h1>Request History</h1>
+                <h1>Usage History</h1>
                 <div>
                     <table class="table table-responsive table-bordered">
                         <thead>
-                        <tr>
-                            <td>#</td>
-                            <td>Title</td>
-                            <td>Content</td>
-                            <td>Sent At</td>
-                            <td>Status</td>
-                        </tr>
+                            <tr>
+                                <td>#</td>
+                                <td>Month</td>
+                                <td>Electric</td>
+                                <td>Water</td>
+                                <td>Service</td>
+                                <td>Status</td>
+                            </tr>
                         </thead>
                         <tbody>
-
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
             <div class="col-lg-5 col-sm-12 request_box">
-                <form>
-                    <h1 class="center-block">Request Form</h1>
+                <h1 class="center-block">Current Usage:</h1>
+                <div>
                     <ul>
-                        <!--                        <li>-->
-                        <!--                            <label class="control-label">Full Name<span class="text-danger">*</span></label>-->
-                        <!--                            <input type="text" name="fullname" class="form-control">-->
-                        <!--                        </li>-->
-                        <!--                        <li>-->
-                        <!--                            <label class="control-label">Phone<span class="text-danger">*</span></label>-->
-                        <!--                            <input type="tel" name="phone" class="form-control" required>-->
-                        <!--                        </li>-->
-                        <!--                        <li>-->
-                        <!--                            <label class="control-label">Email<span class="text-danger">*</span></label>-->
-                        <!--                            <input type="email" name="email" class="form-control" required>-->
-                        <!--                        </li>-->
-                        <!--                        <li>-->
-                        <!--                            <label class="control-label">Identify ID<span class="text-danger">*</span></label>-->
-                        <!--                            <input type="number" name="IdentifyID" class="form-control" required>-->
-                        <!--                        </li>-->
                         <li>
-                            <label class="control-label">Tilte<span class="text-danger">*</span></label>
-                            <input type="text" name="title" class="form-control" required>
-                        </li>
-                        <li>
-                            <label class="control-label">Content<span class="text-danger">*</span></label>
-                            <textarea name="content" class="form-control" cols="100" rows="10"></textarea>
-                        </li>
-                        <li>
-                            <button class="btn btn-lg book-now-btn center-block">Send Request</button>
+                            <p>Electric:</p>
                         </li>
                     </ul>
-                </form>
+                    <ul>
+                        <li>
+                            <p>Water:</p>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <p>Service:</p>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

@@ -35,20 +35,39 @@
             list-style: none;
             margin: 40px;
         }
-        .request_box{
-            background-color:#dfe7f5;
-            padding: 20px;
-            box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
         h1{
             font-weight: 700;
             margin-bottom: 20px;
         }
-        .request_list{
-            padding: 20px;
+        .mainbox{
+            padding: 20px 40px;
             margin-bottom: 30px;
             margin-right: auto;
+        }
+        .rule{
+            width: 100%;
+            padding: 30px 50px;
+            font-size: 20px;
+            background-color: #ff4157;
+            color: #fff;
+            margin: 10px;
+            font-weight: 700;
+            border-radius: 10px;
+        }
+        .rule:hover{
+            background-color: #162541;
+            color: #ff4157;
+            transition: 0.5s ease;
+        }
+        .content_rule{
+            width: 100%;
+            padding: 30px 50px;
+            font-size: 20px;
+            background-color: #FFFFFF;
+            color: #000000;
+            margin: 10px;
+            border-radius: 10px;
+            border: solid 2px #ff4157;
         }
     </style>
 </head>
@@ -100,66 +119,41 @@
         </div>
     </header>
 
-    <div class="container">
+    <div class="container mainbox">
         <div class="row">
-            <div class="col-lg-6 col-sm-12 request_list">
-                <h1>Request History</h1>
-                <div>
-                    <table class="table table-responsive table-bordered">
-                        <thead>
-                            <tr>
-                                <td>#</td>
-<!--                                <td>Title</td>-->
-                                <td>Content</td>
-                                <td>Sent At</td>
-                                <td>Status</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="complain : ${complaintDTOList}">
-                                <td th:text="${complain.complaintId}"></td>
-                                <td></td>
-                                <td th:text="${complain.description}"></td>
-                                <td th:text="${complain.createdAt}"></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <p class="rule" id="parent1" onclick="toggleVisibility('child1')">1. Rule 1</p>
+            <div class="content_rule hidden" id="child1">
+                <p>Bước 1: Vào chức năng My request.</p>
+                <br>
+                <p>  Bước 2: Bấm vào nút Create new request -> Chọn loại yêu cầu (Type request) thích hợp.</p>
+                <br>
+                <p> Bước 3: Điền nội dung của yêu cầu ở phần Content.</p>
+                <br>
+                <p>Bước 4: Bấm vào nút Create request.</p>
             </div>
-            <div class="col-lg-5 col-sm-12 request_box">
-                <form>
-                    <h1 class="center-block">Request Form</h1>
-                    <ul>
-<!--                        <li>-->
-<!--                            <label class="control-label">Full Name<span class="text-danger">*</span></label>-->
-<!--                            <input type="text" name="fullname" class="form-control">-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <label class="control-label">Phone<span class="text-danger">*</span></label>-->
-<!--                            <input type="tel" name="phone" class="form-control" required>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <label class="control-label">Email<span class="text-danger">*</span></label>-->
-<!--                            <input type="email" name="email" class="form-control" required>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <label class="control-label">Identify ID<span class="text-danger">*</span></label>-->
-<!--                            <input type="number" name="IdentifyID" class="form-control" required>-->
-<!--                        </li>-->
-                        <li>
-                            <label class="control-label">Tilte<span class="text-danger">*</span></label>
-                            <input type="text" name="title" class="form-control" required>
-                        </li>
-                        <li>
-                            <label class="control-label">Content<span class="text-danger">*</span></label>
-                            <textarea name="content" class="form-control" cols="100" rows="10"></textarea>
-                        </li>
-                        <li>
-                            <button class="btn btn-lg book-now-btn center-block">Send Request</button>
-                        </li>
-                    </ul>
-                </form>
+        </div>
+        <div class="row">
+            <p class="rule" id="parent2" onclick="toggleVisibility('child2')">2. Rule 2</p>
+            <div class="content_rule hidden" id="child2">
+                <strong>Ký túc xá có một số điều cần lưu ý khi ở như sau:</strong>
+                <ul>
+                    <li>Không được nuôi vật nuôi, thú cưng (chó, mèo,...).</li>
+                    <li>Không được uống rượu, bia, chơi cờ bạc, sử dụng các chất kích thích và chất cấm.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <p class="rule" id="parent3" onclick="toggleVisibility('child3')">3. Rule 3</p>
+            <div class="content_rule hidden" id="child3">
+                <p>Bước 1: Vào chức năng My request</p>
+                <br>
+                <p>Bước 2: Bấm vào nút Create new request -> Chọn Báo cáo vấn đề kỹ thuật ở mục Type request</p>
+                <br>
+                <p>Bước 3: Hệ thống sẽ dẫn tới trang https://cim.fpt.edu.vn/</p>
+                <br>
+                <p>Bước 4: Điền những thông tin cần thiết và gửi ảnh tình trạng thiết bị (trên hệ thống CIM)</p>
+                <br>
+                <p>Bước 5: Bấm vào nút Create (trên hệ thống CIM)</p>
             </div>
         </div>
     </div>
@@ -238,5 +232,15 @@
     </a>
 
 </div>
+<script>
+    function toggleVisibility(childId) {
+        var childElement = document.getElementById(childId);
+        if (childElement.classList.contains('hidden')) {
+            childElement.classList.remove('hidden');
+        } else {
+            childElement.classList.add('hidden');
+        }
+    }
+</script>
 </body>
 </html>
