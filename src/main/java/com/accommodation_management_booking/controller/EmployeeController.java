@@ -19,24 +19,24 @@ public class EmployeeController {
     @Autowired
     ComplainRepository complainRepository;
     @GetMapping("fpt-dorm/employee/home")
-    public String employee_homepage(Model model){
+    public String employee_homepage(){
         return "employee_homepage";
     }
     @GetMapping("fpt-dorm/employee/students-list")
-    public String employee_student()
+    public String employee_student(@AuthenticationPrincipal OAuth2User oauth2User,
+                                   @AuthenticationPrincipal UserDTO user,
+                                   Model model)
     {
         return "employee_student";
     }
     @GetMapping("fpt-dorm/employee/complain")
     public String employee_complain(Model model){
         try {
-//            List<Complaint> complainList = complainRepository.getRequestByUserId();
-//            model.addAttribute("complaintDTOList", complainList);
-//            model.addAttribute("contentTemplate", "employee_complain");
+            List<Complaint> complainList = complainRepository.getAllRequest();
+            model.addAttribute("complaintDTOList", complainList);
         }catch (Exception e){
             e.printStackTrace();
         }
-        return "base/base_employee";
+        return "employee_complain";
     }
-
 }
