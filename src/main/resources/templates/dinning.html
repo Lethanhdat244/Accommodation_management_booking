@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>FPT Dorm</title>
+    <title>Dinning</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
@@ -50,12 +50,13 @@
                 <div class="row">
                     <div class="col-md-2 col-sm-6 col-xs-6">
                         <div id="logo">
-                            <!--<a href="index.html"><img src="images/logo.png" alt="logo"></a>-->
-                            <a th:href="@{/home}"><span>FPT</span>Dorm</a>
+                            <a th:href="@{/fpt-dorm/home}"><span>FPT</span>Dorm</a>
                         </div>
                     </div>
                     <div class="col-sm-6 visible-sm">
-                        <div class="text-right"><button type="button" class="book-now-btn">Book Now</button></div>
+                        <div class="text-right">
+                            <a href="/fpt-dorm/home-user" class="book-now-btn">Book Now</a>
+                        </div>
                     </div>
                     <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
                         <nav class="navbar navbar-default">
@@ -66,28 +67,29 @@
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
                                 </button>
-
                             </div>
                             <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                 <ul class="list-unstyled nav1 cl-effect-10">
-                                    <li><a  data-hover="Home" th:href="@{/home}"><span>Home</span></a></li>
-                                    <li><a data-hover="About" th:href="@{/home/about}"><span>About</span></a></li>
-                                    <li><a data-hover="Rooms" th:href="@{/home/rooms}"><span>Rooms</span></a></li>
-                                    <li><a data-hover="Gallery"  th:href="@{/home/gallery}"><span>Gallery</span></a></li>
-                                    <li><a data-hover="Dinning"><span>Dinning</span></a></li>
-                                    <li><a data-hover="News" th:href="@{/home/new}"><span>News</span></a></li>
-                                    <li><a data-hover="Contact Us" th:href="@{/home/contact}"><span>contact Us</span></a></li>
+                                    <li><a data-hover="Home" th:href="@{/fpt-dorm/home}"><span>Home</span></a></li>
+                                    <li><a data-hover="About" th:href="@{/fpt-dorm/home/about}"><span>About</span></a></li>
+                                    <li><a data-hover="Rooms" th:href="@{/fpt-dorm/home/room}"><span>Rooms</span></a></li>
+                                    <li><a data-hover="Gallery" th:href="@{/fpt-dorm/home/gallery}"><span>Gallery</span></a></li>
+                                    <li><a data-hover="Dinning" class="active"><span>Dinning</span></a></li>
+                                    <li><a data-hover="Contact Us" th:href="@{/fpt-dorm/home/contact}"><span>Contact Us</span></a></li>
                                 </ul>
                             </div>
                         </nav>
                     </div>
-                    <div class="col-md-2  col-sm-4 col-xs-12 hidden-sm">
-                        <div class="text-right"><button type="button" class="book-now-btn">Book Now</button></div>
+                    <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
+                        <div class="text-right">
+                            <a href="/fpt-dorm/home-user" class="book-now-btn">Book Now</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </header>
+
 
 
     <!--end-->
@@ -98,18 +100,31 @@
     </section>
     <div class="clearfix"></div>
 
-    <!--dinning-->
+    <!--dining-->
     <section class="blog">
         <div class="container">
             <div class="row">
 
                 <div class="col-md-9 col-sm-8 col-xs-12">
-                    <h2 class="blog-title-head">Lorem Ipsum Dolor Sit amet</h2>
-                    <p class="user-info">Posted by <a>Admin</a> in <a>General</a> | <a>10 Comments</a></p>
+                    <h2 class="blog-title-head">Dining at FPT Dorm</h2>
                     <div class="blog-image-single margin-top-small">
-                        <img src="/static/homepage_user/images/banner2.png" class="img-responsive">
+                        <img src="/static/homepage_user/images/dining.jpg" class="img-responsive" alt="Dining Image">
                     </div>
-                    <p class="blog-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do </p>
+                    <p class="blog-desc">
+                        Welcome to the dining services at FPT Dorm! We are committed to providing our residents with a variety of delicious and nutritious meals that cater to different tastes and dietary needs. Our dining facilities are designed to offer a comfortable and inviting atmosphere where students can enjoy their meals, socialize, and relax.
+                    </p>
+                    <p class="blog-desc">
+                        <strong>Menu Highlights:</strong>
+                    <ul>
+                        <li>Daily Specials: Enjoy a different special meal each day, crafted by our talented chefs.</li>
+                        <li>Vegetarian Options: We offer a wide range of vegetarian dishes to ensure everyone has something delicious to eat.</li>
+                        <li>International Cuisine: Sample flavors from around the world with our rotating international menu.</li>
+                        <li>Healthy Choices: We provide a variety of healthy meal options to support your wellbeing.</li>
+                    </ul>
+                    </p>
+                    <p class="blog-desc">
+                        Our dining hall is open from 7:00 AM to 10:00 PM daily. We also offer meal plans that are flexible and can be customized to fit your schedule and preferences. Whether you need a quick bite between classes or a leisurely dinner with friends, our dining services have you covered.
+                    </p>
 
                     <div class="clearfix"></div>
                     <div class="single-bottom comment-form">
@@ -126,82 +141,78 @@
                     <div class="blog-list">
                         <h4>Categories</h4>
                         <ul>
-                            <li><a><i class="fa fa-caret-right"> </i>Lorem Ipsum is simply</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>Contrary to popular belief</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>It is a long established</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>There are many variations</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>But I must explain to you</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>At vero eos et accusamus</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>On the other hand</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>Dining Tips</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>Healthy Eating</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>Recipe Ideas</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>Food Reviews</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>Chef's Corner</a></li>
                         </ul>
 
                         <div class="clearfix"> </div>
                     </div>
                     <div class="blog-list">
-                        <h4>Archives List</h4>
+                        <h4>Archives</h4>
                         <ul>
-                            <li><a><i class="fa fa-caret-right"> </i>July (15)</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>Oct (20)</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>November (8)</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>December (25)</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>August (9)</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>July (15)</a></li>
-                            <li><a><i class="fa fa-caret-right"> </i>Mar (25)</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>July (15)</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>October (20)</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>November (8)</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>December (25)</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>August (9)</a></li>
                         </ul>
                     </div>
                     <div class="blog-list1">
                         <h4>Popular Posts</h4>
-                        <div class="blog-list-top">
-                            <div class="blog-img">
-                                <a><img class="img-responsive" src="images/Home/img1.jpg" alt=""></a>
-                            </div>
-                            <div class="blog-text">
-                                <p><a>Lorem ipsum dolor sit amet, consectetuer</a></p>
-                                <span class="link">
-                                            Sep 14, 2016
-                                        </span>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
+<!--                        <div class="blog-list-top">-->
+<!--                            <div class="blog-img">-->
+<!--                                <a href="#"><img class="img-responsive" src="/static/homepage_user/images/Home/img1.jpg" alt="Popular Post 1"></a>-->
+<!--                            </div>-->
+<!--                            <div class="blog-text">-->
+<!--                                <p><a href="#">Top 10 Dining Tips for Students</a></p>-->
+<!--                                <span class="link">-->
+<!--                                    Sep 14, 2023-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                            <div class="clearfix"> </div>-->
+<!--                        </div>-->
 
-                        <div class="blog-list-top">
-                            <div class="blog-img">
-                                <a><img class="img-responsive" src="images/Home/img3.jpg" alt=""></a>
-                            </div>
-                            <div class="blog-text">
-                                <p><a>Lorem ipsum dolor sit amet, consectetuer</a></p>
-                                <span class="link">
-                                            Sep 14, 2016
-                                        </span>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
+<!--                        <div class="blog-list-top">-->
+<!--                            <div class="blog-img">-->
+<!--                                <a href="#"><img class="img-responsive" src="/static/homepage_user/images/Home/img3.jpg" alt="Popular Post 2"></a>-->
+<!--                            </div>-->
+<!--                            <div class="blog-text">-->
+<!--                                <p><a href="#">Healthy Meal Options at FPT Dorm</a></p>-->
+<!--                                <span class="link">-->
+<!--                                    Aug 20, 2023-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                            <div class="clearfix"> </div>-->
+<!--                        </div>-->
 
-                        <div class="blog-list-top">
-                            <div class="blog-img">
-                                <a><img class="img-responsive" src="images/Home/img4.jpg" alt=""></a>
-                            </div>
-                            <div class="blog-text">
-                                <p><a>Lorem ipsum dolor sit amet, consectetuer</a></p>
-                                <span class="link">
-                                            Sep 14, 2016
-                                        </span>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
+<!--                        <div class="blog-list-top">-->
+<!--                            <div class="blog-img">-->
+<!--                                <a href="#"><img class="img-responsive" src="/static/homepage_user/images/Home/img4.jpg" alt="Popular Post 3"></a>-->
+<!--                            </div>-->
+<!--                            <div class="blog-text">-->
+<!--                                <p><a href="#">Exploring International Cuisine</a></p>-->
+<!--                                <span class="link">-->
+<!--                                    Jul 25, 2023-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                            <div class="clearfix"> </div>-->
+<!--                        </div>-->
 
-                        <div class="blog-list-top">
-                            <div class="blog-img">
-                                <a><img class="img-responsive" src="images/Home/img5.jpg" alt=""></a>
-                            </div>
-                            <div class="blog-text">
-                                <p><a>Lorem ipsum dolor sit amet, consectetuer</a></p>
-                                <span class="link">
-                                            Sep 14, 2016
-                                        </span>
-                            </div>
-                            <div class="clearfix"> </div>
-                        </div>
+<!--                        <div class="blog-list-top">-->
+<!--                            <div class="blog-img">-->
+<!--                                <a href="#"><img class="img-responsive" src="/static/homepage_user/images/Home/img5.jpg" alt="Popular Post 4"></a>-->
+<!--                            </div>-->
+<!--                            <div class="blog-text">-->
+<!--                                <p><a href="#">Meet Our Chefs</a></p>-->
+<!--                                <span class="link">-->
+<!--                                    Jun 18, 2023-->
+<!--                                </span>-->
+<!--                            </div>-->
+<!--                            <div class="clearfix"> </div>-->
+<!--                        </div>-->
                     </div>
                 </aside>
             </div>
@@ -218,15 +229,15 @@
                         <ul class="list-unstyled footer-contact-list">
                             <li>
                                 <i class="fa fa-map-marker fa-lg"></i>
-                                <p>701 Old York Drive Richmond USA.</p>
+                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch Thất, TP. HN</p>
                             </li>
                             <li>
                                 <i class="fa fa-phone fa-lg"></i>
-                                <p><a href="tel:+1-202-555-0100"> +1-202-555-0100</a></p>
+                                <p><a href="tel:+842473001866"> (024) 7300.1866 / (024) 7300.5588</a></p>
                             </li>
                             <li>
                                 <i class="fa fa-envelope-o fa-lg"></i>
-                                <p><a href="mailto:demo@info.com"> demo@info.com</a></p>
+                                <p><a href="mailto:daihocfpt@fpt.edu.vn"> daihocfpt@fpt.edu.vn</a></p>
                             </li>
                         </ul>
                         <div class="footer-social-icon">
@@ -248,17 +259,16 @@
                     <div class="footer-details">
                         <h4>explore</h4>
                         <ul class="list-unstyled footer-links">
-                            <li><a th:href="@{/home}">Home</a></li>
-                            <li><a th:href="@{/home/about}">About</a></li>
-                            <li><a th:href="@{/home/room}">Rooms</a></li>
-                            <li><a th:href="@{/home/gallery}">Gallery</a></li>
-                            <li class="active"><a>Dinning</a></li>
-                            <li> <a th:href="@{/home/new}">News</a></li>
-                            <li> <a th:href="@{/home/contact}">Contact</a></li>
+                            <li><a th:href="@{/fpt-dorm/home}">Home</a></li>
+                            <li><a th:href="@{/fpt-dorm/about}">About</a></li>
+                            <li><a th:href="@{/fpt-dorm/home/room}">Rooms</a></li>
+                            <li><a th:href="@{/fpt-dorm/home/gallery}">Gallery</a></li>
+                            <li  class="active"><a>Dinning</a></li>
+                            <li> <a th:href="@{/fpt-dorm/home/contact}">Contact</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="col-md-6 col-sm-12 col-xs-12">
                     <div class="footer-details">
                         <h4>Now On Instagram</h4>
                         <div class="row">
@@ -271,7 +281,7 @@
             </div>
 
             <div class="copyright">
-                &copy; 2017 All right reserved. Designed by <a href="http://www.themevault.net/" target="_blank">ThemeVault.</a>
+                &copy; 2024 All right reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home" target="_blank">SWP391</a>
             </div>
 
         </div>

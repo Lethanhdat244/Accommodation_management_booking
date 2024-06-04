@@ -1,9 +1,13 @@
-<!doctype html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>System Manager</title>
+    <meta charset="UTF-8">
+    <title><!doctype html>
+        <html lang="en"
+        xmlns:th="http://www.thymeleaf.org"
+        >
+        <head>
+        <title>System Manager</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -15,8 +19,29 @@
 
     <style>
         /* CSS cho phần gạch chân */
+        body {
+            background-color: whitesmoke; /* General background color for the body */
+        }
         .btn-detail {
             text-decoration: underline;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .thead-primary {
+            background-color: #f2f2f2;
+        }
+        th, td {
+            border: 5px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: #ffffff;
         }
     </style>
 </head>

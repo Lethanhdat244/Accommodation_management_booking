@@ -7,11 +7,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
     <title> Dashboard | Dashboard</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="static/admin_homepage/img/svg/logo.svg" type="image/x-icon">
+<!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
-    <link rel="stylesheet" href="static/admin_homepage/css/style.min.css">
+    <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
 
 </head>
 
@@ -28,7 +29,7 @@
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">Dormitory</span>
+                        <span class="logo-title">FPT Dorm</span>
                         <span class="logo-subtitle">Dashboard</span>
                     </div>
 
@@ -44,7 +45,7 @@
                         <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn" th:href="@{admin_list_student}">
+                        <a class="show-cat-btn" th:href="@{admin/admin_list_student}">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -70,7 +71,7 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_room.html}">All Rooms</a>
+                                <a th:href="@{admin_list_room}">All Rooms</a>
                             </li>
                             <li>
                                 <a th:href="@{admin_add_new_room}">Add new room</a>
@@ -102,7 +103,7 @@
 
 
                     <li>
-                        <a th:href="@{admin_payment_list}">
+                        <a th:href="@{admin/admin_payment_list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Payment
                         </a>
@@ -110,35 +111,35 @@
 
 
                     <li>
-                        <a th:href="@{admin_chart}">
+                        <a th:href="@{admin/admin_chart}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Chart
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin_booking_list}">
+                        <a th:href="@{admin/admin_booking_list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Booking requirement
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin_service_list}">
+                        <a th:href="@{admin/admin_service_list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Service requirement
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin_list_feedback}">
+                        <a th:href="@{admin/admin_list_feedback}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Feedback
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin_list_complaint}">
+                        <a th:href="@{admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
@@ -147,55 +148,55 @@
 
 
                 </ul>
-<!--&lt;!&ndash;                <span class="system-menu__title">system</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                <ul class="sidebar-body-menu">&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <a href="appearance.html"><span class="icon edit" aria-hidden="true"></span>Appearance</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                    <li>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <a class="show-cat-btn" href="##">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <span class="icon category" aria-hidden="true"></span>Extentions&ndash;&gt;-->
-<!--&lt;!&ndash;                            <span class="category__btn transparent-btn" title="Open list">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <span class="sr-only">Open list</span>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <span class="icon arrow-down" aria-hidden="true"></span>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </a>&ndash;&gt;-->
-<!--&lt;!&ndash;                        <ul class="cat-sub-menu">&ndash;&gt;-->
-<!--&lt;!&ndash;                            <li>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <a href="extention-01.html">Extentions-01</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                            <li>&ndash;&gt;-->
-<!--&lt;!&ndash;                                <a href="extention-02.html">Extentions-02</a>&ndash;&gt;-->
-<!--&lt;!&ndash;                            </li>&ndash;&gt;-->
-<!--&lt;!&ndash;                        </ul>&ndash;&gt;-->
-<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-<!--                    <li>-->
-<!--                        <a class="show-cat-btn" href="##">-->
-<!--&lt;!&ndash;                            <span class="icon user-3" aria-hidden="true"></span>Users&ndash;&gt;-->
-<!--                            <span class="category__btn transparent-btn" title="Open list">-->
-<!--                            <span class="sr-only">Open list</span>-->
-<!--                            <span class="icon arrow-down" aria-hidden="true"></span>-->
-<!--                        </span>-->
-<!--                        </a>-->
-<!--                        <ul class="cat-sub-menu">-->
-<!--                            <li>-->
-<!--&lt;!&ndash;                                <a href="users-01.html">Users-01</a>&ndash;&gt;-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--&lt;!&ndash;                                <a href="users-02.html">Users-02</a>&ndash;&gt;-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </li>-->
-<!--                    <li>-->
-<!--&lt;!&ndash;                        <a href="##"><span class="icon setting" aria-hidden="true"></span>Settings</a>&ndash;&gt;-->
-<!--                    </li>-->
-<!--                </ul>-->
+                <!--&lt;!&ndash;                <span class="system-menu__title">system</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;                <ul class="sidebar-body-menu">&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <a href="appearance.html"><span class="icon edit" aria-hidden="true"></span>Appearance</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    </li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <a class="show-cat-btn" href="##">&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <span class="icon category" aria-hidden="true"></span>Extentions&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <span class="category__btn transparent-btn" title="Open list">&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <span class="sr-only">Open list</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <span class="icon arrow-down" aria-hidden="true"></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        </span>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        </a>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <ul class="cat-sub-menu">&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                                <a href="extention-01.html">Extentions-01</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;                            </li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                                <a href="extention-02.html">Extentions-02</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;                            </li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        </ul>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    </li>&ndash;&gt;-->
+                <!--                    <li>-->
+                <!--                        <a class="show-cat-btn" href="##">-->
+                <!--&lt;!&ndash;                            <span class="icon user-3" aria-hidden="true"></span>Users&ndash;&gt;-->
+                <!--                            <span class="category__btn transparent-btn" title="Open list">-->
+                <!--                            <span class="sr-only">Open list</span>-->
+                <!--                            <span class="icon arrow-down" aria-hidden="true"></span>-->
+                <!--                        </span>-->
+                <!--                        </a>-->
+                <!--                        <ul class="cat-sub-menu">-->
+                <!--                            <li>-->
+                <!--&lt;!&ndash;                                <a href="users-01.html">Users-01</a>&ndash;&gt;-->
+                <!--                            </li>-->
+                <!--                            <li>-->
+                <!--&lt;!&ndash;                                <a href="users-02.html">Users-02</a>&ndash;&gt;-->
+                <!--                            </li>-->
+                <!--                        </ul>-->
+                <!--                    </li>-->
+                <!--                    <li>-->
+                <!--&lt;!&ndash;                        <a href="##"><span class="icon setting" aria-hidden="true"></span>Settings</a>&ndash;&gt;-->
+                <!--                    </li>-->
+                <!--                </ul>-->
             </div>
         </div>
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -211,7 +212,7 @@
                 <div class="main-nav-start">
                     <div class="search-wrapper">
                         <i data-feather="search" aria-hidden="true"></i>
-<!--                        <input type="text" placeholder="Enter keywords ..." required>-->
+                        <!--                        <input type="text" placeholder="Enter keywords ..." required>-->
                     </div>
                 </div>
                 <div class="main-nav-end">
@@ -219,17 +220,17 @@
                         <span class="sr-only">Toggle menu</span>
                         <span class="icon menu-toggle--gray" aria-hidden="true"></span>
                     </button>
-<!--                    <div class="lang-switcher-wrapper">-->
-<!--                        <button class="lang-switcher transparent-btn" type="button">-->
-<!--                            EN-->
-<!--                            <i data-feather="chevron-down" aria-hidden="true"></i>-->
-<!--                        </button>-->
-<!--                        <ul class="lang-menu dropdown">-->
-<!--                            <li><a href="##">English</a></li>-->
-<!--                            <li><a href="##">French</a></li>-->
-<!--                            <li><a href="##">Uzbek</a></li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
+                    <!--                    <div class="lang-switcher-wrapper">-->
+                    <!--                        <button class="lang-switcher transparent-btn" type="button">-->
+                    <!--                            EN-->
+                    <!--                            <i data-feather="chevron-down" aria-hidden="true"></i>-->
+                    <!--                        </button>-->
+                    <!--                        <ul class="lang-menu dropdown">-->
+                    <!--                            <li><a href="##">English</a></li>-->
+                    <!--                            <li><a href="##">French</a></li>-->
+                    <!--                            <li><a href="##">Uzbek</a></li>-->
+                    <!--                        </ul>-->
+                    <!--                    </div>-->
                     <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
                         <span class="sr-only">Switch theme</span>
                         <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
@@ -285,7 +286,7 @@
                         <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
-            <picture><source srcset="static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
+            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
@@ -293,11 +294,11 @@
                                 <i data-feather="user" aria-hidden="true"></i>
                                 <span>Profile</span>
                             </a></li>
-                            <li><a href="##">
-                                <i data-feather="settings" aria-hidden="true"></i>
-                                <span>Account settings</span>
-                            </a></li>
-                            <li><a class="danger" href="##">
+                            <!--                            <li><a href="##">-->
+                            <!--                                <i data-feather="settings" aria-hidden="true"></i>-->
+                            <!--                                <span>Account settings</span>-->
+                            <!--                            </a></li>-->
+                            <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
                             </a></li>
@@ -407,7 +408,7 @@
                                         <label class="users-table__checkbox">
                                             <input type="checkbox" class="check">
                                             <div class="categories-table-img">
-                                                <picture><source srcset="static/admin_homepage/img/categories/01.webp" type="image/webp"><img src="static/admin_homepage/img/categories/01.jpg" alt="category"></picture>
+                                                <picture><source srcset="/static/admin_homepage/img/categories/01.webp" type="image/webp"><img src="/static/admin_homepage/img/categories/01.jpg" alt="category"></picture>
                                             </div>
                                         </label>
                                     </td>
@@ -416,7 +417,7 @@
                                     </td>
                                     <td>
                                         <div class="pages-table-img">
-                                            <picture><source srcset="static/admin_homepage/img/avatar/avatar-face-04.webp" type="image/webp"><img src="static/admin_homepage/img/avatar/avatar-face-04.png" alt="User Name"></picture>
+                                            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-face-04.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-face-04.png" alt="User Name"></picture>
                                             Jenny Wilson
                                         </div>
                                     </td>
@@ -474,25 +475,25 @@
         <!-- ! Footer -->
         <footer class="footer">
             <div class="container footer--flex">
-                <div class="footer-start">
-                    <p>2024 © Manager Dashboard - <a href="elegant-dashboard.com" target="_blank"
-                                                     rel="noopener noreferrer">Manager-dashboard.com</a></p>
-                </div>
-                <ul class="footer-end">
-                    <li><a href="##">About</a></li>
-                    <li><a href="##">Support</a></li>
-                    <li><a href="##">Puchase</a></li>
-                </ul>
+                <!--                <div class="footer-start">-->
+                <!--                    <p>2024 © Manager Dashboard - <a href="elegant-dashboard.com" target="_blank"-->
+                <!--                                                     rel="noopener noreferrer">Manager-dashboard.com</a></p>-->
+                <!--                </div>-->
+                <!--                <ul class="footer-end">-->
+                <!--                    <li><a href="##">About</a></li>-->
+                <!--                    <li><a href="##">Support</a></li>-->
+                <!--                    <li><a href="##">Puchase</a></li>-->
+                <!--                </ul>-->
             </div>
         </footer>
     </div>
 </div>
 <!-- Chart library -->
-<script src="static/admin_homepage/plugins/chart.min.js"></script>
+<script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
-<script src="static/admin_homepage/plugins/feather.min.js"></script>
+<script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
-<script src="static/admin_homepage/js/script.js"></script>
+<script src="/static/admin_homepage/js/script.js"></script>
 </body>
 
 </html>
