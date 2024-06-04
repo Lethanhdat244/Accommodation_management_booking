@@ -45,16 +45,29 @@
         }
 
         function validateFullName() {
-            var fullname = document.getElementById("fullname").value;
+            var fullname = document.getElementById("fullname").value.trim(); // Loại bỏ các khoảng trắng ở đầu và cuối chuỗi
             var fullnameError = document.getElementById("fullnameError");
-            if (!fullname) {
-                fullnameError.textContent = "Full Name is required.";
+            var containsNumber = /[0-9]/.test(fullname); // Kiểm tra xem chuỗi có chứa số không
+            var containsOnlySpaces = /^\s*$/.test(fullname); // Kiểm tra xem chuỗi chỉ chứa khoảng trắng không
+            var containsConsecutiveSpaces = /\s\s+/.test(fullname); // Kiểm tra xem chuỗi có chứa khoảng trắng liên tiếp không
+
+            if (!fullname || containsNumber || containsOnlySpaces || containsConsecutiveSpaces) {
+                if (!fullname) {
+                    fullnameError.textContent = "Full Name is required.";
+                } else if (containsNumber) {
+                    fullnameError.textContent = "Full Name cannot contain numbers.";
+                } else if (containsOnlySpaces) {
+                    fullnameError.textContent = "Full Name cannot be only spaces.";
+                } else {
+                    fullnameError.textContent = "Full Name cannot contain consecutive spaces.";
+                }
                 return false;
             } else {
                 fullnameError.textContent = "";
                 return true;
             }
         }
+
 
         function validateEmailField() {
             var email = document.getElementById("email").value;
@@ -115,14 +128,24 @@
         function validatePhone() {
             var phone = document.getElementById("phone").value;
             var phoneError = document.getElementById("phoneError");
+            var phoneRegex = /^[0-9]+$/;
+
             if (!phone) {
                 phoneError.textContent = "Phone number is required.";
+                return false;
+            } else if (phone.includes(" ")) {
+                phoneError.textContent = "Phone number must not contain spaces.";
+                return false;
+            } else if (!phoneRegex.test(phone)) {
+                phoneError.textContent = "Phone number must contain only numbers.";
                 return false;
             } else {
                 phoneError.textContent = "";
                 return true;
             }
         }
+
+
 
         function validateAddress() {
             var address = document.getElementById("address").value;

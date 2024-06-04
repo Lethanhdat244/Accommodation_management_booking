@@ -45,4 +45,9 @@ public class HomeController {
     public String contact(){
         return "contact";
     }
+
+    @GetMapping("fpt-dorm/home-user/rule")
+    public String rule(){
+        return "rule";
+    }
 }

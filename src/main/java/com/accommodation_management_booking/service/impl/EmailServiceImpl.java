@@ -27,4 +27,32 @@ public class EmailServiceImpl implements EmailService {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void sendRegistrationEmail(String email, String content) {
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(email);
+            helper.setSubject("Registration Confirmation");
+            helper.setText(content, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendCompleteRegistrationEmail(String email, String content) {
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(email);
+            helper.setSubject("Profile Completion Notification");
+            helper.setText(content, true);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
 }
