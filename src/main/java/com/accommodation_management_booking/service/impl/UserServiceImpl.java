@@ -133,6 +133,20 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public boolean changePassword(String currentPassword, String newPassword) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        User user = userRepository.findByEmail(currentUsername);
+
+        if (user != null && passwordEncoder.matches(currentPassword, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(newPassword));
+            userRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
 
     private String uploadImage(MultipartFile file) throws IOException {
         Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
