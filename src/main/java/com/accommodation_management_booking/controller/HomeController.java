@@ -6,48 +6,83 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    @GetMapping("/fpt-dorm")
+    @GetMapping("/")
     public String redirectToHome() {
-        return "redirect:/fpt-dorm/home";
+        return "redirect:/home";
     }
 
-    @GetMapping("fpt-dorm/home")
+    @GetMapping("home")
     public String homepage(){
-        return "homepage";
+        return "homepage_user";
     }
 
-    @GetMapping("fpt-dorm/home-user")
-    public String booking(){
-        return "home_user";
-    }
-
-    @GetMapping("fpt-dorm/home/about")
+    @GetMapping("home/about")
     public String about(){
         return "about";
     }
 
-    @GetMapping("fpt-dorm/home/gallery")
+    @GetMapping("home/gallery")
     public String gallery(){
         return "gallery";
     }
 
-    @GetMapping("fpt-dorm/home/dinning")
+    @GetMapping("home/dinning")
     public String dinning(){
         return "dinning";
     }
 
-    @GetMapping("fpt-dorm/home/new")
+    @GetMapping("home/new")
     public String news(){
         return "new";
     }
 
-    @GetMapping("fpt-dorm/home/contact")
+    @GetMapping("home/contact")
     public String contact(){
         return "contact";
     }
 
-    @GetMapping("fpt-dorm/home-user/rule")
-    public String rule(){
-        return "rule";
+    @GetMapping("admin_homepage")
+    public String admin_homepage(){
+        return "admin_homepage";
+    }
+
+    @GetMapping("admin_list_student")
+    public String admin_list_student(){
+        return "admin_list_student";
+    }
+
+    @GetMapping("admin_add_student")
+    public String admin_add_student(){
+        return "admin_add_student";
+    }
+
+    @GetMapping("admin_list_room")
+    public String admin_list_room(){
+        return "admin_list_room";
+    }
+
+    @GetMapping("admin_payment_list")
+    public String admin_payment_list(){
+        return "admin_payment_list";
+    }
+
+    @GetMapping("admin_add_new_type_room")
+    public String admin_add_new_type_room(){
+        return "admin_add_new_type_room";
+    }
+
+    @GetMapping("admin_add_new_room")
+    public String admin_add_new_room(){
+        return "admin_add_new_room";
+    }
+
+    @GetMapping("admin_list_feedback")
+    public String admin_list_feedback(){
+        return "admin_list_feedback";
+    }
+
+    @GetMapping("admin_list_complaint")
+    public String admin_list_complaint(){
+        return "admin_list_complaint";
     }
 }

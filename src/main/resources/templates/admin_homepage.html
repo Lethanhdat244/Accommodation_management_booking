@@ -9,9 +9,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Dashboard | Dashboard</title>
     <!-- Favicon -->
-    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="static/admin_homepage/img/svg/logo.svg" type="image/x-icon">
     <!-- Custom styles -->
-    <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
+    <link rel="stylesheet" href="static/admin_homepage/css/style.min.css">
 
 </head>
 
@@ -44,7 +44,7 @@
                         <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn" th:href="@{admin/admin_list_student}">
+                        <a class="show-cat-btn" th:href="@{admin_list_student}">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -70,7 +70,7 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_room}">All Rooms</a>
+                                <a th:href="@{admin_list_room.html}">All Rooms</a>
                             </li>
                             <li>
                                 <a th:href="@{admin_add_new_room}">Add new room</a>
@@ -102,7 +102,7 @@
 
 
                     <li>
-                        <a th:href="@{admin/admin_payment_list}">
+                        <a th:href="@{admin_payment_list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Payment
                         </a>
@@ -110,35 +110,35 @@
 
 
                     <li>
-                        <a th:href="@{admin/admin_chart}">
+                        <a th:href="@{admin_chart}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Chart
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_booking_list}">
+                        <a th:href="@{admin_booking_list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Booking requirement
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_service_list}">
+                        <a th:href="@{admin_service_list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Service requirement
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_feedback}">
+                        <a th:href="@{admin_list_feedback}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Feedback
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_complaint}">
+                        <a th:href="@{admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
@@ -195,7 +195,7 @@
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -285,7 +285,7 @@
                         <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
-            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
+            <picture><source srcset="static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
@@ -407,7 +407,7 @@
                                         <label class="users-table__checkbox">
                                             <input type="checkbox" class="check">
                                             <div class="categories-table-img">
-                                                <picture><source srcset="/static/admin_homepage/img/categories/01.webp" type="image/webp"><img src="/static/admin_homepage/img/categories/01.jpg" alt="category"></picture>
+                                                <picture><source srcset="static/admin_homepage/img/categories/01.webp" type="image/webp"><img src="static/admin_homepage/img/categories/01.jpg" alt="category"></picture>
                                             </div>
                                         </label>
                                     </td>
@@ -416,7 +416,7 @@
                                     </td>
                                     <td>
                                         <div class="pages-table-img">
-                                            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-face-04.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-face-04.png" alt="User Name"></picture>
+                                            <picture><source srcset="static/admin_homepage/img/avatar/avatar-face-04.webp" type="image/webp"><img src="static/admin_homepage/img/avatar/avatar-face-04.png" alt="User Name"></picture>
                                             Jenny Wilson
                                         </div>
                                     </td>
@@ -474,25 +474,25 @@
         <!-- ! Footer -->
         <footer class="footer">
             <div class="container footer--flex">
-<!--                <div class="footer-start">-->
-<!--                    <p>2024 © Manager Dashboard - <a href="elegant-dashboard.com" target="_blank"-->
-<!--                                                     rel="noopener noreferrer">Manager-dashboard.com</a></p>-->
-<!--                </div>-->
-<!--                <ul class="footer-end">-->
-<!--                    <li><a href="##">About</a></li>-->
-<!--                    <li><a href="##">Support</a></li>-->
-<!--                    <li><a href="##">Puchase</a></li>-->
-<!--                </ul>-->
+                <div class="footer-start">
+                    <p>2024 © Manager Dashboard - <a href="elegant-dashboard.com" target="_blank"
+                                                     rel="noopener noreferrer">Manager-dashboard.com</a></p>
+                </div>
+                <ul class="footer-end">
+                    <li><a href="##">About</a></li>
+                    <li><a href="##">Support</a></li>
+                    <li><a href="##">Puchase</a></li>
+                </ul>
             </div>
         </footer>
     </div>
 </div>
 <!-- Chart library -->
-<script src="/static/admin_homepage/plugins/chart.min.js"></script>
+<script src="static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
-<script src="/static/admin_homepage/plugins/feather.min.js"></script>
+<script src="static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
-<script src="/static/admin_homepage/js/script.js"></script>
+<script src="static/admin_homepage/js/script.js"></script>
 </body>
 
 </html>
