@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>FPT Dorm</title>
+    <title>About Us</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
@@ -52,9 +52,13 @@
                 <div class="row">
                     <div class="col-md-2 col-sm-6 col-xs-6">
                         <div id="logo">
+                            <a th:href="@{/fpt-dorm/home}"><span>FPT</span> Dorm</a>
                         </div>
                     </div>
                     <div class="col-sm-6 visible-sm">
+                        <div class="text-right">
+                            <a href="/fpt-dorm/home-user" class="book-now-btn">Book Now</a>
+                        </div>
                     </div>
                     <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
                         <nav class="navbar navbar-default">
@@ -68,19 +72,20 @@
                             </div>
                             <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                 <ul class="list-unstyled nav1 cl-effect-10">
-                                    <li><a data-hover="Home" th:href="@{/home}"><span>Home</span></a></li>
+                                    <li><a data-hover="Home" th:href="@{/fpt-dorm/home}"><span>Home</span></a></li>
                                     <li><a data-hover="About" class="active"><span>About</span></a></li>
-                                    <li><a data-hover="Rooms" th:href="@{/home/room}"><span>Rooms</span></a></li>
-                                    <li><a data-hover="Gallery" th:href="@{/home/gallery}"><span>Gallery</span></a></li>
-                                    <li><a data-hover="Dining" th:href="@{/home/dining}"><span>Dining</span></a></li>
-                                    <li><a data-hover="News" th:href="@{/home/new}"><span>News</span></a></li>
-                                    <li><a data-hover="Contact Us" th:href="@{/home/contact}"><span>Contact Us</span></a></li>
+                                    <li><a data-hover="Rooms" th:href="@{/fpt-dorm/home/room}"><span>Rooms</span></a></li>
+                                    <li><a data-hover="Gallery" th:href="@{/fpt-dorm/home/gallery}"><span>Gallery</span></a></li>
+                                    <li><a data-hover="Dining" th:href="@{/fpt-dorm/home/dining}"><span>Dining</span></a></li>
+                                    <li><a data-hover="Contact Us" th:href="@{/fpt-dorm/home/contact}"><span>Contact Us</span></a></li>
                                 </ul>
                             </div>
                         </nav>
                     </div>
                     <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
-                        <div class="text-right"><button type="button" class="book-now-btn">Book Now</button></div>
+                        <div class="text-right">
+                            <a href="/fpt-dorm/home-user" class="book-now-btn">Book Now</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -129,7 +134,7 @@
                         <ul class="list-unstyled footer-contact-list">
                             <li>
                                 <i class="fa fa-map-marker fa-lg"></i>
-                                <p>FPT University, Hoa Lac Hi-tech Park, Hanoi, Vietnam</p>
+                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch Thất, TP. HN</p>
                             </li>
                             <li>
                                 <i class="fa fa-phone fa-lg"></i>
@@ -159,13 +164,12 @@
                     <div class="footer-details">
                         <h4>Explore</h4>
                         <ul class="list-unstyled footer-links">
-                            <li><a th:href="@{/home}">Home</a></li>
-                            <li class="active"><a href="about.html">About</a></li>
-                            <li><a th:href="@{/home/room}">Rooms</a></li>
-                            <li><a th:href="@{/home/gallery}">Gallery</a></li>
-                            <li><a th:href="@{/home/dinning}">Dining</a></li>
-                            <li><a th:href="@{/home/new}">News</a></li>
-                            <li><a th:href="@{/home/contact}">Contact</a></li>
+                            <li><a th:href="@{/fpt-dorm/home}">Home</a></li>
+                            <li class="active"><a>About</a></li>
+                            <li><a th:href="@{/fpt-dorm/home/room}">Rooms</a></li>
+                            <li><a th:href="@{/fpt-dorm/home/gallery}">Gallery</a></li>
+                            <li><a th:href="@{/fpt-dorm/home/dinning}">Dining</a></li>
+                            <li><a th:href="@{/fpt-dorm/home/contact}">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -182,7 +186,7 @@
             </div>
 
             <div class="copyright">
-                &copy; 2024 All rights reserved. Designed by <a href="http://www.themevault.net/" target="_blank">ThemeVault</a>.
+                &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home" target="_blank">SWP391</a>.
             </div>
 
         </div>
