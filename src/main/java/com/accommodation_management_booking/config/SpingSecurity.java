@@ -92,6 +92,17 @@ public class SpingSecurity {
                 .password("password")
                 .roles("USER")
                 .build());
+        manager.createUser(User.withDefaultPasswordEncoder()
+                .username("employee@example.com")
+                .password("password")
+                .roles("EMPLOYEE")
+                .build());
+
+        manager.createUser(User.withDefaultPasswordEncoder()
+                .username("admin@example.com")
+                .password("password")
+                .roles("ADMIN")
+                .build());
         return manager;
     }
 }
