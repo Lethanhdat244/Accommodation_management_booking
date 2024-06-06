@@ -61,7 +61,6 @@
     </style>
 
     <script>
-
         function validateGender() {
             var genderMale = document.querySelector("input[name='gender'][value='Male']").checked;
             var genderFemale = document.querySelector("input[name='gender'][value='Female']").checked;
@@ -203,7 +202,7 @@
 <body>
 <h1>Registration</h1>
 
-<form th:action="@{/fpt-dorm/profile/complete}" th:object="${user}" method="post" enctype="multipart/form-data">
+<form th:action="@{/fpt-dorm/profile/complete}" th:object="${user}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
     <div th:if="${errorMessage}">
         <div class="alert alert-danger" th:text="${errorMessage}"></div>
     </div>

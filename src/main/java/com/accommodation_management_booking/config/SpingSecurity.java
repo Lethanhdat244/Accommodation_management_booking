@@ -1,5 +1,7 @@
+
 package com.accommodation_management_booking.config;
 
+import com.accommodation_management_booking.security.CustomUserDetailService;
 import com.accommodation_management_booking.service.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +19,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -24,6 +27,11 @@ public class SpingSecurity {
 
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private CustomUserDetailService customUserDetailService;
+
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -39,24 +47,24 @@ public class SpingSecurity {
                 .requestMatchers("/fpt-dorm/forgot-password").permitAll()
                 .requestMatchers("/fpt-dorm/reset-password").permitAll()
                 .requestMatchers("/fpt-dorm/home").permitAll()
-//                .requestMatchers("/fpt-dorm/home-user/**").permitAll()
                 .requestMatchers("/fpt-dorm/home/**").permitAll()
                 .requestMatchers("/fpt-dorm").permitAll()
-                .requestMatchers("/fpt-dorm/admin/**").authenticated()
-                .requestMatchers("/fpt-dorm/profile/complete").authenticated()
+                .requestMatchers("/fpt-dorm/admin/**").hasRole("ADMIN")
+                .requestMatchers("/fpt-dorm/employee/**").hasAnyRole("ADMIN", "EMPLOYEE")
+                .requestMatchers("/fpt-dorm/home-user/**").hasAnyRole("ADMIN", "EMPLOYEE", "USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(form -> form
                         .loginPage("/fpt-dorm/login")
                         .loginProcessingUrl("/fpt-dorm/login")
-                        .defaultSuccessUrl("/fpt-dorm/home-user")
+                        .successHandler(customAuthenticationSuccessHandler)
                         .permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/fpt-dorm/login")
                         .userInfoEndpoint(userInfo -> userInfo
                                 .userService(customOAuth2UserService))
-                        .defaultSuccessUrl("/fpt-dorm/profile/complete", true)
+                        .successHandler(customAuthenticationSuccessHandler)
                 )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/fpt-dorm/logout"))
