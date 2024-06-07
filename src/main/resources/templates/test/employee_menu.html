@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Các phần tử head cần thiết -->
+</head>
+<body>
+<!-- Menu -->
+<div>
+    <!-- Phần giao diện cho menu của Employee -->
+    <ul>
+        <li><a href="/employee/home">Home</a></li>
+        <li><a href="/employee/students">Students</a></li>
+        <li><a href="/employee/rooms">Rooms</a></li>
+        <!-- Các mục menu khác -->
+    </ul>
+</div>
+
+<!-- Phần nội dung chính -->
+<div th:replace="${contentTemplate}"></div>
+
+<!-- Footer -->
+<div>
+    <!-- Phần giao diện cho footer -->
+</div>
+</body>
+</html>
