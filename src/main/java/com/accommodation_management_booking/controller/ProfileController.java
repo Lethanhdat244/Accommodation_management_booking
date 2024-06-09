@@ -33,8 +33,7 @@ public class ProfileController {
         List<User> users = userRepository.searchByEmail(email);
         if (users != null) {
             model.addAttribute("user", users.getFirst());
-            return "admin/admin-profile";
-
+            return "admin-profile";
         } else {
             return "user_not_found";
         }

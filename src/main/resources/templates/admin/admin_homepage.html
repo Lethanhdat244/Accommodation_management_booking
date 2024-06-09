@@ -54,10 +54,8 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_add_student}">All student</a>
+                                <a th:href="@{admin_list_student}">All Students</a>
                             </li>
-
-
                             <li>
                                 <a th:href="@{admin_add_student}">Add new student</a>
                             </li>
@@ -73,15 +71,13 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_room}">All Rooms</a>
-                            </li>
-
-
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_new_room}">Add new room</a>
+                                <a th:href="@{admin_list_room}">All Rooms</a>
                             </li>
                             <li>
-                                <a th:href="@{fpt-dorm/admin/change_room_status}">Change room type</a>
+                                <a th:href="@{admin_add_new_room}">Add new room</a>
+                            </li>
+                            <li>
+                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>
                             </li>
                         </ul>
                     </li>
@@ -120,16 +116,16 @@
                             Chart
                         </a>
                     </li>
+
                     <li>
-                        <a th:href="@{admin_list_booking}">
+                        <a th:href="@{admin/admin_booking_list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Booking requirement
                         </a>
                     </li>
 
-
                     <li>
-                        <a th:href="@{admin_list_service}">
+                        <a th:href="@{admin/admin_service_list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Service requirement
                         </a>
@@ -238,7 +234,7 @@
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
-                            <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
+                            <li><a th:href="@{/fpt-dorm/home-user}">Home User</a></li>
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>

@@ -34,6 +34,7 @@ public class ProfileCompletionController {
             model.addAttribute("user", userDTO);
             return "completeProfile";
         }
+        System.out.println("helo");
         return redirectToRoleBasedHome(user);
     }
 
@@ -61,7 +62,7 @@ public class ProfileCompletionController {
             model.addAttribute("errorMessage", "Please enter information about your profile");
             return "completeProfile";
         }
-        return "redirect:/fpt-dorm/user/news";
+        return "redirect:/fpt-dorm/home-user";
     }
 
     private String redirectToRoleBasedHome(User user) {
@@ -72,8 +73,7 @@ public class ProfileCompletionController {
                 return "redirect:/fpt-dorm/employee/home";
             case USER:
             default:
-                return "redirect:/fpt-dorm/user/news";
+                return "redirect:/fpt-dorm/home-user";
         }
     }
-
 }
