@@ -19,7 +19,6 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -51,7 +50,7 @@ public class SpingSecurity {
                 .requestMatchers("/fpt-dorm").permitAll()
                 .requestMatchers("/fpt-dorm/admin/**").hasRole("ADMIN")
                 .requestMatchers("/fpt-dorm/employee/**").hasAnyRole("ADMIN", "EMPLOYEE")
-                .requestMatchers("/fpt-dorm/home-user/**").hasAnyRole("ADMIN", "EMPLOYEE", "USER")
+                .requestMatchers("/fpt-dorm/user/news/**").hasAnyRole("ADMIN", "EMPLOYEE", "USER")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(form -> form
