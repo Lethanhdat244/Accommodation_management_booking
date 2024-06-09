@@ -23,6 +23,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -146,8 +147,6 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
-
-
 
 
     private String uploadImage(MultipartFile file) throws IOException {
