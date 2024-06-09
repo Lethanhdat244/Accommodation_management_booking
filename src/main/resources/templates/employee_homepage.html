@@ -7,10 +7,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title> Dashboard | Dashboard</title>
+    <title> Home | Employee</title>
     <!-- Favicon -->
 <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
+    <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
 
@@ -25,12 +25,12 @@
     <aside class="sidebar">
         <div class="sidebar-start">
             <div class="sidebar-head">
-                <a th:href="@{admin_homepage}" class="logo-wrapper" title="Home">
+                <a th:href="@{/fpt-dorm/employee/home}" class="logo-wrapper" title="Home">
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">FPT Dorm</span>
-                        <span class="logo-subtitle">Dashboard</span>
+                        <span class="logo-title">Dormitory</span>
+                        <span class="logo-subtitle">Employee</span>
                     </div>
 
                 </a>
@@ -54,11 +54,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_student}">All Students</a>
+                                <a th:href="@{/fpt-dorm/employee/students-list}">All Students</a>
                             </li>
-                            <li>
-                                <a th:href="@{admin_add_student}">Add new student</a>
-                            </li>
+<!--                            <li>-->
+<!--                                <a th:href="@{admin_add_student}">Add new student</a>-->
+<!--                            </li>-->
                         </ul>
                     </li>
                     <li>
@@ -76,30 +76,30 @@
                             <li>
                                 <a th:href="@{admin_add_new_room}">Add new room</a>
                             </li>
-                            <li>
-                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>
-                            </li>
+<!--                            <li>-->
+<!--                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>-->
+<!--                            </li>-->
                         </ul>
                     </li>
 
 
-                    <li>
-                        <a class="show-cat-btn" >
-                            <span class="icon folder" aria-hidden="true"></span>Employee
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                        </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{admin_list_employees}">All Employees</a>
-                            </li>
-                            <li>
-                                <a th:href="@{admin_add_employee}">Add new employee</a>
-                            </li>
-                        </ul>
-                    </li>
+<!--                    <li>-->
+<!--                        <a class="show-cat-btn" >-->
+<!--                            <span class="icon folder" aria-hidden="true"></span>Employee-->
+<!--                            <span class="category__btn transparent-btn" title="Open list">-->
+<!--                            <span class="sr-only">Open list</span>-->
+<!--                            <span class="icon arrow-down" aria-hidden="true"></span>-->
+<!--                        </span>-->
+<!--                        </a>-->
+<!--                        <ul class="cat-sub-menu">-->
+<!--                            <li>-->
+<!--                                <a th:href="@{admin_list_employees}">All Employees</a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a th:href="@{admin_add_employee}">Add new employee</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
 
 
                     <li>
@@ -110,12 +110,12 @@
                     </li>
 
 
-                    <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
-                        </a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a th:href="@{admin/admin_chart}">-->
+<!--                            <span class="icon folder" aria-hidden="true"></span>-->
+<!--                            Chart-->
+<!--                        </a>-->
+<!--                    </li>-->
 
                     <li>
                         <a th:href="@{admin/admin_booking_list}">
@@ -139,7 +139,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
@@ -191,7 +191,6 @@
                 <!--&lt;!&ndash;                        <a href="##"><span class="icon setting" aria-hidden="true"></span>Settings</a>&ndash;&gt;-->
                 <!--                    </li>-->
                 <!--                </ul>-->
-
             </div>
         </div>
         <div class="sidebar-footer">
@@ -213,6 +212,7 @@
                 <div class="main-nav-start">
                     <div class="search-wrapper">
                         <i data-feather="search" aria-hidden="true"></i>
+                        <!--                        <input type="text" placeholder="Enter keywords ..." required>-->
                     </div>
                 </div>
                 <div class="main-nav-end">
@@ -220,6 +220,17 @@
                         <span class="sr-only">Toggle menu</span>
                         <span class="icon menu-toggle--gray" aria-hidden="true"></span>
                     </button>
+                    <!--                    <div class="lang-switcher-wrapper">-->
+                    <!--                        <button class="lang-switcher transparent-btn" type="button">-->
+                    <!--                            EN-->
+                    <!--                            <i data-feather="chevron-down" aria-hidden="true"></i>-->
+                    <!--                        </button>-->
+                    <!--                        <ul class="lang-menu dropdown">-->
+                    <!--                            <li><a href="##">English</a></li>-->
+                    <!--                            <li><a href="##">French</a></li>-->
+                    <!--                            <li><a href="##">Uzbek</a></li>-->
+                    <!--                        </ul>-->
+                    <!--                    </div>-->
                     <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
                         <span class="sr-only">Switch theme</span>
                         <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
@@ -280,13 +291,14 @@
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a href="##">
-                                <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+                                <i data-feather="user" aria-hidden="true"></i>
+                                <span>Profile</span>
                             </a></li>
-                            <!--                            <li><a href="##">-->
-                            <!--                                <i data-feather="settings" aria-hidden="true"></i>-->
-                            <!--                                <span>Account settings</span>-->
-                            <!--                            </a></li>-->
-                            <li><a class="danger" th:href="@{/fpt-dorm/logout}">
+                            <li><a href="##">
+                                <i data-feather="settings" aria-hidden="true"></i>
+                                <span>Account settings</span>
+                            </a></li>
+                            <li><a class="danger" href="##">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
                             </a></li>
@@ -463,6 +475,15 @@
         <!-- ! Footer -->
         <footer class="footer">
             <div class="container footer--flex">
+                <!--                <div class="footer-start">-->
+                <!--                    <p>2024 © Manager Dashboard - <a href="elegant-dashboard.com" target="_blank"-->
+                <!--                                                     rel="noopener noreferrer">Manager-dashboard.com</a></p>-->
+                <!--                </div>-->
+                <!--                <ul class="footer-end">-->
+                <!--                    <li><a href="##">About</a></li>-->
+                <!--                    <li><a href="##">Support</a></li>-->
+                <!--                    <li><a href="##">Puchase</a></li>-->
+                <!--                </ul>-->
             </div>
         </footer>
     </div>

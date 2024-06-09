@@ -10,6 +10,7 @@ import com.accommodation_management_booking.service.UserService;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -151,6 +152,12 @@ public class UserServiceImpl implements UserService {
     private String uploadImage(MultipartFile file) throws IOException {
         Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
         return uploadResult.get("url").toString();
+    }
+
+
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
 
