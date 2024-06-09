@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <h1 class="text-center mt-5 mb-3">Booking Information</h1>
+
+    <table class="table mt-3">
+        <thead>
+        <div class="back-to-home">
+            <a href="/fpt-dorm/admin/home" class="btn btn-primary">Back to Home</a>
+        </div>
+        <tr>
+            <th>Booking ID</th>
+
+            <th>Room Status</th>
+            <th>Capacity</th>
+            <th>User Name</th>
+            <th>Booking Date</th>
+            <th>Detail</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="booking : ${bookingDetails}">
+            <td th:text="${booking.bookingId}"></td>
+
+            <td th:text="${booking.roomStatus}"></td>
+            <td th:text="${booking.capacity}"></td>
+            <td th:text="${booking.username}"></td>
+            <td th:text="${booking.checkInDate}"></td>
+
+            <td>
+                <a th:href="@{/fpt-dorm/admin/admin_list_booking_detail/{bookingId}(bookingId=${booking.bookingId})}" class="btn btn-info btn-detail">Detail</a>
+            </td>
+
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
