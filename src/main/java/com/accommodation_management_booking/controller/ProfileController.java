@@ -39,4 +39,16 @@ public class ProfileController {
         }
     }
 
+    @GetMapping("fpt-dorm/employee/profile")
+    public String employee_profile(@RequestParam("email") String email, Model model) {
+        List<User> users = userRepository.searchByEmail(email);
+        if (users != null) {
+            model.addAttribute("user", users.getFirst());
+            return "employee-profile";
+
+        } else {
+            return "error/error";
+        }
+    }
+
 }
