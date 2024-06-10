@@ -22,12 +22,11 @@ public class ProfileController {
         List<User> users = userRepository.searchByEmail(email);
         if (users != null) {
             model.addAttribute("user", users.getFirst());
-            return "user-profile";
+            return "user_profile";
         } else {
-            return "user_not_found";
+            return "error/error";
         }
     }
-
     @GetMapping("fpt-dorm/admin/profile")
     public String admin_profile(@RequestParam("email") String email, Model model) {
         List<User> users = userRepository.searchByEmail(email);
@@ -36,7 +35,8 @@ public class ProfileController {
             return "admin/admin-profile";
 
         } else {
-            return "user_not_found";
+            return "error/error";
         }
     }
+
 }

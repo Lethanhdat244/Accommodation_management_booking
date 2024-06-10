@@ -75,5 +75,4 @@ public class ProfileCompletionController {
                 return "redirect:/fpt-dorm/user/news";
         }
     }
-
 }
