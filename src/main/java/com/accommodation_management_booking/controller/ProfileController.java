@@ -22,7 +22,19 @@ public class ProfileController {
         List<User> users = userRepository.searchByEmail(email);
         if (users != null) {
             model.addAttribute("user", users.getFirst());
-            return "profile";
+            return "user-profile";
+        } else {
+            return "user_not_found";
+        }
+    }
+
+    @GetMapping("fpt-dorm/admin/profile")
+    public String admin_profile(@RequestParam("email") String email, Model model) {
+        List<User> users = userRepository.searchByEmail(email);
+        if (users != null) {
+            model.addAttribute("user", users.getFirst());
+            return "admin/admin-profile";
+
         } else {
             return "user_not_found";
         }

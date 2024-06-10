@@ -15,7 +15,6 @@ public class PasswordResetController {
 
     private final UserService userService;
 
-
     @GetMapping("/fpt-dorm/reset-password")
     public String showResetPasswordForm(@RequestParam("token") String token, Model model) {
         model.addAttribute("token", token);
@@ -32,7 +31,6 @@ public class PasswordResetController {
             model.addAttribute("errorMessage", "Passwords do not match.");
             return "reset_password";
         }
-
 
         try {
             userService.resetPassword(token, password);

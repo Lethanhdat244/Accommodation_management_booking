@@ -1,6 +1,5 @@
 package com.accommodation_management_booking.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -26,7 +25,7 @@ public class AdminController {
             // Handle cases where the authentication is not OAuth2
             model.addAttribute("email", "Unknown");
         }
-        return "admin_homepage";
+        return "admin/admin_homepage";
     }
 
     @GetMapping("fpt-dorm/admin/admin_list_student")
