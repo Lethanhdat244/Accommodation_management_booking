@@ -153,7 +153,7 @@
             <div class="news-container" >
                 <div class="news-item" th:each="news : ${newDTOList}">
                     <div>
-                        <a th:href="@{/fpt-dorm/employee/news/detail/newsId={id}(id=${news.newsId})}">
+                        <a th:href="@{/fpt-dorm/user/news/detail/id={id}(id=${news.newsId})}">
                             <h4 style="color: #0b2e13" ><strong th:text="${news.getTitle()}">Title</strong></h4>
                         </a>
                         <p th:text="${news.getCreatedAt()}">Date</p>
