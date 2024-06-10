@@ -39,7 +39,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
                     redirectURL = "/fpt-dorm/employee/home";
                     break;
                 } else if (authority.getAuthority().equals("ROLE_USER")) {
-                    redirectURL = "/fpt-dorm/home-user";
+                    redirectURL = "/fpt-dorm/user/news";
                     break;
                 }
             }
