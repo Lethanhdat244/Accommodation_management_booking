@@ -51,7 +51,11 @@ public class SpingSecurity {
                 .requestMatchers("/fpt-dorm").permitAll()
                 .requestMatchers("/fpt-dorm/admin/**").hasRole("ADMIN")
                 .requestMatchers("/fpt-dorm/employee/**").hasAnyRole("ADMIN", "EMPLOYEE")
+<<<<<<< HEAD
+                .requestMatchers("/fpt-dorm/user/news/**").hasAnyRole("ADMIN", "EMPLOYEE", "USER")
+=======
                 .requestMatchers("/fpt-dorm/home-user/**").hasAnyRole("ADMIN", "EMPLOYEE", "USER")
+>>>>>>> 4b47d09e8d166e475bba3b5f9e6dab637966b476
                 .anyRequest().authenticated()
                 .and()
                 .formLogin(form -> form

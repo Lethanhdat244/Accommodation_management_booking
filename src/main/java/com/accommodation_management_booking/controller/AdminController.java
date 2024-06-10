@@ -25,7 +25,7 @@ public class AdminController {
             // Handle cases where the authentication is not OAuth2
             model.addAttribute("email", "Unknown");
         }
-        return "admin_homepage";
+        return "admin/admin_homepage";
     }
 
     @GetMapping("fpt-dorm/admin/admin_list_student")

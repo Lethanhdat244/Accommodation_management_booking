@@ -23,6 +23,7 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -127,7 +128,6 @@ public class UserServiceImpl implements UserService {
             } catch (IOException e) {
                 // Handle the exception appropriately
                 e.printStackTrace();
-                System.out.println("Lỗi");
                 return; // Or handle the error as needed
             }
             user.setProfileComplete(true);
