@@ -9,11 +9,10 @@
 <div class="container-fluid">
     <div class="text-center"><h2>Add Room</h2></div>
 
-    <div th:if ="${message}" class="alert alert-success text-center">
+    <div th:if="${message}" class="alert alert-success text-center">
         [[${message}]]
-
     </div>
-    <form th:action="@{/fpt-dorm/admin/saveRoom}" method="post" th:object="${room}" style="max-width: 500px; margin: 0 auto;">
+    <form th:action="@{/fpt-dorm/admin/saveRoom}" method="post" th:object="${room}" style="max-width: 500px; margin: 0 auto;" onsubmit="return validateForm()">
         <div class="border border-secondary rounded p-3">
             <!-- Room Status -->
             <div class="form-group row">
@@ -72,6 +71,20 @@
     </form>
 </div>
 <script type="text/javascript">
+    function validateForm() {
+        var roomStatus = document.getElementsByName('roomStatus')[0].value;
+        var roomNumber = document.getElementsByName('roomNumber')[0].value;
+        var capacity = document.getElementsByName('capacity')[0].value;
+        var status = document.getElementsByName('status')[0].value;
+        var createdAt = document.getElementsByName('createdAt')[0].value;
+
+        if (!roomStatus || !roomNumber || !capacity || !status || !createdAt) {
+            alert("Please fill in all fields.");
+            return false;
+        }
+        return true;
+    }
+
     function cancelForm() {
         window.location = "/fpt-dorm/admin/home";
     }

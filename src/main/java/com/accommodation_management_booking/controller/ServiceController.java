@@ -22,13 +22,13 @@ public class ServiceController {
     public String serviceTable(Model model) {
         List<ServiceDTO> serviceDTOs = serviceService.getAllServiceDTOs();
         model.addAttribute("serviceList", serviceDTOs);
-        return "admin_list_service"; // Tên template của bạn
+        return "admin_list_service";
     }
 
     @GetMapping("/serviceDetail/{id}")
     public String serviceDetail(@PathVariable int id, Model model) {
         ServiceDTO serviceDTO = serviceService.getServiceDetailById(id);
         model.addAttribute("service", serviceDTO);
-        return "admin_service_detail"; // Tên template của bạn
+        return "admin_service_detail";
     }
 }

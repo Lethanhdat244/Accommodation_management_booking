@@ -6,7 +6,6 @@ import com.accommodation_management_booking.entity.Room;
 import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.BookingRepository;
 import com.accommodation_management_booking.repository.RoomRepository;
-import com.accommodation_management_booking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +18,10 @@ public class BookingService {
     @Autowired
     private BookingRepository bookingRepository;
 
-
     @Autowired
     private RoomRepository roomRepository;
 
-    public List<BookingGDTO> getAllBookingDetails() {
+    public List<BookingGDTO> getAllBookingInfo() {
         List<BookingGDTO> bookingDetails = new ArrayList<>();
 
         List<Booking> bookings = bookingRepository.findAll();
@@ -58,6 +56,7 @@ public class BookingService {
 
         return bookingDetails;
     }
+
     public BookingGDTO getBookingDetailById(int bookingId) {
         Booking booking = bookingRepository.findById(bookingId).orElse(null);
         if (booking != null) {
@@ -88,6 +87,55 @@ public class BookingService {
             return detail;
         }
         return null;
+    }
+
+
+    public List<BookingGDTO> searchBookings(String keyword, String category) {
+        if (keyword == null || keyword.isEmpty()) {
+            return getAllBookingInfo();
+        }
+
+        if (category == null || category.isEmpty()) {
+            try {
+                int id = Integer.parseInt(keyword);
+                List<Booking> bookings = bookingRepository.searchAllBy(keyword, id);
+                return mapBookingListToBookingGDTOList(bookings);
+            } catch (NumberFormatException e) {
+                List<Booking> bookings = bookingRepository.searchAllBy(keyword, -1);
+                return mapBookingListToBookingGDTOList(bookings);
+            }
+        }
+
+        switch (category) {
+            case "Booking ID":
+                try {
+                    int id = Integer.parseInt(keyword);
+                    List<Booking> bookings = bookingRepository.findByBookingId(id);
+                    return mapBookingListToBookingGDTOList(bookings);
+                } catch (NumberFormatException e) {
+                    return null;
+                }
+            case "User Name":
+                List<Booking> bookings = bookingRepository.findByUserName(keyword);
+                return mapBookingListToBookingGDTOList(bookings);
+            default:
+                return null;
+        }
+    }
+
+    private List<BookingGDTO> mapBookingListToBookingGDTOList(List<Booking> bookings) {
+        List<BookingGDTO> bookingGDTOList = new ArrayList<>();
+        for (Booking booking : bookings) {
+            BookingGDTO bookingGDTO = mapBookingToBookingGDTO(booking);
+            bookingGDTOList.add(bookingGDTO);
+        }
+        return bookingGDTOList;
+    }
+
+    private BookingGDTO mapBookingToBookingGDTO(Booking booking) {
+        BookingGDTO bookingGDTO = new BookingGDTO();
+        // Map các thuộc tính từ Booking sang BookingGDTO
+        return bookingGDTO;
     }
 
 }

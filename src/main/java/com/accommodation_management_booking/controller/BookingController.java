@@ -23,7 +23,7 @@ public class BookingController {
     @GetMapping("/list_booking")
     public String listBooking(Model model) {
 
-        List<BookingGDTO> bookingDetails = bookingService.getAllBookingDetails();
+        List<BookingGDTO> bookingDetails = bookingService.getAllBookingInfo();
 
 
         model.addAttribute("bookingDetails", bookingDetails);
@@ -37,5 +37,7 @@ public class BookingController {
         model.addAttribute("bookingDetail", bookingDetail);
         return "admin_booking_detail"; // Chỉ định tên trang HTML mới để hiển thị thông tin chi tiết của đặt phòng
     }
+
+
 
 }
