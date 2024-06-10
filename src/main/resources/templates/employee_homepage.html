@@ -210,15 +210,9 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a href="##">
-                                <i data-feather="user" aria-hidden="true"></i>
-                                <span>Profile</span>
-                            </a></li>
-                            <li><a href="##">
-                                <i data-feather="settings" aria-hidden="true"></i>
-                                <span>Account settings</span>
-                            </a></li>
-                            <li><a class="danger" href="##">
+                            <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
+                            <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
                             </a></li>
@@ -365,9 +359,6 @@
                     <div class="col-lg-3">
                         <article class="customers-wrapper">
                             <canvas id="customersChart" aria-label="Customers statistics" role="img"></canvas>
-                            <!--              <p class="customers__title">New Customers <span>+958</span></p>
-                            <p class="customers__date">28 Daily Avg.</p>
-                            <picture><source srcset="./img/svg/customers.svg" type="image/webp"><img src="./img/svg/customers.svg" alt=""></picture> -->
                         </article>
                         <article class="white-block">
                             <div class="top-cat-title">
@@ -393,19 +384,6 @@
             </div>
         </main>
         <!-- ! Footer -->
-        <footer class="footer">
-            <div class="container footer--flex">
-                <!--                <div class="footer-start">-->
-                <!--                    <p>2024 © Manager Dashboard - <a href="elegant-dashboard.com" target="_blank"-->
-                <!--                                                     rel="noopener noreferrer">Manager-dashboard.com</a></p>-->
-                <!--                </div>-->
-                <!--                <ul class="footer-end">-->
-                <!--                    <li><a href="##">About</a></li>-->
-                <!--                    <li><a href="##">Support</a></li>-->
-                <!--                    <li><a href="##">Puchase</a></li>-->
-                <!--                </ul>-->
-            </div>
-        </footer>
     </div>
 </div>
 <!-- Chart library -->
