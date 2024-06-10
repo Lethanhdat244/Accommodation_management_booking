@@ -18,7 +18,7 @@ public class ServiceController {
     @Autowired
     private ServiceService serviceService;
 
-    @GetMapping("/servicelist")
+    @GetMapping("/service_list")
     public String serviceTable(Model model) {
         List<ServiceDTO> serviceDTOs = serviceService.getAllServiceDTOs();
         model.addAttribute("serviceList", serviceDTOs);

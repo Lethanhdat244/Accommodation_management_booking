@@ -26,7 +26,7 @@ public class BookingController {
         List<BookingGDTO> bookingDetails = bookingService.getAllBookingInfo();
 
 
-        model.addAttribute("bookingDetails", bookingDetails);
+        model.addAttribute("bookingInfo", bookingDetails);
 
         return "admin_list_booking";
     }
@@ -35,7 +35,7 @@ public class BookingController {
     public String getBookingDetail(@PathVariable int bookingId, Model model) {
         BookingGDTO bookingDetail = bookingService.getBookingDetailById(bookingId);
         model.addAttribute("bookingDetail", bookingDetail);
-        return "admin_booking_detail"; // Chỉ định tên trang HTML mới để hiển thị thông tin chi tiết của đặt phòng
+        return "admin_booking_detail";
     }
 
 

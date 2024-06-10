@@ -65,7 +65,7 @@ public class AdminController {
 
     @GetMapping("/fpt-dorm/admin/admin_list_service")
     public String admin_list_service() {
-        return "redirect:/fpt-dorm/admin/servicelist";
+        return "redirect:/fpt-dorm/admin/service_list";
     }
 
     @GetMapping("fpt-dorm/admin/admin_payment_list")

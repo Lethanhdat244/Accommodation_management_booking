@@ -42,14 +42,13 @@ public class BookingService {
             detail.setPhoneNumber(user.getPhoneNumber());
 
             // Tìm thông tin room tương ứng
-            for (Room room : rooms) {
-                if (room.getRoomId() == booking.getRoomId()) {
-                    detail.setRoomNumber(room.getRoomNumber());
-                    detail.setRoomStatus(room.getRoomStatus() != null ? room.getRoomStatus().name() : "UNKNOWN");
-                    detail.setCapacity(room.getCapacity());
-                    break;
-                }
-            }
+
+            Room room = rooms.get(booking.getRoomId());
+            detail.setRoomId(room.getRoomId());
+            detail.setRoomNumber(room.getRoomNumber());
+            detail.setRoomStatus(room.getRoomStatus() != null ? room.getRoomStatus().name() : "UNKNOWN");
+            detail.setCapacity(room.getCapacity());
+
 
             bookingDetails.add(detail);
         }
@@ -58,6 +57,8 @@ public class BookingService {
     }
 
     public BookingGDTO getBookingDetailById(int bookingId) {
+        List<Room> rooms = roomRepository.findAll();
+
         Booking booking = bookingRepository.findById(bookingId).orElse(null);
         if (booking != null) {
             BookingGDTO detail = new BookingGDTO();
@@ -76,13 +77,11 @@ public class BookingService {
             detail.setPhoneNumber(user.getPhoneNumber());
 
             // Lấy thông tin room
-            Room room = roomRepository.findById(booking.getRoomId()).orElse(null);
-            if (room != null) {
-                detail.setRoomId(room.getRoomId());
-                detail.setRoomNumber(room.getRoomNumber());
-                detail.setRoomStatus(room.getRoomStatus() != null ? room.getRoomStatus().name() : "UNKNOWN");
-                detail.setCapacity(room.getCapacity());
-            }
+            Room room = rooms.get(booking.getRoomId());
+            detail.setRoomId(room.getRoomId());
+            detail.setRoomNumber(room.getRoomNumber());
+            detail.setRoomStatus(room.getRoomStatus() != null ? room.getRoomStatus().name() : "UNKNOWN");
+            detail.setCapacity(room.getCapacity());
 
             return detail;
         }
