@@ -10,7 +10,7 @@
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
     <title> Dashboard | Dashboard</title>
     <!-- Favicon -->
-<!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
+    <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
 
@@ -54,8 +54,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_student}">All Students</a>
+                                <a th:href="@{admin_add_student}">All student</a>
                             </li>
+
+
                             <li>
                                 <a th:href="@{admin_add_student}">Add new student</a>
                             </li>
@@ -71,13 +73,15 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_room}">All Rooms</a>
+                            </li>
+
+
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_new_room}">Add new room</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_new_room}">Add new room</a>
-                            </li>
-                            <li>
-                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>
+                                <a th:href="@{fpt-dorm/admin/change_room_status}">Change room type</a>
                             </li>
                         </ul>
                     </li>
@@ -116,16 +120,16 @@
                             Chart
                         </a>
                     </li>
-
                     <li>
-                        <a th:href="@{admin/admin_booking_list}">
+                        <a th:href="@{admin_list_booking}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Booking requirement
                         </a>
                     </li>
 
+
                     <li>
-                        <a th:href="@{admin/admin_service_list}">
+                        <a th:href="@{admin_list_service}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Service requirement
                         </a>

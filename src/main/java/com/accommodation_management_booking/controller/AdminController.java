@@ -1,6 +1,5 @@
 package com.accommodation_management_booking.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -44,9 +43,29 @@ public class AdminController {
         return "admin_add_student";
     }
 
+    @GetMapping("fpt-dorm/admin/admin_list_booking")
+    public String admin_list_booking(){
+        return "redirect:/fpt-dorm/admin/list_booking";
+    }
+
+
     @GetMapping("fpt-dorm/admin/admin_list_room")
     public String admin_list_room(){
-        return "admin_list_room";
+        return "redirect:/fpt-dorm/admin/list_room";
+    }
+
+    @GetMapping("fpt-dorm/admin/admin_add_new_room")
+    public String admin_add_new_room(){
+        return "redirect:/fpt-dorm/admin/add_room";
+    }
+    @GetMapping("fpt-dorm/admin/change_room_status")
+    public String admin_change_room_status(){
+        return "admin_change_room_status";
+    }
+
+    @GetMapping("/fpt-dorm/admin/admin_list_service")
+    public String admin_list_service() {
+        return "redirect:/fpt-dorm/admin/service_list";
     }
 
     @GetMapping("fpt-dorm/admin/admin_payment_list")
@@ -54,15 +73,9 @@ public class AdminController {
         return "admin_payment_list";
     }
 
-    @GetMapping("fpt-dorm/admin/admin_add_new_type_room")
-    public String admin_add_new_type_room(){
-        return "admin_add_new_type_room";
-    }
 
-    @GetMapping("fpt-dorm/admin/admin_add_new_room")
-    public String admin_add_new_room(){
-        return "admin_add_new_room";
-    }
+
+
 
     @GetMapping("fpt-dorm/admin/admin_list_feedback")
     public String admin_list_feedback(){

@@ -24,6 +24,8 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -148,8 +150,6 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
-
     private String uploadImage(MultipartFile file) throws IOException {
         Map<String, Object> uploadResult = cloudinary.uploader().upload(file.getBytes(), ObjectUtils.emptyMap());
         return uploadResult.get("url").toString();
@@ -159,6 +159,28 @@ public class UserServiceImpl implements UserService {
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+
+    @Override
+    public List<UserDTO> getAllUsersWithDetails() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(this::convertUserToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private UserDTO convertUserToDTO(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setUserId(user.getUserId());
+        dto.setUsername(user.getUsername());
+        dto.setGender(user.getGender());
+        dto.setBirthdate(user.getBirthdate());
+        dto.setPhoneNumber(user.getPhoneNumber());
+        dto.setAddress(user.getAddress());
+        dto.setCccdNumber(user.getCccdNumber());
+
+        return dto;
     }
 }
 

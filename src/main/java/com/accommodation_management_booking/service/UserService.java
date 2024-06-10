@@ -4,6 +4,8 @@ import com.accommodation_management_booking.dto.UserDTO;
 import com.accommodation_management_booking.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface UserService {
     void saveUser(UserDTO userDTO, MultipartFile[] avatars, MultipartFile[] frontCccdImages, MultipartFile[] backCccdImages);
 
@@ -16,4 +18,6 @@ public interface UserService {
     boolean changePassword(String currentPassword, String newPassword);
 
     User findByEmail(String email);
+
+    List<UserDTO> getAllUsersWithDetails();
 }
