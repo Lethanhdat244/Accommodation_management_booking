@@ -33,7 +33,7 @@ public class UserManagerController {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
-        Page<User> userPage = userService.findAllUser(pageable);
+        Page<User> userPage = userService.findAllStudent(pageable);
         model.addAttribute("userPage", userPage);
         model.addAttribute("sort", sort);
         return "admin/student-manager/all_student";
@@ -51,10 +51,12 @@ public class UserManagerController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
         Page<User> userPage;
 
-        if (keyword == null || keyword.isEmpty()) {
-            userPage = userService.findAllUser(pageable);
-        } else if (category == null || category.isEmpty()) {
-            userPage = userService.findAllUser(pageable);
+        if (category == null || category.isEmpty()) {
+            if (keyword == null || keyword.isEmpty()) {
+                userPage = userService.findAllStudent(pageable);
+            } else {
+                userPage = userService.searchAllByStudent(keyword, pageable);
+            }
         } else {
             switch (category) {
                 case "ID":
@@ -71,13 +73,13 @@ public class UserManagerController {
                     }
                     break;
                 case "Name":
-                    userPage = userService.searchByName(keyword, pageable);
+                    userPage = userService.searchByNameStudent(keyword, pageable);
                     break;
                 case "Email":
-                    userPage = userService.searchByEmail(keyword, pageable);
+                    userPage = userService.searchByEmailStudent(keyword, pageable);
                     break;
                 case "Phone":
-                    userPage = userService.searchByPhoneNumber(keyword, pageable);
+                    userPage = userService.searchByPhoneNumberStudent(keyword, pageable);
                     break;
                 default:
                     userPage = Page.empty(pageable);

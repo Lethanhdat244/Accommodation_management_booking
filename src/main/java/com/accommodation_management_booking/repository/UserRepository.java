@@ -11,16 +11,25 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String username);
     boolean existsByEmail(String email);
 
-    List<User> findAllByRoleUser(User.Role role);
-
-    List<User> findByUsernameContainingOrEmailContainingOrPhoneNumberContaining(String username, String email, String phoneNumber);
-
     @Query("SELECT u FROM User u WHERE (u.email LIKE %:keyword%)")
     List<User> searchByEmail(@Param("keyword") String keyword);
 
+    //Dung cho tat ca role
+    /**
     Page<User> findAll(Pageable pageable);
     Page<User> findByUsernameContaining(String username, Pageable pageable);
     Page<User> findByEmailContaining(String email, Pageable pageable);
     Page<User> findByPhoneNumberContaining(String phoneNumber, Pageable pageable);
+    **/
 
+    //Dung cho role cu the
+    Page<User> findAllByRoleUser(User.Role role, Pageable pageable);
+    Page<User> findByUsernameContainingAndRoleUser(String username, User.Role role, Pageable pageable);
+    Page<User> findByEmailContainingAndRoleUser(String email, User.Role role, Pageable pageable);
+    Page<User> findByPhoneNumberContainingAndRoleUser(String phoneNumber, User.Role role, Pageable pageable);
+    Page<User> findByRoleUserAndUsernameContainingOrRoleUserAndEmailContainingOrRoleUserAndPhoneNumberContaining(
+            User.Role role1, String keyword1,
+            User.Role role2, String keyword2,
+            User.Role role3, String keyword3,
+            Pageable pageable);
 }

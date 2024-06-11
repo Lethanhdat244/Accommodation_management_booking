@@ -94,25 +94,35 @@
             const params = new URLSearchParams(window.location.search);
             let storedSort = params.get('sort');
 
-            // Thiết lập giá trị mặc định cho dropdown nếu không có giá trị sort trong URL
             if (!storedSort) {
-                const defaultSort = 'userId,asc'; // Giả sử giá trị sort mặc định là 'userId,asc'
+                const defaultSort = 'userId,asc';
                 storedSort = defaultSort;
                 params.set('sort', defaultSort);
                 window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
             }
 
-            // Thiết lập giá trị cho dropdown
             sortDropdown.value = storedSort;
 
-            // Lưu giá trị sort vào URL khi thay đổi dropdown
             sortDropdown.addEventListener('change', function() {
                 const selectedSort = this.value;
                 params.set('sort', selectedSort);
                 window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
             });
         });
+        document.addEventListener('DOMContentLoaded', function () {
+            const A = document.getElementById('menu-student');
+            const B = document.getElementById('menu-all-students');
 
+            A.addEventListener('click', function () {
+                if (A.classList.contains('active')) {
+                    A.classList.remove('active');
+                    B.classList.add('active');
+                } else {
+                    A.classList.add('active');
+                    B.classList.remove('active');
+                }
+            });
+        });
     </script>
 </head>
 
@@ -141,25 +151,26 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a id="menu-student" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                                <span class="sr-only">Open list</span>
+                                <span class="icon arrow-down" aria-hidden="true"></span>
+                            </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
                             </li>
                         </ul>
                     </li>
+
                     <li>
                         <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Room
@@ -247,7 +258,7 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="##" class="sidebar-user">
+            <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
                 <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
                                  type="image/webp"><img
@@ -283,7 +294,7 @@
                         </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
-                                <a href="##">
+                                <a href="#">
                                     <div class="notification-dropdown-icon info">
                                         <i data-feather="check"></i>
                                     </div>
@@ -294,7 +305,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="##">
+                                <a href="#">
                                     <div class="notification-dropdown-icon danger">
                                         <i data-feather="info" aria-hidden="true"></i>
                                     </div>
@@ -305,7 +316,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="##">
+                                <a href="#">
                                     <div class="notification-dropdown-icon info">
                                         <i data-feather="check" aria-hidden="true"></i>
                                     </div>
@@ -316,12 +327,12 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="link-to-page" href="##">Go to Notifications page</a>
+                                <a class="link-to-page" href="#">Go to Notifications page</a>
                             </li>
                         </ul>
                     </div>
                     <div class="nav-user-wrapper">
-                        <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                        <button href="#" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
             <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp"
@@ -330,10 +341,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a href="##">
-                                <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
-                            </a>
-                            </li>
+                            <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -361,8 +369,8 @@
                             <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
                         </form>
                     </div>
-                    <div class="col-lg-3"></div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4">
                         <div style="text-align: right;">
                             Sort by:
                             <select id="sortDropdown" class="sort-dropdown">
@@ -374,6 +382,10 @@
                                 <option value="email,desc">Email Descending</option>
                                 <option value="phoneNumber,asc">Phone Ascending</option>
                                 <option value="phoneNumber,desc">Phone Descending</option>
+                                <option value="updatedAt,asc">Updated Ascending</option>
+                                <option value="updatedAt,desc">Updated Descending</option>
+                                <option value="isActive,asc">Inactive on Top</option>
+                                <option value="isActive,desc">Active on Top</option>
                             </select>
                         </div>
                     </div>
@@ -459,6 +471,14 @@
         <!-- ! Footer -->
         <footer class="footer">
             <div class="container footer--flex">
+                <div class="footer-start">
+                    <p>2024 © FPT Dorm - <a href="/fpt-dorm/home" target="_blank"
+                                            rel="noopener noreferrer">FPT Dorm</a></p>
+                </div>
+                <ul class="footer-end">
+                    <li><a href="/fpt-dorm/home/about">About</a></li>
+                    <li><a href="/fpt-dorm/home/contact">Contact</a></li>
+                </ul>
             </div>
         </footer>
     </div>

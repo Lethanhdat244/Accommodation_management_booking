@@ -158,11 +158,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findAllEmployee() {
-        return userRepository.findAllByRoleUser(User.Role.EMPLOYEE);
-    }
-
-    @Override
     public void updateUser(UserDTO userDTO, int id, MultipartFile[] avatars, MultipartFile[] frontCccdImages, MultipartFile[] backCccdImages) {
         User user = userRepository.findById(id).orElse(null);
         if (user != null) {
@@ -209,26 +204,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findAllUser(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<User> findAllStudent(Pageable pageable) {
+        return userRepository.findAllByRoleUser(User.Role.USER, pageable);
     }
     @Override
-    public Page<User> searchAllByUser(String keyword, Pageable pageable) {
-        // Implement your search logic here based on the keyword and category
-        // Assuming search across multiple fields
-        return userRepository.findAll(pageable);
+    public Page<User> searchAllByStudent(String keyword, Pageable pageable) {
+        return userRepository.findByRoleUserAndUsernameContainingOrRoleUserAndEmailContainingOrRoleUserAndPhoneNumberContaining(
+                User.Role.USER, keyword,
+                User.Role.USER, keyword,
+                User.Role.USER, keyword,
+                pageable);
     }
     @Override
-    public Page<User> searchByName(String name, Pageable pageable) {
-        return userRepository.findByUsernameContaining(name, pageable);
+    public Page<User> searchByNameStudent(String name, Pageable pageable) {
+        return userRepository.findByUsernameContainingAndRoleUser(name, User.Role.USER, pageable);
     }
     @Override
-    public Page<User> searchByEmail(String email, Pageable pageable) {
-        return userRepository.findByEmailContaining(email, pageable);
+    public Page<User> searchByEmailStudent(String email, Pageable pageable) {
+        return userRepository.findByEmailContainingAndRoleUser(email, User.Role.USER, pageable);
     }
     @Override
-    public Page<User> searchByPhoneNumber(String phoneNumber, Pageable pageable) {
-        return userRepository.findByPhoneNumberContaining(phoneNumber, pageable);
+    public Page<User> searchByPhoneNumberStudent(String phoneNumber, Pageable pageable) {
+        return userRepository.findByPhoneNumberContainingAndRoleUser(phoneNumber, User.Role.USER, pageable);
     }
 
 }
