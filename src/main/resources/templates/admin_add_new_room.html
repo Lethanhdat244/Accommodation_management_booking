@@ -30,7 +30,7 @@
             <div class="form-group row">
                 <label class="col-sm-4 col-form-label">Room Number</label>
                 <div class="col-sm-8">
-                    <input type="text" th:field="*{roomNumber}" class="form-control" required minlength="2" maxlength="10"/>
+                    <input type="text" th:field="*{roomNumber}" class="form-control" required minlength="2" maxlength="10" oninput="validateRoomNumber(this)"/>
                 </div>
             </div>
             <!-- Capacity -->
@@ -82,7 +82,19 @@
             alert("Please fill in all fields.");
             return false;
         }
+
+        // Regular expression to match the room number conditions
+        var roomNumberPattern = /^[A-Z0-9]{2,10}$/;
+        if (!roomNumberPattern.test(roomNumber)) {
+            alert("Room Number must be between 2 and 10 characters, contain only letters and numbers, no special characters, and no spaces.");
+            return false;
+        }
+
         return true;
+    }
+
+    function validateRoomNumber(input) {
+        input.value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '').substring(0, 10);
     }
 
     function cancelForm() {
