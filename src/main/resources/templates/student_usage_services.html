@@ -31,7 +31,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        ul li{
+        .formList li{
             list-style: none;
             margin: 40px;
         }
@@ -81,18 +81,58 @@
     <header class="header-container">
         <div class="container">
             <div class="top-row">
-                <div class="row navbar-custom">
-                    <div class="col-md-2 col-sm-6 col-xs-6 mr-auto">
+                <div class="row">
+                    <div class="col-md-2 col-sm-6 col-xs-6">
                         <div id="logo">
                             <a th:href="@{/fpt-dorm/home}"><span>FPT</span>Dorm</a>
+                            <!--                            <h1>Welcome, <span th:text="${email}">[email]</span></h1>-->
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm ml-auto">
+                    <div class="col-sm-6 visible-sm">
+                        <div class="text-right">
+                            <div class="dropdown">
+                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
+                                    <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
+                                    <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
+                        <nav class="navbar navbar-default">
+                            <div class="navbar-header page-scroll">
+                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
+                                <ul class="list-unstyled nav1 cl-effect-10">
+                                    <li><a data-hover="News" class="active"><span>News</span></a></li>
+                                    <li><a data-hover="Booking" th:href="@{/fpt-dorm/home-user/booking}"><span>Booking</span></a></li>
+                                    <li><a data-hover="Availble beds" th:href="@{/fpt-dorm/home-user/detail-dorm}"><span>Available beds</span></a></li>
+                                    <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/news/usage-service}"><span>Usage service</span></a></li>
+                                    <li><a data-hover="Payment" th:href="@{/fpt-dorm/home-user/payment}"><span>Payment</span></a></li>
+                                    <li><a data-hover="Resident History" th:href="@{/fpt-dorm/home-user/resident}"><span>Resident History</span></a></li>
+                                    <li><a data-hover="Request" th:href="@{/fpt-dorm/home-user/my-request}"><span>Request</span></a></li>
+                                    <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/home-user/rule}"><span>Dormitory rules</span></a></li>
+                                    <li><a data-hover="FAQ" th:href="@{/fpt-dorm/user/news/faq}"><span>FAQ</span></a></li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
                         <div class="text-right">
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/profile}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
@@ -137,17 +177,13 @@
             <div class="col-lg-5 col-sm-12 request_box">
                 <h1 class="center-block">Current Usage:</h1>
                 <div>
-                    <ul>
+                    <ul class="formList">
                         <li>
                             <p>Electric:</p>
                         </li>
-                    </ul>
-                    <ul>
                         <li>
                             <p>Water:</p>
                         </li>
-                    </ul>
-                    <ul>
                         <li>
                             <p>Service:</p>
                         </li>

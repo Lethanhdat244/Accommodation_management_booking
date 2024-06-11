@@ -111,12 +111,12 @@
                                     <li><a data-hover="News" class="active"><span>News</span></a></li>
                                     <li><a data-hover="Booking" th:href="@{/fpt-dorm/home-user/booking}"><span>Booking</span></a></li>
                                     <li><a data-hover="Availble beds" th:href="@{/fpt-dorm/home-user/detail-dorm}"><span>Available beds</span></a></li>
-                                    <li><a data-hover="Usage service" th:href="@{/fpt-dorm/home-user/usage-service}"><span>Usage service</span></a></li>
+                                    <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/news/usage-service}"><span>Usage service</span></a></li>
                                     <li><a data-hover="Payment" th:href="@{/fpt-dorm/home-user/payment}"><span>Payment</span></a></li>
                                     <li><a data-hover="Resident History" th:href="@{/fpt-dorm/home-user/resident}"><span>Resident History</span></a></li>
                                     <li><a data-hover="Request" th:href="@{/fpt-dorm/home-user/my-request}"><span>Request</span></a></li>
                                     <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/home-user/rule}"><span>Dormitory rules</span></a></li>
-                                    <li><a data-hover="FAQ" th:href="@{/fpt-dorm/home-user/faq}"><span>FAQ</span></a></li>
+                                    <li><a data-hover="FAQ" th:href="@{/fpt-dorm/user/news/faq}"><span>FAQ</span></a></li>
                                 </ul>
                             </div>
                         </nav>
@@ -145,13 +145,14 @@
             <div class="col-lg-8 col-sm-12 request_list">
                 <h1>Request History</h1>
                 <div>
+                    <div th:if="${errorMessage != null}"><span class="danger" th:text="${errorMessage}"></span></div>
                     <table class="table table-responsive table-bordered">
                         <thead>
                             <tr>
-                                <td>#</td>
-                                <td>Content</td>
-                                <td>Sent At</td>
-                                <td>Status</td>
+                                <th>No.</th>
+                                <th>Content</th>
+                                <th>Sent At</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -159,7 +160,7 @@
                                 <td th:text="${complain.complaintId}"></td>
                                 <td th:text="${complain.description}"></td>
                                 <td th:text="${complain.createdAt}"></td>
-                                <td></td>
+                                <td th:text="${complain.status}"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -167,25 +168,9 @@
             </div>
             <div class="col-lg-4 col-sm-12" style="padding: 10px">
                 <div class="request_box">
-                    <form>
+                    <form th:action="@{/fpt-dorm/home-user/send-request}" th:method="post">
                         <h1 class="center-block">Request Form</h1>
                         <ul class="formList">
-                            <!--                        <li>-->
-                            <!--                            <label class="control-label">Full Name<span class="text-danger">*</span></label>-->
-                            <!--                            <input type="text" name="fullname" class="form-control">-->
-                            <!--                        </li>-->
-                            <!--                        <li>-->
-                            <!--                            <label class="control-label">Phone<span class="text-danger">*</span></label>-->
-                            <!--                            <input type="tel" name="phone" class="form-control" required>-->
-                            <!--                        </li>-->
-                            <!--                        <li>-->
-                            <!--                            <label class="control-label">Email<span class="text-danger">*</span></label>-->
-                            <!--                            <input type="email" name="email" class="form-control" required>-->
-                            <!--                        </li>-->
-                            <!--                        <li>-->
-                            <!--                            <label class="control-label">Identify ID<span class="text-danger">*</span></label>-->
-                            <!--                            <input type="number" name="IdentifyID" class="form-control" required>-->
-                            <!--                        </li>-->
                             <li>
                                 <label class="control-label">Tilte<span class="text-danger">*</span></label>
                                 <input type="text" name="title" class="form-control" required>
@@ -195,7 +180,7 @@
                                 <textarea name="content" class="form-control" cols="100" rows="10"></textarea>
                             </li>
                             <li>
-                                <button class="btn btn-lg book-now-btn center-block">Send Request</button>
+                                <button class="btn btn-lg book-now-btn center-block" type="submit">Send Request</button>
                             </li>
                         </ul>
                     </form>

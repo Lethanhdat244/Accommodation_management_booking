@@ -1,5 +1,8 @@
 package com.accommodation_management_booking.controller;
 
+import com.accommodation_management_booking.entity.Complaint;
+import com.accommodation_management_booking.repository.ComplainRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -8,9 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @Controller
 public class AdminController {
-
+    @Autowired
+    ComplainRepository complainRepository;
     @GetMapping("fpt-dorm/admin/home")
     public String admin_homepage(Model model, Authentication authentication){
         if (authentication instanceof OAuth2AuthenticationToken) {
@@ -72,10 +78,16 @@ public class AdminController {
     public String admin_payment_list(){
         return "admin_payment_list";
     }
-
-
-
-
+    @GetMapping("fpt-dorm/admin/complain")
+    public String employee_complain(Model model){
+        try {
+            List<Complaint> complainList = complainRepository.getAllRequest();
+            model.addAttribute("complaintDTOList", complainList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "admin/admin_complain";
+    }
 
     @GetMapping("fpt-dorm/admin/admin_list_feedback")
     public String admin_list_feedback(){

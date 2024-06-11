@@ -171,6 +171,7 @@ ul{
 }
 .book-now-btn:hover, .vacation-offer-details .btn.btn-default:hover{
     background: #162541;
+    color: #ff4157;
 }
 
 .cl-effect-10 a::before, .cl-effect-10 a.active::before {

@@ -25,12 +25,12 @@
     <aside class="sidebar">
         <div class="sidebar-start">
             <div class="sidebar-head">
-                <a th:href="@{home}" class="logo-wrapper" title="Home">
+                <a th:href="@{/fpt-dorm/employee/home}" class="logo-wrapper" title="Home">
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">FPT Dorm</span>
-                        <span class="logo-subtitle">Dashboard</span>
+                        <span class="logo-title">Dormitory</span>
+                        <span class="logo-subtitle">Employee</span>
                     </div>
 
                 </a>
@@ -73,8 +73,50 @@
                             <li>
                                 <a th:href="@{admin_add_new_room}">Add new room</a>
                             </li>
+                            <!--                            <li>-->
+                            <!--                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>-->
+                            <!--                            </li>-->
                         </ul>
                     </li>
+
+                    <li>
+                        <a class="show-cat-btn" >
+                            <span class="icon folder" aria-hidden="true"></span>News
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a th:href="@{view-news}">View News</a>
+                            </li>
+                            <li>
+                                <a th:href="@{add-news}">Add news</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+
+                    <!--                    <li>-->
+                    <!--                        <a class="show-cat-btn" >-->
+                    <!--                            <span class="icon folder" aria-hidden="true"></span>Employee-->
+                    <!--                            <span class="category__btn transparent-btn" title="Open list">-->
+                    <!--                            <span class="sr-only">Open list</span>-->
+                    <!--                            <span class="icon arrow-down" aria-hidden="true"></span>-->
+                    <!--                        </span>-->
+                    <!--                        </a>-->
+                    <!--                        <ul class="cat-sub-menu">-->
+                    <!--                            <li>-->
+                    <!--                                <a th:href="@{admin_list_employees}">All Employees</a>-->
+                    <!--                            </li>-->
+                    <!--                            <li>-->
+                    <!--                                <a th:href="@{admin_add_employee}">Add new employee</a>-->
+                    <!--                            </li>-->
+                    <!--                        </ul>-->
+                    <!--                    </li>-->
+
 
                     <li>
                         <a th:href="@{admin/admin_payment_list}">
@@ -82,6 +124,14 @@
                             Payment
                         </a>
                     </li>
+
+
+                    <!--                    <li>-->
+                    <!--                        <a th:href="@{admin/admin_chart}">-->
+                    <!--                            <span class="icon folder" aria-hidden="true"></span>-->
+                    <!--                            Chart-->
+                    <!--                        </a>-->
+                    <!--                    </li>-->
 
                     <li>
                         <a th:href="@{admin/admin_booking_list}">
@@ -110,15 +160,59 @@
                             Complaint
                         </a>
                     </li>
+
+
+
                 </ul>
+                <!--&lt;!&ndash;                <span class="system-menu__title">system</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;                <ul class="sidebar-body-menu">&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <a href="appearance.html"><span class="icon edit" aria-hidden="true"></span>Appearance</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    </li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    <li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <a class="show-cat-btn" href="##">&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <span class="icon category" aria-hidden="true"></span>Extentions&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <span class="category__btn transparent-btn" title="Open list">&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <span class="sr-only">Open list</span>&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <span class="icon arrow-down" aria-hidden="true"></span>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        </span>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        </a>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <ul class="cat-sub-menu">&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                                <a href="extention-01.html">Extentions-01</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;                            </li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                            <li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                                <a href="extention-02.html">Extentions-02</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;                            </li>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        </ul>&ndash;&gt;-->
+                <!--&lt;!&ndash;                    </li>&ndash;&gt;-->
+                <!--                    <li>-->
+                <!--                        <a class="show-cat-btn" href="##">-->
+                <!--&lt;!&ndash;                            <span class="icon user-3" aria-hidden="true"></span>Users&ndash;&gt;-->
+                <!--                            <span class="category__btn transparent-btn" title="Open list">-->
+                <!--                            <span class="sr-only">Open list</span>-->
+                <!--                            <span class="icon arrow-down" aria-hidden="true"></span>-->
+                <!--                        </span>-->
+                <!--                        </a>-->
+                <!--                        <ul class="cat-sub-menu">-->
+                <!--                            <li>-->
+                <!--&lt;!&ndash;                                <a href="users-01.html">Users-01</a>&ndash;&gt;-->
+                <!--                            </li>-->
+                <!--                            <li>-->
+                <!--&lt;!&ndash;                                <a href="users-02.html">Users-02</a>&ndash;&gt;-->
+                <!--                            </li>-->
+                <!--                        </ul>-->
+                <!--                    </li>-->
+                <!--                    <li>-->
+                <!--&lt;!&ndash;                        <a href="##"><span class="icon setting" aria-hidden="true"></span>Settings</a>&ndash;&gt;-->
+                <!--                    </li>-->
+                <!--                </ul>-->
             </div>
         </div>
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>

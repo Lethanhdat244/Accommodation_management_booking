@@ -8,18 +8,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title> Dashboard | Dashboard</title>
+    <title>EMPLOYEE | COMPLAIN</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
 
+    <link rel="stylesheet" href="/static/admin_homepage/css/style.css">
 </head>
 
 <body>
 <div class="layer"></div>
 <!-- ! Body -->
-<!--<a class="skip-link sr-only" href="#skip-target">Skip to content</a>-->
 <div class="page-flex">
     <!-- ! Sidebar -->
     <aside class="sidebar">
@@ -235,7 +235,7 @@
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-<!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -245,190 +245,66 @@
                 </div>
             </div>
         </nav>
-
-
-
-
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Dashboard</h2>
-                <div class="row stat-cards">
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon primary">
-                                <i data-feather="bar-chart-2" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of member</p>
-                                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit success">
-                    <i data-feather="trending-up" aria-hidden="true"></i>4.07%
-                  </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon warning">
-                                <i data-feather="file" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of room</p>
-                                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit success">
-                    <i data-feather="trending-up" aria-hidden="true"></i>0.24%
-                  </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon purple">
-                                <i data-feather="file" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of room đã đc dùng</p>
-                                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit danger">
-                    <i data-feather="trending-down" aria-hidden="true"></i>1.64%
-                  </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon success">
-                                <i data-feather="feather" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of emplyee</p>
-                                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit warning">
-                    <i data-feather="trending-up" aria-hidden="true"></i>0.00%
-                  </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
+                <h2 class="main-title">Complain List</h2>
+                <!--                <div class="row" >-->
+                <!--                    <div class="col-lg-6">-->
+                <!--                        <form th:action="@{/fpt-dorm/admin/user-manager/search}" method="get" class="search-form">-->
+                <!--                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..." class="search-box"/>-->
+                <!--                            <select name="category" class="search-dropdown">-->
+                <!--                                <option value="" th:text="'All Categories'" th:selected="${selectedCategory == null}"></option>-->
+                <!--                                <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>-->
+                <!--                                <option value="Name" th:text="'Name'" th:selected="${selectedCategory == 'Name'}"></option>-->
+                <!--                                <option value="Email" th:text="'Email'" th:selected="${selectedCategory == 'Email'}"></option>-->
+                <!--                                <option value="Phone" th:text="'Phone'" th:selected="${selectedCategory == 'Phone'}"></option>-->
+                <!--                            </select>-->
+                <!--                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>-->
+                <!--                        </form>-->
+                <!--                    </div>-->
+                <!--                    <div class="col-lg-3"></div>-->
+                <!--                    <div class="col-lg-3">-->
+                <!--                        <div style="text-align: right;">-->
+                <!--                            Sort by:-->
+                <!--                            <select name="sort" class="sort-dropdown">-->
+                <!--                                <option value="asc" th:text="'Ascending'"></option>-->
+                <!--                                <option value="desc" th:text="'Descending'"></option>-->
+                <!--                            </select>-->
+                <!--                        </div>-->
+                <!--                    </div>-->
+                <!--                </div>-->
+                <!--                <br>-->
                 <div class="row">
-                    <div class="col-lg-9">
-                        <div class="chart">
-                            <canvas id="myChart" aria-label="Site statistics" role="img"></canvas>
-                        </div>
-                        <div class="users-table table-wrapper">
-                            <table class="posts-table">
-                                <thead>
-                                <tr class="users-table-info">
-                                    <th>
-                                        <label class="users-table__checkbox ms-20">
-                                            <input type="checkbox" class="check-all">Room image
-                                        </label>
-                                    </th>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <label class="users-table__checkbox">
-                                            <input type="checkbox" class="check">
-                                            <div class="categories-table-img">
-                                                <picture>
-                                                    <source srcset="/static/admin_homepage/img/categories/01.webp"
-                                                            type="image/webp">
-                                                    <img src="/static/admin_homepage/img/categories/01.jpg"
-                                                         alt="category"></picture>
-                                            </div>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        Detail
-                                    </td>
-                                    <td>
-                                        <div class="pages-table-img">
-                                            <picture>
-                                                <source srcset="/static/admin_homepage/img/avatar/avatar-face-04.webp"
-                                                        type="image/webp">
-                                                <img src="/static/admin_homepage/img/avatar/avatar-face-04.png"
-                                                     alt="User Name"></picture>
-                                            Jenny Wilson
-                                        </div>
-                                    </td>
-                                    <td><span class="badge-pending">Pending</span></td>
-                                    <td>17.04.2021</td>
-                                    <td>
-                      <span class="p-relative">
-                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                          <div class="sr-only">More info</div>
-                          <i data-feather="more-horizontal" aria-hidden="true"></i>
-                        </button>
-                        <ul class="users-item-dropdown dropdown">
-                          <li><a href="##">Edit</a></li>
-                          <li><a href="##">Quick edit</a></li>
-                          <li><a href="##">Trash</a></li>
-                        </ul>
-                      </span>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <article class="customers-wrapper">
-                            <canvas id="customersChart" aria-label="Customers statistics" role="img"></canvas>
-                            <!--              <p class="customers__title">New Customers <span>+958</span></p>
-                            <p class="customers__date">28 Daily Avg.</p>
-                            <picture><source srcset="./img/svg/customers.svg" type="image/webp"><img src="./img/svg/customers.svg" alt=""></picture> -->
-                        </article>
-                        <article class="white-block">
-                            <div class="top-cat-title">
-                                <h3>Top categories</h3>
-                                <p>28 Categories, 1400 Posts</p>
+                    <div class="col-lg-12">
+                        <div class="canvas-wrapper">
+                            <div class="users-table table-wrapper">
+                                <table class="posts-table">
+                                    <thead>
+                                    <tr class="users-table-info">
+                                        <th>No.</th>
+                                        <th>Content</th>
+                                        <th>Sent At</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="complain : ${complaintDTOList}">
+                                            <td th:text="${complain.complaintId}"></td>
+                                            <td th:text="${complain.description}"></td>
+                                            <td th:text="${complain.createdAt}"></td>
+                                            <td th:text="${complain.status}"></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <ul class="top-cat-list">
-                                <li>
-                                    <a href="##">
-                                        <div class="top-cat-list__title">
-                                            Lifestyle <span>8.2k</span>
-                                        </div>
-                                        <div class="top-cat-list__subtitle">
-                                            Dailiy lifestyle articles <span class="purple">+472</span>
-                                        </div>
-                                    </a>
-                                </li>
-
-                            </ul>
-                        </article>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
-
-
-
-
-
-
-
         <!-- ! Footer -->
         <footer class="footer">
             <div class="container footer--flex">
