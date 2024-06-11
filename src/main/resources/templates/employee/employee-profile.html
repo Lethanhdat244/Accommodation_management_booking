@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/homepage_user/images/icons/favicon.png"/>
-    <title> Dashboard | Dashboard</title>
+    <title> Profile | Employee</title>
     <link rel="stylesheet" href="/admin_homepage/css/style.min.css">
     <style>
         body {
@@ -153,7 +153,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" th:href="@{admin/admin_list_student}">
@@ -249,7 +249,7 @@
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -271,7 +271,7 @@
                         </div>
                         <div class="profile-info">
                             <h1 class="profile-name" th:text="${user.username}">User Name</h1>
-                            <p class="profile-email" th:value="${user.email}">Email</p>
+                            <p class="profile-email" th:text="${user.email}">Email</p>
                             <button class="edit-profile-btn">Edit Profile</button>
                         </div>
                     </div>
@@ -338,11 +338,11 @@
     </div>
 </div>
 <!-- Chart library -->
-<script src="/static/admin_homepage/plugins/chart.min.js"></script>
+<script src="/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
-<script src="/static/admin_homepage/plugins/feather.min.js"></script>
+<script src="/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
-<script src="/static/admin_homepage/js/script.js"></script>
+<script src="/admin_homepage/js/script.js"></script>
 </body>
 
 </html>

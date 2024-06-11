@@ -2,9 +2,7 @@ package com.accommodation_management_booking.controller;
 
 import com.accommodation_management_booking.dto.UserDTO;
 import com.accommodation_management_booking.entity.Complaint;
-import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.ComplainRepository;
-import com.accommodation_management_booking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -35,7 +33,7 @@ public class EmployeeController {
             // Handle cases where the authentication is not OAuth2
             model.addAttribute("email", "Unknown");
         }
-        return "employee_homepage";
+        return "employee/employee_homepage";
     }
     @GetMapping("fpt-dorm/employee/students-list")
     public String employee_student(@AuthenticationPrincipal OAuth2User oauth2User,
@@ -52,6 +50,6 @@ public class EmployeeController {
         }catch (Exception e){
             e.printStackTrace();
         }
-        return "employee_complain";
+        return "employee/employee_complain";
     }
 }

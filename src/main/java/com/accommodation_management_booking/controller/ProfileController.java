@@ -17,7 +17,7 @@ public class ProfileController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("fpt-dorm/profile")
+    @GetMapping("fpt-dorm/user/profile")
     public String profile(@RequestParam("email") String email, Model model) {
         List<User> users = userRepository.searchByEmail(email);
         if (users != null) {
@@ -44,7 +44,7 @@ public class ProfileController {
         List<User> users = userRepository.searchByEmail(email);
         if (users != null) {
             model.addAttribute("user", users.getFirst());
-            return "employee-profile";
+            return "employee/employee-profile";
 
         } else {
             return "error/error";
