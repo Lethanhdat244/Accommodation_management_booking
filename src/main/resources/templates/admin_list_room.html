@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="/static/admin_homepage/css/style.css">
 </head>
 
-<body>
+<body id="roomData">
 <div class="layer"></div>
 <!-- ! Body -->
 <div class="page-flex">
@@ -248,32 +248,31 @@
         <main class="main users chart-page" id="skip-target">
             <div class="container">
                 <h2 class="main-title">Room Information</h2>
-                <!--                <div class="row" >-->
-                <!--                    <div class="col-lg-6">-->
-                <!--                        <form th:action="@{/fpt-dorm/admin/user-manager/search}" method="get" class="search-form">-->
-                <!--                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..." class="search-box"/>-->
-                <!--                            <select name="category" class="search-dropdown">-->
-                <!--                                <option value="" th:text="'All Categories'" th:selected="${selectedCategory == null}"></option>-->
-                <!--                                <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>-->
-                <!--                                <option value="Name" th:text="'Name'" th:selected="${selectedCategory == 'Name'}"></option>-->
-                <!--                                <option value="Email" th:text="'Email'" th:selected="${selectedCategory == 'Email'}"></option>-->
-                <!--                                <option value="Phone" th:text="'Phone'" th:selected="${selectedCategory == 'Phone'}"></option>-->
-                <!--                            </select>-->
-                <!--                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>-->
-                <!--                        </form>-->
-                <!--                    </div>-->
-                <!--                    <div class="col-lg-3"></div>-->
-                <!--                    <div class="col-lg-3">-->
-                <!--                        <div style="text-align: right;">-->
-                <!--                            Sort by:-->
-                <!--                            <select name="sort" class="sort-dropdown">-->
-                <!--                                <option value="asc" th:text="'Ascending'"></option>-->
-                <!--                                <option value="desc" th:text="'Descending'"></option>-->
-                <!--                            </select>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-                <!--                <br>-->
+
+
+                <div class="row" >
+                    <div class="col-lg-6">
+                        <form th:action="@{/fpt-dorm/admin/search}" method="get" class="search-form">
+                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search By Room Number" class="search-box"/>
+
+                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3">
+<!--                        <div style="text-align: right;">-->
+<!--                            Sort by:-->
+<!--                            <select name="sort" class="sort-dropdown">-->
+<!--                                <option value="asc" th:text="'Ascending'"></option>-->
+<!--                                <option value="desc" th:text="'Descending'"></option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+                <br>
+
+
+
                 <div th:if="${message}" class="alert alert-success text-center">
                     [[${message}]]
                 </div>
@@ -292,7 +291,7 @@
 
                                     </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody >
                                     <tr th:each="room : ${roomList}">
                                         <td th:text="${room.roomNumber}"></td>
                                         <td th:text="${room.roomStatus}"></td>
@@ -351,6 +350,30 @@
 <script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="/static/admin_homepage/js/script.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- Bạn cần bao gói jQuery trước khi sử dụng -->
+<script>
+
+
+
+
+
+            // Gửi yêu cầu AJAX đến máy chủ
+            $.ajax({
+                type: 'GET',
+                url: '/fpt-dorm/admin/search', // URL của endpoint tìm kiếm
+                data: {keyword: keyword}, // Dữ liệu gửi đi (từ khoá tìm kiếm)
+                success: function(data){
+                    // Cập nhật phần dữ liệu trong phần tử có ID là "roomData"
+                    $('#roomData').html(data);
+                },
+                error: function(xhr, status, error){
+                    // Xử lý lỗi nếu có
+                    console.log(xhr.responseText);
+                }
+            });
+
+
+</script>
 </body>
 
 </html>

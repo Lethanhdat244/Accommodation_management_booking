@@ -2,6 +2,7 @@ package com.accommodation_management_booking.service;
 
 import com.accommodation_management_booking.dto.RoomDTO;
 import com.accommodation_management_booking.entity.Room;
+import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.RoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,18 +21,18 @@ public class RoomService {
     private RoomRepository roomRepo;
 
 
-    public List<RoomDTO> getAllRooms() {
-        List<Room> rooms = roomRepo.findAll();
-        return rooms.stream().map(room -> {
-            RoomDTO dto = new RoomDTO();
-            dto.setRoomId(room.getRoomId());
-            dto.setRoomNumber(room.getRoomNumber());
-            dto.setRoomStatus(room.getRoomStatus() != null ? room.getRoomStatus().name() : "UNKNOWN");
-            dto.setCapacity(room.getCapacity());
-            dto.setStatus(room.getStatus() != null ? room.getStatus().name() : "UNKNOWN");
-            return dto;
-        }).collect(Collectors.toList());
-    }
+//    public List<RoomDTO> getAllRooms() {
+//        List<Room> rooms = roomRepo.findAll();
+//        return rooms.stream().map(room -> {
+//            RoomDTO dto = new RoomDTO();
+//
+//            dto.setRoomNumber(room.getRoomNumber());
+//            dto.setRoomStatus(room.getRoomStatus() != null ? room.getRoomStatus().name() : "UNKNOWN");
+//            dto.setCapacity(room.getCapacity());
+//            dto.setStatus(room.getStatus() != null ? room.getStatus().name() : "UNKNOWN");
+//            return dto;
+//        }).collect(Collectors.toList());
+//    }
 
 
     public String saveRoom(RoomDTO roomDTO, RedirectAttributes ra) {
@@ -96,7 +97,28 @@ public class RoomService {
             ra.addFlashAttribute("message", "Room not found");
         }
     }
+    public List<RoomDTO> getAllRooms() {
+        List<Room> rooms = roomRepo.findAll();
+        return rooms.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
 
+    public List<RoomDTO> findByRoomNumber(String roomNumber) {
+        List<Room> rooms = roomRepo.searchByRoomNumber(roomNumber);
+        return rooms.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
 
+    private RoomDTO convertToDTO(Room room) {
+        RoomDTO dto = new RoomDTO();
+        dto.setRoomId(room.getRoomId());
+        dto.setRoomNumber(room.getRoomNumber());
+        dto.setRoomStatus(room.getRoomStatus() != null ? room.getRoomStatus().name() : "UNKNOWN");
+        dto.setCapacity(room.getCapacity());
+        dto.setStatus(room.getStatus() != null ? room.getStatus().name() : "UNKNOWN");
+        dto.setCreatedAt(room.getCreatedAt());
+        dto.setUpdatedAt(room.getUpdatedAt());
+        return dto;
+    }
 
 }
+
+
