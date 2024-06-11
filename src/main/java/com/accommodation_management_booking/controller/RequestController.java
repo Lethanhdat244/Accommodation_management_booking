@@ -31,7 +31,7 @@ public class RequestController {
     private ComplainService complainService;
 
     User user;
-    @GetMapping("fpt-dorm/home-user/my-request")
+    @GetMapping("fpt-dorm/user/news/my-request")
     public String studentRequest(Model model, Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
