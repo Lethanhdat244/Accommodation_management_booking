@@ -7,12 +7,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
+    <link rel="icon" href="/homepage_user/images/icons/favicon.png"/>
     <title> Dashboard | Dashboard</title>
     <!-- Favicon -->
 <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
-    <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
+    <link rel="stylesheet" href="/admin_homepage/css/style.min.css">
 
 </head>
 
@@ -25,12 +25,12 @@
     <aside class="sidebar">
         <div class="sidebar-start">
             <div class="sidebar-head">
-                <a th:href="@{admin_homepage}" class="logo-wrapper" title="Home">
+                <a th:href="@{/fpt-dorm/admin/home}" class="logo-wrapper" title="Home">
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
                         <span class="logo-title">FPT Dorm</span>
-                        <span class="logo-subtitle">Dashboard</span>
+                        <span class="logo-subtitle">ADMIN</span>
                     </div>
 
                 </a>
@@ -42,10 +42,10 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn" th:href="@{admin/admin_list_student}">
+                        <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -54,10 +54,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_student}">All Students</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_student}">Add new student</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
                             </li>
                         </ul>
                     </li>
@@ -197,7 +197,7 @@
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -275,7 +275,7 @@
                         <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
-            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
+            <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
@@ -396,7 +396,7 @@
                                         <label class="users-table__checkbox">
                                             <input type="checkbox" class="check">
                                             <div class="categories-table-img">
-                                                <picture><source srcset="/static/admin_homepage/img/categories/01.webp" type="image/webp"><img src="/static/admin_homepage/img/categories/01.jpg" alt="category"></picture>
+                                                <picture><source srcset="/admin_homepage/img/categories/01.webp" type="image/webp"><img src="/admin_homepage/img/categories/01.jpg" alt="category"></picture>
                                             </div>
                                         </label>
                                     </td>
@@ -405,7 +405,7 @@
                                     </td>
                                     <td>
                                         <div class="pages-table-img">
-                                            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-face-04.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-face-04.png" alt="User Name"></picture>
+                                            <picture><source srcset="/admin_homepage/img/avatar/avatar-face-04.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-face-04.png" alt="User Name"></picture>
                                             Jenny Wilson
                                         </div>
                                     </td>
@@ -468,11 +468,11 @@
     </div>
 </div>
 <!-- Chart library -->
-<script src="/static/admin_homepage/plugins/chart.min.js"></script>
+<script src="/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
-<script src="/static/admin_homepage/plugins/feather.min.js"></script>
+<script src="/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
-<script src="/static/admin_homepage/js/script.js"></script>
+<script src="/admin_homepage/js/script.js"></script>
 </body>
 
 </html>

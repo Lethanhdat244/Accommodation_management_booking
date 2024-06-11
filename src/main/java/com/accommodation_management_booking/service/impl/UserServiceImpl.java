@@ -10,7 +10,6 @@ import com.accommodation_management_booking.service.UserService;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,12 +18,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @AllArgsConstructor
@@ -126,6 +124,7 @@ public class UserServiceImpl implements UserService {
             } catch (IOException e) {
                 // Handle the exception appropriately
                 e.printStackTrace();
+                System.out.println("Lỗi");
                 return; // Or handle the error as needed
             }
             user.setProfileComplete(true);
@@ -153,10 +152,84 @@ public class UserServiceImpl implements UserService {
         return uploadResult.get("url").toString();
     }
 
-
-
+    @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public List<User> findAllEmployee() {
+        return userRepository.findAllByRoleUser(User.Role.EMPLOYEE);
+    }
+
+    @Override
+    public void updateUser(UserDTO userDTO, int id, MultipartFile[] avatars, MultipartFile[] frontCccdImages, MultipartFile[] backCccdImages) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            user.setUsername(userDTO.getUsername() != null ? userDTO.getUsername() : user.getUsername());
+//            user.setEmail(userDTO.getEmail());
+            user.setPhoneNumber(userDTO.getPhoneNumber() != null ? userDTO.getPhoneNumber() : user.getPhoneNumber());
+            user.setGender(userDTO.getGender() != null ? userDTO.getGender() : user.getGender());
+            user.setAddress(userDTO.getAddress() != null ? userDTO.getAddress() : user.getAddress());
+            user.setBirthdate(userDTO.getBirthdate() != null ? userDTO.getBirthdate() : user.getBirthdate());
+            user.setRoleUser(userDTO.getRoleUser() != null ? userDTO.getRoleUser() : User.Role.USER);
+            user.setCccdNumber(userDTO.getCccdNumber() != null ? userDTO.getCccdNumber() : user.getCccdNumber());
+            user.setProfileComplete(true);
+
+            try {
+                for (MultipartFile avatar : avatars) {
+                    if (!avatar.isEmpty()) {
+                        user.setAvatar(uploadImage(avatar));
+                    }
+                }
+
+                for (MultipartFile frontCccdImage : frontCccdImages) {
+                    if (!frontCccdImage.isEmpty()) {
+                        user.setFrontCccdImage(uploadImage(frontCccdImage));
+                    }
+                }
+
+                for (MultipartFile backCccdImage : backCccdImages) {
+                    if (!backCccdImage.isEmpty()) {
+                        user.setBackCccdImage(uploadImage(backCccdImage));
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error uploading files", e);
+            }
+
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<User> findAllUser(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+    @Override
+    public Page<User> searchAllByUser(String keyword, Pageable pageable) {
+        // Implement your search logic here based on the keyword and category
+        // Assuming search across multiple fields
+        return userRepository.findAll(pageable);
+    }
+    @Override
+    public Page<User> searchByName(String name, Pageable pageable) {
+        return userRepository.findByUsernameContaining(name, pageable);
+    }
+    @Override
+    public Page<User> searchByEmail(String email, Pageable pageable) {
+        return userRepository.findByEmailContaining(email, pageable);
+    }
+    @Override
+    public Page<User> searchByPhoneNumber(String phoneNumber, Pageable pageable) {
+        return userRepository.findByPhoneNumberContaining(phoneNumber, pageable);
+    }
+
 }
 
