@@ -124,7 +124,6 @@ public class UserServiceImpl implements UserService {
             } catch (IOException e) {
                 // Handle the exception appropriately
                 e.printStackTrace();
-                System.out.println("Lỗi");
                 return; // Or handle the error as needed
             }
             user.setProfileComplete(true);

@@ -10,9 +10,9 @@
     <title> Home | Employee</title>
     <!-- Favicon -->
 <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
-    <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
+    <link rel="" href="/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
-    <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
+    <link rel="stylesheet" href="/admin_homepage/css/style.min.css">
 
 </head>
 
@@ -56,9 +56,6 @@
                             <li>
                                 <a th:href="@{/fpt-dorm/employee/students-list}">All Students</a>
                             </li>
-<!--                            <li>-->
-<!--                                <a th:href="@{admin_add_student}">Add new student</a>-->
-<!--                            </li>-->
                         </ul>
                     </li>
                     <li>
@@ -79,6 +76,25 @@
 <!--                            <li>-->
 <!--                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>-->
 <!--                            </li>-->
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="show-cat-btn" >
+                            <span class="icon folder" aria-hidden="true"></span>News
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a th:href="@{view-news}">View News</a>
+                            </li>
+                            <li>
+                                <a th:href="@{add-news}">Add news</a>
+                            </li>
+
                         </ul>
                     </li>
 
@@ -196,7 +212,7 @@
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -286,19 +302,13 @@
                         <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
-            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
+            <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a href="##">
-                                <i data-feather="user" aria-hidden="true"></i>
-                                <span>Profile</span>
-                            </a></li>
-                            <li><a href="##">
-                                <i data-feather="settings" aria-hidden="true"></i>
-                                <span>Account settings</span>
-                            </a></li>
-                            <li><a class="danger" href="##">
+                            <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
+                            <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
                             </a></li>
@@ -408,7 +418,7 @@
                                         <label class="users-table__checkbox">
                                             <input type="checkbox" class="check">
                                             <div class="categories-table-img">
-                                                <picture><source srcset="/static/admin_homepage/img/categories/01.webp" type="image/webp"><img src="/static/admin_homepage/img/categories/01.jpg" alt="category"></picture>
+                                                <picture><source srcset="/admin_homepage/img/categories/01.webp" type="image/webp"><img src="/admin_homepage/img/categories/01.jpg" alt="category"></picture>
                                             </div>
                                         </label>
                                     </td>
@@ -417,7 +427,7 @@
                                     </td>
                                     <td>
                                         <div class="pages-table-img">
-                                            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-face-04.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-face-04.png" alt="User Name"></picture>
+                                            <picture><source srcset="/admin_homepage/img/avatar/avatar-face-04.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-face-04.png" alt="User Name"></picture>
                                             Jenny Wilson
                                         </div>
                                     </td>
@@ -445,9 +455,6 @@
                     <div class="col-lg-3">
                         <article class="customers-wrapper">
                             <canvas id="customersChart" aria-label="Customers statistics" role="img"></canvas>
-                            <!--              <p class="customers__title">New Customers <span>+958</span></p>
-                            <p class="customers__date">28 Daily Avg.</p>
-                            <picture><source srcset="./img/svg/customers.svg" type="image/webp"><img src="./img/svg/customers.svg" alt=""></picture> -->
                         </article>
                         <article class="white-block">
                             <div class="top-cat-title">
@@ -473,27 +480,14 @@
             </div>
         </main>
         <!-- ! Footer -->
-        <footer class="footer">
-            <div class="container footer--flex">
-                <!--                <div class="footer-start">-->
-                <!--                    <p>2024 © Manager Dashboard - <a href="elegant-dashboard.com" target="_blank"-->
-                <!--                                                     rel="noopener noreferrer">Manager-dashboard.com</a></p>-->
-                <!--                </div>-->
-                <!--                <ul class="footer-end">-->
-                <!--                    <li><a href="##">About</a></li>-->
-                <!--                    <li><a href="##">Support</a></li>-->
-                <!--                    <li><a href="##">Puchase</a></li>-->
-                <!--                </ul>-->
-            </div>
-        </footer>
     </div>
 </div>
 <!-- Chart library -->
-<script src="/static/admin_homepage/plugins/chart.min.js"></script>
+<script src="/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
-<script src="/static/admin_homepage/plugins/feather.min.js"></script>
+<script src="/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
-<script src="/static/admin_homepage/js/script.js"></script>
+<script src="/admin_homepage/js/script.js"></script>
 </body>
 
 </html>

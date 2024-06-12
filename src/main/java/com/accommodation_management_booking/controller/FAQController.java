@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class FAQController {
-    @GetMapping("/fpt-dorm/home-user/faq")
+    @GetMapping("/fpt-dorm/user/news/faq")
     public String faq(){
         return "student_faq";
     }

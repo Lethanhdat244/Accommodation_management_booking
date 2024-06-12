@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class UsageServiceController {
-    @GetMapping("/fpt-dorm/home-user/usage-service")
+    @GetMapping("/fpt-dorm/user/news/usage-service")
     public String fptDormUsedServices() {
         return "student_usage_services";
     }
