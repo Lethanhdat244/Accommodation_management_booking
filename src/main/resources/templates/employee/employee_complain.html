@@ -42,7 +42,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a class=""><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" th:href="@{admin/admin_list_student}">
@@ -155,9 +155,9 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/complain}">
-                            <span class="icon folder active" aria-hidden="true"></span>
-                            Complaint
+                        <a class="active" th:href="@{/fpt-dorm/employee/complain}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Complain
                         </a>
                     </li>
 
@@ -349,13 +349,13 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="complain : ${complaintDTOList}">
-                                            <td th:text="${complain.complaintId}"></td>
-                                            <td th:text="${complain.description}"></td>
-                                            <td th:text="${complain.createdAt}"></td>
-                                            <td th:text="${complain.status}"></td>
-                                            <td></td>
-                                        </tr>
+                                    <tr th:each="complain : ${complaintDTOList}">
+                                        <td th:text="${complain.complaintId}"></td>
+                                        <td th:text="${complain.description}"></td>
+                                        <td th:text="${complain.createdAt}"></td>
+                                        <td th:text="${complain.status}"></td>
+                                        <td></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>

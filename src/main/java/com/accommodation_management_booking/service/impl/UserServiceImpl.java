@@ -27,6 +27,10 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.*;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 @AllArgsConstructor
@@ -128,6 +132,7 @@ public class UserServiceImpl implements UserService {
             } catch (IOException e) {
                 // Handle the exception appropriately
                 e.printStackTrace();
+                System.out.println("Lỗi");
                 return; // Or handle the error as needed
             }
             user.setProfileComplete(true);
@@ -155,8 +160,114 @@ public class UserServiceImpl implements UserService {
         return uploadResult.get("url").toString();
     }
 
+    @Override
+    public void updateUser(UserDTO userDTO, int id, MultipartFile[] avatars, MultipartFile[] frontCccdImages, MultipartFile[] backCccdImages) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            user.setUsername(userDTO.getUsername() != null ? userDTO.getUsername() : user.getUsername());
+//            user.setEmail(userDTO.getEmail());
+            user.setPhoneNumber(userDTO.getPhoneNumber() != null ? userDTO.getPhoneNumber() : user.getPhoneNumber());
+            user.setGender(userDTO.getGender() != null ? userDTO.getGender() : user.getGender());
+            user.setAddress(userDTO.getAddress() != null ? userDTO.getAddress() : user.getAddress());
+            user.setBirthdate(userDTO.getBirthdate() != null ? userDTO.getBirthdate() : user.getBirthdate());
+            user.setRoleUser(userDTO.getRoleUser() != null ? userDTO.getRoleUser() : User.Role.USER);
+            user.setCccdNumber(userDTO.getCccdNumber() != null ? userDTO.getCccdNumber() : user.getCccdNumber());
+            user.setProfileComplete(true);
 
+            try {
+                for (MultipartFile avatar : avatars) {
+                    if (!avatar.isEmpty()) {
+                        user.setAvatar(uploadImage(avatar));
+                    }
+                }
 
+                for (MultipartFile frontCccdImage : frontCccdImages) {
+                    if (!frontCccdImage.isEmpty()) {
+                        user.setFrontCccdImage(uploadImage(frontCccdImage));
+                    }
+                }
+
+                for (MultipartFile backCccdImage : backCccdImages) {
+                    if (!backCccdImage.isEmpty()) {
+                        user.setBackCccdImage(uploadImage(backCccdImage));
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error uploading files", e);
+            }
+
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public Page<User> findAllStudent(Pageable pageable) {
+        return userRepository.findAllByRoleUser(User.Role.USER, pageable);
+    }
+
+    @Override
+    public Page<User> searchAllByStudent(String keyword, Pageable pageable) {
+        return userRepository.findByRoleUserAndUsernameContainingOrRoleUserAndEmailContainingOrRoleUserAndPhoneNumberContaining(
+                User.Role.USER, keyword,
+                User.Role.USER, keyword,
+                User.Role.USER, keyword,
+                pageable);
+    }
+
+    //Xu ly Student list cho Admin
+    @Override
+    public Page<User> searchByNameStudent(String name, Pageable pageable) {
+        return userRepository.findByUsernameContainingAndRoleUser(name, User.Role.USER, pageable);
+    }
+
+    @Override
+    public Page<User> searchByEmailStudent(String email, Pageable pageable) {
+        return userRepository.findByEmailContainingAndRoleUser(email, User.Role.USER, pageable);
+    }
+
+    @Override
+    public Page<User> searchByPhoneNumberStudent(String phoneNumber, Pageable pageable) {
+        return userRepository.findByPhoneNumberContainingAndRoleUser(phoneNumber, User.Role.USER, pageable);
+    }
+    //Ket thuc xu ly Student list cho Admin
+
+    //Xu ly Employee list cho Admin
+    @Override
+    public Page<User> findAllEmployee(Pageable pageable) {
+        return userRepository.findAllByRoleUser(User.Role.EMPLOYEE, pageable);
+    }
+
+    @Override
+    public Page<User> searchAllByEmployee(String keyword, Pageable pageable) {
+        return userRepository.findByRoleUserAndUsernameContainingOrRoleUserAndEmailContainingOrRoleUserAndPhoneNumberContaining(
+                User.Role.EMPLOYEE, keyword,
+                User.Role.EMPLOYEE, keyword,
+                User.Role.EMPLOYEE, keyword,
+                pageable);
+    }
+
+    @Override
+    public Page<User> searchByNameEmployee(String name, Pageable pageable) {
+        return userRepository.findByUsernameContainingAndRoleUser(name, User.Role.EMPLOYEE, pageable);
+    }
+
+    @Override
+    public Page<User> searchByEmailEmployee(String email, Pageable pageable) {
+        return userRepository.findByEmailContainingAndRoleUser(email, User.Role.EMPLOYEE, pageable);
+    }
+
+    @Override
+    public Page<User> searchByPhoneNumberEmployee(String phoneNumber, Pageable pageable) {
+        return userRepository.findByPhoneNumberContainingAndRoleUser(phoneNumber, User.Role.EMPLOYEE, pageable);
+    }
+
+    //Ket thuc xu ly Employee list cho Admin
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }

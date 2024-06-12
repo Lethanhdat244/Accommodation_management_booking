@@ -21,7 +21,7 @@ public class ProfileController {
     public String profile(@RequestParam("email") String email, Model model) {
         List<User> users = userRepository.searchByEmail(email);
         if (users != null) {
-            model.addAttribute("user", users.getFirst());
+//            model.addAttribute("user", users.getFirst());
             return "user_profile";
         } else {
             return "error/error";
@@ -31,8 +31,9 @@ public class ProfileController {
     public String admin_profile(@RequestParam("email") String email, Model model) {
         List<User> users = userRepository.searchByEmail(email);
         if (users != null) {
-            model.addAttribute("user", users.getFirst());
-            return "admin-profile";
+//            model.addAttribute("user", users.getFirst());
+            return "admin/admin-profile";
+
         } else {
             return "error/error";
         }
@@ -42,7 +43,7 @@ public class ProfileController {
     public String employee_profile(@RequestParam("email") String email, Model model) {
         List<User> users = userRepository.searchByEmail(email);
         if (users != null) {
-            model.addAttribute("user", users.getFirst());
+//            model.addAttribute("user", users.getFirst());
             return "employee/employee-profile";
 
         } else {

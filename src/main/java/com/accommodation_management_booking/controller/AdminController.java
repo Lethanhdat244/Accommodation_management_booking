@@ -15,6 +15,7 @@ import java.util.List;
 
 @Controller
 public class AdminController {
+
     @Autowired
     ComplainRepository complainRepository;
     @GetMapping("fpt-dorm/admin/home")
@@ -35,67 +36,59 @@ public class AdminController {
     }
 
     @GetMapping("fpt-dorm/admin/admin_list_student")
-    public String admin_list_student(){
-        return "redirect:/user-manager";
+    public String admin_list_students() {
+        return "redirect:/fpt-dorm/admin/student/all-student";
     }
 
     @GetMapping("fpt-dorm/admin/admin_list_employees")
-    public String admin_list_employees(){
-        return "redirect:/user-manager/employees";
+    public String admin_list_employees() {
+        return "redirect:/fpt-dorm/admin/employee/all-employee";
     }
 
     @GetMapping("fpt-dorm/admin/admin_add_student")
-    public String admin_add_student(){
-        return "admin_add_student";
+    public String admin_add_student() {
+        return "redirect:/fpt-dorm/admin/student/add";
     }
 
-    @GetMapping("fpt-dorm/admin/admin_list_booking")
-    public String admin_list_booking(){
-        return "redirect:/fpt-dorm/admin/list_booking";
+    @GetMapping("fpt-dorm/admin/admin_add_employee")
+    public String admin_add_employee() {
+        return "redirect:/fpt-dorm/admin/employee/add";
     }
-
 
     @GetMapping("fpt-dorm/admin/admin_list_room")
-    public String admin_list_room(){
-        return "redirect:/fpt-dorm/admin/list_room";
-    }
-
-    @GetMapping("fpt-dorm/admin/admin_add_new_room")
-    public String admin_add_new_room(){
-        return "redirect:/fpt-dorm/admin/add_room";
-    }
-    @GetMapping("fpt-dorm/admin/change_room_status")
-    public String admin_change_room_status(){
-        return "admin_change_room_status";
-    }
-
-    @GetMapping("/fpt-dorm/admin/admin_list_service")
-    public String admin_list_service() {
-        return "redirect:/fpt-dorm/admin/service_list";
+    public String admin_list_room() {
+        return "admin_list_room";
     }
 
     @GetMapping("fpt-dorm/admin/admin_payment_list")
-    public String admin_payment_list(){
+    public String admin_payment_list() {
         return "admin_payment_list";
     }
-    @GetMapping("fpt-dorm/admin/complain")
-    public String employee_complain(Model model){
+
+    @GetMapping("fpt-dorm/admin/admin_add_new_type_room")
+    public String admin_add_new_type_room() {
+        return "admin_add_new_type_room";
+    }
+
+    @GetMapping("fpt-dorm/admin/admin_add_new_room")
+    public String admin_add_new_room() {
+        return "admin_add_new_room";
+    }
+
+    @GetMapping("fpt-dorm/admin/admin_list_feedback")
+    public String admin_list_feedback() {
+        return "admin_list_feedback";
+    }
+
+    @GetMapping("fpt-dorm/admin/admin_list_complaint")
+    public String admin_complain(Model model) {
         try {
             List<Complaint> complainList = complainRepository.getAllRequest();
             model.addAttribute("complaintDTOList", complainList);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return "admin/admin_complain";
     }
 
-    @GetMapping("fpt-dorm/admin/admin_list_feedback")
-    public String admin_list_feedback(){
-        return "admin_list_feedback";
-    }
-
-    @GetMapping("fpt-dorm/admin/admin_list_complaint")
-    public String admin_list_complaint(){
-        return "admin_list_complaint";
-    }
 }

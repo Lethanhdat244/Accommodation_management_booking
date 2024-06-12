@@ -90,8 +90,12 @@
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
+                                    <<<<<<< HEAD
+                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
+                                    =======
                                     <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
+                                    >>>>>>> 85141594f9552061ff02e7fb96f6086f8842ffb9
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -111,16 +115,21 @@
                             <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                 <ul class="list-unstyled nav1 cl-effect-10">
                                     <li><a data-hover="News" class="active"><span>News</span></a></li>
-                                    <li><a data-hover="Booking" th:href="@{/fpt-dorm/home-user/booking}"><span>Booking</span></a></li>
-                                    <li><a data-hover="Available beds" th:href="@{/fpt-dorm/home-user/detail-dorm}"><span>Available beds</span></a></li>
-                                    <li><a data-hover="Usage service"
-                                           th:href="@{/fpt-dorm/user/news/usage-service}"><span>Usage service</span></a>
+                                    <li><a data-hover="Booking" th:href="@{/fpt-dorm/user/booking}"><span>Booking</span></a>
                                     </li>
-                                    <li><a data-hover="Payment" th:href="@{/fpt-dorm/home-user/payment}"><span>Payment</span></a></li>
-                                    <li><a data-hover="Resident History" th:href="@{/fpt-dorm/home-user/resident}"><span>Resident History</span></a></li>
-                                    <li><a data-hover="Request" th:href="@{/fpt-dorm/user/news/my-request}"><span>Request</span></a></li>
-                                    <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/home-user/rule}"><span>Dormitory rules</span></a></li>
-                                    <li><a data-hover="FAQ" th:href="@{/fpt-dorm/user/news/faq}"><span>FAQ</span></a></li>
+                                    <li><a data-hover="Available beds" th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
+                                    </li>
+                                    <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a>
+                                    </li>
+                                    <li><a data-hover="Payment" th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a>
+                                    </li>
+                                    <li><a data-hover="Resident History" th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a>
+                                    </li>
+                                    <li><a data-hover="Request"
+                                           th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a></li>
+                                    <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/user/rule}"><span>Dormitory rules</span></a>
+                                    </li>
+                                    <li><a data-hover="FAQ" th:href="@{/fpt-dorm/user/faq}"><span>FAQ</span></a></li>
                                 </ul>
                             </div>
                         </nav>
@@ -130,8 +139,7 @@
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
-                                    <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>

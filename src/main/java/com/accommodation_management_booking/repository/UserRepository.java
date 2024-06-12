@@ -1,8 +1,11 @@
 package com.accommodation_management_booking.repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import com.accommodation_management_booking.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -26,4 +29,19 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE (u.email LIKE :keyword)")
     User searchUserByEmail(@Param("keyword") String keyword);
+
+    //Dung cho role cu the
+    Page<User> findAllByRoleUser(User.Role role, Pageable pageable);
+
+    Page<User> findByUsernameContainingAndRoleUser(String username, User.Role role, Pageable pageable);
+
+    Page<User> findByEmailContainingAndRoleUser(String email, User.Role role, Pageable pageable);
+
+    Page<User> findByPhoneNumberContainingAndRoleUser(String phoneNumber, User.Role role, Pageable pageable);
+
+    Page<User> findByRoleUserAndUsernameContainingOrRoleUserAndEmailContainingOrRoleUserAndPhoneNumberContaining(
+            User.Role role1, String keyword1,
+            User.Role role2, String keyword2,
+            User.Role role3, String keyword3,
+            Pageable pageable);
 }

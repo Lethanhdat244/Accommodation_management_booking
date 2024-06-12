@@ -1859,22 +1859,30 @@ label {
 }
 
 .new-page-content input {
-  padding: 5px 16px;
+    padding: 5px 16px;
 }
 
 .users {
-  /* Users Table */
+    /* Users Table */
+}
+
+.canvas-wrapper {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
 .users-table table {
-  width: 100%;
-  text-align: left;
-  border-collapse: collapse;
-  line-height: 1.4;
-  letter-spacing: -0.3px;
-  color: #767676;
-  -webkit-transition: none;
-  -o-transition: none;
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    line-height: 1.4;
+    letter-spacing: -0.3px;
+    color: #767676;
+    -webkit-transition: none;
+    -o-transition: none;
   transition: none;
 }
 
@@ -1971,7 +1979,8 @@ label {
 }
 
 .table-wrapper table.posts-table {
-  min-width: 944px;
+    min-width: 944px;
+    min-height: 270px;
 }
 
 .table-wrapper table.library-table {
@@ -2516,21 +2525,79 @@ label {
 }
 
 .search-wrapper input::placeholder {
-  background-color: #eff0f6;
-  font-size: 14px;
-  line-height: 2.43;
-  color: #d6d7e3;
-  -webkit-transition: 0.3s all;
-  -o-transition: 0.3s all;
-  transition: 0.3s all;
+    background-color: #eff0f6;
+    font-size: 14px;
+    line-height: 2.43;
+    color: #d6d7e3;
+    -webkit-transition: 0.3s all;
+    -o-transition: 0.3s all;
+    transition: 0.3s all;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.search-form input {
+    background-color: #ffffff;
+}
+
+.search-box, .search-dropdown, .search-btn {
+    height: 40px;
+    padding: 0 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.search-box {
+    flex: 1;
+}
+
+.search-dropdown {
+    width: 200px;
+}
+
+.search-box:focus, .search-dropdown:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.search-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+.sort-dropdown {
+    height: 40px;
+    padding: 0 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.sort-dropdown:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
 .lang-switcher {
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 1.1875;
-  letter-spacing: 0.75px;
-  color: #767676;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 1.1875;
+    letter-spacing: 0.75px;
+    color: #767676;
 }
 
 .lang-switcher-wrapper {

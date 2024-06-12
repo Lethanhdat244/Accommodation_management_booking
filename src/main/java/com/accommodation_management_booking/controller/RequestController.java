@@ -31,7 +31,7 @@ public class RequestController {
     private ComplainService complainService;
 
     User user;
-    @GetMapping("fpt-dorm/user/news/my-request")
+    @GetMapping("fpt-dorm/user/my-request")
     public String studentRequest(Model model, Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
@@ -56,7 +56,7 @@ public class RequestController {
         return "student_request";
     }
 
-    @PostMapping ("fpt-dorm/home-user/send-request")
+    @PostMapping("fpt-dorm/user/send-request")
     public String studentRequest(Model model
             ,@RequestParam("title") String title
             ,@RequestParam("content") String content
