@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Student List</title>
+    <title>Employee List</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -56,7 +56,7 @@
     <script>
         function deleteUser(id) {
             if (confirm('Are you sure you want to delete this user item?')) {
-                fetch(`/fpt-dorm/admin/student/delete/id=${id}`, {
+                fetch(`/fpt-dorm/admin/employee/delete/id=${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
@@ -110,8 +110,8 @@
             });
         });
         document.addEventListener('DOMContentLoaded', function () {
-            const A = document.getElementById('menu-student');
-            const B = document.getElementById('menu-all-students');
+            const A = document.getElementById('menu-employee');
+            const B = document.getElementById('menu-all-employees');
 
             A.addEventListener('click', function () {
                 if (A.classList.contains('active')) {
@@ -154,7 +154,7 @@
                         <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a id="menu-student" class="show-cat-btn active">
+                        <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                                 <span class="sr-only">Open list</span>
@@ -163,10 +163,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
                             </li>
                             <li>
-                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a class="" th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
                             </li>
                         </ul>
                     </li>
@@ -192,9 +192,8 @@
                         </ul>
                     </li>
 
-
                     <li>
-                        <a class="show-cat-btn">
+                        <a id="menu-employee" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Employee
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -203,10 +202,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
+                                <a id="menu-all-employees" class="" th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
+                                <a id="menu-add-employee" th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
                             </li>
                         </ul>
                     </li>
@@ -354,10 +353,10 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Student List</h2>
+                <h2 class="main-title">Employee List</h2>
                 <div class="row" >
                     <div class="col-lg-6">
-                        <form th:action="@{/fpt-dorm/admin/student/search}" method="get" class="search-form">
+                        <form th:action="@{/fpt-dorm/admin/employee/search}" method="get" class="search-form">
                             <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..." class="search-box"/>
                             <select name="category" class="search-dropdown">
                                 <option value="" th:text="'All Categories'" th:selected="${selectedCategory == null}"></option>

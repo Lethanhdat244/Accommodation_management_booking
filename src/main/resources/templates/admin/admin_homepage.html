@@ -93,10 +93,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_employees}">All Employees</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_employee}">Add new employee</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
                             </li>
                         </ul>
                     </li>
@@ -154,7 +154,7 @@
                 <!--&lt;!&ndash;                        <a href="appearance.html"><span class="icon edit" aria-hidden="true"></span>Appearance</a>&ndash;&gt;-->
                 <!--&lt;!&ndash;                    </li>&ndash;&gt;-->
                 <!--&lt;!&ndash;                    <li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        <a class="show-cat-btn" href="##">&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <a class="show-cat-btn" href="#">&ndash;&gt;-->
                 <!--&lt;!&ndash;                            <span class="icon category" aria-hidden="true"></span>Extentions&ndash;&gt;-->
                 <!--&lt;!&ndash;                            <span class="category__btn transparent-btn" title="Open list">&ndash;&gt;-->
                 <!--&lt;!&ndash;                            <span class="sr-only">Open list</span>&ndash;&gt;-->
@@ -171,7 +171,7 @@
                 <!--&lt;!&ndash;                        </ul>&ndash;&gt;-->
                 <!--&lt;!&ndash;                    </li>&ndash;&gt;-->
                 <!--                    <li>-->
-                <!--                        <a class="show-cat-btn" href="##">-->
+                <!--                        <a class="show-cat-btn" href="#">-->
                 <!--&lt;!&ndash;                            <span class="icon user-3" aria-hidden="true"></span>Users&ndash;&gt;-->
                 <!--                            <span class="category__btn transparent-btn" title="Open list">-->
                 <!--                            <span class="sr-only">Open list</span>-->
@@ -188,14 +188,14 @@
                 <!--                        </ul>-->
                 <!--                    </li>-->
                 <!--                    <li>-->
-                <!--&lt;!&ndash;                        <a href="##"><span class="icon setting" aria-hidden="true"></span>Settings</a>&ndash;&gt;-->
+                <!--&lt;!&ndash;                        <a href="#"><span class="icon setting" aria-hidden="true"></span>Settings</a>&ndash;&gt;-->
                 <!--                    </li>-->
                 <!--                </ul>-->
 
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="##" class="sidebar-user">
+            <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
                 <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
@@ -232,7 +232,7 @@
                         </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
-                                <a href="##">
+                                <a href="#">
                                     <div class="notification-dropdown-icon info">
                                         <i data-feather="check"></i>
                                     </div>
@@ -244,7 +244,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="##">
+                                <a href="#">
                                     <div class="notification-dropdown-icon danger">
                                         <i data-feather="info" aria-hidden="true"></i>
                                     </div>
@@ -256,7 +256,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="##">
+                                <a href="#">
                                     <div class="notification-dropdown-icon info">
                                         <i data-feather="check" aria-hidden="true"></i>
                                     </div>
@@ -267,22 +267,20 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="link-to-page" href="##">Go to Notifications page</a>
+                                <a class="link-to-page" href="#">Go to Notifications page</a>
                             </li>
                         </ul>
                     </div>
                     <div class="nav-user-wrapper">
-                        <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                        <button href="#" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
             <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a href="##">
-                                <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
-                            </a></li>
-                            <!--                            <li><a href="##">-->
+                            <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+                            <!--                            <li><a href="#">-->
                             <!--                                <i data-feather="settings" aria-hidden="true"></i>-->
                             <!--                                <span>Account settings</span>-->
                             <!--                            </a></li>-->
@@ -418,9 +416,9 @@
                           <i data-feather="more-horizontal" aria-hidden="true"></i>
                         </button>
                         <ul class="users-item-dropdown dropdown">
-                          <li><a href="##">Edit</a></li>
-                          <li><a href="##">Quick edit</a></li>
-                          <li><a href="##">Trash</a></li>
+                          <li><a href="#">Edit</a></li>
+                          <li><a href="#">Quick edit</a></li>
+                          <li><a href="#">Trash</a></li>
                         </ul>
                       </span>
                                     </td>
@@ -444,7 +442,7 @@
                             </div>
                             <ul class="top-cat-list">
                                 <li>
-                                    <a href="##">
+                                    <a href="#">
                                         <div class="top-cat-list__title">
                                             Lifestyle <span>8.2k</span>
                                         </div>

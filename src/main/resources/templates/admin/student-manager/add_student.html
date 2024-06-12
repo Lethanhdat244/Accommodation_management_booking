@@ -237,7 +237,7 @@
         }
         document.addEventListener("DOMContentLoaded", function() {
             flatpickr('.flatpickr-input', {
-                dateFormat: "d/m/Y",
+                dateFormat: "Y-m-d",
             });
         });
         document.addEventListener('DOMContentLoaded', function () {
@@ -332,10 +332,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_employees}">All Employees</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_employee}">Add new employee</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
                             </li>
                         </ul>
                     </li>
@@ -506,7 +506,7 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="email" class="col-sm-4 col-form-label">Password</label>
+                                <label for="password" class="col-sm-4 col-form-label">Password</label>
                                 <div class="col-sm-8">
                                     <input id="password" required class="form-control border" th:field="${userDTO.password}" type="password">
                                     <div id="passwordError" class="error"></div>
@@ -553,20 +553,6 @@
                                 <div class="col-sm-8">
                                     <input id="birthdate" name="birthdate" class="form-control border flatpickr-input" type="text" th:field="${userDTO.birthdate}">
                                     <div id="birthdateError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="role" class="col-sm-4 col-form-label">Role</label>
-                                <div class="col-sm-8">
-                                    <select id="role" name="role" class="form-control" th:field="${userDTO.roleUser}">
-                                        <option value="" th:selected="${userDTO.roleUser == null}">Select Role</option>
-                                        <option value="ADMIN" th:selected="${userDTO.roleUser == 'ADMIN'}">Admin</option>
-                                        <option value="MANAGER" th:selected="${userDTO.roleUser == 'MANAGER'}">Manager</option>
-                                        <option value="EMPLOYEE" th:selected="${userDTO.roleUser == 'EMPLOYEE'}">Employee</option>
-                                        <option value="USER" th:selected="${userDTO.roleUser == 'USER'}">User</option>
-                                    </select>
-                                    <p th:if="${#fields.hasErrors('roleUser')}" class="text-danger" th:errors="${userDTO.roleUser}"></p>
                                 </div>
                             </div>
 
