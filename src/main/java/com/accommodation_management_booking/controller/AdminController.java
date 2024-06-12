@@ -29,18 +29,23 @@ public class AdminController {
     }
 
     @GetMapping("fpt-dorm/admin/admin_list_student")
-    public String admin_list_student(){
-        return "redirect:/user-manager";
+    public String admin_list_students(){
+        return "redirect:/fpt-dorm/admin/student/all-student";
     }
 
     @GetMapping("fpt-dorm/admin/admin_list_employees")
     public String admin_list_employees(){
-        return "redirect:/user-manager/employees";
+        return "redirect:/fpt-dorm/admin/employee/all-employee";
     }
 
     @GetMapping("fpt-dorm/admin/admin_add_student")
     public String admin_add_student(){
-        return "admin_add_student";
+        return "redirect:/fpt-dorm/admin/student/add";
+    }
+
+    @GetMapping("fpt-dorm/admin/admin_add_employee")
+    public String admin_add_employee(){
+        return "redirect:/fpt-dorm/admin/employee/add";
     }
 
     @GetMapping("fpt-dorm/admin/admin_list_room")
@@ -72,4 +77,5 @@ public class AdminController {
     public String admin_list_complaint(){
         return "admin_list_complaint";
     }
+
 }
