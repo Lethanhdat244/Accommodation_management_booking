@@ -6,6 +6,7 @@ import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.RoomRepository;
 import com.accommodation_management_booking.service.RoomNotFoundException;
 import com.accommodation_management_booking.service.RoomService;
+import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,7 @@ public class RoomController {
     private RoomService roomService;
 
     @Autowired
-private RoomRepository repoRooom;
+    private RoomRepository repoRooom;
 
 
     @GetMapping("/list_room")
@@ -103,5 +104,7 @@ private RoomRepository repoRooom;
         return "admin_list_room";
 
     }
+//phan trang
+
 
 }

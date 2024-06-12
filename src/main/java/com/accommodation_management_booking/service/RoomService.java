@@ -4,7 +4,10 @@ import com.accommodation_management_booking.dto.RoomDTO;
 import com.accommodation_management_booking.entity.Room;
 import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.RoomRepository;
+import org.hibernate.query.Page;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -118,6 +121,10 @@ public class RoomService {
         dto.setUpdatedAt(room.getUpdatedAt());
         return dto;
     }
+
+    // phan trang
+
+
 
 }
 
