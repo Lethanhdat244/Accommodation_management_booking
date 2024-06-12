@@ -68,22 +68,21 @@
         <ul class="sidebar-body-menu">
           <li><a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a></li>
           <li>
-              <a class="show-cat-btn" href="#">
-                  <span class="icon folder" aria-hidden="true"></span>Student
-                  <span class="category__btn transparent-btn" title="Open list">
+            <a class="show-cat-btn" href="#">
+              <span class="icon folder" aria-hidden="true"></span>Student
+              <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
                         </span>
-              </a>
-              <ul class="cat-sub-menu">
-                  <li>
-                      <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
-                          Students</a>
-                  </li>
-                  <li>
-                      <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new student</a>
-                  </li>
-              </ul>
+            </a>
+            <ul class="cat-sub-menu">
+              <li>
+                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All Students</a>
+              </li>
+              <li>
+                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new student</a>
+              </li>
+            </ul>
           </li>
           <li>
             <a class="show-cat-btn"><span class="icon folder" aria-hidden="true"></span>Room
@@ -195,20 +194,20 @@
           <div class="nav-user-wrapper">
             <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
               <span class="sr-only">My profile</span>
-                <span class="nav-user-img">
+              <span class="nav-user-img">
                 <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp"
                                  type="image/webp"><img
                         src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
               </span>
             </button>
-              <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                  <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
-                  <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                  <li><a class="danger" th:href="@{/fpt-dorm/logout}">
-                      <i data-feather="log-out" aria-hidden="true"></i>
-                      <span>Log out</span>
-                  </a></li>
-              </ul>
+            <ul class="users-item-dropdown nav-user-dropdown dropdown">
+              <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
+              <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
+              <li><a class="danger" th:href="@{/fpt-dorm/logout}">
+                <i data-feather="log-out" aria-hidden="true"></i>
+                <span>Log out</span>
+              </a></li>
+            </ul>
           </div>
         </div>
       </div>

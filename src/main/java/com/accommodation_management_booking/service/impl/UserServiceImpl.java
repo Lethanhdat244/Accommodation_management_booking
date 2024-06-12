@@ -10,7 +10,6 @@ import com.accommodation_management_booking.service.UserService;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,14 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.*;
-import java.util.stream.Collectors;
 import java.util.*;
 
 import org.springframework.data.domain.Page;
@@ -210,7 +202,6 @@ public class UserServiceImpl implements UserService {
     public Page<User> findAllStudent(Pageable pageable) {
         return userRepository.findAllByRoleUser(User.Role.USER, pageable);
     }
-
     @Override
     public Page<User> searchAllByStudent(String keyword, Pageable pageable) {
         return userRepository.findByRoleUserAndUsernameContainingOrRoleUserAndEmailContainingOrRoleUserAndPhoneNumberContaining(
@@ -225,12 +216,10 @@ public class UserServiceImpl implements UserService {
     public Page<User> searchByNameStudent(String name, Pageable pageable) {
         return userRepository.findByUsernameContainingAndRoleUser(name, User.Role.USER, pageable);
     }
-
     @Override
     public Page<User> searchByEmailStudent(String email, Pageable pageable) {
         return userRepository.findByEmailContainingAndRoleUser(email, User.Role.USER, pageable);
     }
-
     @Override
     public Page<User> searchByPhoneNumberStudent(String phoneNumber, Pageable pageable) {
         return userRepository.findByPhoneNumberContainingAndRoleUser(phoneNumber, User.Role.USER, pageable);
@@ -242,7 +231,6 @@ public class UserServiceImpl implements UserService {
     public Page<User> findAllEmployee(Pageable pageable) {
         return userRepository.findAllByRoleUser(User.Role.EMPLOYEE, pageable);
     }
-
     @Override
     public Page<User> searchAllByEmployee(String keyword, Pageable pageable) {
         return userRepository.findByRoleUserAndUsernameContainingOrRoleUserAndEmailContainingOrRoleUserAndPhoneNumberContaining(
@@ -251,47 +239,21 @@ public class UserServiceImpl implements UserService {
                 User.Role.EMPLOYEE, keyword,
                 pageable);
     }
-
     @Override
     public Page<User> searchByNameEmployee(String name, Pageable pageable) {
         return userRepository.findByUsernameContainingAndRoleUser(name, User.Role.EMPLOYEE, pageable);
     }
-
     @Override
     public Page<User> searchByEmailEmployee(String email, Pageable pageable) {
         return userRepository.findByEmailContainingAndRoleUser(email, User.Role.EMPLOYEE, pageable);
     }
-
     @Override
     public Page<User> searchByPhoneNumberEmployee(String phoneNumber, Pageable pageable) {
         return userRepository.findByPhoneNumberContainingAndRoleUser(phoneNumber, User.Role.EMPLOYEE, pageable);
     }
-
     //Ket thuc xu ly Employee list cho Admin
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
-    }
-
-
-    @Override
-    public List<UserDTO> getAllUsersWithDetails() {
-        List<User> users = userRepository.findAll();
-        return users.stream()
-                .map(this::convertUserToDTO)
-                .collect(Collectors.toList());
-    }
-
-    private UserDTO convertUserToDTO(User user) {
-        UserDTO dto = new UserDTO();
-        dto.setUserId(user.getUserId());
-        dto.setUsername(user.getUsername());
-        dto.setGender(user.getGender());
-        dto.setBirthdate(user.getBirthdate());
-        dto.setPhoneNumber(user.getPhoneNumber());
-        dto.setAddress(user.getAddress());
-        dto.setCccdNumber(user.getCccdNumber());
-
-        return dto;
     }
 }
 

@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -60,7 +59,7 @@ public class EmployeeController {
         return "employee/employee_homepage";
     }
 
-    @GetMapping("/fpt-dorm/employee/complain")
+    @GetMapping("fpt-dorm/employee/complain")
     public String employee_complain(Model model) {
         try {
             List<Complaint> complainList = complainRepository.getAllRequest();

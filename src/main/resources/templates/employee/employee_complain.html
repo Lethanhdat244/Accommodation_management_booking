@@ -7,14 +7,24 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>EMPLOYEE | COMPLAIN</title>
+    <title> Complain | Employee</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
+    <link rel="" href="/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
-    <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
-
-    <link rel="stylesheet" href="/static/admin_homepage/css/style.css">
+    <link rel="stylesheet" href="/admin_homepage/css/style.min.css">
+    <link href="/homepage_user/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/homepage_user/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <!-- Custom styles for this template -->
+    <link href="/homepage_user/css/style.css" rel="stylesheet">
+    <link href="/homepage_user/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
+    <link rel="stylesheet" href="/homepage_user/css/lightbox.min.css">
+    <link href="/homepage_user/css/responsive.css" rel="stylesheet">
+    <script src="/homepage_user/js/jquery.min.js" type="text/javascript"></script>
+    <script src="/homepage_user/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/homepage_user/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
+    <script src="/homepage_user/js/instafeed.min.js" type="text/javascript"></script>
+    <script src="/homepage_user/js/custom.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -45,7 +55,7 @@
                         <a class=""><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn" th:href="@{admin/admin_list_student}">
+                        <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -54,7 +64,12 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/students-list}">All Students</a>
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
+                                    Students</a>
+                            </li>
+                            <li>
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
+                                    student</a>
                             </li>
                         </ul>
                     </li>
@@ -212,7 +227,8 @@
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>

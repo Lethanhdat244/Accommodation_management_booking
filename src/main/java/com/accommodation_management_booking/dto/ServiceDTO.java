@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +19,4 @@ public class ServiceDTO {
     private BigDecimal price;
 
     private String description;
-
-    private LocalDateTime createdAt;
 }
