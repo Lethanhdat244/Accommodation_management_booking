@@ -3,15 +3,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import com.accommodation_management_booking.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String username);
-
     boolean existsByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE (u.email LIKE %:keyword%)")
@@ -21,7 +18,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     User searchUserByEmail(@Param("keyword") String keyword);
 
     //Dung cho tat ca role
-
     /**
      * Page<User> findAll(Pageable pageable);
      * Page<User> findByUsernameContaining(String username, Pageable pageable);
@@ -31,13 +27,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     //Dung cho role cu the
     Page<User> findAllByRoleUser(User.Role role, Pageable pageable);
-
     Page<User> findByUsernameContainingAndRoleUser(String username, User.Role role, Pageable pageable);
-
     Page<User> findByEmailContainingAndRoleUser(String email, User.Role role, Pageable pageable);
-
     Page<User> findByPhoneNumberContainingAndRoleUser(String phoneNumber, User.Role role, Pageable pageable);
-
     Page<User> findByRoleUserAndUsernameContainingOrRoleUserAndEmailContainingOrRoleUserAndPhoneNumberContaining(
             User.Role role1, String keyword1,
             User.Role role2, String keyword2,

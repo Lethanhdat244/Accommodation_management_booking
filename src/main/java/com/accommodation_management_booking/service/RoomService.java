@@ -47,37 +47,37 @@ public class RoomService {
         return "redirect:/admin_list_room/list_room";
     }
 
-    public RoomDTO getRoomDetail(int id, Model model) {
-        Optional<Room> roomOpt = roomRepo.findById(id);
-        if (roomOpt.isPresent()) {
-            Room room = roomOpt.get();
-            RoomDTO roomDTO = new RoomDTO(
-                    room.getRoomId(),
-                    room.getRoomStatus().name(),
-                    room.getRoomNumber(),
-                    room.getCapacity(),
-                    room.getStatus().name(),
-                    room.getCreatedAt(),
-                    room.getUpdatedAt()
-            );
-            return roomDTO;
-        } else {
-            // Xử lý trường hợp không tìm thấy phòng với id tương ứng
-            return null;
-        }
-    }
-    public void updateRoom(RoomDTO roomDTO) throws RoomNotFoundException {
-        Optional<Room> roomOpt = roomRepo.findById(roomDTO.getRoomId());
-        if (roomOpt.isPresent()) {
-            Room room = roomOpt.get();
-            room.setRoomStatus(Room.RoomStatus.valueOf(roomDTO.getRoomStatus()));
-            room.setRoomNumber(roomDTO.getRoomNumber());
-            room.setCapacity(roomDTO.getCapacity());
-            room.setStatus(Room.Status.valueOf(roomDTO.getStatus()));
-            room.setCreatedAt(roomDTO.getCreatedAt());
-            room.setUpdatedAt(roomDTO.getUpdatedAt());
-            roomRepo.save(room);
-        } else {
+//    public RoomDTO getRoomDetail(int id, Model model) {
+//        Optional<Room> roomOpt = roomRepo.findById(id);
+//        if (roomOpt.isPresent()) {
+//            Room room = roomOpt.get();
+//            RoomDTO roomDTO = new RoomDTO(
+//                    room.getRoomId(),
+//                    room.getRoomStatus().name(),
+//                    room.getRoomNumber(),
+//                    room.getCapacity(),
+//                    room.getStatus().name(),
+//                    room.getCreatedAt(),
+//                    room.getUpdatedAt()
+//            );
+//            return roomDTO;
+//        } else {
+//            // Xử lý trường hợp không tìm thấy phòng với id tương ứng
+//            return null;
+//        }
+//    }
+public void updateRoom(RoomDTO roomDTO) throws RoomNotFoundException {
+    Optional<Room> roomOpt = roomRepo.findById(roomDTO.getRoomId());
+    if (roomOpt.isPresent()) {
+        Room room = roomOpt.get();
+        room.setRoomStatus(Room.RoomStatus.valueOf(roomDTO.getRoomStatus()));
+        room.setRoomNumber(roomDTO.getRoomNumber());
+        room.setCapacity(roomDTO.getCapacity());
+        room.setStatus(Room.Status.valueOf(roomDTO.getStatus()));
+//            room.setCreatedAt(roomDTO.getCreatedAt());
+//            room.setUpdatedAt(roomDTO.getUpdatedAt());
+        roomRepo.save(room);
+    } else {
             throw new RoomNotFoundException("Could not find any room with ID " + roomDTO.getRoomId());
         }
     }

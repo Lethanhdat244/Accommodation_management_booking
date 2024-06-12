@@ -23,7 +23,7 @@ public class ServiceService {
             dto.setName(service.getName());
             dto.setPrice(service.getPrice());
             dto.setDescription(service.getDescription());
-            dto.setCreatedAt(service.getCreatedAt());
+//            dto.setCreatedAt(service.getCreatedAt());
             return dto;
         }).collect(Collectors.toList());
     }
@@ -38,7 +38,7 @@ public class ServiceService {
             serviceDTO.setName(service.getName());
             serviceDTO.setPrice(service.getPrice());
             serviceDTO.setDescription(service.getDescription());
-            serviceDTO.setCreatedAt(service.getCreatedAt());
+//            serviceDTO.setCreatedAt(service.getCreatedAt());
             return serviceDTO;
         }
         return null;
