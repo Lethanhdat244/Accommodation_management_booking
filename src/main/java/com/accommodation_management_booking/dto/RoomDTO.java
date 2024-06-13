@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomDTO {
-    private int roomId;
-
-    private String roomStatus;
-
+    private Integer roomId;
+    private Integer floorId;
     private String roomNumber;
-
-    private int capacity;
-
-    private String status;
+    private Integer capacity;
+    private Float pricePerBed;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

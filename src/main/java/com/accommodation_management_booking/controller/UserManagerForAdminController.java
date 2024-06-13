@@ -29,7 +29,7 @@ public class UserManagerForAdminController {
     @GetMapping("/fpt-dorm/admin/student/all-student")
     public String showStudentList(Model model,
                                   @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "2") int size,
+                                  @RequestParam(defaultValue = "5") int size,
                                   @RequestParam(defaultValue = "userId,asc") String sort) {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
@@ -45,7 +45,7 @@ public class UserManagerForAdminController {
                                  @RequestParam(value = "keyword", required = false) String keyword,
                                  @RequestParam(value = "category", required = false) String category,
                                  @RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "2") int size,
+                                 @RequestParam(defaultValue = "5") int size,
                                  @RequestParam(defaultValue = "userId,asc") String sort) {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;

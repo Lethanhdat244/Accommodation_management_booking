@@ -77,9 +77,9 @@ public class RequestController {
         }
         Complaint complaint = new Complaint();
         complaint.setUser(user);
-        complaint.setRoomId(1);
+        //complaint.setRoomId(1);
         complaint.setDescription(content);
-        complaint.setStatus(Complaint.Status.Open);
+        //complaint.setStatus(Complaint.Status.Open);
         try {
             complainService.saveComplain(complaint);
             try {

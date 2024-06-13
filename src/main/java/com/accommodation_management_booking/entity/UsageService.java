@@ -5,39 +5,43 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "usage_service")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "room")
-public class Room {
+public class UsageService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer roomId;
+    private Integer serviceBookingId;
 
     @ManyToOne
-    @JoinColumn(name = "floor_id", nullable = false)
-    private Floor floor;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Column(nullable = false, length = 20)
-    private String roomNumber;
+    @ManyToOne
+    @JoinColumn(name = "service_id", nullable = false)
+    private Service service;
+
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
 
     @Column(nullable = false)
-    private Integer capacity;
+    private Float quantity;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Float pricePerBed;
+    private PaymentMethod paymentMethod;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(nullable = false)
-    @UpdateTimestamp
-    private LocalDateTime updatedAt = LocalDateTime.now();
-
+    public enum PaymentMethod {
+        CreditCard, DebitCard, BankQRCode
+    }
 }

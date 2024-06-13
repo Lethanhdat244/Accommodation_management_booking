@@ -9,28 +9,29 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "bed")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "room")
-public class Room {
+public class Bed {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer roomId;
+    private Integer bedId;
 
     @ManyToOne
-    @JoinColumn(name = "floor_id", nullable = false)
-    private Floor floor;
-
-    @Column(nullable = false, length = 20)
-    private String roomNumber;
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
 
     @Column(nullable = false)
-    private Integer capacity;
+    private Integer bedNumber;
 
     @Column(nullable = false)
-    private Float pricePerBed;
+    private Boolean isAvailable = true;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MaintenanceStatus maintenanceStatus = MaintenanceStatus.Available;
 
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
@@ -40,4 +41,7 @@ public class Room {
     @UpdateTimestamp
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    public enum MaintenanceStatus {
+        Available, UnderMaintenance
+    }
 }
