@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Request</title>
+    <title>FAQ</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
@@ -26,25 +26,29 @@
         .ml-auto {
             margin-left: auto;
         }
+
         .navbar-custom {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        ul li{
-            list-style: none;
-            margin: 40px;
-        }
-        h1{
+
+        /*ul li{*/
+        /*    list-style: none;*/
+        /*    margin: 40px;*/
+        /*}*/
+        h1 {
             font-weight: 700;
             margin-bottom: 20px;
         }
-        .mainbox{
+
+        .mainbox {
             padding: 20px 40px;
             margin-bottom: 30px;
             margin-right: auto;
         }
-        .rule{
+
+        .rule {
             width: 100%;
             padding: 30px 50px;
             font-size: 20px;
@@ -95,18 +99,69 @@
     <header class="header-container">
         <div class="container">
             <div class="top-row">
-                <div class="row navbar-custom">
-                    <div class="col-md-2 col-sm-6 col-xs-6 mr-auto">
+                <div class="row">
+                    <div class="col-md-2 col-sm-6 col-xs-6">
                         <div id="logo">
                             <a th:href="@{/fpt-dorm/home}"><span>FPT</span>Dorm</a>
+                            <!--                            <h1>Welcome, <span th:text="${email}">[email]</span></h1>-->
                         </div>
                     </div>
-                    <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm ml-auto">
+                    <div class="col-sm-6 visible-sm">
+                        <div class="text-right">
+                            <div class="dropdown">
+                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
+                                    <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
+                                    <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
+                        <nav class="navbar navbar-default">
+                            <div class="navbar-header page-scroll">
+                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                                    <span class="sr-only">Toggle navigation</span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                            </div>
+                            <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
+                                <ul class="list-unstyled nav1 cl-effect-10">
+                                    <li><a data-hover="News" th:href="@{/fpt-dorm/user/news}"><span>News</span></a></li>
+                                    <li><a data-hover="Booking"
+                                           th:href="@{/fpt-dorm/home-user/booking}"><span>Booking</span></a></li>
+                                    <li><a data-hover="Availble beds"
+                                           th:href="@{/fpt-dorm/home-user/detail-dorm}"><span>Available beds</span></a>
+                                    </li>
+                                    <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a>
+                                    </li>
+                                    <li><a data-hover="Payment"
+                                           th:href="@{/fpt-dorm/home-user/payment}"><span>Payment</span></a></li>
+                                    <li><a data-hover="Resident History"
+                                           th:href="@{/fpt-dorm/home-user/resident}"><span>Resident History</span></a>
+                                    </li>
+                                    <li><a data-hover="Request"
+                                           th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a></li>
+                                    <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/home-user/rule}"><span>Dormitory rules</span></a>
+                                    </li>
+                                    <li><a data-hover="FAQ" class="active"
+                                           th:href="@{/fpt-dorm/user/faq}"><span>FAQ</span></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
+                    <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
                         <div class="text-right">
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/profile}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
@@ -121,7 +176,7 @@
 
     <div class="container mainbox">
         <div class="row">
-            <p class="rule" id="parent1" onclick="toggleVisibility('child1')">1. Rule 1</p>
+            <p class="rule" id="parent1" onclick="toggleVisibility('child1')">How to send request to dorm manager</p>
             <div class="content_rule hidden" id="child1">
                 <p>Bước 1: Vào chức năng My request.</p>
                 <br>
@@ -132,30 +187,30 @@
                 <p>Bước 4: Bấm vào nút Create request.</p>
             </div>
         </div>
-        <div class="row">
-            <p class="rule" id="parent2" onclick="toggleVisibility('child2')">2. Rule 2</p>
-            <div class="content_rule hidden" id="child2">
-                <strong>Ký túc xá có một số điều cần lưu ý khi ở như sau:</strong>
-                <ul>
-                    <li>Không được nuôi vật nuôi, thú cưng (chó, mèo,...).</li>
-                    <li>Không được uống rượu, bia, chơi cờ bạc, sử dụng các chất kích thích và chất cấm.</li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <p class="rule" id="parent3" onclick="toggleVisibility('child3')">3. Rule 3</p>
-            <div class="content_rule hidden" id="child3">
-                <p>Bước 1: Vào chức năng My request</p>
-                <br>
-                <p>Bước 2: Bấm vào nút Create new request -> Chọn Báo cáo vấn đề kỹ thuật ở mục Type request</p>
-                <br>
-                <p>Bước 3: Hệ thống sẽ dẫn tới trang https://cim.fpt.edu.vn/</p>
-                <br>
-                <p>Bước 4: Điền những thông tin cần thiết và gửi ảnh tình trạng thiết bị (trên hệ thống CIM)</p>
-                <br>
-                <p>Bước 5: Bấm vào nút Create (trên hệ thống CIM)</p>
-            </div>
-        </div>
+<!--        <div class="row">-->
+<!--            <p class="rule" id="parent2" onclick="toggleVisibility('child2')"></p>-->
+<!--            <div class="content_rule hidden" id="child2">-->
+<!--                <strong>Ký túc xá có một số điều cần lưu ý khi ở như sau:</strong>-->
+<!--                <ul>-->
+<!--                    <li>Không được nuôi vật nuôi, thú cưng (chó, mèo,...).</li>-->
+<!--                    <li>Không được uống rượu, bia, chơi cờ bạc, sử dụng các chất kích thích và chất cấm.</li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="row">-->
+<!--            <p class="rule" id="parent3" onclick="toggleVisibility('child3')">3. Rule 3</p>-->
+<!--            <div class="content_rule hidden" id="child3">-->
+<!--                <p>Bước 1: Vào chức năng My request</p>-->
+<!--                <br>-->
+<!--                <p>Bước 2: Bấm vào nút Create new request -> Chọn Báo cáo vấn đề kỹ thuật ở mục Type request</p>-->
+<!--                <br>-->
+<!--                <p>Bước 3: Hệ thống sẽ dẫn tới trang https://cim.fpt.edu.vn/</p>-->
+<!--                <br>-->
+<!--                <p>Bước 4: Điền những thông tin cần thiết và gửi ảnh tình trạng thiết bị (trên hệ thống CIM)</p>-->
+<!--                <br>-->
+<!--                <p>Bước 5: Bấm vào nút Create (trên hệ thống CIM)</p>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 
     <footer>

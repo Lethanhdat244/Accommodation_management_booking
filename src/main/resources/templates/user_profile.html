@@ -64,25 +64,26 @@
                             </div>
                             <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                 <ul class="list-unstyled nav1 cl-effect-10">
-                                    <li><a data-hover="News" href="#"><span>News</span></a></li>
+                                    <li><a data-hover="News" th:href="@{/fpt-dorm/user/news}"><span>News</span></a></li>
                                     <li><a data-hover="Booking"
-                                           th:href="@{/fpt-dorm/home-user/booking}"><span>Booking</span></a></li>
+                                           th:href="@{/fpt-dorm/user/booking}"><span>Booking</span></a></li>
                                     <li><a data-hover="Available beds"
-                                           th:href="@{/fpt-dorm/home-user/detail-dorm}"><span>Available beds</span></a>
+                                           th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
                                     </li>
                                     <li><a data-hover="Usage service"
-                                           th:href="@{/fpt-dorm/home-user/usage-service}"><span>Usage service</span></a>
+                                           th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a>
                                     </li>
                                     <li><a data-hover="Payment"
-                                           th:href="@{/fpt-dorm/home-user/payment}"><span>Payment</span></a></li>
+                                           th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a></li>
                                     <li><a data-hover="Resident History"
-                                           th:href="@{/fpt-dorm/home-user/resident}"><span>Resident History</span></a>
+                                           th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a>
                                     </li>
-                                    <li><a data-hover="Request" th:href="@{/fpt-dorm/home-user/my-request}"><span>Request</span></a>
+                                    <li><a data-hover="Request"
+                                           th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a>
                                     </li>
-                                    <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/home-user/rule}"><span>Dormitory rules</span></a>
+                                    <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/user/rule}"><span>Dormitory rules</span></a>
                                     </li>
-                                    <li><a data-hover="FAQ" th:href="@{/fpt-dorm/home-user/faq}"><span>FAQ</span></a>
+                                    <li><a data-hover="FAQ" th:href="@{/fpt-dorm/user/faq}"><span>FAQ</span></a>
                                     </li>
                                 </ul>
                             </div>
@@ -117,50 +118,38 @@
             </div>
             <div class="col-md-9">
                 <div class="profile-content">
-                    <h2>Profile Details</h2>
-                    <form th:action="@{/fpt-dorm/profile-update}" method="post">
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" class="form-control" id="name" name="name" th:value="${user.username}"
-                                   required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Gender</label>
-                            <div>
-                                <label>
-                                    <input type="radio" th:field="*{user.gender}" value="Male"> Male
-                                </label>
-                                <label>
-                                    <input type="radio" th:field="*{user.gender}" value="Female"> Female
-                                </label>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" th:value="${user.email}"
-                                   required readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="text" class="form-control" id="phone" name="phone"
-                                   th:value="${user.phoneNumber}" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="abcd">Citizen identification card:</label>
-                            <input type="email" class="form-control" id="abcd" name="abcd" th:value="${user.cccdNumber}"
-                                   required readonly>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Address</label>
-                            <input type="text" class="form-control" id="address" name="address"
-                                   th:value="${user.address}" required>
-                        </div>
-
+                    <h2 style="margin-bottom: 20px">Profile Details</h2>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <span id="name" th:text="${user.username}">User Name</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender:</label>
+                        <span th:text="${user.gender}"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <span id="email" th:text="${user.email}">user@example.com</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthdate">Birthdate:</label>
+                        <span id="birthdate" th:text="${user.birthdate}">DOB</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <span id="phone" th:text="${user.phoneNumber}">123-456-7890</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="abcd">Citizen identification card:</label>
+                        <span id="abcd" th:text="${user.cccdNumber}">123456789</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <span id="address" th:text="${user.address}">123 Main St, City, Country</span>
+                    </div>
+                    <a th:href="@{/fpt-dorm/user/edit-profile/{email}(email=${user.email})}">
                         <button type="submit" class="btn btn-primary">Update Profile</button>
-                    </form>
+                    </a>
                 </div>
             </div>
         </div>

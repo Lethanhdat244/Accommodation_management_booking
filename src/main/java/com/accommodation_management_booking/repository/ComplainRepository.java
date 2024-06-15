@@ -12,4 +12,6 @@ import java.util.List;
 public interface ComplainRepository extends JpaRepository<Complaint, Integer> {
     @Query("SELECT c FROM Complaint c")
     List<Complaint> getAllRequest();
+    @Query("SELECT c FROM Complaint c WHERE c.user.userId = :userid")
+    List<Complaint> getRequestsByUserId(@Param("userid") int userid);
 }
