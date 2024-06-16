@@ -171,42 +171,27 @@
 
     <div class="container">
         <div class="news-section1">
-            <h2>View by Dom</h2>
-            <div>
-                <label for="dormId">Dorm:</label>
-                <input type="number" id="dormId" name="dormId" required>
-                <button onclick="fetchFloors()">Fetch Floors</button>
-            </div>
-            <script>
-                function fetchFloors() {
-                    const dormId = document.getElementById("dormId").value;
-                    const url = `/fpt-dorm/user/floor-list/${dormId}`;
-                    window.location.href = url;
-                }
-            </script>
-            <table th:if="${floorBedUsageList != null && !floorBedUsageList.isEmpty()}">
+            <h2>List Free Bed</h2>
+            <table th:if="${roomBedUsageList != null && !roomBedUsageList.isEmpty()}">
                 <thead>
                 <tr>
-                    <th>Floor Number</th>
-                    <th>Used Beds</th>
+                    <th>Room Number</th>
+                    <th>Total Beds</th>
                     <th>Free Beds</th>
-                    <th></th>
+                    <th>Used Beds</th>
+                    <th>Price Per Month</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="floorUsage : ${floorBedUsageList}">
-                    <td th:text="${floorUsage.floor.floorNumber}"></td>
-                    <td th:text="${floorUsage.usedBeds}"></td>
-                    <td th:text="${floorUsage.freeBeds}"></td>
-                    <td style="font-weight: bold; color: blue;">
-                        <a th:href="@{/fpt-dorm/user/room-list-used/{floorId}(floorId=${floorUsage.floor.floorId})}">
-                            Detail
-                        </a>
-                    </td>
+                <tr th:each="roomUsage : ${roomBedUsageList}">
+                    <td th:text="${roomUsage.room.roomNumber}"></td>
+                    <td th:text="${roomUsage.totalBeds}"></td>
+                    <td th:text="${roomUsage.usedBeds}"></td>
+                    <td th:text="${roomUsage.unusedBeds}"></td>
+                    <td th:text="${roomUsage.room.pricePerBed}"></td>
                 </tr>
                 </tbody>
             </table>
-            <h2 style="color: red" th:if="${floorBedUsageList == null || floorBedUsageList.isEmpty()}">No floors found for this dorm.</h2>
         </div>
     </div>
 

@@ -2,8 +2,10 @@ package com.accommodation_management_booking.controller;
 
 import com.accommodation_management_booking.dto.DormBedInfoDTO;
 import com.accommodation_management_booking.dto.FloorBedUsage;
+import com.accommodation_management_booking.dto.RoomBedUsage;
 import com.accommodation_management_booking.service.DormService;
 import com.accommodation_management_booking.service.FloorService;
+import com.accommodation_management_booking.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +21,13 @@ public class DormController {
 
     private final FloorService floorService;
 
+    private final RoomService roomService;
+
     @Autowired
-    public DormController(DormService dormService, FloorService floorService) {
+    public DormController(DormService dormService, FloorService floorService, RoomService roomService) {
         this.dormService = dormService;
         this.floorService = floorService;
+        this.roomService = roomService;
     }
 
     @GetMapping("/fpt-dorm/user/detail-dorm")
@@ -37,5 +42,12 @@ public class DormController {
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
         model.addAttribute("floorBedUsageList", floorBedUsageList);
         return "floor_list";
+    }
+
+    @GetMapping("/fpt-dorm/user/room-list-used/{floorId}")
+    public String floorDetail(@PathVariable("floorId") int floorId, Model model) {
+        List<RoomBedUsage> roomBedUsageList = roomService.getRoomBedUsageByFloorId(floorId);
+        model.addAttribute("roomBedUsageList", roomBedUsageList);
+        return "used_room_list";
     }
 }

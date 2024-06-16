@@ -1,20 +1,25 @@
-package com.accommodation_management_booking.service;//package com.accommodation_management_booking.service;
-//
-//import com.accommodation_management_booking.dto.RoomDTO;
-//import com.accommodation_management_booking.entity.Room;
-//import com.accommodation_management_booking.repository.RoomRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.ui.Model;
-//import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-//
-//import java.time.LocalDateTime;
-//import java.util.List;
-//import java.util.Optional;
-//import java.util.stream.Collectors;
-//
-//@Service
-//public class RoomService {
+package com.accommodation_management_booking.service;
+
+import com.accommodation_management_booking.dto.RoomBedUsage;
+import com.accommodation_management_booking.dto.RoomDTO;
+import com.accommodation_management_booking.entity.Room;
+import com.accommodation_management_booking.repository.RoomRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+public interface RoomService {
+    List<RoomBedUsage> getRoomBedUsageByFloorId(Integer floorId) ;
+}
+
+
+
 //
 //    @Autowired
 //    private RoomRepository roomRepo;
@@ -96,7 +101,4 @@ package com.accommodation_management_booking.service;//package com.accommodation
 //            ra.addFlashAttribute("message", "Room not found");
 //        }
 //    }
-//
-//
-//
-//}
+
