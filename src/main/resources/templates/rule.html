@@ -1,14 +1,49 @@
 <!DOCTYPE html>
-<html lang="en"
-    xmlns:th="www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FU Dormitory Regulations</title>
+    <title>PDF Viewer</title>
+    <style>
+        #pdf-viewer {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #000;
+        }
+    </style>
 </head>
 <body>
-    <h1>FU Dormitory Regulations</h1>
-    <embed th:src="@{/KTX-HL.pdf}">
+<h1>Hello</h1>
+<div id="pdf-viewer"></div>
+<script src="/pdfjs/pdf.js"></script>
+<script>
+    var url = /*[[@{/pdf/KTX-HL.pdf}]]*/ '/pdf/KTX-HL.pdf';
+
+    var pdfjsLib = window['pdfjs-dist/build/pdf'];
+    pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.js';
+
+    var loadingTask = pdfjsLib.getDocument(url);
+    loadingTask.promise.then(function(pdf) {
+        pdf.getPage(1).then(function(page) {
+            var scale = 1.5;
+            var viewport = page.getViewport({ scale: scale });
+
+            var canvas = document.createElement('canvas');
+            var context = canvas.getContext('2d');
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            var renderContext = {
+                canvasContext: context,
+                viewport: viewport
+            };
+            var renderTask = page.render(renderContext);
+            renderTask.promise.then(function() {
+                document.getElementById('pdf-viewer').appendChild(canvas);
+            });
+        });
+    }, function(reason) {
+        console.error(reason);
+    });
+</script>
 </body>
 </html>

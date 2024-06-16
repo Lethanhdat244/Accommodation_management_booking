@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Choose Type of Room | User</title>
+    <title>Complete Booking Form | User</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
@@ -52,6 +52,7 @@
             padding: 20px;
             margin-bottom: 30px;
             margin-right: auto;
+            margin-left: 40px;
         }
     </style>
 
@@ -125,7 +126,7 @@
                             <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                 <ul class="list-unstyled nav1 cl-effect-10">
                                     <li><a data-hover="News" th:href="@{/fpt-dorm/user/news}"><span>News</span></a></li>
-                                    <li><a data-hover="Booking" class="active"><span>Booking</span></a></li>
+                                    <li><a data-hover="Booking" th:href="@{/fpt-dorm/user/booking}"><span>Booking</span></a></li>
                                     <li><a data-hover="Available beds" th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a></li>
                                     <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a></li>
                                     <li><a data-hover="Payment" th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a></li>
@@ -157,31 +158,107 @@
     <div class="container">
         <button class="btn btn--back" onclick="window.history.back()"><i data-feather="arrow-left"></i>Back</button>
         <div class="row justify-content-center">
-            <div class="col-lg-8 col-sm-12 request_box">
-                <h1 class="text-center">Choose Type of Room</h1>
-                <form action="/fpt-dorm/user/booking/select" method="post">
+            <div class="col-lg-7 col-sm-12 request_box">
+                <h1>Booking Details</h1>
+                <form id="bookingForm" action="/fpt-dorm/user/booking/confirm" method="post">
+                    <input type="hidden" name="userId" th:value="${userId}" />
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="roomType">Room Type:</label>
-                                <select class="form-control" id="roomType" name="roomType" onchange="updatePrice()">
-                                    <option value="" disabled selected>-- Choose an option --</option>
-                                    <option value="4-bed">4-bed Room</option>
-                                    <option value="6-bed">6-bed Room</option>
+                                <div class="form-group">
+                                    <label>Room Type</label>
+                                    <input type="text" class="form-control" name="roomType" th:value="${roomType}" readonly>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="dorm">Dorm:</label>
+                                <select class="form-control" id="dorm" name="dorm" onchange="updateFloors()">
+                                    <option value="" disabled selected>-- Select Dorm --</option>
+                                    <option th:each="dorm : ${dorms}" th:value="${dorm.dormId}" th:text="${dorm.dormName}"></option>
                                 </select>
+                                <span id="dormError" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Price:</label>
-                                <p id="price" class="font-weight-bold">0 VND</p>
+                                <label for="floor">Floor:</label>
+                                <select class="form-control" id="floor" name="floor" onchange="updateRooms()">
+                                    <option value="" disabled selected>-- Select Floor --</option>
+                                </select>
+                                <span id="floorError" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn-block">Next</button>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="room">Room:</label>
+                                <select class="form-control" id="room" name="room" onchange="updateBeds()">
+                                    <option value="" disabled selected>-- Select Room --</option>
+                                </select>
+                                <span id="roomError" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="bed">Bed:</label>
+                                <select class="form-control" id="bed" name="bed">
+                                    <option value="" disabled selected>-- Select Bed --</option>
+                                </select>
+                                <span id="bedError" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="checkin">Check-in Date:</label>
+                                <input type="date" class="form-control" id="checkin" name="checkin" onchange="calculateTotalPrice()">
+                                <span id="checkinError" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="checkout">Check-out Date:</label>
+                                <input type="date" class="form-control" id="checkout" name="checkout" onchange="calculateTotalPrice()">
+                                <span id="checkoutError" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="totalPrice">Total Price:</label>
+                        <input type="text" class="form-control" id="totalPrice" name="totalPrice" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="amountPaid">Amount Paid:</label>
+                        <input type="number" class="form-control" id="amountPaid" name="amountPaid" required>
+                        <span id="amountPaidError" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Book Now</button>
+
                 </form>
+            </div>
+            <div class="col-lg-4 col-sm-12 request_list">
+                <h2>Booking Instructions</h2>
+                <p>Please make sure to fill in all the required fields. The room type and check-in date can be changed.
+                    The price will be updated accordingly. If you have any questions, feel free to contact our support team.</p>
+                <br/><br/>
+                <h3>Important Notes:</h3>
+                <ul>
+                    <li>Check-in time is from 2:00 PM.</li>
+                    <li>Check-out time is by 12:00 PM.</li>
+                    <li>Ensure all your information is accurate before submitting.</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -258,5 +335,154 @@
         <span>Top</span>
     </a>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById("checkin").setAttribute('min', today);
+
+        document.getElementById("bookingForm").addEventListener("submit", function(event) {
+            validateForm(event);
+        });
+    });
+
+    function updateFloors() {
+        const dormId = document.getElementById("dorm").value;
+        $.get('/fpt-dorm/user/booking/floors', { dormId: dormId }, function(data) {
+            let floorSelect = $('#floor');
+            floorSelect.empty();
+            floorSelect.append('<option value="" disabled selected>-- Select Floor --</option>');
+            $.each(data, function(i, floor) {
+                floorSelect.append('<option value="' + floor.floorId + '">' + floor.floorNumber + '</option>');
+            });
+        });
+    }
+
+    function updateRooms() {
+        const floorId = document.getElementById("floor").value;
+        const roomType = document.querySelector('input[name="roomType"]').value;
+        const capacity = roomType === '4-bed' ? 4 : 6;
+        $.get('/fpt-dorm/user/booking/rooms', { floorId: floorId, capacity: capacity }, function(data) {
+            let roomSelect = $('#room');
+            roomSelect.empty();
+            roomSelect.append('<option value="" disabled selected>-- Select Room --</option>');
+            $.each(data, function(i, room) {
+                roomSelect.append('<option value="' + room.roomId + '">' + room.roomNumber + '</option>');
+            });
+        });
+    }
+
+    function updateBeds() {
+        const roomId = document.getElementById("room").value;
+        $.get('/fpt-dorm/user/booking/beds', { roomId: roomId }, function(data) {
+            let bedSelect = $('#bed');
+            bedSelect.empty();
+            bedSelect.append('<option value="" disabled selected>-- Select Bed --</option>');
+            $.each(data, function(i, bed) {
+                bedSelect.append('<option value="' + bed.bedId + '">' + bed.bedName + '</option>');
+            });
+        });
+    }
+
+    document.getElementById("checkin").addEventListener("change", function() {
+        const checkinDate = new Date(this.value);
+        const checkoutInput = document.getElementById("checkout");
+        if (checkinDate) {
+            const minCheckoutDate = new Date(checkinDate);
+            minCheckoutDate.setMonth(minCheckoutDate.getMonth() + 1);
+            checkoutInput.setAttribute('min', minCheckoutDate.toISOString().split('T')[0]);
+        }
+        calculateTotalPrice();
+    });
+
+    function calculateTotalPrice() {
+        const checkin = document.getElementById("checkin").value;
+        const checkout = document.getElementById("checkout").value;
+        const roomType = document.querySelector('input[name="roomType"]').value;
+        const pricePerMonth = roomType === '4-bed' ? 1200000 : 1000000;
+
+        if (checkin && checkout) {
+            const checkinDate = new Date(checkin);
+            const checkoutDate = new Date(checkout);
+            const timeDifference = checkoutDate.getTime() - checkinDate.getTime();
+            const daysDifference = timeDifference / (1000 * 3600 * 24);
+
+            if (daysDifference > 0) {
+                const months = daysDifference / 30;
+                const totalPrice = pricePerMonth * months;
+                document.getElementById("totalPrice").value = totalPrice.toFixed(2);
+            } else {
+                document.getElementById("totalPrice").value = '';
+            }
+        }
+    }
+
+    function validateForm(event) {
+        let isValid = true;
+
+        const dorm = document.getElementById("dorm").value;
+        const floor = document.getElementById("floor").value;
+        const room = document.getElementById("room").value;
+        const bed = document.getElementById("bed").value;
+        const checkin = document.getElementById("checkin").value;
+        const checkout = document.getElementById("checkout").value;
+        const totalPrice = parseFloat(document.getElementById("totalPrice").value);
+        const amountPaid = parseFloat(document.getElementById("amountPaid").value);
+
+        if (!dorm) {
+            isValid = false;
+            document.getElementById("dormError").innerText = "Please select a dorm.";
+        } else {
+            document.getElementById("dormError").innerText = "";
+        }
+
+        if (!floor) {
+            isValid = false;
+            document.getElementById("floorError").innerText = "Please select a floor.";
+        } else {
+            document.getElementById("floorError").innerText = "";
+        }
+
+        if (!room) {
+            isValid = false;
+            document.getElementById("roomError").innerText = "Please select a room.";
+        } else {
+            document.getElementById("roomError").innerText = "";
+        }
+
+        if (!bed) {
+            isValid = false;
+            document.getElementById("bedError").innerText = "Please select a bed.";
+        } else {
+            document.getElementById("bedError").innerText = "";
+        }
+
+        if (!checkin) {
+            isValid = false;
+            document.getElementById("checkinError").innerText = "Please select a check-in date.";
+        } else {
+            document.getElementById("checkinError").innerText = "";
+        }
+
+        if (!checkout) {
+            isValid = false;
+            document.getElementById("checkoutError").innerText = "Please select a check-out date.";
+        } else {
+            document.getElementById("checkoutError").innerText = "";
+        }
+
+        if (!amountPaid || amountPaid < totalPrice) {
+            isValid = false;
+            document.getElementById("amountPaidError").innerText = "Amount paid must be greater than or equal to total price.";
+        } else {
+            document.getElementById("amountPaidError").innerText = "";
+        }
+
+        if (!isValid) {
+            event.preventDefault();
+        }
+    }
+</script>
+
 </body>
 </html>

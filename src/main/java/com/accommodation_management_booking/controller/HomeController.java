@@ -43,7 +43,7 @@ public class HomeController {
         return "contact";
     }
 
-    @GetMapping("fpt-dorm/user/news/rule")
+    @GetMapping("fpt-dorm/user/rule")
     public String rule(){
         return "rule";
     }
