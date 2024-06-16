@@ -866,6 +866,11 @@ footer a{
     height: 350px;
     position: relative;
 }
+.image-head-wrapperss {
+    background: rgba(0, 0, 0, 0) url("../images/inner-banner.png") no-repeat scroll center top;
+    height: 190px;
+    position: relative;
+}
 .inner-wrapper {
     color: #fff;
     left: 70%;

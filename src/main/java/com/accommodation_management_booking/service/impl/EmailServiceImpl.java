@@ -43,6 +43,20 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
+    public void sendMailGuess(String email, String content) {
+        MimeMessage message = mailSender.createMimeMessage();
+        try {
+            MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
+            helper.setTo(email);
+            helper.setSubject("Client consultant");
+            helper.setText(content, false);
+            mailSender.send(message);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void sendCompleteRegistrationEmail(String email, String content) {
         MimeMessage message = mailSender.createMimeMessage();
         try {
