@@ -32,11 +32,6 @@ public class HomeController {
         return "gallery";
     }
 
-    @GetMapping("fpt-dorm/home/dinning")
-    public String dinning(){
-        return "dinning";
-    }
-
 
     @GetMapping("fpt-dorm/home/contact")
     public String contact(){

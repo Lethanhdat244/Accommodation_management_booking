@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Contact</title>
+    <title>Dining</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
@@ -27,7 +27,8 @@
     <div class="top-header">
         <div class="container">
             <div class="row">
-                <div class="col-md-6"></div>
+                <div class="col-md-6">
+                </div>
                 <div class="col-md-6">
                     <div class="social-grid">
                         <ul class="list-unstyled text-right">
@@ -72,8 +73,8 @@
                                     <li><a data-hover="About" th:href="@{/fpt-dorm/home/about}"><span>About</span></a></li>
                                     <li><a data-hover="Rooms" th:href="@{/fpt-dorm/home/room}"><span>Rooms</span></a></li>
                                     <li><a data-hover="Gallery" th:href="@{/fpt-dorm/home/gallery}"><span>Gallery</span></a></li>
-                                    <li><a data-hover="Dinning" th:href="@{/fpt-dorm/home/dinning}"><span>Dinning</span></a></li>
-                                    <li><a data-hover="Contact Us" class="active"><span>Contact Us</span></a></li>
+                                    <li><a data-hover="Dining" class="active"><span>Dining</span></a></li>
+                                    <li><a data-hover="Contact Us" th:href="@{/fpt-dorm/home/contact}"><span>Contact Us</span></a></li>
                                 </ul>
                             </div>
                         </nav>
@@ -89,122 +90,116 @@
     </header>
 
     <!--end-->
-    <section class="image-head-wrapper" style="background-image: url('/static/homepage_user/images/banner4.jpg');">
+    <section class="image-head-wrapper" style="background-image: url('/static/homepage_user/images/banner2.jpg');">
         <div class="inner-wrapper">
-            <h1>Contact Us</h1>
+            <h1>Dining</h1>
         </div>
     </section>
     <div class="clearfix"></div>
 
-    <section class="contact-block">
+    <!--dining-->
+    <section class="blog">
         <div class="container">
-            <div class="col-md-6 contact-left-block">
-                <h3><span>Contact </span>Us</h3>
-                <p class="text-left">Welcome to FPT Dorm Booking. Please contact us for any inquiries about room reservations and dormitory facilities.</p>
-                <p class="text-right">Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch Thất, TP. HN <i class="fa fa-map-marker fa-lg"></i></p>
-                <p class="text-right"><a href="tel:+842473001866"> (024) 7300.1866 / (024) 7300.5588 <i class="fa fa-phone fa-lg"></i></a></p>
-                <p class="text-right"><a href="mailto:daihocfpt@fpt.edu.vn"> daihocfpt@fpt.edu.vn <i class="fa fa-envelope"></i></a></p>
-            </div>
-            <div class="col-md-6 contact-form">
-                <h3>Send a <span>Message</span></h3>
-                <form action="/sendContactMessage" method="post">
-                    <input type="text" class="form-control" name="Name" placeholder="Name" required="">
-                    <input type="email" class="form-control" name="Email" placeholder="Email" required="">
-                    <textarea class="form-control" name="Message" placeholder="Message Here...." required=""></textarea>
-                    <input type="submit" class="submit-btn" value="Submit">
-                </form>
-                <!-- Success message display -->
-                <div th:if="${successMessage}" class="alert alert-success" role="alert">
-                    <p th:text="${successMessage}"></p>
+            <div class="row">
+
+                <div class="col-md-9 col-sm-8 col-xs-12">
+                    <h2 class="blog-title-head">Dining at FPT Dorm</h2>
+                    <div class="blog-image-single margin-top-small">
+                        <img src="/static/homepage_user/images/dining.jpg" class="img-responsive" alt="Dining Image">
+                    </div>
+                    <p class="blog-desc">
+                        Welcome to the dining services at FPT Dorm! We are committed to providing our residents with a variety of delicious and nutritious meals that cater to different tastes and dietary needs. Our dining facilities are designed to offer a comfortable and inviting atmosphere where students can enjoy their meals, socialize, and relax.
+                    </p>
+                    <p class="blog-desc">
+                        <strong>Menu Highlights:</strong>
+                    <ul>
+                        <li>Daily Specials: Enjoy a different special meal each day, crafted by our talented chefs.</li>
+                        <li>Vegetarian Options: We offer a wide range of vegetarian dishes to ensure everyone has something delicious to eat.</li>
+                        <li>International Cuisine: Sample flavors from around the world with our rotating international menu.</li>
+                        <li>Healthy Choices: We provide a variety of healthy meal options to support your wellbeing.</li>
+                    </ul>
+                    </p>
+                    <p class="blog-desc">
+                        Our dining hall is open from 7:00 AM to 10:00 PM daily. We also offer meal plans that are flexible and can be customized to fit your schedule and preferences. Whether you need a quick bite between classes or a leisurely dinner with friends, our dining services have you covered.
+                    </p>
+
+                    <div class="clearfix"></div>
+                    <div class="single-bottom comment-form">
+                        <h3>Leave your Comment</h3>
+                        <form th:action="@{/fpt-dorm/home/dining/comments}" method="post">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" required="">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="">
+                            <textarea class="form-control" id="message" name="message" placeholder="Message Here...." required=""></textarea>
+                            <input type="submit" class="submit-btn" value="Send">
+                        </form>
+                        <h4>All Comments</h4>
+                        <div th:each="comment : ${comments}">
+                            <p><strong th:text="${comment.name}">Name</strong> (<span th:text="${comment.email}">Email</span>)</p>
+                            <p th:text="${#dates.format(comment.createdAt, 'dd/MM/yyyy HH:mm')}">Created At</p>
+                            <p th:text="${comment.message}">Message</p>
+                            <hr>
+                        </div>
+                    </div>
                 </div>
+                <aside class="col-md-3 col-sm-4 col-xs-12">
+                    <div class="blog-list">
+                        <h4>Categories</h4>
+                        <ul>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>Dining Tips</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>Healthy Eating</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>Recipe Ideas</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>Food Reviews</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>Chef's Corner</a></li>
+                        </ul>
+
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="blog-list">
+                        <h4>Archives</h4>
+                        <ul>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>February 2021</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>January 2021</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>December 2020</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>November 2020</a></li>
+                            <li><a href="#"><i class="fa fa-caret-right"> </i>October 2020</a></li>
+                        </ul>
+                        <div class="clearfix"> </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+                </aside>
             </div>
-            <div class="clearfix"></div>
         </div>
     </section>
 
-    <!---map--->
-    <section class="offspace-70">
-        <div class="map">
-            <div class="container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.5062169040166!2d105.52271427471399!3d21.012421688340613!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31345034716dc947%3A0x2be1bbbc9ec2e24c!2sFPT%20University%20Hoa%20Lac!5e0!3m2!1sen!2s!4v1623033087840!5m2!1sen!2s" width="100%" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
-            </div>
-        </div>
-    </section>
     <!---footer--->
-    <footer class="footer">
+    <footer>
         <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12 width-set-50">
-                    <div class="footer-details">
-                        <h4>Contact Us</h4>
-                        <ul class="list-unstyled footer-contact-list">
-                            <li>
-                                <i class="fa fa-map-marker fa-lg"></i>
-                                <p>FPT University, Hoa Lac Campus, Km29 Thang Long Boulevard, Thach That, Hanoi</p>
-                            </li>
-                            <li>
-                                <i class="fa fa-phone fa-lg"></i>
-                                <p><a href="tel:+842473001866"> (024) 7300.1866 / (024) 7300.5588 </a></p>
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope-o fa-lg"></i>
-                                <p><a href="mailto:daihocfpt@fpt.edu.vn"> daihocfpt@fpt.edu.vn</a></p>
-                            </li>
-                        </ul>
-                        <div class="footer-social-icon">
-                            <ul class="list-inline">
-                                <li><a class="fa fa-facebook" href="#"></a></li>
-                                <li><a class="fa fa-twitter" href="#"></a></li>
-                                <li><a class="fa fa-google-plus" href="#"></a></li>
-                                <li><a class="fa fa-linkedin" href="#"></a></li>
-                                <li><a class="fa fa-pinterest-p" href="#"></a></li>
-                                <li><a class="fa fa-youtube-play" href="#"></a></li>
-                            </ul>
-                        </div>
-                    </div>
+            <div class="footer-info col-md-12">
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <p class="footer-logo"><span>FPT</span>Dorm</p>
                 </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 width-50 width-set-50">
-                    <div class="footer-details">
-                        <h4>explore</h4>
-                        <ul class="list-unstyled footer-links">
-                            <li><a href="/fpt-dorm/home/about">About</a></li>
-                            <li><a href="/fpt-dorm/home/room">Rooms</a></li>
-                            <li><a href="/fpt-dorm/home/gallery">Gallery</a></li>
-                            <li><a href="/fpt-dorm/home/dinning">Dinning</a></li>
-                            <li><a href="/fpt-dorm/home/news">News</a></li>
-                            <li><a href="/fpt-dorm/home/contact">Contact Us</a></li>
-                        </ul>
-                    </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <address>
+                        <p><i class="fa fa-map-marker fa-lg"></i> 123 Main Street, Hanoi, Vietnam</p>
+                        <p><i class="fa fa-phone fa-lg"></i>  +84 123 456 789</p>
+                        <p><i class="fa fa-envelope"></i> <a href="mailto:info@fptdorm.com">info@fptdorm.com</a></p>
+                    </address>
                 </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 width-50 width-set-50">
-                    <div class="footer-details">
-                        <h4>We are global</h4>
-                        <ul class="list-unstyled footer-links">
-                            <li><a href="#">Sitemap</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
-                            <li><a href="#">Terms of Use</a></li>
-                            <li><a href="#">Our Story</a></li>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Corporate</a></li>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="connect-us">
+                        <p>Connect with us</p>
+                        <ul>
+                            <li><a><i class="fa fa-facebook"></i></a></li>
+                            <li><a><i class="fa fa-twitter"></i></a></li>
+                            <li><a><i class="fa fa-linkedin"></i></a></li>
+                            <li><a><i class="fa fa-instagram"></i></a></li>
                         </ul>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 width-50 width-set-50">
-                    <div class="footer-details">
-                        <h4>newsletter</h4>
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Enter email here...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" type="button">subscribe</button>
-                            </span>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </footer>
-    <!--back to top--->
-    <a href="#0" class="cd-top">Top</a>
 </div>
 </body>
 </html>
