@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,16 +44,47 @@ public class DormServiceImpl implements DormService {
         return new DormBedInfoDTO(dorm.getDormId(), dorm.getDormName(), totalBeds, usedBeds, availableBeds);
     }
 
-    @Override
     public List<DormBedInfoDTO> getAllDormBedInfo() {
         List<Dorm> dorms = dormRepository.findAll();
-        return dorms.stream().map(dorm -> {
-            List<Bed> beds = bedRepository.findByRoom_Floor_Dorm_DormId(dorm.getDormId());
-            int totalBeds = beds.size();
-            int usedBeds = (int) beds.stream().filter(bed -> !bed.getIsAvailable()).count();
-            int availableBeds = totalBeds - usedBeds;
-            return new DormBedInfoDTO(dorm.getDormId(), dorm.getDormName(), totalBeds, usedBeds, availableBeds);
-        }).collect(Collectors.toList());
+        return dorms.stream().map(this::mapToDTO).collect(Collectors.toList());
+    }
+
+    private DormBedInfoDTO mapToDTO(Dorm dorm) {
+        List<Bed> beds = bedRepository.findByRoom_Floor_Dorm_DormId(dorm.getDormId());
+        int totalBeds = beds.size();
+        int usedBeds = (int) beds.stream().filter(bed -> !bed.getIsAvailable()).count();
+        int availableBeds = totalBeds - usedBeds;
+        return new DormBedInfoDTO(dorm.getDormId(), dorm.getDormName(), dorm.getDormGender(), totalBeds, usedBeds, availableBeds);
+    }
+
+
+    @Override
+    public List<Dorm> getAllDorms() {
+        return dormRepository.findAll();
+    }
+
+    @Override
+    public Dorm getDormById(Integer dormId) {
+        Optional<Dorm> dormOptional = dormRepository.findById(dormId);
+        return dormOptional.orElse(null);
+    }
+
+    @Override
+    public Dorm saveDorm(Dorm dorm) {
+        if (dormRepository.existsByDormName(dorm.getDormName())) {
+            throw new IllegalArgumentException("Dorm with this name already exists.");
+        }
+        return dormRepository.save(dorm);
+    }
+
+    @Override
+    public void deleteDorm(Integer dormId) {
+        dormRepository.deleteById(dormId);
+    }
+
+    @Override
+    public void updateDorm(Dorm dorm) {
+        dormRepository.save(dorm);
     }
 
 

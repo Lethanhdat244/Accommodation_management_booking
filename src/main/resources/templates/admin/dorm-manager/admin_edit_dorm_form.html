@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Dorm</title>
+</head>
+<body>
+<h2>Edit Dorm</h2>
+<form th:action="@{/fpt-dorm/admin/update-dorm}" th:object="${dorm}" method="post">
+    <input type="hidden" th:field="*{dormId}" />
+    <label>Dorm Name:</label>
+    <input type="text" th:field="*{dormName}" /><br/>
+    <span th:if="${error}" style="color: red;" th:text="${error}"></span><br/>
+    <select th:field="*{dormGender}">
+        <option th:each="gender : ${T(com.accommodation_management_booking.entity.Dorm$DormGender).values()}"
+                th:value="${gender}" th:text="${gender}"></option>
+    </select>
+    <button type="submit">Update Dorm</button>
+</form>
+<a th:href="@{/fpt-dorm/admin/view-dorm-list}">Back to Dorm List</a>
+</body>
+</html>

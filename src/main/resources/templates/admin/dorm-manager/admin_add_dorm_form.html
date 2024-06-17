@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dorm Form</title>
+</head>
+<body>
+<h1>Dorm Form</h1>
+
+<!-- Display error message if present -->
+<div th:if="${error}" style="color: red;">
+    <p th:text="${error}"></p>
+</div>
+
+<form action="/fpt-dorm/admin/save" method="post" th:object="${dorm}">
+    <input type="hidden" th:field="*{dormId}">
+    <p>
+        Dorm Name: <input type="text" th:field="*{dormName}" required>
+    </p>
+    <p>
+        Dorm Gender:
+        <select th:field="*{dormGender}">
+            <option th:each="gender : ${T(com.accommodation_management_booking.entity.Dorm$DormGender).values()}"
+                    th:value="${gender}" th:text="${gender}"></option>
+        </select>
+    </p>
+    <p>
+        <button type="submit">Save</button>
+    </p>
+</form>
+
+<h1>Quy tắc thêm tên Dorm</h1>
+
+</body>
+</html>

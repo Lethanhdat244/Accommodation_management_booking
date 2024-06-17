@@ -1,11 +1,17 @@
 package com.accommodation_management_booking.dto;
 
+import com.accommodation_management_booking.entity.Dorm;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DormBedInfoDTO {
     private Integer dormId;
     private String dormName;
+    private Dorm.DormGender dormGender;
     private Integer totalBeds;
     private Integer usedBeds;
     private Integer availableBeds;

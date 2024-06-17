@@ -130,7 +130,7 @@
                             </div>
                             <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                 <ul class="list-unstyled nav1 cl-effect-10">
-                                    <li><a data-hover="News" class="active"><span>News</span></a></li>
+                                    <li><a data-hover="News" class="active" th:href="@{/fpt-dorm/user/news}"><span>News</span></a></li>
                                     <li><a data-hover="Booking" th:href="@{/fpt-dorm/user/booking}"><span>Booking</span></a>
                                     </li>
                                     <li><a data-hover="Available beds" th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
@@ -171,7 +171,7 @@
 
     <div class="container">
         <div class="news-section1">
-            <h2>List Free Bed</h2>
+            <h2>View by Dom</h2>
             <table th:if="${roomBedUsageList != null && !roomBedUsageList.isEmpty()}">
                 <thead>
                 <tr>

@@ -24,7 +24,7 @@ public class Room {
     @JoinColumn(name = "floor_id", nullable = false)
     private Floor floor;
 
-
+//thêm ms cái này, nhưng cái này nó chỉ là quan hệ giữa 2 bảng thôi, ko liên quan
     @OneToMany(mappedBy = "room")
     private List<Bed> beds;
 

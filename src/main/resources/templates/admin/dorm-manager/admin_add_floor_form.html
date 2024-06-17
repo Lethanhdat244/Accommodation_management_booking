@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Floor</title>
+    <script th:if="${error != null}">
+        setTimeout(function() {
+            window.history.back();
+        }, 3000); // Redirect after 3 seconds if no error
+    </script>
+</head>
+<body>
+<h2>Add Floor</h2>
+<form th:action="@{/fpt-dorm/admin/add-floor-form/{dormId}(dormId=${dormId})}" th:object="${floor}" method="post">
+    <input type="hidden" th:field="*{dorm.dormId}" />
+    <label>Dorm Name:</label>
+    <input type="text" th:value="${floor.dorm.dormName}" disabled="disabled" /><br/>
+    <label>Floor Number:</label>
+    <input type="number" th:field="*{floorNumber}" /><br/>
+    <span th:if="${error}" style="color: red;" th:text="${error}"></span><br/>
+    <button type="submit">Add Floor</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Floor</title>
+</head>
+<body>
+<h2>Edit Floor</h2>
+<form th:action="@{/fpt-dorm/admin/update-floor}" th:object="${floor}" method="post">
+    <input type="hidden" th:field="*{floorId}" />
+    <input type="hidden" th:field="*{dorm.dormId}" />
+
+    <label>Dorm Name:</label>
+    <input type="text" th:value="${floor.dorm.dormName}" disabled="disabled" /><br/>
+
+    <label>Floor Number:</label>
+    <input type="number" th:field="*{floorNumber}" /><br/>
+
+    <span th:if="${error}" style="color: red;" th:text="${error}"></span><br/>
+
+    <button type="submit">Update Floor</button>
+
+    <a th:href="@{/fpt-dorm/admin/view-floor-list/{dormId}(dormId=${floor.dorm.dormId})}">Back to Floor List</a>
+</form>
+</body>
+</html>

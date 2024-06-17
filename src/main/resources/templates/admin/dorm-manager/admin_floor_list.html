@@ -8,12 +8,54 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title> Dashboard | Dashboard</title>
+    <title>Dashboard | Dashboard</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
+    <style>
+        .pagination-wrapper {
+            text-align: left;
+            margin-top: 20px;
+        }
 
+        .pagination {
+            display: inline-flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
+        }
+
+        .pagination .page-item {
+            display: inline;
+        }
+
+        .pagination .page-link {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+
+        .pagination .page-item.active .page-link {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    </style>
 </head>
 
 <body>
@@ -253,186 +295,53 @@
         </nav>
 
 
-
-
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Dashboard</h2>
-                <div class="row stat-cards">
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon primary">
-                                <i data-feather="bar-chart-2" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of member</p>
-                                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit success">
-                    <i data-feather="trending-up" aria-hidden="true"></i>4.07%
-                  </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon warning">
-                                <i data-feather="file" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of room</p>
-                                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit success">
-                    <i data-feather="trending-up" aria-hidden="true"></i>0.24%
-                  </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon purple">
-                                <i data-feather="file" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of room đã đc dùng</p>
-                                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit danger">
-                    <i data-feather="trending-down" aria-hidden="true"></i>1.64%
-                  </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon success">
-                                <i data-feather="feather" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">0% </p>
-                                <p class="stat-cards-info__title">Number of emplyee</p>
-                                <p class="stat-cards-info__progress">
-                  <span class="stat-cards-info__profit warning">
-                    <i data-feather="trending-up" aria-hidden="true"></i>0.00%
-                  </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
+                <h2 class="main-title">View Floor</h2>
+                <h1 th:if="${error}" style="color: red;">
+                    <p th:text="${error}"></p>
+                </h1>
                 <div class="row">
-                    <div class="col-lg-9">
-                        <div class="chart">
-                            <canvas id="myChart" aria-label="Site statistics" role="img"></canvas>
-                        </div>
+                    <div class="col-lg-11">
                         <div class="users-table table-wrapper">
                             <table class="posts-table">
                                 <thead>
-                                <tr class="users-table-info">
-                                    <th>
-                                        <label class="users-table__checkbox ms-20">
-                                            <input type="checkbox" class="check-all">Room image
-                                        </label>
-                                    </th>
-                                    <th>Title</th>
-                                    <th>Author</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
                                 <tr>
+                                    <th>Floor Number</th>
+                                    <th>Total Beds</th>
+                                    <th>Used Beds</th>
+                                    <th>Free Beds</th>
+                                    <th></th>
+                                </tr>
+                                <tbody>
+                                <tr th:each="floorUsage : ${floorBedUsageList}">
+                                    <td th:text="${floorUsage.floor.floorNumber}"></td>
+                                    <td th:text="${floorUsage.totalBeds}"></td>
+                                    <td th:text="${floorUsage.usedBeds}"></td>
+                                    <td th:text="${floorUsage.freeBeds}"></td>
                                     <td>
-                                        <label class="users-table__checkbox">
-                                            <input type="checkbox" class="check">
-                                            <div class="categories-table-img">
-                                                <picture>
-                                                    <source srcset="/static/admin_homepage/img/categories/01.webp"
-                                                            type="image/webp">
-                                                    <img src="/static/admin_homepage/img/categories/01.jpg"
-                                                         alt="category"></picture>
-                                            </div>
-                                        </label>
-                                    </td>
-                                    <td>
-                                        Detail
-                                    </td>
-                                    <td>
-                                        <div class="pages-table-img">
-                                            <picture>
-                                                <source srcset="/static/admin_homepage/img/avatar/avatar-face-04.webp"
-                                                        type="image/webp">
-                                                <img src="/static/admin_homepage/img/avatar/avatar-face-04.png"
-                                                     alt="User Name"></picture>
-                                            Jenny Wilson
-                                        </div>
-                                    </td>
-                                    <td><span class="badge-pending">Pending</span></td>
-                                    <td>17.04.2021</td>
-                                    <td>
-                      <span class="p-relative">
-                        <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                          <div class="sr-only">More info</div>
-                          <i data-feather="more-horizontal" aria-hidden="true"></i>
-                        </button>
-                        <ul class="users-item-dropdown dropdown">
-                          <li><a href="##">Edit</a></li>
-                          <li><a href="##">Quick edit</a></li>
-                          <li><a href="##">Trash</a></li>
-                        </ul>
-                      </span>
+                                        <a style="color: blue">Detail</a> <br>
+                                        <a style="color: #e06722;" th:href="@{/fpt-dorm/admin/edit-floor-form/{floorId}(floorId=${floorUsage.floor.floorId})}">Quick edit</a><br>
+                                        <a style="color: red;" th:href="@{/fpt-dorm/admin/delete-floor/{floorId}(floorId=${floorUsage.floor.floorId})}">Delete</a><br> 
                                     </td>
                                 </tr>
 
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <article class="customers-wrapper">
-                            <canvas id="customersChart" aria-label="Customers statistics" role="img"></canvas>
-                            <!--              <p class="customers__title">New Customers <span>+958</span></p>
-                            <p class="customers__date">28 Daily Avg.</p>
-                            <picture><source srcset="./img/svg/customers.svg" type="image/webp"><img src="./img/svg/customers.svg" alt=""></picture> -->
-                        </article>
-                        <article class="white-block">
-                            <div class="top-cat-title">
-                                <h3>Top categories</h3>
-                                <p>28 Categories, 1400 Posts</p>
-                            </div>
-                            <ul class="top-cat-list">
-                                <li>
-                                    <a href="##">
-                                        <div class="top-cat-list__title">
-                                            Lifestyle <span>8.2k</span>
-                                        </div>
-                                        <div class="top-cat-list__subtitle">
-                                            Dailiy lifestyle articles <span class="purple">+472</span>
-                                        </div>
-                                    </a>
-                                </li>
+                            <a th:href="@{/fpt-dorm/admin/add-floor-form/{dormId}(dormId=${dormId})}"
+                               class="btn btn-primary"
+                               style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
+                                Add Floor
+                            </a>
 
-                            </ul>
-                        </article>
+                            <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="btn btn-primary"
+                               style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">Back</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
-
-
-
-
-
 
 
         <!-- ! Footer -->
@@ -448,6 +357,11 @@
 <script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="/static/admin_homepage/js/script.js"></script>
+<script th:if="${error != null}">
+    setTimeout(function() {
+        window.history.back();
+    }, 3000); // Redirect after 3 seconds if no error
+</script>
 </body>
 
 </html>

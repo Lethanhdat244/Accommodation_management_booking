@@ -8,4 +8,14 @@ import java.util.List;
 public interface FloorService {
     public List<Floor> getFloorsByDormId(Integer dormId);
     List<FloorBedUsage> getFloorBedUsageByDormId(Integer dormId);
+
+    Floor addFloor(Floor floor);
+
+    boolean isFloorNumberDuplicate(Integer dormId, Integer floorNumber);
+
+    Floor getFloorById(int floorId);
+
+    void deleteFloor(int floorId);
+
+    void updateFloor(Floor floor);
 }

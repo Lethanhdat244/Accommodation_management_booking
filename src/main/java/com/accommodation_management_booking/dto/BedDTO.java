@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public class BedDTO {
     private Integer bedId;
     private Integer roomId;
-    private Integer bedNumber;
+    private String bedName;
     private Boolean isAvailable;
     private MaintenanceStatus maintenanceStatus;
     private LocalDateTime createdAt;
@@ -20,7 +20,7 @@ public class BedDTO {
     public BedDTO(Bed bed) {
         this.bedId = bed.getBedId();
         this.roomId = bed.getRoom().getRoomId(); // Assuming Room has a roomId field
-        this.bedNumber = bed.getBedNumber();
+        this.bedName = bed.getBedName();
         this.isAvailable = bed.getIsAvailable();
         this.maintenanceStatus = bed.getMaintenanceStatus();
         this.createdAt = bed.getCreatedAt();
