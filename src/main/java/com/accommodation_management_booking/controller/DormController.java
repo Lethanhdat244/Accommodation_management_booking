@@ -136,15 +136,15 @@ public class DormController {
 
 
     @PostMapping("/fpt-dorm/admin/add-floor-form/{dormId}")
-    public String addFloor(@PathVariable("dormId") int dormId,@ModelAttribute("floor") Floor floor, Model model) {
+    public String addFloor(@PathVariable("dormId") int dormId, @ModelAttribute("floor") Floor floor, Model model) {
         try {
-            // Check if the floorNumber already exists for the given dormId
-            if (floorService.isFloorNumberDuplicate(floor.getDorm().getDormId(), floor.getFloorNumber())) {
+            // Kiểm tra xem số tầng đã tồn tại cho dormId này chưa
+            if (floorService.isFloorNumberDuplicate(dormId, floor.getFloorNumber())) {
                 model.addAttribute("error", "Floor number already exists for this dorm.");
                 return "admin/dorm-manager/admin_add_floor_form";
             }
 
-            // If not duplicate, proceed to save the floor
+            // Nếu không trùng, tiến hành thêm tầng mới
             floorService.addFloor(floor);
             return "redirect:/fpt-dorm/admin/view-floor-list/{dormId}";
         } catch (Exception e) {
@@ -165,7 +165,7 @@ public class DormController {
                 return "admin/dorm-manager/admin_floor_list";
             }
         } catch (Exception e) {
-            model.addAttribute("error", "Trong tầng đang có phòng đang sử dụng, bạn không thể xóa nó .");
+            model.addAttribute("error", "Lỗi.");
             return "admin/dorm-manager/admin_floor_list";
         }
     }
@@ -185,6 +185,11 @@ public class DormController {
     @PostMapping("/fpt-dorm/admin/update-floor")
     public String updateFloor(@ModelAttribute("floor") Floor floor, Model model) {
         try {
+            if (floorService.isFloorNumberDuplicateInDorm(floor.getDorm().getDormId(), floor.getFloorNumber(), floor.getFloorId())) {
+                model.addAttribute("error", "Floor number already exists for this dorm.");
+                return "admin/dorm-manager/admin_edit_floor_form";
+            }
+
             floorService.updateFloor(floor);
             return "redirect:/fpt-dorm/admin/view-floor-list/" + floor.getDorm().getDormId();
         } catch (Exception e) {

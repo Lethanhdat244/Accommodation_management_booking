@@ -83,23 +83,52 @@ public class FloorServiceImpl implements FloorService {
 
     @Override
     public void deleteFloor(int floorId) {
-        floorRepository.deleteById(floorId);
+        Floor floor = floorRepository.findById(floorId).orElse(null);
+        if (floor != null) {
+            floorRepository.delete(floor);
+        } else {
+            throw new IllegalArgumentException("Floor not found with id: " + floorId);
+        }
     }
 
     @Override
     public Floor getFloorById(int floorId) {
         return floorRepository.findById(floorId).orElse(null);
     }
+
+
     @Override
     public void updateFloor(Floor floor) {
+        // Kiểm tra xem tầng có tồn tại trong database không
         Floor existingFloor = floorRepository.findById(floor.getFloorId()).orElse(null);
         if (existingFloor == null) {
             throw new IllegalArgumentException("Floor not found with id: " + floor.getFloorId());
         }
 
+        // Kiểm tra xem tên tầng mới có trùng với các tầng khác trong cùng một dorm không
+        if (isFloorNumberDuplicateInDorm(floor.getDorm().getDormId(), floor.getFloorNumber(), floor.getFloorId())) {
+            throw new IllegalArgumentException("Floor number already exists for this dorm.");
+        }
+
         // Giữ nguyên dormId
         floor.setDorm(existingFloor.getDorm());
 
+        // Lưu thông tin tầng cập nhật vào database
         floorRepository.save(floor);
     }
+    public boolean isFloorNumberDuplicateInDorm(Integer dormId, Integer floorNumber, Integer floorIdToExclude) {
+        List<Floor> existingFloors = floorRepository.findByDormDormId(dormId);
+
+        for (Floor existingFloor : existingFloors) {
+            if (existingFloor.getFloorNumber().equals(floorNumber) && !existingFloor.getFloorId().equals(floorIdToExclude)) {
+                return true; // Found a duplicate floor number (excluding the current floorId)
+            }
+        }
+
+        return false; // No duplicate floor number found
+    }
+
+
+
+
 }

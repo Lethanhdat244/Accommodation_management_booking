@@ -18,4 +18,6 @@ public interface FloorService {
     void deleteFloor(int floorId);
 
     void updateFloor(Floor floor);
+
+    boolean isFloorNumberDuplicateInDorm(Integer dormId, Integer floorNumber, Integer floorId);
 }
