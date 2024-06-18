@@ -1528,7 +1528,7 @@ button.disabled:focus {
 }
 
 .extentions-btn {
-  border: 1px solid #EEEEEE !important;
+  /*border: 1px solid #EEEEEE !important;*/
   border-radius: 4px;
   background-color: transparent;
   padding: 5px 20px;
@@ -1536,6 +1536,17 @@ button.disabled:focus {
 }
 
 .extentions-btn.disabled {
+  color: #d6d7e3;
+}
+
+.danger-btn {
+  border-radius: 4px;
+  background-color: transparent;
+  padding: 5px 20px;
+  color: #f26464;
+}
+
+.danger-btn.disabled {
   color: #d6d7e3;
 }
 
