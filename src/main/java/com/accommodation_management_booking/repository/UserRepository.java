@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String username);
+
     boolean existsByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE (u.email LIKE %:keyword%)")
@@ -17,7 +18,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE (u.email LIKE :keyword)")
     User searchUserByEmail(@Param("keyword") String keyword);
 
+    @Query("SELECT u FROM User u WHERE (u.userId = :id)")
+    User searchUserById(@Param("id") int id);
+
+    @Query("SELECT u FROM User u WHERE u.roleUser = 'EMPLOYEE' ")
+    List<User> searchAllEmployees();
+
+
     //Dung cho tat ca role
+
     /**
      * Page<User> findAll(Pageable pageable);
      * Page<User> findByUsernameContaining(String username, Pageable pageable);

@@ -163,23 +163,21 @@
                     <table class="table table-responsive table-bordered">
                         <thead>
                             <tr>
-                                <td>#</td>
+                                <td>ID</td>
                                 <td>Month</td>
                                 <td>Electric</td>
                                 <td>Water</td>
                                 <td>Service</td>
-                                <td>Status</td>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                            </tr>
+                        <tr th:each="u : ${usageServiceList}">
+                            <td th:text="${u.usageServiceId}"></td>
+                            <td th:text="${u.createdAt}"></td>
+                            <td th:text="${u.electricity}"></td>
+                            <td th:text="${u.water}"></td>
+                            <td th:text="${u.others}"></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -189,13 +187,13 @@
                 <div>
                     <ul class="formList">
                         <li>
-                            <p>Electric:</p>
+                            <p>Electric: <span th:text="${usageService.electricity}"></span></p>
                         </li>
                         <li>
-                            <p>Water:</p>
+                            <p>Water: <span th:text="${usageService.water}"></span></p>
                         </li>
                         <li>
-                            <p>Service:</p>
+                            <p>Service: <span th:text="${usageService.others}"></span></p>
                         </li>
                     </ul>
                 </div>

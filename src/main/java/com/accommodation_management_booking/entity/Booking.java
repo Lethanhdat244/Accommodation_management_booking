@@ -20,35 +20,67 @@ import java.time.LocalDateTime;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookingId;
+    @Column(name = "booking_id")
+    private Integer bookingId;
+
+    @Column(name = "bed_id", nullable = false)
+    private Integer bedId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private int roomId;
+    @Column(name = "start_date")
+    private LocalDate startDate;
 
-    private LocalDate checkInDate;
+    @Column(name = "end_date")
+    private LocalDate endDate;
 
-    private LocalDate checkOutDate;
+    @Column(name = "total_price")
+    private Float totalPrice;
 
-    @DecimalMin("0.00")
-    private BigDecimal deposit;
+    @Column(name = "amount_paid", columnDefinition = "float default 0")
+    private Float amountPaid;
 
-    @DecimalMin("0.00")
-    private BigDecimal totalAmount;
+    @Column(name = "refund_amount", columnDefinition = "float default 0")
+    private Float refundAmount;
+
+    @Column(name = "refund_date")
+    private LocalDate refundDate;
+
+    @Column(name = "booking_date", columnDefinition = "datetime default CURRENT_TIMESTAMP")
+    private LocalDateTime bookingDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, columnDefinition = "enum('Pending','Confirmed','Cancelled') default 'Pending'")
     private Status status;
 
-    @Column(updatable = false)
-    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false, insertable = false, columnDefinition = "timestamp default CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 
-    @UpdateTimestamp
+    @Column(name = "updated_at", nullable = false, columnDefinition = "timestamp default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
 
+    @Column(name = "check_in_date")
+    private LocalDate checkInDate;
+
+    @Column(name = "check_out_date")
+    private LocalDate checkOutDate;
+
+    @Column(name = "deposit", precision = 38, scale = 2)
+    private BigDecimal deposit;
+
+    @Column(name = "room_id", nullable = false)
+    private Integer roomId;
+
+    @Column(name = "total_amount", precision = 38, scale = 2)
+    private BigDecimal totalAmount;
+
+    // Enum for status
     public enum Status {
-        Pending, Confirmed, Cancelled, Completed
+        Pending,
+        Confirmed,
+        Cancelled
     }
+
 }

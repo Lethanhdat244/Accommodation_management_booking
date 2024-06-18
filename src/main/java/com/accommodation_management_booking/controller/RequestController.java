@@ -2,11 +2,15 @@ package com.accommodation_management_booking.controller;
 
 //import com.accommodation_management_booking.repository.ComplainRepository;
 import com.accommodation_management_booking.entity.Complaint;
+import com.accommodation_management_booking.entity.New;
+import com.accommodation_management_booking.entity.Notification;
 import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.ComplainRepository;
 import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.impl.ComplainService;
+import com.accommodation_management_booking.service.impl.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -30,9 +34,16 @@ public class RequestController {
     @Autowired
     private ComplainService complainService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     User user;
+
     @GetMapping("fpt-dorm/user/my-request")
-    public String studentRequest(Model model, Authentication authentication) {
+    public String studentRequest(Model model,
+                                 @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "5") int size,
+                                 Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oauth2User = oauth2Token.getPrincipal();
@@ -50,6 +61,11 @@ public class RequestController {
         try {
             List<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId());
             model.addAttribute("complaintDTOList", complainList);
+//            Page<Complaint> complaintPage;
+//            complaintPage = complainService.getAllComplainByPage(page, size);
+//            model.addAttribute("complaintPage", complaintPage);
+//            model.addAttribute("currentPage", page);
+//            model.addAttribute("pageSize", size);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -77,15 +93,23 @@ public class RequestController {
         }
         Complaint complaint = new Complaint();
         complaint.setUser(user);
-        complaint.setRoomId(1);
+        complaint.setTitle(title);
         complaint.setDescription(content);
-        complaint.setStatus(Complaint.Status.Open);
+        complaint.setStatus(Complaint.Status.WAITING);
         try {
+            List<User> Emp = userRepository.searchAllEmployees();
             complainService.saveComplain(complaint);
+            for (User user : Emp) {
+                Notification notification = new Notification();
+                notification.setUser(user);
+                notification.setContent("New request from your tenant");
+                notification.setRead(false);
+                notificationService.saveNotification(notification);
+            }
             try {
                 List<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId());
                 model.addAttribute("complaintDTOList", complainList);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         } catch (IllegalArgumentException e) {

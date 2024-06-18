@@ -21,7 +21,7 @@ public class ServiceService {
             ServiceDTO dto = new ServiceDTO();
             dto.setServiceId(service.getServiceId());
             dto.setName(service.getName());
-            dto.setPrice(service.getPrice());
+//            dto.setPrice(service.getPrice());
             dto.setDescription(service.getDescription());
 //            dto.setCreatedAt(service.getCreatedAt());
             return dto;
@@ -36,7 +36,7 @@ public class ServiceService {
             ServiceDTO serviceDTO = new ServiceDTO();
             serviceDTO.setServiceId(service.getServiceId());
             serviceDTO.setName(service.getName());
-            serviceDTO.setPrice(service.getPrice());
+//            serviceDTO.setPrice(service.getPrice());
             serviceDTO.setDescription(service.getDescription());
 //            serviceDTO.setCreatedAt(service.getCreatedAt());
             return serviceDTO;
