@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
     @Query("SELECT DISTINCT u FROM User u " +
@@ -150,6 +150,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
             "FROM Payment p " +
             "JOIN Booking b ON p.booking.bookingId = b.bookingId " +
             "JOIN User u ON b.user.userId = u.userId " +
-            "WHERE u.userId = :userId AND p.paymentDate = :paymentDate")
-    Page<PaymentTransactionDTO> findByPaymentDateWithPaging(@Param("paymentDate") LocalDateTime paymentDate, @Param("userId") int userId, Pageable pageable);
+            "WHERE u.userId = :userId AND DATE(p.paymentDate) = :paymentDate")
+    Page<PaymentTransactionDTO> findByPaymentDateWithPaging(@Param("paymentDate") LocalDate paymentDate, @Param("userId") int userId, Pageable pageable);
 }

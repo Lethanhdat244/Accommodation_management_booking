@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Service
 @AllArgsConstructor
@@ -73,7 +73,7 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentRepository.findByPaymentIdWithPaging(paymentId, pageable);
     }
 
-    public Page<PaymentTransactionDTO> findByPaymentDateWithPage(LocalDateTime paymentDate, int userId, Pageable pageable) {
+    public Page<PaymentTransactionDTO> findByPaymentDateWithPage(LocalDate paymentDate, int userId, Pageable pageable) {
         return paymentRepository.findByPaymentDateWithPaging(paymentDate, userId, pageable);
     }
 }

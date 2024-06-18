@@ -374,18 +374,14 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <form th:action="@{/fpt-dorm/employee/all-payment/student/search}" method="get" class="search-form">
+                            <input type="hidden" name="userId" th:value="${userId}">
                             <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
                                    class="search-box"/>
                             <select name="category" class="search-dropdown">
-                                <option value="" th:text="'All Categories'"
-                                        th:selected="${selectedCategory == null}"></option>
+                                <option value="" th:text="'--Select--'" th:selected="${selectedCategory == null}"></option>
                                 <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
-                                <option value="Name" th:text="'Name'"
-                                        th:selected="${selectedCategory == 'Name'}"></option>
-                                <option value="Email" th:text="'Email'"
-                                        th:selected="${selectedCategory == 'Email'}"></option>
-                                <option value="Phone" th:text="'Phone'"
-                                        th:selected="${selectedCategory == 'Phone'}"></option>
+                                <option value="Date" th:text="'Date'"
+                                        th:selected="${selectedCategory == 'Date'}"></option>
                             </select>
                             <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
                         </form>

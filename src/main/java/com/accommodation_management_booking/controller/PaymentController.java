@@ -4,9 +4,7 @@ import com.accommodation_management_booking.dto.PaymentTransactionDTO;
 import com.accommodation_management_booking.entity.Booking;
 import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.BookingRepository;
-import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.PaymentService;
-import com.accommodation_management_booking.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
@@ -20,7 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
@@ -29,9 +27,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class PaymentController {
 
-    private final UserRepository repo;
     private final BookingRepository bookingRepository;
-    private final UserService userService;
     private final PaymentService paymentService;
 
     @GetMapping("/fpt-dorm/employee/all-payment")
@@ -108,7 +104,7 @@ public class PaymentController {
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Page<PaymentTransactionDTO> paymentPage;
         Pageable pageable;
-        List<String> bookingSortFields = Arrays.asList("totalPrice");
+        List<String> bookingSortFields = List.of("totalPrice");
         if (bookingSortFields.contains(sortParams[0])) {
             pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
             paymentPage = paymentService.searchByUserWithBookingSort(id, pageable);
@@ -116,64 +112,81 @@ public class PaymentController {
             pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
             paymentPage = paymentService.searchByUserWithPaymentSort(id, pageable);
         }
+        model.addAttribute("userId", id);
         model.addAttribute("paymentPage", paymentPage);
         model.addAttribute("sort", sort);
         return "employee/payment/student_payment_list";
     }
 
-    @GetMapping("/fpt-dorm/employee/all-payment/student/search/id={id}")
-    public String searchStudentPaymentList(Model model,
-                                           @RequestParam(value = "keyword", required = false) String keyword,
-                                           @RequestParam(value = "category", required = false) String category,
-                                           @RequestParam(defaultValue = "0") int page,
-                                           @RequestParam(defaultValue = "5") int size,
-                                           @RequestParam(defaultValue = "userId,asc") String sort) {
+    @GetMapping("/fpt-dorm/employee/all-payment/student/search")
+    public String searchStudentPaymentListEmployee(Model model,
+                                                @RequestParam(value = "userId", required = false) int userId,
+                                                @RequestParam(value = "keyword", required = false) String keyword,
+                                                @RequestParam(value = "category", required = false) String category,
+                                                @RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "5") int size,
+                                                @RequestParam(defaultValue = "paymentDate,desc") String sort) {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
-        Page<User> userPage;
+        Page<PaymentTransactionDTO> paymentPage;
+
+        System.out.println("paymentDate: " + keyword);
 
         if (category == null || category.isEmpty()) {
             if (keyword == null || keyword.isEmpty()) {
-                userPage = userService.findAllStudent(pageable);
+                paymentPage = Page.empty(pageable);
             } else {
-                userPage = userService.searchAllByStudent(keyword, pageable);
+                paymentPage = paymentService.searchByUserWithPaymentSort(userId, pageable);
             }
         } else {
             switch (category) {
                 case "ID":
                     try {
-                        int id = Integer.parseInt(keyword);
-                        Optional<User> userOpt = repo.findById(id);
-                        if (userOpt.isPresent()) {
-                            userPage = new PageImpl<>(List.of(userOpt.get()), pageable, 1);
+                        int paymentId = Integer.parseInt(keyword);
+                        if (paymentService.findByPaymentId(paymentId) != null) {
+                            paymentPage = paymentService.findByPaymentIdWithPage(paymentId, pageable);
                         } else {
-                            userPage = Page.empty(pageable);
+                            paymentPage = Page.empty(pageable);
                         }
                     } catch (NumberFormatException e) {
-                        userPage = Page.empty(pageable);
+                        paymentPage = Page.empty(pageable);
                     }
                     break;
-                case "Name":
-                    userPage = userService.searchByNameStudent(keyword, pageable);
-                    break;
-                case "Email":
-                    userPage = userService.searchByEmailStudent(keyword, pageable);
-                    break;
-                case "Phone":
-                    userPage = userService.searchByPhoneNumberStudent(keyword, pageable);
+                case "Date":
+                    try {
+                        List<DateTimeFormatter> formatters = Arrays.asList(
+                                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
+                                DateTimeFormatter.ofPattern("dd/MM/yyyy"),
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        );
+                        LocalDate paymentDate = null;
+                        for (DateTimeFormatter formatter : formatters) {
+                            try {
+                                paymentDate = LocalDate.parse(keyword, formatter);
+                                break;
+                            } catch (DateTimeParseException _) {
+                            }
+                        }
+                        if (paymentDate == null) {
+                            paymentDate = LocalDate.parse(keyword);
+                        }
+                        paymentPage = paymentService.findByPaymentDateWithPage(paymentDate, userId, pageable);
+                    } catch (DateTimeParseException e) {
+                        paymentPage = Page.empty(pageable);
+                    }
                     break;
                 default:
-                    userPage = Page.empty(pageable);
+                    paymentPage = Page.empty(pageable);
                     break;
             }
         }
-
-        model.addAttribute("userPage", userPage);
+        model.addAttribute("userId", userId);
+        model.addAttribute("paymentPage", paymentPage);
         model.addAttribute("keyword", keyword);
         model.addAttribute("selectedCategory", category);
         model.addAttribute("sort", sort);
-        return "employee/student-manager/all_student";
+        return "employee/payment/student_payment_list";
     }
 
     @GetMapping("/fpt-dorm/employee/all-payment/student/payment/id={id}")
@@ -201,7 +214,7 @@ public class PaymentController {
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Page<PaymentTransactionDTO> paymentPage;
         Pageable pageable;
-        List<String> bookingSortFields = Arrays.asList("totalPrice");
+        List<String> bookingSortFields = List.of("totalPrice");
         if (bookingSortFields.contains(sortParams[0])) {
             pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
             paymentPage = paymentService.searchByStatusWithBookingSort(Booking.Status.Pending, pageable);
@@ -259,13 +272,11 @@ public class PaymentController {
                                   @RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "1") int size,
                                   @RequestParam(defaultValue = "paymentDate,desc") String sort) {
-        String email = null;
-        if (authentication instanceof OAuth2AuthenticationToken) {
-            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+        String email;
+        if (authentication instanceof OAuth2AuthenticationToken oauth2Token) {
             OAuth2User oauth2User = oauth2Token.getPrincipal();
             email = oauth2User.getAttribute("email");
-        } else if (authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             email = userDetails.getUsername();
         } else {
             model.addAttribute("email", "Unknown");
@@ -291,13 +302,11 @@ public class PaymentController {
 
     @GetMapping("/fpt-dorm/user/payment/id={id}")
     public String showPaymentDetailUser(Model model, Authentication authentication, @PathVariable("id") int id) {
-        String email = null;
-        if (authentication instanceof OAuth2AuthenticationToken) {
-            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+        String email;
+        if (authentication instanceof OAuth2AuthenticationToken oauth2Token) {
             OAuth2User oauth2User = oauth2Token.getPrincipal();
             email = oauth2User.getAttribute("email");
-        } else if (authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        } else if (authentication.getPrincipal() instanceof UserDetails userDetails) {
             email = userDetails.getUsername();
         } else {
             model.addAttribute("email", "Unknown");
@@ -392,7 +401,7 @@ public class PaymentController {
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Page<PaymentTransactionDTO> paymentPage;
         Pageable pageable;
-        List<String> bookingSortFields = Arrays.asList("totalPrice");
+        List<String> bookingSortFields = List.of("totalPrice");
         if (bookingSortFields.contains(sortParams[0])) {
             pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
             paymentPage = paymentService.searchByUserWithBookingSort(id, pageable);
@@ -443,7 +452,22 @@ public class PaymentController {
                     break;
                 case "Date":
                     try {
-                        LocalDateTime paymentDate = LocalDateTime.parse(keyword);
+                        List<DateTimeFormatter> formatters = Arrays.asList(
+                                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
+                                DateTimeFormatter.ofPattern("dd/MM/yyyy"),
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        );
+                        LocalDate paymentDate = null;
+                        for (DateTimeFormatter formatter : formatters) {
+                            try {
+                                paymentDate = LocalDate.parse(keyword, formatter);
+                                break;
+                            } catch (DateTimeParseException _) {
+                            }
+                        }
+                        if (paymentDate == null) {
+                            paymentDate = LocalDate.parse(keyword);
+                        }
                         paymentPage = paymentService.findByPaymentDateWithPage(paymentDate, userId, pageable);
                     } catch (DateTimeParseException e) {
                         paymentPage = Page.empty(pageable);
