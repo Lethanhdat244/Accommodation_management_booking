@@ -24,7 +24,7 @@ public class Bed {
     private Room room;
 
     @Column(nullable = false)
-    private Integer bedNumber;
+    private String bedName;
 
     @Column(nullable = false)
     private Boolean isAvailable = true;

@@ -25,6 +25,11 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String email = authentication.getName();
         User user = userRepository.findByEmail(email);
 
+        if (user != null) {
+            user.setActive(true);
+            userRepository.save(user);
+        }
+
         String redirectURL = request.getContextPath();
 
         if (user != null && !user.isProfileComplete()) {

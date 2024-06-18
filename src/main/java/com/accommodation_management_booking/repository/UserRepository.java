@@ -35,4 +35,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             User.Role role2, String keyword2,
             User.Role role3, String keyword3,
             Pageable pageable);
+
+    User findByUserId(Integer userId);
 }

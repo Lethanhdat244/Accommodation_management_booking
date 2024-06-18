@@ -20,6 +20,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import com.accommodation_management_booking.security.CustomLogoutHandler;
 
 @Configuration
 public class SpingSecurity {
@@ -31,6 +32,9 @@ public class SpingSecurity {
 
     @Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    @Autowired
+    private CustomLogoutHandler customLogoutHandler;
 
     @Bean
     public static PasswordEncoder passwordEncoder() {
@@ -46,6 +50,8 @@ public class SpingSecurity {
                 .requestMatchers("/fpt-dorm/forgot-password").permitAll()
                 .requestMatchers("/fpt-dorm/reset-password").permitAll()
                 .requestMatchers("/fpt-dorm/home").permitAll()
+                .requestMatchers("/fpt-dorm/contact").permitAll()
+                .requestMatchers("fpt-dorm/home/dinning").permitAll()
                 .requestMatchers("/fpt-dorm/home/**").permitAll()
                 .requestMatchers("/fpt-dorm").permitAll()
                 .requestMatchers("/fpt-dorm/admin/**").hasRole("ADMIN")
@@ -67,6 +73,7 @@ public class SpingSecurity {
                 )
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/fpt-dorm/logout"))
+                        .addLogoutHandler(customLogoutHandler)
                         .permitAll()
                 );
         return http.build();

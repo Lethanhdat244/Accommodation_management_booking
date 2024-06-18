@@ -861,7 +861,27 @@ footer a{
     height: 450px;
     position: relative;
 }
+.image-head-wrappers {
+    background: rgba(0, 0, 0, 0) url("../images/inner-banner.png") no-repeat scroll center top;
+    height: 350px;
+    position: relative;
+}
+.image-head-wrapperss {
+    background: rgba(0, 0, 0, 0) url("../images/inner-banner.png") no-repeat scroll center top;
+    height: 190px;
+    position: relative;
+}
 .inner-wrapper {
+    color: #fff;
+    left: 70%;
+    position: relative;
+    text-align: right;
+    text-transform: uppercase;
+    top: 50%;
+    transform: translate(-70%, -70%);
+    width: 60%;
+}
+.inner-wrappers {
     color: #fff;
     left: 70%;
     position: relative;

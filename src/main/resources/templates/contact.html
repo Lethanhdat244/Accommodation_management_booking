@@ -3,7 +3,7 @@
     xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
@@ -93,9 +93,9 @@
 
 
     <!--end-->
-    <section class="image-head-wrapper" style="background-image: url('/static/homepage_user/images/banner4.jpg');">
+    <section class="image-head-wrapperss" style="background-image: url('/static/homepage_user/images/banner4.jpg');">
         <div class="inner-wrapper">
-            <h1>Contact Us</h1>
+<!--            <h1>Contact Us</h1>-->
         </div>
     </section>
     <div class="clearfix"></div>
@@ -112,12 +112,15 @@
             </div>
             <div class="col-md-6 contact-form">
                 <h3>Send a <span>Message</span></h3>
-                <form action="#" method="post">
+                <form action="/fpt-dorm/contact" method="post">
                     <input type="text" class="form-control" name="Name" placeholder="Name" required="">
                     <input type="email" class="form-control" name="Email" placeholder="Email" required="">
                     <textarea class="form-control" name="Message" placeholder="Message Here...." required=""></textarea>
                     <input type="submit" class="submit-btn" value="Submit">
                 </form>
+                <div th:if="${successMessage}" class="alert alert-success" role="alert">
+                    <p th:text="${successMessage}"></p>
+                </div>
             </div>
             <div class="clearfix"></div>
         </div>
