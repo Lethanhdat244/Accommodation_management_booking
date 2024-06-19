@@ -502,4 +502,65 @@ public class PaymentController {
         return "admin/payment/payment_detail";
     }
 
+    @GetMapping("/fpt-dorm/admin/payment-request")
+    public String showPaymentRequestListAdmin(Model model,
+                                         @RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "5") int size,
+                                         @RequestParam(defaultValue = "paymentDate,desc") String sort) {
+        String[] sortParams = sort.split(",");
+        Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Page<PaymentTransactionDTO> paymentPage;
+        Pageable pageable;
+        List<String> bookingSortFields = List.of("totalPrice");
+        if (bookingSortFields.contains(sortParams[0])) {
+            pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
+            paymentPage = paymentService.searchByStatusWithBookingSort(Booking.Status.Pending, pageable);
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
+            paymentPage = paymentService.searchByStatusWithPaymentSort(Booking.Status.Pending, pageable);
+        }
+        model.addAttribute("paymentPage", paymentPage);
+        model.addAttribute("sort", sort);
+        return "admin/payment/payment_request";
+    }
+
+    @GetMapping("/fpt-dorm/admin/payment-request/cancel/id={id}")
+    public ResponseEntity<String> cancelBookingAdmin(@PathVariable("id") int id) {
+        Optional<Booking> optionalBooking = bookingRepository.findById(id);
+
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            booking.setStatus(Booking.Status.Canceled);
+            bookingRepository.save(booking);
+            return ResponseEntity.ok("Canceled successfully");
+        } else {
+            return ResponseEntity.status(404).body("Booking not found");
+        }
+    }
+
+    @PostMapping("/fpt-dorm/admin/payment-request/confirm")
+    public ResponseEntity<String> confirmPaymentAdmin(@RequestBody Booking request) {
+        int bookingId = request.getBookingId();
+        float refundAmount = request.getRefundAmount();
+        LocalDate refundDate = request.getRefundDate();
+
+        // Simulate processing (replace with actual logic)
+        // Example: Update database, send notifications, etc.
+        System.out.println("Booking ID: " + bookingId);
+        System.out.println("Refund Amount: " + refundAmount);
+        System.out.println("Refund Date: " + refundDate);
+
+        Optional<Booking> optionalBooking = bookingRepository.findById(bookingId);
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            booking.setRefundAmount(refundAmount);
+            booking.setRefundDate(refundDate);
+            booking.setStatus(Booking.Status.Confirmed);
+            bookingRepository.save(booking);
+            return ResponseEntity.ok("Payment confirmed successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
+        }
+    }
+
 }

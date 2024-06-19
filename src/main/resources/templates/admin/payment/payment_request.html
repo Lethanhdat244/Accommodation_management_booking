@@ -156,12 +156,12 @@
     <aside class="sidebar">
         <div class="sidebar-start">
             <div class="sidebar-head">
-                <a th:href="@{/fpt-dorm/employee/home}" class="logo-wrapper" title="Home">
+                <a th:href="@{/fpt-dorm/admin/home}" class="logo-wrapper" title="Home">
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
                         <span class="logo-title">FPT Dorm</span>
-                        <span class="logo-subtitle">EMPLOYEE</span>
+                        <span class="logo-subtitle">ADMIN</span>
                     </div>
 
                 </a>
@@ -173,7 +173,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a id="menu-student" class="show-cat-btn">
@@ -185,11 +185,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/student/all-student}">All
                                     Students</a>
                             </li>
                             <li>
-                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/student/add}">Add new
                                     student</a>
                             </li>
                         </ul>
@@ -227,10 +227,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
+                                <a th:href="@{/fpt-dorm/admin/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
+                                <a th:href="@{/fpt-dorm/admin/add-news}">Add news</a>
                             </li>
 
                         </ul>
@@ -246,11 +246,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/all-payment}">All
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/payment-request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
@@ -377,7 +377,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
@@ -395,19 +395,14 @@
                 <h2 class="main-title">Payment Request List</h2>
                 <div class="row">
                     <div class="col-lg-6">
-                        <form th:action="@{/fpt-dorm/employee/all-payment/student/search}" method="get" class="search-form">
+                        <form th:action="@{/fpt-dorm/admin/all-payment/student/search}" method="get" class="search-form">
                             <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
                                    class="search-box"/>
                             <select name="category" class="search-dropdown">
-                                <option value="" th:text="'All Categories'"
-                                        th:selected="${selectedCategory == null}"></option>
+                                <option value="" th:text="'--Select--'" th:selected="${selectedCategory == null}"></option>
                                 <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
-                                <option value="Name" th:text="'Name'"
-                                        th:selected="${selectedCategory == 'Name'}"></option>
-                                <option value="Email" th:text="'Email'"
-                                        th:selected="${selectedCategory == 'Email'}"></option>
-                                <option value="Phone" th:text="'Phone'"
-                                        th:selected="${selectedCategory == 'Phone'}"></option>
+                                <option value="Date" th:text="'Date'"
+                                        th:selected="${selectedCategory == 'Date'}"></option>
                             </select>
                             <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
                         </form>
@@ -462,7 +457,7 @@
                                                 </button>
                                                 <ul class="users-item-dropdown dropdown">
                                                     <li><a class="cancel-btn danger" th:onclick="'showConfirmConfirmModal(' + ${payment.bookingId} + ',' + ${payment.totalPrice} + ',' + ${payment.amountPaid} + ')'">Confirm</a></li>
-                                                    <li><a th:href="@{/fpt-dorm/employee/all-payment/student/payment/id={id}(id=${payment.paymentId})}">View</a></li>
+                                                    <li><a th:href="@{/fpt-dorm/admin/all-payment/student/payment/id={id}(id=${payment.paymentId})}">View</a></li>
                                                     <li><a class="cancel-btn danger" th:onclick="'showCancelConfirmModal(' + ${payment.bookingId} + ')'">Cancel</a></li>
                                                 </ul>
                                             </span>
@@ -569,7 +564,7 @@
     function cancelPayment() {
         if (!currentBookingId) return;
 
-        fetch(`/fpt-dorm/employee/payment-request/cancel/id=${currentBookingId}`, {
+        fetch(`/fpt-dorm/admin/payment-request/cancel/id=${currentBookingId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -678,7 +673,7 @@
             refundDate: refundDate
         };
 
-        fetch('/fpt-dorm/employee/payment-request/confirm', {
+        fetch('/fpt-dorm/admin/payment-request/confirm', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

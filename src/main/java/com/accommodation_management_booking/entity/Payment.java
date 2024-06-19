@@ -22,10 +22,6 @@ public class Payment {
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id", nullable = false)
-//    private User user;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private PaymentMethod paymentMethod;
@@ -46,8 +42,7 @@ public class Payment {
 
 
     public enum PaymentMethod {
-        CreditCard,
-        DebitCard,
+        PayPal,
         BankQRCode
     }
 }

@@ -215,10 +215,22 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_payment_list}" class="active">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Payment
+                        <a id="menu-payment" class="show-cat-btn active" href="#">
+                            <span class="icon folder" aria-hidden="true"></span>Payment
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/admin_payment_list}">All
+                                    Payments</a>
+                            </li>
+                            <li>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li>

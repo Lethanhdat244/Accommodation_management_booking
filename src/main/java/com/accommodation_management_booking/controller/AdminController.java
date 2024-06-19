@@ -65,6 +65,11 @@ public class AdminController {
         return "redirect:/fpt-dorm/admin/all-payment";
     }
 
+    @GetMapping("fpt-dorm/admin/admin_payment_request")
+    public String admin_payment_request() {
+        return "redirect:/fpt-dorm/admin/payment-request";
+    }
+
     @GetMapping("fpt-dorm/admin/admin_add_new_type_room")
     public String admin_add_new_type_room() {
         return "admin_add_new_type_room";
