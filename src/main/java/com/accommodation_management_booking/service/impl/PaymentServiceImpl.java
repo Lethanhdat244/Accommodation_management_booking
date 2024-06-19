@@ -76,4 +76,12 @@ public class PaymentServiceImpl implements PaymentService {
     public Page<PaymentTransactionDTO> findByPaymentDateWithPage(LocalDate paymentDate, int userId, Pageable pageable) {
         return paymentRepository.findByPaymentDateWithPaging(paymentDate, userId, pageable);
     }
+
+    public Page<PaymentTransactionDTO> findPaymentRequestByPaymentId(int paymentId, Pageable pageable) {
+        return paymentRepository.findPaymentRequestByPaymentIdWithPage(paymentId, pageable);
+    }
+
+    public Page<PaymentTransactionDTO> findPaymentRequestByPaymentDate(LocalDate paymentDate, Pageable pageable) {
+        return paymentRepository.findPaymentRequestByPaymentDateWithPage(paymentDate, pageable);
+    }
 }

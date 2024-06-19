@@ -152,4 +152,26 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
             "JOIN User u ON b.user.userId = u.userId " +
             "WHERE u.userId = :userId AND DATE(p.paymentDate) = :paymentDate")
     Page<PaymentTransactionDTO> findByPaymentDateWithPaging(@Param("paymentDate") LocalDate paymentDate, @Param("userId") int userId, Pageable pageable);
+
+    @Query("SELECT new com.accommodation_management_booking.dto.PaymentTransactionDTO(" +
+            "u.userId, u.username, u.email, u.phoneNumber, " +
+            "p.paymentId, p.paymentDate, p.paymentMethod, p.paymentDetail, " +
+            "b.bookingId, b.bed.bedId, b.startDate, b.endDate, b.totalPrice, b.amountPaid, b.refundAmount, b.refundDate, " +
+            "b.bookingDate, b.status) " +
+            "FROM Payment p " +
+            "JOIN Booking b ON p.booking.bookingId = b.bookingId " +
+            "JOIN User u ON b.user.userId = u.userId " +
+            "WHERE b.status = 'Pending' AND p.paymentId = :paymentId")
+    Page<PaymentTransactionDTO> findPaymentRequestByPaymentIdWithPage(@Param("paymentId") Integer paymentId, Pageable pageable);
+
+    @Query("SELECT new com.accommodation_management_booking.dto.PaymentTransactionDTO(" +
+            "u.userId, u.username, u.email, u.phoneNumber, " +
+            "p.paymentId, p.paymentDate, p.paymentMethod, p.paymentDetail, " +
+            "b.bookingId, b.bed.bedId, b.startDate, b.endDate, b.totalPrice, b.amountPaid, b.refundAmount, b.refundDate, " +
+            "b.bookingDate, b.status) " +
+            "FROM Payment p " +
+            "JOIN Booking b ON p.booking.bookingId = b.bookingId " +
+            "JOIN User u ON b.user.userId = u.userId " +
+            "WHERE b.status = 'Pending' AND DATE(p.paymentDate) = :paymentDate")
+    Page<PaymentTransactionDTO> findPaymentRequestByPaymentDateWithPage(@Param("paymentDate") LocalDate paymentDate, Pageable pageable);
 }

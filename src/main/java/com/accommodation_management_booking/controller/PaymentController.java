@@ -227,6 +227,80 @@ public class PaymentController {
         return "employee/payment/payment_request";
     }
 
+    @GetMapping("/fpt-dorm/employee/payment-request/search")
+    public String searchStudentPaymentRequestEmployee(Model model,
+                                                   @RequestParam(value = "keyword", required = false) String keyword,
+                                                   @RequestParam(value = "category", required = false) String category,
+                                                   @RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "5") int size,
+                                                   @RequestParam(defaultValue = "paymentDate,desc") String sort) {
+        String[] sortParams = sort.split(",");
+        Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
+        Page<PaymentTransactionDTO> paymentPage;
+
+        System.out.println("paymentDate: " + keyword);
+
+        if (category == null || category.isEmpty()) {
+            if (keyword == null || keyword.isEmpty()) {
+                paymentPage = Page.empty(pageable);
+            } else {
+                model.addAttribute("paymentPage", Page.empty(pageable));
+                model.addAttribute("keyword", keyword);
+                model.addAttribute("selectedCategory", category);
+                model.addAttribute("sort", sort);
+                return "admin/payment/payment_request";
+//                return "redirect:/fpt-dorm/admin/payment-request";
+            }
+        } else {
+            switch (category) {
+                case "ID":
+                    try {
+                        int paymentId = Integer.parseInt(keyword);
+                        if (paymentService.findByPaymentId(paymentId) != null) {
+                            paymentPage = paymentService.findPaymentRequestByPaymentId(paymentId, pageable);
+                        } else {
+                            paymentPage = Page.empty(pageable);
+                        }
+                    } catch (NumberFormatException e) {
+                        paymentPage = Page.empty(pageable);
+                    }
+                    break;
+                case "Date":
+                    try {
+                        List<DateTimeFormatter> formatters = Arrays.asList(
+                                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
+                                DateTimeFormatter.ofPattern("dd/MM/yyyy"),
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        );
+                        LocalDate paymentDate = null;
+                        for (DateTimeFormatter formatter : formatters) {
+                            try {
+                                paymentDate = LocalDate.parse(keyword, formatter);
+                                break;
+                            } catch (DateTimeParseException _) {
+                            }
+                        }
+                        if (paymentDate == null) {
+                            paymentDate = LocalDate.parse(keyword);
+                        }
+                        paymentPage = paymentService.findPaymentRequestByPaymentDate(paymentDate, pageable);
+                    } catch (DateTimeParseException e) {
+                        paymentPage = Page.empty(pageable);
+                    }
+                    break;
+                default:
+                    paymentPage = Page.empty(pageable);
+                    break;
+            }
+        }
+        model.addAttribute("paymentPage", paymentPage);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("selectedCategory", category);
+        model.addAttribute("sort", sort);
+        return "admin/payment/payment_request";
+    }
+
     @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
     public ResponseEntity<String> cancelBooking(@PathVariable("id") int id) {
         Optional<Booking> optionalBooking = bookingRepository.findById(id);
@@ -520,6 +594,80 @@ public class PaymentController {
             paymentPage = paymentService.searchByStatusWithPaymentSort(Booking.Status.Pending, pageable);
         }
         model.addAttribute("paymentPage", paymentPage);
+        model.addAttribute("sort", sort);
+        return "admin/payment/payment_request";
+    }
+
+    @GetMapping("/fpt-dorm/admin/payment-request/search")
+    public String searchStudentPaymentRequestAdmin(Model model,
+                                                @RequestParam(value = "keyword", required = false) String keyword,
+                                                @RequestParam(value = "category", required = false) String category,
+                                                @RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "5") int size,
+                                                @RequestParam(defaultValue = "paymentDate,desc") String sort) {
+        String[] sortParams = sort.split(",");
+        Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
+        Page<PaymentTransactionDTO> paymentPage;
+
+        System.out.println("paymentDate: " + keyword);
+
+        if (category == null || category.isEmpty()) {
+            if (keyword == null || keyword.isEmpty()) {
+                paymentPage = Page.empty(pageable);
+            } else {
+                model.addAttribute("paymentPage", Page.empty(pageable));
+                model.addAttribute("keyword", keyword);
+                model.addAttribute("selectedCategory", category);
+                model.addAttribute("sort", sort);
+                return "admin/payment/payment_request";
+//                return "redirect:/fpt-dorm/admin/payment-request";
+            }
+        } else {
+            switch (category) {
+                case "ID":
+                    try {
+                        int paymentId = Integer.parseInt(keyword);
+                        if (paymentService.findByPaymentId(paymentId) != null) {
+                            paymentPage = paymentService.findPaymentRequestByPaymentId(paymentId, pageable);
+                        } else {
+                            paymentPage = Page.empty(pageable);
+                        }
+                    } catch (NumberFormatException e) {
+                        paymentPage = Page.empty(pageable);
+                    }
+                    break;
+                case "Date":
+                    try {
+                        List<DateTimeFormatter> formatters = Arrays.asList(
+                                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
+                                DateTimeFormatter.ofPattern("dd/MM/yyyy"),
+                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        );
+                        LocalDate paymentDate = null;
+                        for (DateTimeFormatter formatter : formatters) {
+                            try {
+                                paymentDate = LocalDate.parse(keyword, formatter);
+                                break;
+                            } catch (DateTimeParseException _) {
+                            }
+                        }
+                        if (paymentDate == null) {
+                            paymentDate = LocalDate.parse(keyword);
+                        }
+                        paymentPage = paymentService.findPaymentRequestByPaymentDate(paymentDate, pageable);
+                    } catch (DateTimeParseException e) {
+                        paymentPage = Page.empty(pageable);
+                    }
+                    break;
+                default:
+                    paymentPage = Page.empty(pageable);
+                    break;
+            }
+        }
+        model.addAttribute("paymentPage", paymentPage);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("selectedCategory", category);
         model.addAttribute("sort", sort);
         return "admin/payment/payment_request";
     }
