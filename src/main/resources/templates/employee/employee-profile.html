@@ -212,10 +212,23 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_payment_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Payment
+                        <a class="show-cat-btn" href="#">
+                            <span class="icon folder" aria-hidden="true"></span>Payment
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
+                                    Payments</a>
+                            </li>
+                            <li>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                    Request</a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li>

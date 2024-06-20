@@ -852,15 +852,30 @@ footer a{
     font-weight: 600;
     letter-spacing: 0.5px;
 }
-.offspace-30{
+
+.offspace-30 {
     margin-top: 30px;
 }
+
 /*single page image*/
 .image-head-wrapper {
     background: rgba(0, 0, 0, 0) url("../images/inner-banner.png") no-repeat scroll center top;
     height: 450px;
     position: relative;
 }
+
+.image-head-wrappers {
+    background: rgba(0, 0, 0, 0) url("../images/inner-banner.png") no-repeat scroll center top;
+    height: 350px;
+    position: relative;
+}
+
+.image-head-wrapperss {
+    background: rgba(0, 0, 0, 0) url("../images/inner-banner.png") no-repeat scroll center top;
+    height: 190px;
+    position: relative;
+}
+
 .inner-wrapper {
     color: #fff;
     left: 70%;
@@ -871,7 +886,19 @@ footer a{
     transform: translate(-70%, -70%);
     width: 60%;
 }
-.inner-wrapper h1{
+
+.inner-wrappers {
+    color: #fff;
+    left: 70%;
+    position: relative;
+    text-align: right;
+    text-transform: uppercase;
+    top: 50%;
+    transform: translate(-70%, -70%);
+    width: 60%;
+}
+
+.inner-wrapper h1 {
     font-family: "exotc350_dmbd_btdemi-bold";
 }
 

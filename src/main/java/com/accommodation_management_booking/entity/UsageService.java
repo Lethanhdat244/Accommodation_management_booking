@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
@@ -16,8 +17,7 @@ public class UsageService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "usage_service_id")
-    private Integer usageServiceId;
+    private Integer serviceBookingId;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -45,10 +45,14 @@ public class UsageService {
     @Column(name = "quantity")
     private Float quantity;
 
+    public String getFormattedCreatedAt() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm ");
+        return createdAt != null ? createdAt.format(formatter) : "";
+    }
+
     public enum PaymentMethod {
-        CREDIT_CARD("Credit Card"),
-        DEBIT_CARD("Debit Card"),
-        BANK_QR_CODE("Bank QR Code");
+        Paypal("Paypal"),
+        BankQRCode("Bank QR Code");
 
         private final String displayName;
 

@@ -9,7 +9,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String username);
-
     boolean existsByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE (u.email LIKE %:keyword%)")
@@ -36,12 +35,18 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     //Dung cho role cu the
     Page<User> findAllByRoleUser(User.Role role, Pageable pageable);
+
     Page<User> findByUsernameContainingAndRoleUser(String username, User.Role role, Pageable pageable);
+
     Page<User> findByEmailContainingAndRoleUser(String email, User.Role role, Pageable pageable);
+
     Page<User> findByPhoneNumberContainingAndRoleUser(String phoneNumber, User.Role role, Pageable pageable);
+
     Page<User> findByRoleUserAndUsernameContainingOrRoleUserAndEmailContainingOrRoleUserAndPhoneNumberContaining(
             User.Role role1, String keyword1,
             User.Role role2, String keyword2,
             User.Role role3, String keyword3,
             Pageable pageable);
+
+    User findByUserId(Integer userId);
 }

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class ComplainService {
     @Autowired
     ComplainRepository complainRepository;
-
     public void saveComplain(Complaint complaint) {
         try {
             complainRepository.save(complaint);

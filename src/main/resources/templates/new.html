@@ -90,12 +90,7 @@
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <<<<<<< HEAD
                                     <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
-                                    =======
-                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
-                                    <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
-                                    >>>>>>> 85141594f9552061ff02e7fb96f6086f8842ffb9
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -140,6 +135,7 @@
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -150,9 +146,9 @@
             </div>
         </div>
     </header>
-    <section class="image-head-wrapper" style="background-image: url('/static/homepage_user/images/banner5.jpg');">
+    <section class="image-head-wrappers" style="background-image: url('/static/homepage_user/images/banner5.jpg');">
         <div class="inner-wrapper">
-<!--            <h1>News</h1>-->
+            <!--            <h1>News</h1>-->
         </div>
     </section>
 

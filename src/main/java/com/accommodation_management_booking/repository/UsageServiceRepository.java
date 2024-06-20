@@ -19,7 +19,7 @@ public interface UsageServiceRepository extends JpaRepository<UsageService, Inte
 
     @Query("SELECT u.userId, bo.bookingId FROM User u " +
             "JOIN Booking bo ON u.userId = bo.user.userId " +
-            "JOIN Bed b ON bo.bedId = b.bedId " +
+            "JOIN Bed b ON bo.bed.bedId = b.bedId " +
             "JOIN Room r ON b.room.roomId = r.roomId " +
             "WHERE r.roomId = :roomId AND CURRENT_DATE BETWEEN bo.startDate AND bo.endDate")
     List<UserBookingDTO> findUsersByRoomIdAndCurrentDate(@Param("roomId") Integer roomId);

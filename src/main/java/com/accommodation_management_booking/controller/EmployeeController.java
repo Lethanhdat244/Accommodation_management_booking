@@ -9,21 +9,30 @@ import com.accommodation_management_booking.service.impl.NotificationService;
 import com.accommodation_management_booking.service.impl.UsageServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import com.accommodation_management_booking.dto.UserDTO;
 import com.accommodation_management_booking.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 import java.util.Optional;
+
+import java.util.List;
 
 @Controller
 @AllArgsConstructor
@@ -40,9 +49,6 @@ public class EmployeeController {
     private ComplainService complainService;
 
     @Autowired
-    private RoomsRepository roomsRepository;
-
-    @Autowired
     private UserBookingRepository userBookingRepository;
 
     @Autowired
@@ -56,6 +62,9 @@ public class EmployeeController {
 
     @Autowired
     private NotificationRepository notificationRepository;
+
+    @Autowired
+    DormRepository dormRepository;
 
     @GetMapping("fpt-dorm/employee/home")
     public String admin_homepage(Model model, Authentication authentication) {
@@ -127,6 +136,11 @@ public class EmployeeController {
             existComplaint.setStatus(status);
             existComplaint.setReply(reply);
             complainService.saveComplain(existComplaint);
+            Notification notification = new Notification();
+            notification.setUser(existComplaint.getUser());
+            notification.setContent("Your request was replied");
+            notification.setRead(false);
+            notificationService.saveNotification(notification);
             try {
                 List<Complaint> complainList = complainRepository.getAllRequest();
                 model.addAttribute("complaintDTOList", complainList);
@@ -135,7 +149,7 @@ public class EmployeeController {
             }
             return "employee/employee_complain";
         } else {
-            return "error/500";
+            return "error/403";
         }
     }
 
@@ -143,7 +157,7 @@ public class EmployeeController {
     @GetMapping("/fpt-dorm/employee/student/all-student")
     public String showStudentList(Model model,
                                   @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "2") int size,
+                                  @RequestParam(defaultValue = "5") int size,
                                   @RequestParam(defaultValue = "userId,asc") String sort) {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
@@ -159,7 +173,7 @@ public class EmployeeController {
                                  @RequestParam(value = "keyword", required = false) String keyword,
                                  @RequestParam(value = "category", required = false) String category,
                                  @RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "2") int size,
+                                 @RequestParam(defaultValue = "5") int size,
                                  @RequestParam(defaultValue = "userId,asc") String sort) {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
@@ -316,8 +330,6 @@ public class EmployeeController {
 
     @GetMapping("/fpt-dorm/employee/usage-service")
     public String showListUsageService(Model model, Authentication authentication) {
-//        List<UsageService> usageServices = usageServiceRepository.getAll();
-//        model.addAttribute("usage", usageServices);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oauth2User = oauth2Token.getPrincipal();
@@ -330,8 +342,8 @@ public class EmployeeController {
             // Handle cases where the authentication is not OAuth2
             model.addAttribute("email", "Unknown");
         }
-        List<Rooms> rooms = roomsRepository.getAllRooms();
-        model.addAttribute("rooms", rooms);
+        List<Dorm> dorms = dormRepository.findAll();
+        model.addAttribute("dorms", dorms);
         return "employee/employee_usageService";
     }
 
@@ -343,9 +355,17 @@ public class EmployeeController {
                                           Model model,
                                           Authentication authentication) {
         List<UserBookingDTO> usageServiceDTOs = userBookingRepository.findCurrentBookingsByRoomId(id);
-        float e = (electric * 4000) / usageServiceDTOs.size();
-        float w = water * 5000 / usageServiceDTOs.size();
-        float o = others * 1000 / usageServiceDTOs.size();
+        if (usageServiceDTOs.isEmpty()) {
+            model.addAttribute("error", "This room is currently unoccupied.");
+            List<Dorm> dorms = dormRepository.findAll();
+            model.addAttribute("dorms", dorms);
+            return "employee/employee_usageService";
+        }
+
+        float e = (electric * 4000f) / usageServiceDTOs.size();
+        float w = (water * 5000f) / usageServiceDTOs.size();
+        float o = (others * 1000f) / usageServiceDTOs.size();
+
         for (UserBookingDTO user : usageServiceDTOs) {
             UsageService usageService = new UsageService();
             usageService.setUser(userRepository.searchUserById(user.getUserId()));
@@ -353,29 +373,28 @@ public class EmployeeController {
             usageService.setElectricity(e);
             usageService.setWater(w);
             usageService.setOthers(o);
-            usageService.setPaymentMethod(UsageService.PaymentMethod.CREDIT_CARD);
+            usageService.setPaymentMethod(UsageService.PaymentMethod.Paypal);
             usageServiceService.saveUsageService(usageService);
 
             Notification notification = new Notification();
             notification.setUser(userRepository.searchUserById(user.getUserId()));
-            notification.setContent("Your usage service bill came");
+            notification.setContent("Your usage service bill is ready.");
             notification.setRead(false);
             notificationService.saveNotification(notification);
         }
+
+        String email = null;
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oauth2User = oauth2Token.getPrincipal();
-            String email = oauth2User.getAttribute("email");
-            model.addAttribute("email", email);
+            email = oauth2User.getAttribute("email");
         } else if (authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            model.addAttribute("email", userDetails.getUsername());
-        } else {
-            // Handle cases where the authentication is not OAuth2
-            model.addAttribute("email", "Unknown");
+            email = userDetails.getUsername();
         }
-        List<Rooms> rooms = roomsRepository.getAllRooms();
-        model.addAttribute("rooms", rooms);
+        model.addAttribute("email", email != null ? email : "Unknown");
+        List<Dorm> dorms = dormRepository.findAll();
+        model.addAttribute("dorms", dorms);
         return "employee/employee_usageService";
     }
 
@@ -397,7 +416,13 @@ public class EmployeeController {
             model.addAttribute("email", "Unknown");
         }
         List<Notification> notifications = notificationRepository.getAllByUserId(user.getUserId());
-        model.addAttribute("notifications", notifications);
+        if (notifications.isEmpty()) {
+            model.addAttribute("message", "No notification founded.");
+        } else {
+            model.addAttribute("notifications", notifications);
+        }
+        List<Dorm> dorms = dormRepository.findAll();
+        model.addAttribute("dorms", dorms);
         return "employee/employee_notification";
     }
 }
