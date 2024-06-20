@@ -14,7 +14,7 @@ public interface UserBookingRepository extends JpaRepository<User, Integer> {
     @Query("SELECT NEW com.accommodation_management_booking.dto.UserBookingDTO(u.userId, bo.bookingId) " +
             "FROM Room r " +
             "JOIN Bed b ON b.room.roomId = r.roomId " +
-            "JOIN Booking bo ON bo.bedId = b.bedId " +
+            "JOIN Booking bo ON bo.bed.bedId = b.bedId " +
             "JOIN User u ON bo.user.userId = u.userId " +
             "WHERE r.roomId = :roomId AND CURRENT_DATE BETWEEN bo.startDate AND bo.endDate")
     List<UserBookingDTO> findCurrentBookingsByRoomId(@Param("roomId") int roomId);

@@ -98,9 +98,12 @@ public class ResidentHistoryController {
             Model model) {
         Pageable pageableRequest = PageRequest.of(pageable.getPageNumber(), 2);
         Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.getUsersResidentHistory(pageableRequest);
+
+        for (ResidentHistoryDTO dto : residentHistoryPage.getContent()) {
+            System.out.println("Email: " + dto.getEmail());
+        }
         model.addAttribute("residentHistoryPage", residentHistoryPage);
         model.addAttribute("role", role);
-
         if ("admin".equals(role)) {
             return "admin/admin-resident-history";
         } else if ("employee".equals(role)) {

@@ -228,7 +228,8 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                    Request</a>
                             </li>
                         </ul>
                     </li>
@@ -435,7 +436,9 @@
                                         <td th:text="${user.email}"></td>
                                         <td th:text="${user.phoneNumber}"></td>
                                         <td>
-                                            <a class="btn btn-primary" th:href="@{/fpt-dorm/employee/all-payment/student/id={id}(id=${user.userId})}" role="button" style="color: #0061f7;">Detail</a>
+                                            <a class="btn btn-primary"
+                                               th:href="@{/fpt-dorm/employee/all-payment/student/id={id}(id=${user.userId})}"
+                                               role="button" style="color: #0061f7;">Detail</a>
                                         </td>
                                     </tr>
                                     </tbody>

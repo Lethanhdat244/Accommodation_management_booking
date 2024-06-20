@@ -57,12 +57,10 @@ public class ResidentHistoryServiceImpl implements ResidentHistoryService {
 
 
     private ResidentHistoryDTO convertToResidentHistoryDTO(User user) {
-        // Implement logic to convert User to ResidentHistoryDTO
         ResidentHistoryDTO dto = new ResidentHistoryDTO();
-        // Example conversion, replace with actual logic
         dto.setUserId(user.getUserId());
         dto.setUsername(user.getUsername());
-        // Set other properties as needed
+        dto.setEmail(user.getEmail());
         return dto;
     }
 
@@ -98,21 +96,7 @@ public class ResidentHistoryServiceImpl implements ResidentHistoryService {
 
 
 
-//
-//    @Override
-//    public Page<ResidentHistoryDTO> findAllByUserIdOrderByEndDateDesc(int userId, Pageable pageable) {
-//        try {
-//            Page<Booking> bookings = bookingRepo.findByUserIdOrderByEndDateDesc(userId, pageable);
-//            List<ResidentHistoryDTO> residentHistoryList = bookings.getContent().stream()
-//                    .map(this::convertToResidentHistoryDTO)
-//                    .collect(Collectors.toList());
-//            return new PageImpl<>(residentHistoryList, pageable, bookings.getTotalElements());
-//        } catch (Exception e) {
-//            System.out.println("Exception in findAllByUserIdOrderByEndDateDesc: " + e.getMessage());
-//            e.printStackTrace();
-//            throw e; // Re-throw the exception to handle it globally
-//        }
-//    }
+
 
     @Override
     public Page<ResidentHistoryDTO> findAllByUserIdOrderByEndDateDesc(int userId, Pageable pageable) {
@@ -131,9 +115,7 @@ public class ResidentHistoryServiceImpl implements ResidentHistoryService {
 
         if (user != null) {
             dto.setUserId(user.getUserId());
-            dto.setEmail(user.getEmail());
-            dto.setUsername(user.getUsername());
-            dto.setPhoneNumber(user.getPhoneNumber());
+
         }
 
         if (room != null) {

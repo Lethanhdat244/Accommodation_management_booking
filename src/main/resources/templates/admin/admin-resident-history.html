@@ -154,7 +154,7 @@
                         <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a id="menu-student" class="show-cat-btn active">
+                        <a id="menu-student" class="show-cat-btn ">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                                 <span class="sr-only">Open list</span>
@@ -163,11 +163,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/student/all-student}">All
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/admin_list_student}">All
                                     Students</a>
                             </li>
                             <li>
-                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/student/add}">Add new
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/admin_add_student}">Add new
                                     student</a>
                             </li>
                         </ul>
@@ -213,13 +213,41 @@
 
                         </ul>
                     </li>
-
+                    <li>
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>Employee
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
+                            </li>
+                        </ul>
+                    </li>
 
                     <li>
-                        <a th:href="@{admin/admin_payment_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Payment
+                        <a class="show-cat-btn" href="#">
+                            <span class="icon folder" aria-hidden="true"></span>Payment
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/admin_payment_list}">All
+                                    Payments</a>
+                            </li>
+                            <li>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                            </li>
+                        </ul>
                     </li>
 
 
@@ -252,13 +280,13 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/complain}">
+                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
                     </li>
-                    <li>
-                        <a th:href="@{/fpt-dorm/admin/Resident_History/list}">
+                    <li >
+                        <a th:href="@{/fpt-dorm/admin/Resident_History/list}" class="active">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
                         </a>
@@ -367,8 +395,8 @@
                 <h2 class="main-title">Resident History</h2>
                 <div class="row">
                     <div class="col-lg-6">
-                        <form th:action="@{'/fpt-dorm/' + ${role} + '/Resident_History/search'}" method="get" class="search-form">
-                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search By User Name">
+                        <form th:action="@{'/fpt-dorm/' + ${role} + '/Resident_History/search'}" method="get" class="search-form" onsubmit="return validateForm()">
+                            <input type="text" id="keyword" name="keyword" th:value="${keyword}" placeholder="Search By User Name">
                             <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
                         </form>
                     </div>
@@ -393,8 +421,7 @@
                                     </tr>
                                     <tr th:each="residentHistory : ${residentHistoryPage.content}">
                                         <td th:text="${residentHistory.username}"></td>
-                                        <td th:text="${residentHistory.email}"></td>
-                                        <td>
+                                        <td th:text="${residentHistory.email}"></td>                                         <td>
                                             <li><a th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${residentHistory.userId}}">Detail</a></li>
                                         </td>
                                     </tr>
@@ -438,6 +465,16 @@
                     </div>
                 </div>
             </div>
+            <script type="text/javascript">
+                function validateForm() {
+                    var keyword = document.getElementById("keyword").value;
+                    if (keyword.trim() === "") {
+                        alert("Please enter a User Name to search.");
+                        return false; // Ngăn chặn form không được gửi đi
+                    }
+                    return true; // Cho phép form được gửi đi nếu đầu vào hợp lệ
+                }
+            </script>
         </main>
 
 

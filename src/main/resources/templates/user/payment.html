@@ -11,7 +11,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/homepage_user/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/homepage_user/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <!-- Custom styles for this template -->
     <link href="/static/homepage_user/css/style.css" rel="stylesheet">
     <link href="/static/homepage_user/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
@@ -31,21 +31,24 @@
         /*    justify-content: space-between;*/
         /*    align-items: center;*/
         /*}*/
-        .formList li{
+        .formList li {
             list-style: none;
             margin: 40px;
         }
-        .request_box{
-            background-color:#dfe7f5;
+
+        .request_box {
+            background-color: #dfe7f5;
             padding: 20px;
             box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
-        h1{
+
+        h1 {
             font-weight: 700;
             margin-bottom: 20px;
         }
-        .request_list{
+
+        .request_list {
             padding: 20px;
             margin-bottom: 30px;
             margin-right: auto;
@@ -61,14 +64,16 @@
                 <div class="col-md-6">
 
                 </div>
-                <div class="col-md-6"><div class="social-grid">
-                    <ul class="list-unstyled text-right">
-                        <li><a><i class="fa fa-facebook"></i></a></li>
-                        <li><a><i class="fa fa-twitter"></i></a></li>
-                        <li><a><i class="fa fa-linkedin"></i></a></li>
-                        <li><a><i class="fa fa-instagram"></i></a></li>
-                    </ul>
-                </div></div>
+                <div class="col-md-6">
+                    <div class="social-grid">
+                        <ul class="list-unstyled text-right">
+                            <li><a><i class="fa fa-facebook"></i></a></li>
+                            <li><a><i class="fa fa-twitter"></i></a></li>
+                            <li><a><i class="fa fa-linkedin"></i></a></li>
+                            <li><a><i class="fa fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -85,7 +90,10 @@
                     <div class="col-sm-6 visible-sm">
                         <div class="text-right">
                             <div class="dropdown">
-                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
+                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <USER></USER>
+                                    <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
@@ -98,7 +106,8 @@
                     <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
                         <nav class="navbar navbar-default">
                             <div class="navbar-header page-scroll">
-                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle"
+                                        type="button">
                                     <span class="sr-only">Toggle navigation</span>
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
@@ -132,7 +141,8 @@
                     <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
                         <div class="text-right">
                             <div class="dropdown">
-                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
+                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
@@ -169,13 +179,18 @@
                             <td th:text="${pendingPayment.paymentDate.toString().substring(0, 10)}"></td>
                             <td th:text="${pendingPayment.totalPrice}"></td>
                             <td>
-                                <span th:if="${#strings.equalsIgnoreCase(pendingPayment.status, 'Pending')}" class="badge-pending" th:text="${pendingPayment.status}"></span>
-                                <span th:if="${#strings.equalsIgnoreCase(pendingPayment.status, 'Confirmed')}" class="badge-success" th:text="${pendingPayment.status}"></span>
-                                <span th:if="${#strings.equalsIgnoreCase(pendingPayment.status, 'Canceled')}" class="badge-trashed" th:text="${pendingPayment.status}"></span>
+                                <span th:if="${#strings.equalsIgnoreCase(pendingPayment.status, 'Pending')}"
+                                      class="badge-pending" th:text="${pendingPayment.status}"></span>
+                                <span th:if="${#strings.equalsIgnoreCase(pendingPayment.status, 'Confirmed')}"
+                                      class="badge-success" th:text="${pendingPayment.status}"></span>
+                                <span th:if="${#strings.equalsIgnoreCase(pendingPayment.status, 'Canceled')}"
+                                      class="badge-trashed" th:text="${pendingPayment.status}"></span>
                             </td>
 
                             <td>
-                                <a class="btn btn-primary" th:href="@{/fpt-dorm/user/payment/id={id}(id=${pendingPayment.paymentId})}" role="button">Detail</a>
+                                <a class="btn btn-primary"
+                                   th:href="@{/fpt-dorm/user/payment/id={id}(id=${pendingPayment.paymentId})}"
+                                   role="button">Detail</a>
                             </td>
                         </tr>
                         </tbody>
@@ -201,13 +216,17 @@
                             <td th:text="${payment.paymentDate.toString().substring(0, 10)}"></td>
                             <td th:text="${payment.totalPrice}"></td>
                             <td>
-                                <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Pending')}" class="badge-pending" th:text="${payment.status}"></span>
-                                <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Confirmed')}" class="badge-success" th:text="${payment.status}"></span>
-                                <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Canceled')}" class="badge-trashed" th:text="${payment.status}"></span>
+                                <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Pending')}"
+                                      class="badge-pending" th:text="${payment.status}"></span>
+                                <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Confirmed')}"
+                                      class="badge-success" th:text="${payment.status}"></span>
+                                <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Canceled')}"
+                                      class="badge-trashed" th:text="${payment.status}"></span>
                             </td>
 
                             <td>
-                                <a class="btn btn-primary" th:href="@{/fpt-dorm/user/payment/id={id}(id=${payment.paymentId})}" role="button">Detail</a>
+                                <a class="btn btn-primary"
+                                   th:href="@{/fpt-dorm/user/payment/id={id}(id=${payment.paymentId})}" role="button">Detail</a>
                             </td>
                         </tr>
                         </tbody>
@@ -255,7 +274,8 @@
                         <ul class="list-unstyled footer-contact-list">
                             <li>
                                 <i class="fa fa-map-marker fa-lg"></i>
-                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch Thất, TP. HN</p>
+                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch
+                                    Thất, TP. HN</p>
                             </li>
                             <li>
                                 <i class="fa fa-phone fa-lg"></i>
@@ -274,9 +294,11 @@
                             <a href="#"><i class="fa fa-youtube-play"></i></a>
                         </div>
                         <div class="input-group" id="subscribe">
-                            <input type="text" class="form-control subscribe-box" value="" name="subscribe" placeholder="EMAIL ID">
+                            <input type="text" class="form-control subscribe-box" value="" name="subscribe"
+                                   placeholder="EMAIL ID">
                             <span class="input-group-btn">
-                                <button type="button" class="btn subscribe-button"><i class="fa fa-paper-plane fa-lg"></i></button>
+                                <button type="button" class="btn subscribe-button"><i
+                                        class="fa fa-paper-plane fa-lg"></i></button>
                             </span>
                         </div>
                     </div>
@@ -307,7 +329,8 @@
             </div>
 
             <div class="copyright">
-                &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home" target="_blank">SWP391</a>.
+                &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home"
+                                                                target="_blank">SWP391</a>.
             </div>
 
         </div>

@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface RoomRepository extends JpaRepository<Room, Integer> {
     List<Room> findByFloorFloorId(Integer floorId);
+
     List<Room> findByFloorFloorIdAndCapacity(Integer floorId, Integer capacity);
 }

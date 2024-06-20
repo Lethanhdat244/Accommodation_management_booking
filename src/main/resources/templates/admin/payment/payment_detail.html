@@ -15,14 +15,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <style>
         .form-control {
-            line-height: 1.7;
-        }
-        .form-check-input {
-            margin-top: auto;
-        }
-        .error {
-            color: red;
-            font-size: 0.9em;
+            line-height: 1.5;
         }
     </style>
     <script>
@@ -149,7 +142,8 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class=""
+                                   th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
@@ -298,116 +292,94 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-
                 <div class="row">
-
                     <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
-                        <h2 class="main-title text-center">Payment Detail</h2>
-                        <div class="row mb-3">
-                            <label for="transactionId" class="col-sm-4 col-form-label">Payment ID</label>
-                            <div class="col-sm-8">
+                        <h1 class="main-title text-center">Payment Detail</h1>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <label for="transactionId" class="col-form-label">Payment ID</label>
                                 <input id="transactionId" name="transactionId" class="form-control border"
                                        th:field="${payment.paymentId}" readonly>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="studentName" class="col-sm-4 col-form-label">Student Name</label>
-                            <div class="col-sm-8">
-                                <input id="studentName" readonly class="form-control border" th:field="${payment.username}">
+                        <div class="row mb-2">
+                            <div class="col-sm-7">
+                                <label for="studentName" class="col-form-label">Student Name</label>
+                                <input id="studentName" readonly class="form-control border"
+                                       th:field="${payment.username}">
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="studentId" class="col-sm-4 col-form-label">Student ID</label>
-                            <div class="col-sm-8">
+                            <div class="col-sm-5">
+                                <label for="studentId" class="col-form-label">Student ID</label>
                                 <input id="studentId" class="form-control border" th:field="${payment.userId}">
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="email" class="col-sm-4 col-form-label">Email</label>
-                            <div class="col-sm-8">
-                                <input id="email" readonly class="form-control border" th:field="${payment.email}" type="email">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="email" class="col-form-label">Email</label>
+                                <input id="email" readonly class="form-control border" th:field="${payment.email}"
+                                       type="email">
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="phone" class="col-sm-4 col-form-label">Phone Number</label>
-                            <div class="col-sm-8">
+                            <div class="col-sm-6">
+                                <label for="phone" class="col-form-label">Phone Number</label>
                                 <input id="phone" class="form-control border" th:field="${payment.phoneNumber}">
                             </div>
                         </div>
 
-<!--                        <div class="row mb-3">-->
-<!--                            <label for="studentId" class="col-sm-4 col-form-label">Room Number</label>-->
-<!--                            <div class="col-sm-8">-->
-<!--                                <input id="studentId" class="form-control border" th:field="${payment.userId}">-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-                        <div class="row mb-3">
-                            <label for="totalPrice" class="col-sm-4 col-form-label">Total Price</label>
-                            <div class="col-sm-8">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <label for="totalPrice" class="col-form-label">Total Price</label>
                                 <input id="totalPrice" class="form-control border" th:field="${payment.totalPrice}">
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="amountPaid" class="col-sm-4 col-form-label">Amount Paid</label>
-                            <div class="col-sm-8">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="amountPaid" class="col-form-label">Amount Paid</label>
                                 <input id="amountPaid" class="form-control border" th:field="${payment.amountPaid}">
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="refundAmount" class="col-sm-4 col-form-label">Refund</label>
-                            <div class="col-sm-8">
-                                <input id="refundAmount" class="form-control border" th:field="${payment.refundAmount}">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="paymentDate" class="col-sm-4 col-form-label">Payment Date</label>
-                            <div class="col-sm-8">
+                            <div class="col-sm-6">
+                                <label for="paymentDate" class="col-form-label">Payment Date</label>
                                 <input readonly id="paymentDate" name="paymentDate" class="form-control border"
                                        th:value="${#temporals.format(payment.paymentDate, 'yyyy-MM-dd HH:mm:ss')}">
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="refundDate" class="col-sm-4 col-form-label">Refund Date</label>
-                            <div class="col-sm-8">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="refundAmount" class="col-form-label">Refund</label>
+                                <input id="refundAmount" class="form-control border" th:field="${payment.refundAmount}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="refundDate" class="col-form-label">Refund Date</label>
                                 <input readonly id="refundDate" name="refundDate" class="form-control border"
                                        th:value="${#temporals.format(payment.refundDate, 'yyyy-MM-dd HH:mm:ss')}">
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                            <label for="paymentMethod" class="col-sm-4 col-form-label">Payment Method</label>
-                            <div class="col-sm-8">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="paymentMethod" class="col-form-label">Payment Method</label>
                                 <input readonly id="paymentMethod" name="paymentMethod" class="form-control border"
                                        th:field="${payment.paymentMethod}">
                             </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="paymentDetail" class="col-sm-4 col-form-label">Payment Description</label>
-                            <div class="col-sm-8">
-                                <textarea readonly id="paymentDetail" name="paymentDetail" class="form-control border"
-                                       th:field="${payment.paymentMethod}"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="status" class="col-sm-4 col-form-label">Payment Status</label>
-                            <div class="col-sm-8">
+                            <div class="col-sm-6">
+                                <label for="status" class="col-form-label">Payment Status</label>
                                 <input readonly id="status" name="paymentMethod" class="form-control border"
                                        th:field="${payment.status}">
                             </div>
                         </div>
 
-                        <div class="row" style="margin-top: 50px;">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <label for="paymentDetail" class="col-form-label">Payment Description</label>
+                                <textarea readonly id="paymentDetail" name="paymentDetail" class="form-control border"
+                                          th:field="${payment.paymentDetail}"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 20px;">
                             <div class="offset-sm-4 col-sm-4 d-grid">
                                 <a class="btn secondary-default-btn" onclick="window.history.back()"
                                    role="button">Back</a>

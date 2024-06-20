@@ -9,7 +9,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/homepage_user/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/homepage_user/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <!-- Custom styles for this template -->
     <link href="/static/homepage_user/css/style.css" rel="stylesheet">
     <link href="/static/homepage_user/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
@@ -24,6 +24,7 @@
         .ml-auto {
             margin-left: auto;
         }
+
         .navbar-custom {
             display: flex;
             justify-content: space-between;
@@ -103,7 +104,10 @@
                     <div class="col-sm-6 visible-sm">
                         <div class="text-right">
                             <div class="dropdown">
-                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
+                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <USER></USER>
+                                    <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
@@ -115,7 +119,8 @@
                     <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
                         <nav class="navbar navbar-default">
                             <div class="navbar-header page-scroll">
-                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle"
+                                        type="button">
                                     <span class="sr-only">Toggle navigation</span>
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
@@ -126,12 +131,18 @@
                                 <ul class="list-unstyled nav1 cl-effect-10">
                                     <li><a data-hover="News" th:href="@{/fpt-dorm/user/news}"><span>News</span></a></li>
                                     <li><a data-hover="Booking" class="active"><span>Booking</span></a></li>
-                                    <li><a data-hover="Available beds" th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a></li>
-                                    <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a></li>
-                                    <li><a data-hover="Payment" th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a></li>
-                                    <li><a data-hover="Resident History" th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a></li>
-                                    <li><a data-hover="Request" th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a></li>
-                                    <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/user/rule}"><span>Dormitory rules</span></a></li>
+                                    <li><a data-hover="Available beds" th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
+                                    </li>
+                                    <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a>
+                                    </li>
+                                    <li><a data-hover="Payment" th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a>
+                                    </li>
+                                    <li><a data-hover="Resident History" th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a>
+                                    </li>
+                                    <li><a data-hover="Request"
+                                           th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a></li>
+                                    <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/user/rule}"><span>Dormitory rules</span></a>
+                                    </li>
                                     <li><a data-hover="FAQ" th:href="@{/fpt-dorm/user/faq}"><span>FAQ</span></a></li>
                                 </ul>
                             </div>
@@ -140,7 +151,8 @@
                     <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
                         <div class="text-right">
                             <div class="dropdown">
-                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
+                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
@@ -195,7 +207,8 @@
                         <ul class="list-unstyled footer-contact-list">
                             <li>
                                 <i class="fa fa-map-marker fa-lg"></i>
-                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch Thất, TP. HN</p>
+                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch
+                                    Thất, TP. HN</p>
                             </li>
                             <li>
                                 <i class="fa fa-phone fa-lg"></i>
@@ -214,9 +227,11 @@
                             <a href="#"><i class="fa fa-youtube-play"></i></a>
                         </div>
                         <div class="input-group" id="subscribe">
-                            <input type="text" class="form-control subscribe-box" value="" name="subscribe" placeholder="EMAIL ID">
+                            <input type="text" class="form-control subscribe-box" value="" name="subscribe"
+                                   placeholder="EMAIL ID">
                             <span class="input-group-btn">
-                                <button type="button" class="btn subscribe-button"><i class="fa fa-paper-plane fa-lg"></i></button>
+                                <button type="button" class="btn subscribe-button"><i
+                                        class="fa fa-paper-plane fa-lg"></i></button>
                             </span>
                         </div>
                     </div>
@@ -247,7 +262,8 @@
             </div>
 
             <div class="copyright">
-                &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home" target="_blank">SWP391</a>.
+                &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home"
+                                                                target="_blank">SWP391</a>.
             </div>
         </div>
     </footer>

@@ -154,12 +154,12 @@
                         <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a id="menu-student" class="show-cat-btn active">
+                        <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
-                                <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                            </span>
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
@@ -174,7 +174,7 @@
                     </li>
 
                     <li>
-                        <a class="show-cat-btn">
+                        <a class="show-cat-btn" >
                             <span class="icon folder" aria-hidden="true"></span>Room
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -183,20 +183,19 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{ademployeemin_list_room}">All Rooms</a>
+                                <a th:href="@{admin_list_room}">All Rooms</a>
                             </li>
                             <li>
-                                <a th:href="@{employee}">Add new room</a>
+                                <a th:href="@{admin_add_new_room}">Add new room</a>
                             </li>
-                            <li>
-                                <a th:href="@{employee}">Add new room type</a>
-                            </li>
+                            <!--                            <li>-->
+                            <!--                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>-->
+                            <!--                            </li>-->
                         </ul>
                     </li>
 
-
                     <li>
-                        <a class="show-cat-btn">
+                        <a class="show-cat-btn" >
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -213,8 +212,6 @@
 
                         </ul>
                     </li>
-
-
                     <li>
                         <a th:href="@{employee/employee_payment_list}">
                             <span class="icon folder" aria-hidden="true"></span>
@@ -222,6 +219,12 @@
                         </a>
                     </li>
 
+                    <li>
+                        <a th:href="@{admin/admin_service_list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Service requirement
+                        </a>
+                    </li>
 
                     <li>
                         <a th:href="@{employee/employee_chart}">
@@ -237,12 +240,7 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a th:href="@{employee/employee_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
-                        </a>
-                    </li>
+
 
                     <li>
                         <a th:href="@{employee/employee_list_feedback}">
@@ -251,6 +249,7 @@
                         </a>
                     </li>
 
+
                     <li>
                         <a th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
@@ -258,9 +257,23 @@
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Usage Service
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}" class="active">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/notifications}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Notifications
                         </a>
                     </li>
                 </ul>

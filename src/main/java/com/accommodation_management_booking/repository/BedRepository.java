@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface BedRepository extends JpaRepository<Bed, Integer> {
     List<Bed> findByRoomRoomIdAndIsAvailableTrue(Integer roomId);
-    List<Bed> findByRoomRoomIdAndIsAvailableTrueAndMaintenanceStatus(Integer roomId,Bed.MaintenanceStatus maintenanceStatus);
+
+    List<Bed> findByRoomRoomIdAndIsAvailableTrueAndMaintenanceStatus(Integer roomId, Bed.MaintenanceStatus maintenanceStatus);
 }

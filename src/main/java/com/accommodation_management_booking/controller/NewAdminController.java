@@ -53,7 +53,6 @@ public class NewAdminController {
     }
 
 
-
     @GetMapping("/fpt-dorm/admin/view-news")
     public String viewNews(Model model,
                            @RequestParam(defaultValue = "0") int page,

@@ -88,6 +88,12 @@ public class BookingController {
         return roomRepository.findByFloorFloorIdAndCapacity(floorId, capacity);
     }
 
+    @GetMapping("fpt-dorm/user/booking/roomsByFloor")
+    @ResponseBody
+    public List<Room> getRooms(@RequestParam("floorId") Integer floorId) {
+        return roomRepository.findByFloorFloorId(floorId);
+    }
+
     @GetMapping("fpt-dorm/user/booking/beds")
     @ResponseBody
     public List<Bed> getBeds(@RequestParam("roomId") Integer roomId) {

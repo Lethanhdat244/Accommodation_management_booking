@@ -38,4 +38,8 @@ public interface PaymentService {
     Page<PaymentTransactionDTO> findByPaymentIdWithPage(int paymentId, Pageable pageable);
 
     Page<PaymentTransactionDTO> findByPaymentDateWithPage(LocalDate paymentDate, int userId, Pageable pageable);
+
+    Page<PaymentTransactionDTO> findPaymentRequestByPaymentId(int paymentId, Pageable pageable);
+
+    Page<PaymentTransactionDTO> findPaymentRequestByPaymentDate(LocalDate paymentDate, Pageable pageable);
 }

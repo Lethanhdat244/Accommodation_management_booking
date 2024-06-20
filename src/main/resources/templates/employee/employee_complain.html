@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Complain | Employee</title>
+    <title>Complain | Employee</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <link rel="" href="/homepage_user/images/icons/favicon.png"/>
@@ -68,6 +68,48 @@
             padding: 5px 15px;
             border-radius: 15px;
         }
+
+        .pagination-wrapper {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .pagination {
+            display: inline-flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
+        }
+
+        .pagination .page-item {
+            display: inline;
+        }
+
+        .pagination .page-link {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+
+        .pagination .page-item.active .page-link {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
     </style>
 </head>
 
@@ -99,7 +141,7 @@
                         <a class=""><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn" th:href="@{admin/admin_list_student}">
+                        <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -108,7 +150,12 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/students-list}">All Students</a>
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
+                                    Students</a>
+                            </li>
+                            <li>
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
+                                    student</a>
                             </li>
                         </ul>
                     </li>
@@ -143,32 +190,14 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{view-news}">View News</a>
+                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{add-news}">Add news</a>
+                                <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
                             </li>
 
                         </ul>
                     </li>
-                    <!--                    <li>-->
-                    <!--                        <a class="show-cat-btn" >-->
-                    <!--                            <span class="icon folder" aria-hidden="true"></span>Employee-->
-                    <!--                            <span class="category__btn transparent-btn" title="Open list">-->
-                    <!--                            <span class="sr-only">Open list</span>-->
-                    <!--                            <span class="icon arrow-down" aria-hidden="true"></span>-->
-                    <!--                        </span>-->
-                    <!--                        </a>-->
-                    <!--                        <ul class="cat-sub-menu">-->
-                    <!--                            <li>-->
-                    <!--                                <a th:href="@{admin_list_employees}">All Employees</a>-->
-                    <!--                            </li>-->
-                    <!--                            <li>-->
-                    <!--                                <a th:href="@{admin_add_employee}">Add new employee</a>-->
-                    <!--                            </li>-->
-                    <!--                        </ul>-->
-                    <!--                    </li>-->
-
 
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -184,18 +213,11 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                    Request</a>
                             </li>
                         </ul>
                     </li>
-
-
-                    <!--                    <li>-->
-                    <!--                        <a th:href="@{admin/admin_chart}">-->
-                    <!--                            <span class="icon folder" aria-hidden="true"></span>-->
-                    <!--                            Chart-->
-                    <!--                        </a>-->
-                    <!--                    </li>-->
 
                     <li>
                         <a th:href="@{admin/admin_booking_list}">
@@ -224,59 +246,21 @@
                             Complain
                         </a>
                     </li>
+
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/admin_Resident_History/list}">
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
+                            Usage Service
                         </a>
                     </li>
 
-
-
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/notifications}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Notifications
+                        </a>
+                    </li>
                 </ul>
-                <!--&lt;!&ndash;                <span class="system-menu__title">system</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                <ul class="sidebar-body-menu">&ndash;&gt;-->
-                <!--&lt;!&ndash;                    <li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        <a href="appearance.html"><span class="icon edit" aria-hidden="true"></span>Appearance</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                    <li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        <a class="show-cat-btn" href="##">&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <span class="icon category" aria-hidden="true"></span>Extentions&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <span class="category__btn transparent-btn" title="Open list">&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <span class="sr-only">Open list</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <span class="icon arrow-down" aria-hidden="true"></span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        </span>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        </a>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        <ul class="cat-sub-menu">&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                <a href="extention-01.html">Extentions-01</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;                            </li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                            <li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                                <a href="extention-02.html">Extentions-02</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;                            </li>&ndash;&gt;-->
-                <!--&lt;!&ndash;                        </ul>&ndash;&gt;-->
-                <!--&lt;!&ndash;                    </li>&ndash;&gt;-->
-                <!--                    <li>-->
-                <!--                        <a class="show-cat-btn" href="##">-->
-                <!--&lt;!&ndash;                            <span class="icon user-3" aria-hidden="true"></span>Users&ndash;&gt;-->
-                <!--                            <span class="category__btn transparent-btn" title="Open list">-->
-                <!--                            <span class="sr-only">Open list</span>-->
-                <!--                            <span class="icon arrow-down" aria-hidden="true"></span>-->
-                <!--                        </span>-->
-                <!--                        </a>-->
-                <!--                        <ul class="cat-sub-menu">-->
-                <!--                            <li>-->
-                <!--&lt;!&ndash;                                <a href="users-01.html">Users-01</a>&ndash;&gt;-->
-                <!--                            </li>-->
-                <!--                            <li>-->
-                <!--&lt;!&ndash;                                <a href="users-02.html">Users-02</a>&ndash;&gt;-->
-                <!--                            </li>-->
-                <!--                        </ul>-->
-                <!--                    </li>-->
-                <!--                    <li>-->
-                <!--&lt;!&ndash;                        <a href="##"><span class="icon setting" aria-hidden="true"></span>Settings</a>&ndash;&gt;-->
-                <!--                    </li>-->
-                <!--                </ul>-->
             </div>
         </div>
         <div class="sidebar-footer">
@@ -315,28 +299,28 @@
                             <span class="icon notification active" aria-hidden="true"></span>
                         </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
-                            <!--                            <li>-->
-                            <!--                                <a href="##">-->
-                            <!--                                    <div class="notification-dropdown-icon info">-->
-                            <!--                                        <i data-feather="check"></i>-->
-                            <!--                                    </div>-->
-                            <!--                                    <div class="notification-dropdown-text">-->
-                            <!--                                        <span class="notification-dropdown__title">System just updated</span>-->
-                            <!--                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>-->
-                            <!--                                    </div>-->
-                            <!--                                </a>-->
-                            <!--                            </li>-->
-                            <!--                            <li>-->
-                            <!--                                <a href="##">-->
-                            <!--                                    <div class="notification-dropdown-icon danger">-->
-                            <!--                                        <i data-feather="info" aria-hidden="true"></i>-->
-                            <!--                                    </div>-->
-                            <!--                                    <div class="notification-dropdown-text">-->
-                            <!--                                        <span class="notification-dropdown__title">The cache is full!</span>-->
-                            <!--                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>-->
-                            <!--                                    </div>-->
-                            <!--                                </a>-->
-                            <!--                            </li>-->
+                            <li>
+                                <a href="##">
+                                    <div class="notification-dropdown-icon info">
+                                        <i data-feather="check"></i>
+                                    </div>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">System just updated</span>
+                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="##">
+                                    <div class="notification-dropdown-icon danger">
+                                        <i data-feather="info" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">The cache is full!</span>
+                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>
+                                    </div>
+                                </a>
+                            </li>
                             <li>
                                 <a href="##">
                                     <div class="notification-dropdown-icon info">
@@ -363,10 +347,8 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a href="##"></a></li>
-                            <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
-                            </a>
-                            </li>
+                            <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -412,10 +394,10 @@
                                     <thead>
                                     <tr class="users-table-info">
                                         <th>No.</th>
-                                        <th>Title</th>
+                                        <th style="width: 700px">Title</th>
                                         <th>Sent At</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        <th style="width: 150px">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody th:if="${message == null}">
@@ -424,24 +406,26 @@
                                         <td th:text="${complain.title}"></td>
                                         <td th:text="${complain.getFormattedCreatedAt()}"></td>
                                         <td>
-                                            <span th:text="${complain.status.getDisplayName()}"
-                                                  th:class="${complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING ? 'info' :
-                                                       (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS ? 'warning' :
-                                                       (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).DONE ? 'success' :
-                                                       (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT ? 'danger' : '')))}">
-                                            </span>
+                                                <span th:text="${complain.status.getDisplayName()}"
+                                                      th:class="${complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING ? 'info' :
+                                                           (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS ? 'warning' :
+                                                           (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).DONE ? 'success' :
+                                                           (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT ? 'danger' : '')))}">
+                                                </span>
                                         </td>
                                         <td>
-                                            <span class="p-relative">
-                                                <button class="dropdown-btn transparent-btn" type="button"
-                                                        title="More info">
-                                                  <div class="sr-only">More info</div>
-                                                  <i data-feather="more-horizontal" aria-hidden="true"></i>
-                                                </button>
-                                                <ul class="users-item-dropdown dropdown">
-                                                  <li><a th:href="@{/fpt-dorm/employee/complain/execute/{id}(id=${complain.complaintId})}">Execute</a></li>
-                                                </ul>
-                                            </span>
+                                            <a class="btn primary"
+                                               th:href="@{/fpt-dorm/employee/complain/execute/{id}(id=${complain.complaintId})}">Execute</a>
+                                            <!--                                                <span class="p-relative">-->
+                                            <!--                                                    <button class="dropdown-btn transparent-btn" type="button"-->
+                                            <!--                                                            title="More info">-->
+                                            <!--                                                      <div class="sr-only">More info</div>-->
+                                            <!--                                                      <i data-feather="more-horizontal" aria-hidden="true"></i>-->
+                                            <!--                                                    </button>-->
+                                            <!--                                                    <ul class="users-item-dropdown dropdown">-->
+                                            <!--                                                      <li></li>-->
+                                            <!--                                                    </ul>-->
+                                            <!--                                                </span>-->
                                         </td>
                                     </tr>
                                     </tbody>
@@ -452,6 +436,25 @@
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="pagination-wrapper">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <!--                                    <li class="page-item" th:classappend="${newsPage.hasPrevious()} ? 'enabled'">-->
+                                    <!--                                        <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${newsPage.number - 1}, size=${newsPage.size}, keyword=${keyword})}" aria-label="Previous">-->
+                                    <!--                                            <span aria-hidden="true">&laquo;</span>-->
+                                    <!--                                        </a>-->
+                                    <!--                                    </li>-->
+                                    <!--                                    <li class="page-item" th:each="i : ${#numbers.sequence(0, newsPage.totalPages - 1)}" th:classappend="${newsPage.number == i} ? 'active'">-->
+                                    <!--                                        <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${i}, size=${newsPage.size}, keyword=${keyword})}" th:text="${i + 1}">1</a>-->
+                                    <!--                                    </li>-->
+                                    <!--                                    <li class="page-item" th:classappend="${newsPage.hasNext()} ? 'enabled'">-->
+                                    <!--                                        <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${newsPage.number + 1}, size=${newsPage.size}, keyword=${keyword})}" aria-label="Next">-->
+                                    <!--                                            <span aria-hidden="true">&raquo;</span>-->
+                                    <!--                                        </a>-->
+                                    <!--                                    </li>-->
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>

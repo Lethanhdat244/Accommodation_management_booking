@@ -29,10 +29,12 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .comment-form h3 {
             margin-bottom: 20px;
             font-size: 24px;
         }
+
         .comment-form .form-control {
             margin-bottom: 15px;
             border-radius: 5px;
@@ -40,6 +42,7 @@
             border: 1px solid #ddd;
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
+
         .comment-form .submit-btn {
             background: #28a745;
             color: #fff;
@@ -203,9 +206,12 @@
                     <div class="single-bottom comment-form">
                         <h3>Leave your Comment</h3>
                         <form th:action="@{/fpt-dorm/home/dinning/comments}" method="post">
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Name" required="">
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required="">
-                            <textarea class="form-control" id="message" name="message" placeholder="Message Here...." required=""></textarea>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                                   required="">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                   required="">
+                            <textarea class="form-control" id="message" name="message" placeholder="Message Here...."
+                                      required=""></textarea>
                             <input type="submit" class="submit-btn" value="Send">
                         </form>
                     </div>
@@ -213,8 +219,9 @@
                     <br/><br/><br/><br/>
                     <div class="comments">
                         <h3>All Comments</h3><br/>
-                        <div  class="comment" th:each="comment : ${comments}">
-                            <p><strong th:text="${comment.getName()}">Name</strong> (<span th:text="${comment.getEmail()}">Email</span>)</p>
+                        <div class="comment" th:each="comment : ${comments}">
+                            <p><strong th:text="${comment.getName()}">Name</strong> (<span
+                                    th:text="${comment.getEmail()}">Email</span>)</p>
                             <p th:text="${comment.getCreated_at()}">Created At</p>
                             <p th:text="${comment.getMessage()}">Message</p>
                         </div>
@@ -226,7 +233,8 @@
                                     <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
-                            <li th:each="i : ${#numbers.sequence(1, totalPages)}" th:classappend="${i == currentPage} ? 'active'">
+                            <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                                th:classappend="${i == currentPage} ? 'active'">
                                 <a th:href="@{/fpt-dorm/home/dinning(page=${i})}" th:text="${i}">1</a>
                             </li>
                             <li th:if="${currentPage < totalPages}">

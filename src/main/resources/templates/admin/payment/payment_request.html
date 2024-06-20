@@ -20,15 +20,18 @@
             text-align: left;
             margin-top: 20px;
         }
+
         .pagination {
             display: inline-flex;
             padding-left: 0;
             list-style: none;
             border-radius: 0.25rem;
         }
+
         .pagination .page-item {
             display: inline;
         }
+
         .pagination .page-link {
             position: relative;
             display: block;
@@ -39,6 +42,7 @@
             background-color: #fff;
             border: 1px solid #dee2e6;
         }
+
         .pagination .page-item.disabled .page-link {
             color: #6c757d;
             pointer-events: none;
@@ -46,6 +50,7 @@
             background-color: #fff;
             border-color: #dee2e6;
         }
+
         .pagination .page-item.active .page-link {
             z-index: 1;
             color: #fff;
@@ -250,7 +255,8 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/payment-request}">Payment Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/payment-request}">Payment
+                                    Request</a>
                             </li>
                         </ul>
                     </li>
@@ -401,11 +407,12 @@
                 <h2 class="main-title">Payment Request List</h2>
                 <div class="row">
                     <div class="col-lg-6">
-                        <form th:action="@{/fpt-dorm/admin/all-payment/student/search}" method="get" class="search-form">
+                        <form th:action="@{/fpt-dorm/admin/payment-request/search}" method="get" class="search-form">
                             <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
                                    class="search-box"/>
                             <select name="category" class="search-dropdown">
-                                <option value="" th:text="'--Select--'" th:selected="${selectedCategory == null}"></option>
+                                <option value="" th:text="'--Select--'"
+                                        th:selected="${selectedCategory == null}"></option>
                                 <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
                                 <option value="Date" th:text="'Date'"
                                         th:selected="${selectedCategory == 'Date'}"></option>
@@ -449,9 +456,12 @@
                                         <td th:text="${payment.paymentDate.toString().substring(0, 10)}"></td>
                                         <td th:text="${payment.totalPrice}"></td>
                                         <td>
-                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Pending')}" class="badge-pending" th:text="${payment.status}"></span>
-                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Confirmed')}" class="badge-success" th:text="${payment.status}"></span>
-                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Canceled')}" class="badge-trashed" th:text="${payment.status}"></span>
+                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Pending')}"
+                                                  class="badge-pending" th:text="${payment.status}"></span>
+                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Confirmed')}"
+                                                  class="badge-success" th:text="${payment.status}"></span>
+                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Canceled')}"
+                                                  class="badge-trashed" th:text="${payment.status}"></span>
                                         </td>
 
                                         <td>
@@ -462,9 +472,11 @@
                                                     <i data-feather="more-horizontal" aria-hidden="true"></i>
                                                 </button>
                                                 <ul class="users-item-dropdown dropdown">
-                                                    <li><a class="cancel-btn danger" th:onclick="'showConfirmConfirmModal(' + ${payment.bookingId} + ',' + ${payment.totalPrice} + ',' + ${payment.amountPaid} + ')'">Confirm</a></li>
+                                                    <li><a class="cancel-btn danger"
+                                                           th:onclick="'showConfirmConfirmModal(' + ${payment.bookingId} + ',' + ${payment.totalPrice} + ',' + ${payment.amountPaid} + ')'">Confirm</a></li>
                                                     <li><a th:href="@{/fpt-dorm/admin/all-payment/student/payment/id={id}(id=${payment.paymentId})}">View</a></li>
-                                                    <li><a class="cancel-btn danger" th:onclick="'showCancelConfirmModal(' + ${payment.bookingId} + ')'">Cancel</a></li>
+                                                    <li><a class="cancel-btn danger"
+                                                           th:onclick="'showCancelConfirmModal(' + ${payment.bookingId} + ')'">Cancel</a></li>
                                                 </ul>
                                             </span>
                                         </td>
@@ -481,7 +493,8 @@
                                                aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
-                                            <span class="page-link" th:unless="${paymentPage.hasPrevious()}">&laquo;</span>
+                                            <span class="page-link"
+                                                  th:unless="${paymentPage.hasPrevious()}">&laquo;</span>
                                         </li>
                                         <li class="page-item"
                                             th:each="i : ${#numbers.sequence(0, paymentPage.totalPages - 1)}"
@@ -529,7 +542,8 @@
         <p>Are you sure you want to cancel this payment?</p>
         <div class="modal-actions">
             <button id="confirmCancelBtn" class="btn danger-btn" onclick="cancelPayment()">Yes</button>
-            <button class="btn primary-white-btn" style="color: #0e0e0ebd;" onclick="closeConfirmCancelModal()">No</button>
+            <button class="btn primary-white-btn" style="color: #0e0e0ebd;" onclick="closeConfirmCancelModal()">No
+            </button>
         </div>
     </div>
 </div>
@@ -714,7 +728,7 @@
     }
 
     // Close the modal if user clicks outside of it (for both modals)
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target === document.getElementById('confirmCancelModal')) {
             closeConfirmCancelModal();
         } else if (event.target === document.getElementById('confirmConfirmModal')) {

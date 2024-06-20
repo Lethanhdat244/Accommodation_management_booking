@@ -20,15 +20,18 @@
             text-align: left;
             margin-top: 20px;
         }
+
         .pagination {
             display: inline-flex;
             padding-left: 0;
             list-style: none;
             border-radius: 0.25rem;
         }
+
         .pagination .page-item {
             display: inline;
         }
+
         .pagination .page-link {
             position: relative;
             display: block;
@@ -39,6 +42,7 @@
             background-color: #fff;
             border: 1px solid #dee2e6;
         }
+
         .pagination .page-item.disabled .page-link {
             color: #6c757d;
             pointer-events: none;
@@ -46,6 +50,7 @@
             background-color: #fff;
             border-color: #dee2e6;
         }
+
         .pagination .page-item.active .page-link {
             z-index: 1;
             color: #fff;
@@ -228,7 +233,8 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class=""
+                                   th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
@@ -434,7 +440,9 @@
                                         <td th:text="${user.email}"></td>
                                         <td th:text="${user.phoneNumber}"></td>
                                         <td>
-                                            <a class="btn btn-primary" th:href="@{/fpt-dorm/admin/all-payment/student/id={id}(id=${user.userId})}" role="button" style="color: #0061f7;">Detail</a>
+                                            <a class="btn btn-primary"
+                                               th:href="@{/fpt-dorm/admin/all-payment/student/id={id}(id=${user.userId})}"
+                                               role="button" style="color: #0061f7;">Detail</a>
                                         </td>
                                     </tr>
                                     </tbody>

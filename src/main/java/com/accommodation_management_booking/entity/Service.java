@@ -17,13 +17,18 @@ import java.time.LocalDateTime;
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer serviceId;
+    private int serviceId;
 
+    @Column(length = 100)
     private String name;
-    private Double price;
+
+    private BigDecimal price;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(updatable = false)
     @CreationTimestamp
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
+
 }

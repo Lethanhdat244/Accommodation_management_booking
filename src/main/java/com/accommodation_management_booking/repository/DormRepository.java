@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface DormRepository extends JpaRepository<Dorm, Integer> {
     List<Dorm> findByDormGender(Dorm.DormGender dormGender);
+
+    List<Dorm> findAll();
 }

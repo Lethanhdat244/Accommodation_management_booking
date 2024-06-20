@@ -42,11 +42,11 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     public Page<PaymentTransactionDTO> searchByUserWithPaymentSort(int userId, Pageable pageable) {
-        return paymentRepository.searchPaymentByUserId(userId, pageable)        ;
+        return paymentRepository.searchPaymentByUserId(userId, pageable);
     }
 
     public Page<PaymentTransactionDTO> searchByUserWithBookingSort(int userId, Pageable pageable) {
-        return paymentRepository.searchBookingByUserId(userId, pageable)        ;
+        return paymentRepository.searchBookingByUserId(userId, pageable);
     }
 
     public PaymentTransactionDTO findByPaymentId(int id) {
@@ -75,5 +75,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     public Page<PaymentTransactionDTO> findByPaymentDateWithPage(LocalDate paymentDate, int userId, Pageable pageable) {
         return paymentRepository.findByPaymentDateWithPaging(paymentDate, userId, pageable);
+    }
+
+    public Page<PaymentTransactionDTO> findPaymentRequestByPaymentId(int paymentId, Pageable pageable) {
+        return paymentRepository.findPaymentRequestByPaymentIdWithPage(paymentId, pageable);
+    }
+
+    public Page<PaymentTransactionDTO> findPaymentRequestByPaymentDate(LocalDate paymentDate, Pageable pageable) {
+        return paymentRepository.findPaymentRequestByPaymentDateWithPage(paymentDate, pageable);
     }
 }

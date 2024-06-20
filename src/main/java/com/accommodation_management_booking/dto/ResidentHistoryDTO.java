@@ -12,13 +12,14 @@ import java.time.LocalDate;
 public class ResidentHistoryDTO {
     private int userId;
     private String email;
+
     private String username;
-    private String roomNumber; // Tên phòng thay vì Room Number
+    private String roomNumber;
     private String bedName;
     private LocalDate startDate;
     private String phoneNumber;
 
     private LocalDate endDate;
     private Float totalPrice;
-    private Integer capacity; // Integer thay vì int
+    private Integer capacity;
 }
