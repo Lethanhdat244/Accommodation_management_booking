@@ -52,5 +52,4 @@ public class UserDTO {
     private MultipartFile backCccdImage;
 
     private boolean isActive=false;
-
 }

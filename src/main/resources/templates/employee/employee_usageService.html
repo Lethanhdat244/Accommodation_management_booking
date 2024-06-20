@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Complain | Employee</title>
+    <title> Usage Service | Employee</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <link rel="" href="/homepage_user/images/icons/favicon.png"/>
@@ -113,7 +113,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn" >
+                        <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Room
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -134,7 +134,7 @@
                     </li>
 
                     <li>
-                        <a class="show-cat-btn" >
+                        <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -171,22 +171,10 @@
 
 
                     <li>
-                        <a class="show-cat-btn" href="#">
-                            <span class="icon folder" aria-hidden="true"></span>Payment
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                        <a th:href="@{admin/admin_payment_list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Payment
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
-                                    Payments</a>
-                            </li>
-                            <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment Request</a>
-                            </li>
-                        </ul>
                     </li>
 
 
@@ -224,14 +212,13 @@
                             Complain
                         </a>
                     </li>
+
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/admin_Resident_History/list}">
+                        <a class="active" th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
+                            Usage Service
                         </a>
                     </li>
-
-
 
                 </ul>
                 <!--&lt;!&ndash;                <span class="system-menu__title">system</span>&ndash;&gt;-->
@@ -315,28 +302,28 @@
                             <span class="icon notification active" aria-hidden="true"></span>
                         </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
-                            <!--                            <li>-->
-                            <!--                                <a href="##">-->
-                            <!--                                    <div class="notification-dropdown-icon info">-->
-                            <!--                                        <i data-feather="check"></i>-->
-                            <!--                                    </div>-->
-                            <!--                                    <div class="notification-dropdown-text">-->
-                            <!--                                        <span class="notification-dropdown__title">System just updated</span>-->
-                            <!--                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>-->
-                            <!--                                    </div>-->
-                            <!--                                </a>-->
-                            <!--                            </li>-->
-                            <!--                            <li>-->
-                            <!--                                <a href="##">-->
-                            <!--                                    <div class="notification-dropdown-icon danger">-->
-                            <!--                                        <i data-feather="info" aria-hidden="true"></i>-->
-                            <!--                                    </div>-->
-                            <!--                                    <div class="notification-dropdown-text">-->
-                            <!--                                        <span class="notification-dropdown__title">The cache is full!</span>-->
-                            <!--                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>-->
-                            <!--                                    </div>-->
-                            <!--                                </a>-->
-                            <!--                            </li>-->
+                            <li>
+                                <a href="##">
+                                    <div class="notification-dropdown-icon info">
+                                        <i data-feather="check"></i>
+                                    </div>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">System just updated</span>
+                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="##">
+                                    <div class="notification-dropdown-icon danger">
+                                        <i data-feather="info" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">The cache is full!</span>
+                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>
+                                    </div>
+                                </a>
+                            </li>
                             <li>
                                 <a href="##">
                                     <div class="notification-dropdown-icon info">
@@ -380,30 +367,18 @@
         <main class="main users chart-page" id="skip-target">
             <div class="container">
                 <h2 class="main-title">Complain List</h2>
-                <div class="canvas-wrapper" style="margin-bottom: 20px">
-                    <form th:action="@{/fpt-dorm/employee/complain}" th:method="get">
-                        <select class="" id="status" name="status">
-                            <option class="" value="" th:selected="${statusForm == null}">All Type</option>
-                            <option class="info" value="WAITING"
-                                    th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING}">
-                                Waiting
-                            </option>
-                            <option class="warning" value="INPROGRESS"
-                                    th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS}">
-                                In Progress
-                            </option>
-                            <option class="success" value="DONE"
-                                    th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).DONE}">
-                                Done
-                            </option>
-                            <option class="danger" value="REJECT"
-                                    th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT}">
-                                Reject
-                            </option>
-                        </select>
-                        <button class="btn primary" type="submit">Filter</button>
-                    </form>
-                </div>
+                <!--        <div class="canvas-wrapper" style="margin-bottom: 20px">-->
+                <!--          <form th:action="@{/fpt-dorm/employee/complain}" th:method="get">-->
+                <!--            <select class="" id="status" name="status">-->
+                <!--              <option class="" value="" th:selected="${statusForm == null}">All Type</option>-->
+                <!--              <option class="info" value="WAITING" th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING}">Waiting</option>-->
+                <!--              <option class="warning" value="INPROGRESS" th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS}">In Progress</option>-->
+                <!--              <option class="success" value="DONE" th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).DONE}">Done</option>-->
+                <!--              <option class="danger" value="REJECT" th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT}">Reject</option>-->
+                <!--            </select>-->
+                <!--            <button class="btn primary" type="submit">Filter</button>-->
+                <!--          </form>-->
+                <!--        </div>-->
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="canvas-wrapper">
@@ -412,42 +387,25 @@
                                     <thead>
                                     <tr class="users-table-info">
                                         <th>No.</th>
-                                        <th>Title</th>
-                                        <th>Sent At</th>
-                                        <th>Status</th>
+                                        <th>Floor</th>
+                                        <th>Room Number</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
-                                    <tbody th:if="${message == null}">
-                                    <tr th:each="complain : ${complaintDTOList}">
-                                        <td th:text="${complain.complaintId}"></td>
-                                        <td th:text="${complain.title}"></td>
-                                        <td th:text="${complain.getFormattedCreatedAt()}"></td>
-                                        <td>
-                                            <span th:text="${complain.status.getDisplayName()}"
-                                                  th:class="${complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING ? 'info' :
-                                                       (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS ? 'warning' :
-                                                       (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).DONE ? 'success' :
-                                                       (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT ? 'danger' : '')))}">
-                                            </span>
+                                    <tbody th:if="${rooms != null}">
+                                    <tr th:each="room : ${rooms}">
+                                        <td th:text="${room.roomId}"></td>
+                                        <td th:text="${room.floorId}"></td>
+                                        <td th:text="${room.roomNumber}"></td>
+                                        <td style="width: 700px">
+                                            <form th:action="@{/fpt-dorm/employee/usage-service/{id}(id=${room.roomId})}"
+                                                  method="post">
+                                                <input type="number" placeholder="Electricity" name="electric">
+                                                <input type="number" placeholder="Water" name="water">
+                                                <input type="number" placeholder="Others" name="others">
+                                                <button class="btn primary" type="submit">Save</button>
+                                            </form>
                                         </td>
-                                        <td>
-                                            <span class="p-relative">
-                                                <button class="dropdown-btn transparent-btn" type="button"
-                                                        title="More info">
-                                                  <div class="sr-only">More info</div>
-                                                  <i data-feather="more-horizontal" aria-hidden="true"></i>
-                                                </button>
-                                                <ul class="users-item-dropdown dropdown">
-                                                  <li><a th:href="@{/fpt-dorm/employee/complain/execute/{id}(id=${complain.complaintId})}">Execute</a></li>
-                                                </ul>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                    <tbody th:if="${message != null}">
-                                    <tr>
-                                        <td colspan="4" class="" style="text-align: center" th:text="${message}"></td>
                                     </tr>
                                     </tbody>
                                 </table>
