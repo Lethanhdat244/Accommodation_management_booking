@@ -244,4 +244,11 @@ public class EmployeeController {
         }
         return "redirect:/fpt-dorm/employee/student/add?success";
     }
+
+
+    @GetMapping("/fpt-dorm/employee/employee_Resident_History")
+    public String employee_list_residentH() {
+        return "redirect:/fpt-dorm/employee/Resident_History/list";
+    }
+
 }

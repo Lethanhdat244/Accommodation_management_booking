@@ -37,4 +37,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             Pageable pageable);
 
     User findByUserId(Integer userId);
+
+
+
+    Page<User> findByUsername(String username, Pageable pageable);
+
 }
