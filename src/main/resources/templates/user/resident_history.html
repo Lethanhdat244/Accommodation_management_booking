@@ -130,7 +130,7 @@
                                     <li><a data-hover="Available beds" th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a></li>
                                     <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a></li>
                                     <li><a data-hover="Payment" th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a></li>
-                                    <li><a data-hover="Resident History" class="active" th:href="@{/fpt-dorm/user/resident-history/list}"><span>Resident History</span></a></li>
+                                    <li><a data-hover="Resident History" class="active"><span>Resident History</span></a></li>
                                     <li><a data-hover="Request" th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a></li>
                                     <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/user/rule}"><span>Dormitory rules</span></a></li>
                                     <li><a data-hover="FAQ" th:href="@{/fpt-dorm/user/faq}"><span>FAQ</span></a></li>
@@ -156,15 +156,14 @@
     </header>
 
     <div class="container">
-        <button class="btn btn--back" onclick="window.history.back()"><i data-feather="arrow-left"></i>Back</button>
         <div class="row justify-content-center">
             <div class="col-lg-7 col-sm-12 request_box">
                 <h1>Resident History</h1>
                 <form th:action="@{/fpt-dorm/user/search-by-room}" method="get" onsubmit="return validateForm()">
                     <div class="form-group col-lg-4">
-                        <label for="roomNumber">Tìm kiếm theo số phòng:</label>
-                        <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Nhập số phòng">
-                        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                        <label for="roomNumber">Search By Room Name</label>
+                        <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Enter Room Name">
+                        <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </form>
 

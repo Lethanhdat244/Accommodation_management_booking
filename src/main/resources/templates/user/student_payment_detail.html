@@ -137,7 +137,7 @@
                                     <li><a data-hover="Payment" class="active"
                                            th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a></li>
                                     <li><a data-hover="Resident History"
-                                           th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a>
+                                           th:href="@{/fpt-dorm/user/resident-history/list}"><span>Resident History</span></a>
                                     </li>
                                     <li><a data-hover="Request"
                                            th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a></li>
@@ -173,20 +173,15 @@
             <div class="col-lg-6 col-sm-12">
                 <div class="request_box">
                     <h1 class="main-title text-center">Payment Detail</h1><br>
-                    <div class="col-md-12 mb-3">
-                        <label for="transactionId" class="col-form-label">Payment ID</label>
-                        <input id="transactionId" name="transactionId" class="form-control border"
-                               th:field="${payment.paymentId}" readonly>
-                    </div>
 
-                    <div class="col-md-7 mb-3">
+                    <div class="col-md-6 mb-3">
                         <label for="studentName" class="col-form-label">Student Name</label>
                         <input id="studentName" readonly class="form-control border" th:field="${payment.username}">
                     </div>
 
-                    <div class="col-md-5 mb-3">
-                        <label for="studentId" class="col-form-label">Student ID</label>
-                        <input id="studentId" readonly class="form-control border" th:field="${payment.userId}">
+                    <div class="col-md-6 mb-3">
+                        <label for="studentId" class="col-form-label">Email</label>
+                        <input id="studentId" readonly class="form-control border" th:field="${payment.email}">
                     </div>
 
                     <div class="col-md-12 mb-3">

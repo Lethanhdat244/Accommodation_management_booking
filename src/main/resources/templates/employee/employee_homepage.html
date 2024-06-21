@@ -30,7 +30,7 @@
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
                         <span class="logo-title">Dormitory</span>
-                        <span class="logo-subtitle">Employee</span>
+                        <span class="logo-subtitle">EMPLOYEE</span>
                     </div>
 
                 </a>
@@ -104,23 +104,36 @@
                     </li>
 
                     <li>
-                        <a th:href="@{employee/employee_payment_list}">
+                        <a class="show-cat-btn" href="#">
+                            <span class="icon folder" aria-hidden="true"></span>Payment
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
+                                    Payments</a>
+                            </li>
+                            <li>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                    Request</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Payment
+                            Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_booking_list}">
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
+                            Resident History
                         </a>
                     </li>
 
@@ -138,12 +151,6 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Usage Service
-                        </a>
-                    </li>
 
                     <li>
                         <a th:href="@{/fpt-dorm/employee/notifications}">

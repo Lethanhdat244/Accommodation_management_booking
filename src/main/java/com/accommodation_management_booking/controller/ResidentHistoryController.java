@@ -18,8 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 
 @Controller
 public class ResidentHistoryController {
@@ -46,11 +44,11 @@ public class ResidentHistoryController {
 
             model.addAttribute("residentHistoryPage", residentHistoryPage);
 
-            return "/user/Resident-History";
+            return "/user/resident_history";
         } catch (Exception e) {
             e.printStackTrace();
             // Xử lý ngoại lệ và trả về trang lỗi hoặc thông báo lỗi
-            model.addAttribute("errorMessage", "Đã xảy ra lỗi khi lấy dữ liệu lịch sử cư trú của người dùng.");
+            model.addAttribute("errorMessage", "An error occurred while retrieving the user's residential history data.");
             return "error-page"; // Cần có file error-page.html để hiển thị thông báo lỗi
         }
     }
@@ -79,10 +77,10 @@ public class ResidentHistoryController {
         model.addAttribute("roomNumber", roomNumber);
 
         if (residentHistoryPage.isEmpty()) {
-            model.addAttribute("message", "Không tìm thấy thông tin phòng số " + roomNumber);
+            model.addAttribute("message", "No room information found " + roomNumber);
         }
 
-        return "/user/Resident-History";
+        return "/user/resident_history";
     }
 
 

@@ -345,7 +345,7 @@ public class PaymentController {
     @GetMapping("/fpt-dorm/user/payment")
     public String showPaymentUser(Model model, Authentication authentication,
                                   @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "1") int size,
+                                  @RequestParam(defaultValue = "3") int size,
                                   @RequestParam(defaultValue = "paymentDate,desc") String sort) {
         String email;
         if (authentication instanceof OAuth2AuthenticationToken oauth2Token) {
