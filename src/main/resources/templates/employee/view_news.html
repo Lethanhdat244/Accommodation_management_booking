@@ -333,18 +333,24 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div>
+                            <h3 th:if="${newsPage.totalPages == 0}">
+                                No data recorded
+                            </h3>
+                        </div>
                         <div class="pagination-wrapper">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination">
-                                    <li class="page-item" th:classappend="${newsPage.hasPrevious()} ? 'enabled'">
+                                    <li class="page-item" th:classappend="${newsPage.hasPrevious()} ? '' : 'disabled'">
                                         <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${newsPage.number - 1}, size=${newsPage.size}, keyword=${keyword})}" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
-                                    <li class="page-item" th:each="i : ${#numbers.sequence(0, newsPage.totalPages - 1)}" th:classappend="${newsPage.number == i} ? 'active'">
+                                    <li class="page-item" th:each="i : ${newsPage.totalPages > 0 ? #numbers.sequence(0, newsPage.totalPages - 1) : {0}}" th:classappend="${newsPage.number == i} ? 'active'">
                                         <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${i}, size=${newsPage.size}, keyword=${keyword})}" th:text="${i + 1}">1</a>
                                     </li>
-                                    <li class="page-item" th:classappend="${newsPage.hasNext()} ? 'enabled'">
+
+                                    <li class="page-item" th:classappend="${newsPage.hasNext()} ? '' : 'disabled'">
                                         <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${newsPage.number + 1}, size=${newsPage.size}, keyword=${keyword})}" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>

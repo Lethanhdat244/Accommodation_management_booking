@@ -72,7 +72,27 @@
                 price = 1000000;
             }
             document.getElementById("price").innerText = price.toLocaleString() + " VND";
+            document.getElementById("totalPrice").value = price;
         }
+
+        // function handlePaymentRedirection(event) {
+        //     event.preventDefault();
+        //     const paymentMethod = document.getElementById("paymentMethod").value;
+        //     const form = document.getElementById("bookingForm");
+        //
+        //     if (paymentMethod === "PayPal") {
+        //         form.action = "/fpt-dorm/user/booking/paypal";
+        //     } else if (paymentMethod === "VNPay") {
+        //         form.action = "/fpt-dorm/user/booking/vnpay";
+        //     }
+        //     form.submit();
+        // }
+        //
+        // document.addEventListener("DOMContentLoaded", function () {
+        //     document.getElementById("bookingForm").addEventListener("submit", handlePaymentRedirection);
+        //     updatePrice();
+        // });
+
     </script>
 </head>
 <body>
@@ -260,11 +280,19 @@
                         <label for="totalPrice">Total Price:</label>
                         <input type="text" class="form-control" id="totalPrice" name="totalPrice" readonly>
                     </div>
+
                     <div class="form-group">
-                        <label for="amountPaid">Amount Paid:</label>
-                        <input type="number" class="form-control" id="amountPaid" name="amountPaid" required>
-                        <span id="amountPaidError" class="text-danger"></span>
+                        <label for="paymentMethod">Payment Method:</label>
+                        <select class="form-control" id="paymentMethod" name="paymentMethod">
+                            <option value="PayPal">PayPal</option>
+                            <option value="BankQRCode">VNPay</option>
+                        </select>
                     </div>
+<!--                    <div class="form-group">-->
+<!--                        <label for="amountPaid">Amount Paid:</label>-->
+<!--                        <input type="number" class="form-control" id="amountPaid" name="amountPaid" required>-->
+<!--                        <span id="amountPaidError" class="text-danger"></span>-->
+<!--                    </div>-->
 
                     <button type="submit" class="btn btn-primary">Book Now</button>
 

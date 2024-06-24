@@ -105,8 +105,9 @@ public class BookingController {
                                  @RequestParam("room") Integer roomId,
                                  @RequestParam("checkin") LocalDate checkinDate,
                                  @RequestParam("checkout") LocalDate checkoutDate,
-                                 @RequestParam("totalPrice") Float totalPrice,
-                                 @RequestParam("amountPaid") Float amountPaid) {
+                                 @RequestParam("totalPrice") Float totalPrice
+//                                 ,@RequestParam("amountPaid") Float amountPaid
+    ) {
 
         Integer userId = getLoggedInUserId();
         Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
@@ -120,7 +121,7 @@ public class BookingController {
         booking.setStartDate(checkinDate);
         booking.setEndDate(checkoutDate);
         booking.setTotalPrice(totalPrice);
-        booking.setAmountPaid(amountPaid);
+        //booking.setAmountPaid(amountPaid);
 
         bookingRepository.save(booking);
 

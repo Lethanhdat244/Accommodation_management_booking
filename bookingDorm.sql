@@ -101,14 +101,14 @@ CREATE TABLE service (
 CREATE TABLE usage_service (
                                service_booking_id INT AUTO_INCREMENT PRIMARY KEY,
                                user_id INT not null,
-                               service_id INT not null,
-                               room_id int not null,
-                               quantity float not null,
-                               payment_method enum('Credit Card', 'Debit Card', 'Bank QR Code') NOT NULL,
+                               booking_id int not null,
+                               electricity float not null,
+                               water float not null,
+                               others float not null,
+                               payment_method enum('Paypal', 'BankQRCode') NOT NULL,
                                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                                FOREIGN KEY (user_id) REFERENCES user(user_id),
-                               FOREIGN KEY (service_id) REFERENCES service(service_id),
-                               foreign key (room_id) references room (room_id)
+                               FOREIGN KEY (booking_id) REFERENCES booking(booking_id)
 );
 
 create table payment(
@@ -157,7 +157,8 @@ CREATE TABLE complaint(
                           user_id INT,
                           title nvarchar(255),
                           description TEXT,
-                          status ENUM('WAITTING', 'IN PROGRESS', 'DONE', 'REJECT'),
+                          reply nvarchar(255),
+                          status ENUM('WAITING', 'IN PROGRESS', 'DONE', 'REJECT'),
                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                           FOREIGN KEY (user_id) REFERENCES user(user_id)
