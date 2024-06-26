@@ -425,4 +425,11 @@ public class EmployeeController {
         model.addAttribute("dorms", dorms);
         return "employee/employee_notification";
     }
+
+
+    @GetMapping("/fpt-dorm/employee/employee_Resident_History")
+    public String employee_list_residentH() {
+        return "redirect:/fpt-dorm/employee/Resident_History/list";
+    }
+
 }

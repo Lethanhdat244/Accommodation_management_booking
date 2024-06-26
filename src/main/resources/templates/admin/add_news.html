@@ -16,24 +16,20 @@
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
-
         .news-card .card-header {
             background-color: #f8f9fa;
             padding: 10px 20px;
             font-size: 1.2em;
             font-weight: bold;
         }
-
         .news-card .card-body {
             padding: 20px;
         }
-
         .news-card .card-title {
             margin-bottom: 10px;
             font-size: 1.5em;
             font-weight: bold;
         }
-
         .news-card .card-text {
             margin-bottom: 20px;
             font-size: 1.1em;
@@ -41,22 +37,18 @@
             word-wrap: break-word;
             white-space: pre-wrap;
         }
-
         .news-image {
             width: 70%;
             height: auto;
             border-radius: 8px;
         }
-
         .form-group {
             margin-bottom: 1em;
         }
-
         .form-group label {
             display: block;
             font-weight: bold;
         }
-
         .form-group input,
         .form-group textarea {
             width: 100%;
@@ -65,7 +57,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-
         .form-group button {
             padding: 0.7em 1.5em;
             background-color: #007bff;
@@ -74,15 +65,12 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
         .form-group button:hover {
             background-color: #0056b3;
         }
-
         .error-message {
             color: red;
         }
-
         .success-message {
             color: green;
         }
@@ -186,18 +174,19 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class=""
-                                   th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
-                    <li><a th:href="@{admin/admin_booking_list}"><span class="icon folder" aria-hidden="true"></span>Booking
-                        requirement</a></li>
-                    <li><a th:href="@{admin/admin_service_list}"><span class="icon folder" aria-hidden="true"></span>Service
-                        requirement</a></li>
-                    <li><a th:href="@{admin/admin_list_feedback}"><span class="icon folder" aria-hidden="true"></span>Feedback</a>
-                    </li>
-                    <li><a th:href="@{/fpt-dorm/employee/complain}"><span class="icon folder" aria-hidden="true"></span>Complaint</a>
+                    <li><a th:href="@{admin/admin_booking_list}"><span class="icon folder" aria-hidden="true"></span>Booking requirement</a></li>
+                    <li><a th:href="@{admin/admin_service_list}"><span class="icon folder" aria-hidden="true"></span>Service requirement</a></li>
+                    <li><a th:href="@{admin/admin_list_feedback}"><span class="icon folder" aria-hidden="true"></span>Feedback</a></li>
+                    <li><a th:href="@{/fpt-dorm/employee/complain}"><span class="icon folder" aria-hidden="true"></span>Complaint</a></li>
+                    <li>
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History/list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Resident History
+                        </a>
                     </li>
                 </ul>
             </div>

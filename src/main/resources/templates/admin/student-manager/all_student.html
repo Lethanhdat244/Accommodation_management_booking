@@ -193,6 +193,24 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>News
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/view-news}">View News</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/add-news}">Add news</a>
+                            </li>
+
+                        </ul>
+                    </li>
 
 
                     <li>
@@ -267,6 +285,12 @@
                         <a th:href="@{admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History/list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Resident History
                         </a>
                     </li>
                 </ul>

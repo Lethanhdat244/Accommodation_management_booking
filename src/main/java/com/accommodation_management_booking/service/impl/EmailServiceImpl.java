@@ -4,6 +4,7 @@ import com.accommodation_management_booking.service.EmailService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -68,5 +69,14 @@ public class EmailServiceImpl implements EmailService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void sendBill(String toEmail, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(toEmail);
+        message.setSubject(subject);
+        message.setText(body);
+        mailSender.send(message);
     }
 }

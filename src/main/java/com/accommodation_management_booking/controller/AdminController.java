@@ -96,4 +96,12 @@ public class AdminController {
         return "admin/admin_complain";
     }
 
+
+
+    @GetMapping("/fpt-dorm/admin/admin_Resident_History")
+    public String admin_list_residentH() {
+        return "redirect:/fpt-dorm/admin/Resident_History/list";
+    }
+
+
 }

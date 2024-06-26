@@ -1,15 +1,36 @@
 package com.accommodation_management_booking.controller;
 
+import com.accommodation_management_booking.config.PaypalPaymentIntent;
+import com.accommodation_management_booking.config.PaypalPaymentMethod;
 import com.accommodation_management_booking.dto.PaymentTransactionDTO;
+import com.accommodation_management_booking.entity.Bed;
 import com.accommodation_management_booking.entity.Booking;
+import com.accommodation_management_booking.entity.Room;
 import com.accommodation_management_booking.entity.User;
-import com.accommodation_management_booking.repository.BookingRepository;
+import com.accommodation_management_booking.repository.*;
+import com.accommodation_management_booking.service.EmailService;
 import com.accommodation_management_booking.service.PaymentService;
+import com.accommodation_management_booking.service.PaypalService;
+import com.accommodation_management_booking.utils.Utils;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.base.rest.PayPalRESTException;
+import com.stripe.Stripe;
+import com.stripe.model.PaymentIntent;
+import com.stripe.param.PaymentIntentCreateParams;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -18,6 +39,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
@@ -30,6 +52,8 @@ public class PaymentController {
 
     private final BookingRepository bookingRepository;
     private final PaymentService paymentService;
+
+    private final PaymentRepository paymentRepository;
 
     @GetMapping("/fpt-dorm/employee/all-payment")
     public String showPaymentList(Model model,
@@ -166,8 +190,7 @@ public class PaymentController {
                             try {
                                 paymentDate = LocalDate.parse(keyword, formatter);
                                 break;
-                            } catch (DateTimeParseException ex) {
-
+                            } catch (DateTimeParseException _) {
                             }
                         }
                         if (paymentDate == null) {
@@ -346,7 +369,7 @@ public class PaymentController {
     @GetMapping("/fpt-dorm/user/payment")
     public String showPaymentUser(Model model, Authentication authentication,
                                   @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "1") int size,
+                                  @RequestParam(defaultValue = "3") int size,
                                   @RequestParam(defaultValue = "paymentDate,desc") String sort) {
         String email;
         if (authentication instanceof OAuth2AuthenticationToken oauth2Token) {
@@ -538,7 +561,7 @@ public class PaymentController {
                             try {
                                 paymentDate = LocalDate.parse(keyword, formatter);
                                 break;
-                            } catch (DateTimeParseException ex) {
+                            } catch (DateTimeParseException _) {
                             }
                         }
                         if (paymentDate == null) {
@@ -713,4 +736,146 @@ public class PaymentController {
         }
     }
 
+    public static final String URL_PAYPAL_SUCCESS = "pay/success";
+    public static final String URL_PAYPAL_CANCEL = "pay/cancel";
+
+    //private Logger log = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private PaypalService paypalService;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private BedRepository bedRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private EmailService emailService;
+
+    @GetMapping("/")
+    public String index() {
+        return "index";
+    }
+
+    private Integer getLoggedInUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            if (authentication.getPrincipal() instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+                User user = userRepository.findByEmail(userDetails.getUsername());
+                return user.getUserId(); // Assuming userId is the field name
+            } else if (authentication.getPrincipal() instanceof OAuth2User) {
+                OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
+                String email = oauth2User.getAttribute("email");
+                User user = userRepository.findByEmail(email);
+                return user.getUserId();
+            }
+        }
+        throw new IllegalStateException("User not found in context");
+    }
+
+    @PostMapping("/fpt-dorm/user/booking/pay")
+    public String pay(HttpServletRequest request,
+                      @RequestParam("bed") Integer bedId,
+                      @RequestParam("room") Integer roomId,
+                      @RequestParam("checkin") LocalDate checkinDate,
+                      @RequestParam("checkout") LocalDate checkoutDate,
+                      @RequestParam("totalPrice") float totalPrice,
+                      @RequestParam("totalPriceUSD") float price) {
+
+        Integer userId = getLoggedInUserId();
+        Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+        Room room = roomRepository.findById(roomId).orElseThrow(() -> new IllegalArgumentException("Invalid room ID"));
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+
+        Booking booking = new Booking();
+        booking.setBed(bed);
+        booking.setRoom(room);
+        booking.setUser(user);
+        booking.setStartDate(checkinDate);
+        booking.setEndDate(checkoutDate);
+        booking.setTotalPrice(totalPrice);
+//        booking.setAmountPaid(totalPrice);
+        bookingRepository.save(booking);
+
+        bed.setIsAvailable(false);
+        bedRepository.save(bed);
+
+        // Store booking ID in session
+        request.getSession().setAttribute("bookingId", booking.getBookingId());
+
+        String cancelUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
+        String successUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
+        try{
+            Payment payment = paypalService.createPayment(
+                    price,
+                    "USD",
+                    PaypalPaymentMethod.paypal,
+                    PaypalPaymentIntent.sale,
+                    "Payment for booking",
+                    cancelUrl,
+                    successUrl);
+            for (Links link : ((com.paypal.api.payments.Payment) payment).getLinks()) {
+                if (link.getRel().equals("approval_url")) {
+                    return "redirect:" + link.getHref();
+                }
+            }
+        } catch (PayPalRESTException e) {
+            e.printStackTrace();
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping(URL_PAYPAL_CANCEL)
+    public String cancelPay(HttpServletRequest request) {
+        // Store booking ID in session
+        Integer bookingId = (Integer) request.getSession().getAttribute("bookingId");
+        bookingRepository.deleteById(bookingId);
+        return "cancel";
+    }
+
+    @GetMapping(URL_PAYPAL_SUCCESS)
+    public String successPay(@RequestParam("paymentId") String paymentId,
+                             @RequestParam("PayerID") String payerId,
+                             HttpServletRequest request) {
+        try {
+            Payment payment = paypalService.executePayment(paymentId, payerId);
+            if (payment.getState().equals("approved")) {
+                Integer bookingId = (Integer) request.getSession().getAttribute("bookingId");
+                com.accommodation_management_booking.entity.Payment payment1 = new com.accommodation_management_booking.entity.Payment();
+                payment1.setPaymentMethod(com.accommodation_management_booking.entity.Payment.PaymentMethod.PayPal);
+                payment1.setPaymentDetail(paymentId);
+                payment1.setPaymentDate(LocalDateTime.now());
+                // Set booking ID in payment
+                Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new IllegalArgumentException("Invalid booking ID"));
+                payment1.setBooking(booking);
+                paymentRepository.save(payment1);
+
+                booking.setAmountPaid(payment1.getBooking().getTotalPrice());
+                bookingRepository.save(booking);
+
+                // Send email
+                String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
+                String subject = "Payment Successful - Booking Confirmation";
+                String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was successful. Booking ID: " + bookingId + "\nTotal Amount Paid: " + booking.getTotalPrice() + "\n\nThank you for your booking.";
+                emailService.sendBill(toEmail, subject, body);
+
+                return "success";
+            }
+        } catch (PayPalRESTException e) {
+            e.printStackTrace();
+        }
+        bookingRepository.delete(bookingRepository.findById((Integer) request.getSession().getAttribute("bookingId")).get());
+        return "redirect:/";
+    }
+
+
+    @PostMapping("/fpt-dorm/user/booking/vnpay")
+    public String vnpay() {
+        return "index";
+    }
 }

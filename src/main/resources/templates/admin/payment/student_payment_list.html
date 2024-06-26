@@ -27,11 +27,9 @@
             list-style: none;
             border-radius: 0.25rem;
         }
-
         .pagination .page-item {
             display: inline;
         }
-
         .pagination .page-link {
             position: relative;
             display: block;
@@ -42,7 +40,6 @@
             background-color: #fff;
             border: 1px solid #dee2e6;
         }
-
         .pagination .page-item.disabled .page-link {
             color: #6c757d;
             pointer-events: none;
@@ -50,7 +47,6 @@
             background-color: #fff;
             border-color: #dee2e6;
         }
-
         .pagination .page-item.active .page-link {
             z-index: 1;
             color: #fff;
@@ -271,6 +267,12 @@
                         <a th:href="@{admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History/list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Resident History
                         </a>
                     </li>
                 </ul>
