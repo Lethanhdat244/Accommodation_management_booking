@@ -3,6 +3,12 @@ package com.accommodation_management_booking.controller;
 import com.accommodation_management_booking.config.GenderMapper;
 import com.accommodation_management_booking.entity.*;
 import com.accommodation_management_booking.repository.*;
+import com.accommodation_management_booking.service.PaypalService;
+import com.paypal.api.payments.Links;
+import com.paypal.api.payments.Payment;
+import com.paypal.api.payments.PaymentExecution;
+import com.paypal.base.rest.APIContext;
+import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,10 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -39,6 +42,12 @@ public class BookingController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PaypalService paypalService;
+
+    @Autowired
+    private APIContext apiContext;
+
     private Integer getLoggedInUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
@@ -55,7 +64,6 @@ public class BookingController {
         }
         throw new IllegalStateException("User not found in context");
     }
-
 
     @GetMapping("fpt-dorm/user/booking")
     public String booking() {
@@ -105,9 +113,7 @@ public class BookingController {
                                  @RequestParam("room") Integer roomId,
                                  @RequestParam("checkin") LocalDate checkinDate,
                                  @RequestParam("checkout") LocalDate checkoutDate,
-                                 @RequestParam("totalPrice") Float totalPrice
-//                                 ,@RequestParam("amountPaid") Float amountPaid
-    ) {
+                                 @RequestParam("totalPrice") Float totalPrice) {
 
         Integer userId = getLoggedInUserId();
         Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
@@ -121,7 +127,6 @@ public class BookingController {
         booking.setStartDate(checkinDate);
         booking.setEndDate(checkoutDate);
         booking.setTotalPrice(totalPrice);
-        //booking.setAmountPaid(amountPaid);
 
         bookingRepository.save(booking);
 
@@ -130,4 +135,5 @@ public class BookingController {
 
         return "user/booking_confirmation";
     }
+
 }
