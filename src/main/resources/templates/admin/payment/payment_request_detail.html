@@ -17,6 +17,52 @@
         .form-control {
             line-height: 1.5;
         }
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0, 0, 0);
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            text-align: right;
+            height: 20px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -37,7 +83,7 @@
         });
         document.addEventListener('DOMContentLoaded', function () {
             const A = document.getElementById('menu-payment');
-            const B = document.getElementById('menu-all-payments');
+            const B = document.getElementById('menu-payment-request');
 
             A.addEventListener('click', function () {
                 if (A.classList.contains('active')) {
@@ -60,12 +106,12 @@
     <aside class="sidebar">
         <div class="sidebar-start">
             <div class="sidebar-head">
-                <a th:href="@{/fpt-dorm/employee/home}" class="logo-wrapper" title="Home">
+                <a th:href="@{/fpt-dorm/admin/home}" class="logo-wrapper" title="Home">
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
                         <span class="logo-title">FPT Dorm</span>
-                        <span class="logo-subtitle">EMPLOYEE</span>
+                        <span class="logo-subtitle">ADMIN</span>
                     </div>
 
                 </a>
@@ -77,7 +123,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a id="menu-student" class="show-cat-btn">
@@ -89,11 +135,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/student/all-student}">All
                                     Students</a>
                             </li>
                             <li>
-                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/student/add}">Add new
                                     student</a>
                             </li>
                         </ul>
@@ -129,10 +175,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
+                                <a th:href="@{/fpt-dorm/admin/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
+                                <a th:href="@{/fpt-dorm/admin/add-news}">Add news</a>
                             </li>
 
                         </ul>
@@ -149,11 +195,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/all-payment}">All
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/payment-request}">Payment
                                     Request</a>
                             </li>
                         </ul>
@@ -195,7 +241,7 @@
                         </a>
                     </li>
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/admin_Resident_History/list}">
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
                         </a>
@@ -290,7 +336,7 @@
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+                            <!--                            <li><a th:href="@{/fpt-dorm/admin/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -305,7 +351,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
-                        <h1 class="main-title text-center">Payment Detail</h1>
+                        <h1 class="main-title text-center">Payment Request Detail</h1>
                         <div class="row mb-2">
                             <div class="col-sm-12">
                                 <label for="transactionId" class="col-form-label">Payment Code</label>
@@ -355,32 +401,20 @@
 
                         <div class="row mb-2">
                             <div class="col-sm-12">
-                                <label for="totalPrice" class="col-form-label">Total Price</label>
-                                <input readonly  id="totalPrice" class="form-control border" th:field="${payment.totalPrice}">
+                                <label for="totalPrice0" class="col-form-label">Total Price</label>
+                                <input readonly  id="totalPrice0" class="form-control border" th:field="${payment.totalPrice}">
                             </div>
                         </div>
 
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <label for="amountPaid" class="col-form-label">Amount Paid</label>
-                                <input readonly  id="amountPaid" class="form-control border" th:field="${payment.amountPaid}">
+                                <label for="amountPaid0" class="col-form-label">Amount Paid</label>
+                                <input readonly  id="amountPaid0" class="form-control border" th:field="${payment.amountPaid}">
                             </div>
                             <div class="col-sm-6">
                                 <label for="paymentDate" class="col-form-label">Payment Date</label>
                                 <input readonly id="paymentDate" name="paymentDate" class="form-control border"
                                        th:value="${#temporals.format(payment.paymentDate, 'yyyy-MM-dd HH:mm:ss')}">
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <label for="refundAmount" class="col-form-label">Refund</label>
-                                <input readonly  id="refundAmount" class="form-control border" th:field="${payment.refundAmount}">
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="refundDate" class="col-form-label">Refund Date</label>
-                                <input readonly id="refundDate" name="refundDate" class="form-control border"
-                                       th:value="${#temporals.format(payment.refundDate, 'yyyy-MM-dd HH:mm:ss')}">
                             </div>
                         </div>
 
@@ -398,9 +432,18 @@
                         </div>
 
                         <div class="row" style="margin-top: 20px;">
-                            <div class="offset-sm-4 col-sm-4 d-grid">
+                            <div class="col-sm-4 d-grid">
                                 <a class="btn secondary-default-btn" onclick="window.history.back()"
                                    role="button">Back</a>
+                            </div>
+                            <div class="col-sm-4 d-grid">
+                                <a class="cancel-default-btn"
+                                   th:onclick="'showCancelConfirmModal(' + ${payment.bookingId} + ',' + ${payment.amountPaid} + ')'">Cancel</a>
+                            </div>
+
+                            <div class="col-sm-4 d-grid">
+                                <a class="primary-default-btn"
+                                   th:onclick="'showConfirmConfirmModal(' + ${payment.bookingId} + ',' + ${payment.totalPrice} + ',' + ${payment.amountPaid} + ')'">Confirm</a>
                             </div>
                         </div>
                     </div>
@@ -422,6 +465,223 @@
         </footer>
     </div>
 </div>
+<div id="confirmCancelModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeConfirmCancelModal()">&times;</span>
+        <p>Are you sure you want to cancel this payment?</p>
+        <div id="confirmCancelDetails"></div>
+        <div id="refundDetails" style="display: none;">
+            <label for="refundAmount">Refund Amount:</label>
+            <input type="number" id="refundAmount" name="refundAmount" value="" readonly required>
+            <br><br>
+            <label for="refundDate">Refund Date:</label>
+            <input type="date" id="refundDate" name="refundDate" value="" required>
+            <br>
+        </div>
+        <div class="modal-actions">
+            <button id="confirmCancelBtn" class="btn danger-btn" onclick="cancelPayment()">Yes</button>
+            <button class="btn primary-white-btn" style="color: #0e0e0ebd;" onclick="closeConfirmCancelModal()">No
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="confirmConfirmModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeConfirmConfirmModal()">&times;</span>
+        <p>Are you sure you want to confirm this payment?</p><br>
+        <div id="confirmDetails"></div>
+        <div class="modal-actions">
+            <button id="confirmBtn" class="btn primary-default-btn" onclick="confirmPayment()">Confirm</button>
+            <button class="btn secondary-default-btn" onclick="closeConfirmConfirmModal()">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentBookingId = null;
+    let totalPrice = 0;
+    let amountPaid = 0;
+
+    // Function to show the cancel confirmation modal
+    function showCancelConfirmModal(bookingId, ap) {
+        currentBookingId = bookingId;
+        amountPaid = parseFloat(ap);
+        const modal = document.getElementById('confirmCancelModal');
+        const confirmDetails = document.getElementById('confirmCancelDetails');
+        const refundDetails = document.getElementById('refundDetails');
+        confirmDetails.innerHTML = `
+            <p>Amount Paid: ${amountPaid}</p><br>
+        `;
+
+        refundDetails.style.display = 'block';
+        document.getElementById('refundAmount').value = (amountPaid).toFixed(2);
+
+        const now = new Date();
+        const minDate = formatDate(now);
+        now.setDate(now.getDate() + 3);
+        const defaultDate = formatDate(now);
+        now.setDate(now.getDate() + 4); // Move 4 more days ahead to set maxDate
+        const maxDate = formatDate(now);
+
+        document.getElementById('refundDate').value = defaultDate;
+        document.getElementById('refundDate').min = minDate;
+        document.getElementById('refundDate').max = maxDate;
+
+        modal.style.display = 'block';
+    }
+
+    // Function to handle canceling payment
+    function cancelPayment() {
+        if (!currentBookingId) return;
+
+        const refundDateInput = document.getElementById('refundDate');
+        const refundDate = refundDateInput.value;
+        const minDate = refundDateInput.min;
+        const maxDate = refundDateInput.max;
+
+        if (refundDate < minDate || refundDate > maxDate) {
+            alert('Refund date must be between ' + minDate + ' and ' + maxDate);
+            return;
+        }
+
+        fetch(`/fpt-dorm/admin/payment-request/cancel/id=${currentBookingId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    // location.reload();
+                    setTimeout(function() {
+                        alert('Canceled successfully');
+                        window.location.href = '/fpt-dorm/admin/payment-request';
+                    }, 70);
+                } else {
+                    alert('Failed to cancel');
+                }
+            })
+            .catch(error => {
+                console.error('Error canceling payment:', error);
+                alert('An error occurred while canceling');
+            });
+
+        closeConfirmCancelModal(); // Close the modal after the action
+    }
+
+    // Function to close the cancel confirmation modal
+    function closeConfirmCancelModal() {
+        const modal = document.getElementById('confirmCancelModal');
+        modal.style.display = 'none';
+        currentBookingId = null;
+    }
+
+    function formatDate(date) {
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // January is 0
+        const year = date.getFullYear();
+        return `${year}-${month}-${day}`;
+    }
+
+    function showConfirmConfirmModal(bookingId, tp, ap) {
+        currentBookingId = bookingId;
+        totalPrice = parseFloat(tp);
+        amountPaid = parseFloat(ap);
+        const modal = document.getElementById('confirmConfirmModal');
+        const confirmDetails = document.getElementById('confirmDetails');
+
+        confirmDetails.innerHTML = `
+            <p>Total Price: ${totalPrice}</p><br>
+            <p>Amount Paid: ${amountPaid}</p><br>
+        `;
+
+        refundDetails.style.display = 'none';
+        document.getElementById('confirmBtn').disabled = false;
+
+        modal.style.display = 'block';
+    }
+
+    // Function to handle confirming payment
+    function confirmPayment() {
+        if (!currentBookingId) return;
+
+        let refundAmount = 0;
+        let refundDate = null;
+
+        if (totalPrice < amountPaid) {
+            refundAmount = parseFloat(document.getElementById('refundAmount').value);
+            refundDate = document.getElementById('refundDate').value;
+            if (!refundAmount || !refundDate) {
+                alert('Refunds can be postponed for up to 7 days. Please enter correctly!');
+                return;
+            }
+
+            const now = new Date();
+            const selectedRefundDate = new Date(refundDate);
+            const maxRefundDate = new Date();
+            maxRefundDate.setDate(now.getDate() + 7);
+
+            if (selectedRefundDate < now || selectedRefundDate > maxRefundDate) {
+                alert('Refund date must be between today and 7 days from now.');
+                return;
+            }
+        }
+
+        const data = {
+            bookingId: currentBookingId,
+            refundAmount: refundAmount,
+            refundDate: refundDate
+        };
+
+        fetch('/fpt-dorm/admin/payment-request/confirm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                if (response.ok) {
+                    setTimeout(function() {
+                        alert('Payment confirmed successfully');
+                        window.location.href = '/fpt-dorm/admin/payment-request';
+                    }, 70);
+                } else {
+                    alert('Failed to confirm payment');
+                }
+            })
+            .catch(error => {
+                console.error('Error confirming payment:', error);
+                alert('An error occurred while confirming payment');
+            });
+
+        closeConfirmConfirmModal(); // Close the modal after the action
+    }
+
+    // Function to close the confirm confirmation modal
+    function closeConfirmConfirmModal() {
+        const modal = document.getElementById('confirmConfirmModal');
+        modal.style.display = 'none';
+        currentBookingId = null;
+        totalPrice = 0;
+        amountPaid = 0;
+        document.getElementById('refundAmount').value = '';
+        document.getElementById('refundDate').value = '';
+    }
+
+    // Close the modal if user clicks outside of it (for both modals)
+    window.onclick = function (event) {
+        if (event.target === document.getElementById('confirmCancelModal')) {
+            closeConfirmCancelModal();
+        } else if (event.target === document.getElementById('confirmConfirmModal')) {
+            closeConfirmConfirmModal();
+        }
+    };
+
+</script>
+
+
 <!-- Chart library -->
 <script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
