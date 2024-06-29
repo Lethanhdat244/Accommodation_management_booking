@@ -151,7 +151,8 @@
       <div class="sidebar-body">
         <ul class="sidebar-body-menu">
           <li>
-            <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+            <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
+                                                                      aria-hidden="true"></span>Dashboard</a>
           </li>
           <li>
             <a class="show-cat-btn">
@@ -170,7 +171,6 @@
               </li>
             </ul>
           </li>
-
           <li>
             <a class="show-cat-btn">
               <span class="icon folder" aria-hidden="true"></span>Room
@@ -181,7 +181,7 @@
             </a>
             <ul class="cat-sub-menu">
               <li>
-                <a th:href="@{admin_list_room}">All Rooms</a>
+                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
               </li>
               <li>
                 <a th:href="@{admin_add_new_room}">Add new room</a>
@@ -191,7 +191,6 @@
               </li>
             </ul>
           </li>
-
 
           <li>
             <a class="show-cat-btn">
@@ -230,7 +229,6 @@
             </ul>
           </li>
 
-
           <li>
             <a class="show-cat-btn" href="#">
               <span class="icon folder" aria-hidden="true"></span>Payment
@@ -250,26 +248,24 @@
             </ul>
           </li>
 
+          <li>
+            <a th:href="@{/fpt-dorm/employee/usage-service}">
+              <span class="icon folder" aria-hidden="true"></span>
+              Usage Service
+            </a>
+          </li>
+
+          <li>
+            <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
+              <span class="icon folder" aria-hidden="true"></span>
+              Resident History
+            </a>
+          </li>
 
           <li>
             <a th:href="@{admin/admin_chart}">
               <span class="icon folder" aria-hidden="true"></span>
               Chart
-            </a>
-          </li>
-
-          <li>
-            <a th:href="@{admin/admin_booking_list}">
-              <span class="icon folder" aria-hidden="true"></span>
-              Booking requirement
-            </a>
-          </li>
-
-
-          <li>
-            <a th:href="@{admin/admin_service_list}">
-              <span class="icon folder" aria-hidden="true"></span>
-              Service requirement
             </a>
           </li>
 
@@ -280,17 +276,10 @@
             </a>
           </li>
 
-
           <li>
             <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
               <span class="icon folder" aria-hidden="true"></span>
               Complaint
-            </a>
-          </li>
-          <li>
-            <a th:href="@{/fpt-dorm/admin/Resident_History/list}" class="active">
-              <span class="icon folder" aria-hidden="true"></span>
-              Resident History
             </a>
           </li>
         </ul>
@@ -299,9 +288,8 @@
     <div class="sidebar-footer">
       <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
         <div class="sidebar-user-info">
           <span class="sidebar-user__title">AI</span>
