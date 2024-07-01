@@ -404,10 +404,12 @@
                                     <tr th:each="bed : ${beds}">
                                         <td th:text="${bed.bedName}"></td>
                                         <td>
-                                            <span th:class="${bed.isAvailable ? 'badge-success' : 'badge-trashed'}" th:text="${bed.isAvailable ? 'Active' : 'Inactive'}"></span>
+                                            <span th:class="${bed.isAvailable ? 'badge-success' : 'badge-trashed'}"
+                                                  th:text="${bed.isAvailable ? 'Active' : 'Inactive'}"></span>
                                         </td>
                                         <td>
-                                            <span th:class="${bed.maintenanceStatus == 'Available' ? 'badge badge-success' : 'badge badge-trashed'}" th:text="${bed.maintenanceStatus == 'Available' ? 'Available' : 'Under Maintenance'}"></span>
+    <span th:class="${bed.maintenanceStatus.name() == 'Available' ? 'badge badge-success' : 'badge badge-trashed'}"
+          th:text="${bed.maintenanceStatus.name() == 'Available' ? 'Available' : 'Under Maintenance'}"></span>
                                         </td>
                                     </tr>
                                     </tbody>

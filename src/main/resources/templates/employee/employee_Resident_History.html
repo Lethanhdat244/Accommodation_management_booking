@@ -398,7 +398,7 @@
                                         <td th:text="${residentHistory.username}"></td>
                                         <td th:text="${residentHistory.email}"></td>
                                         <td>
-                                            <li><a th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${residentHistory.userId}}">Detail</a></li>
+                                            <a th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${residentHistory.userId}}">Detail</a>
                                         </td>
                                     </tr>
                                     </tbody>

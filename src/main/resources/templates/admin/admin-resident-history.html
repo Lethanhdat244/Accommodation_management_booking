@@ -130,7 +130,7 @@
 <div class="layer"></div>
 <!-- ! Body -->
 <div class="page-flex">
-    <!-- ! Sidebar --><aside class="sidebar">
+    <!-- ! Sidebar --> <aside class="sidebar">
     <div class="sidebar-start">
         <div class="sidebar-head">
             <a th:href="@{/fpt-dorm/admin/home}" class="logo-wrapper" title="Home">
@@ -411,7 +411,7 @@
                                     <tr th:each="residentHistory : ${residentHistoryPage.content}">
                                         <td th:text="${residentHistory.username}"></td>
                                         <td th:text="${residentHistory.email}"></td>                                         <td>
-                                            <li><a th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${residentHistory.userId}}">Detail</a></li>
+                                            <a th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${residentHistory.userId}}">Detail</a>
                                         </td>
                                     </tr>
                                     </tbody>

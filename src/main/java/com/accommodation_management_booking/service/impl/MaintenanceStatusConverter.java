@@ -15,8 +15,8 @@ public class MaintenanceStatusConverter implements AttributeConverter<Bed.Mainte
         switch (attribute) {
             case Available:
                 return "Available";
-            case UnderMaintenance: // Chỉnh lại tên để phù hợp với entity
-                return "Under Maintenance"; // Chuyển đổi sang giá trị lưu trong database
+            case UnderMaintenance:
+                return "Under Maintenance";
             default:
                 throw new IllegalArgumentException("Unknown value: " + attribute);
         }
@@ -31,7 +31,7 @@ public class MaintenanceStatusConverter implements AttributeConverter<Bed.Mainte
             case "Available":
                 return Bed.MaintenanceStatus.Available;
             case "Under Maintenance":
-                return Bed.MaintenanceStatus.UnderMaintenance; // Chỉnh lại tên để phù hợp với entity
+                return Bed.MaintenanceStatus.UnderMaintenance;
             default:
                 throw new IllegalArgumentException("Unknown database value: " + dbData);
         }

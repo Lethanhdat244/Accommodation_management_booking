@@ -190,8 +190,8 @@
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">Dormitory</span>
-                        <span class="logo-subtitle">Admin</span>
+                        <span class="logo-title">FPT Dorm</span>
+                        <span class="logo-subtitle">ADMIN</span>
                     </div>
 
                 </a>
@@ -203,10 +203,11 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
+                                                                                  aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn" href="#">
+                        <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -215,12 +216,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
-                                    Students</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
                             </li>
                             <li>
-                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
-                                    student</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
                             </li>
                         </ul>
                     </li>
@@ -239,9 +238,9 @@
                             <li>
                                 <a th:href="@{admin_add_new_room}">Add new room</a>
                             </li>
-                            <!--                            <li>-->
-                            <!--                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>-->
-                            <!--                            </li>-->
+                            <li>
+                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>
+                            </li>
                         </ul>
                     </li>
 
@@ -262,6 +261,16 @@
                             </li>
 
                         </ul>
+                    </li>
+
+                    <li>
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>Employee
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
                         <ul class="cat-sub-menu">
                             <li>
                                 <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
@@ -329,11 +338,10 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="##" class="sidebar-user">
+            <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
