@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Usage Services</title>
+    <title>Choose Type of Room | User</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/homepage_user/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link href="/static/homepage_user/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
     <!-- Custom styles for this template -->
     <link href="/static/homepage_user/css/style.css" rel="stylesheet">
     <link href="/static/homepage_user/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
@@ -26,36 +24,50 @@
         .ml-auto {
             margin-left: auto;
         }
+
         .navbar-custom {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .formList li{
+        .formList {
             list-style: none;
-            margin: 40px;
+            margin: 0;
+            padding: 0;
         }
-        .request_box{
-            background-color:#dfe7f5;
-            padding: 20px;
+        .formList li {
+            margin: 20px 0;
+        }
+        .request_box {
+            background-color: #dfe7f5;
+            padding: 40px;
             box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
-            /*position: fixed;*/
-            /*top: 150px; !* Adjust this value as needed *!*/
-            /*right: 120px; !* Adjust this value as needed *!*/
-            /*height: 400px;*/
+            margin: 20px 0;
         }
-        h1{
+        h1 {
             font-weight: 700;
             margin-bottom: 20px;
         }
-        .request_list{
+        .request_list {
             padding: 20px;
-            height: 1000px;
             margin-bottom: 30px;
             margin-right: auto;
         }
     </style>
+
+    <script>
+        function updatePrice() {
+            const roomType = document.getElementById("roomType").value;
+            let price = 0;
+            if (roomType === "4-bed") {
+                price = 1200000;
+            } else if (roomType === "6-bed") {
+                price = 1000000;
+            }
+            document.getElementById("price").innerText = price.toLocaleString() + " VND";
+        }
+    </script>
 </head>
 <body>
 <div id="page">
@@ -64,16 +76,18 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-
+                    <!-- Any top-left content -->
                 </div>
-                <div class="col-md-6"><div class="social-grid">
-                    <ul class="list-unstyled text-right">
-                        <li><a><i class="fa fa-facebook"></i></a></li>
-                        <li><a><i class="fa fa-twitter"></i></a></li>
-                        <li><a><i class="fa fa-linkedin"></i></a></li>
-                        <li><a><i class="fa fa-instagram"></i></a></li>
-                    </ul>
-                </div></div>
+                <div class="col-md-6">
+                    <div class="social-grid">
+                        <ul class="list-unstyled text-right">
+                            <li><a><i class="fa fa-facebook"></i></a></li>
+                            <li><a><i class="fa fa-twitter"></i></a></li>
+                            <li><a><i class="fa fa-linkedin"></i></a></li>
+                            <li><a><i class="fa fa-instagram"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -85,15 +99,17 @@
                     <div class="col-md-2 col-sm-6 col-xs-6">
                         <div id="logo">
                             <a th:href="@{/fpt-dorm/home}"><span>FPT</span>Dorm</a>
-                            <!--                            <h1>Welcome, <span th:text="${email}">[email]</span></h1>-->
                         </div>
                     </div>
                     <div class="col-sm-6 visible-sm">
                         <div class="text-right">
                             <div class="dropdown">
-                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
+                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">
+                                    <USER></USER>
+                                    <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -103,7 +119,8 @@
                     <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
                         <nav class="navbar navbar-default">
                             <div class="navbar-header page-scroll">
-                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle"
+                                        type="button">
                                     <span class="sr-only">Toggle navigation</span>
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
@@ -113,18 +130,14 @@
                             <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                 <ul class="list-unstyled nav1 cl-effect-10">
                                     <li><a data-hover="News" th:href="@{/fpt-dorm/user/news}"><span>News</span></a></li>
-                                    <li><a data-hover="Booking"
-                                           th:href="@{/fpt-dorm/user/booking}"><span>Booking</span></a></li>
-                                    <li><a data-hover="Availble beds"
-                                           th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
+                                    <li><a data-hover="Booking" class="active"><span>Booking</span></a></li>
+                                    <li><a data-hover="Available beds" th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
                                     </li>
-                                    <li><a data-hover="Usage service" class="active"
-                                           th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a>
+                                    <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a>
                                     </li>
-                                    <li><a data-hover="Payment"
-                                           th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a></li>
-                                    <li><a data-hover="Resident History"
-                                           th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a>
+                                    <li><a data-hover="Payment" th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a>
+                                    </li>
+                                    <li><a data-hover="Resident History" th:href="@{/fpt-dorm/user/resident-history/list}"><span>Resident History</span></a>
                                     </li>
                                     <li><a data-hover="Request"
                                            th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a></li>
@@ -138,9 +151,10 @@
                     <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
                         <div class="text-right">
                             <div class="dropdown">
-                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
+                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button"
+                                   aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -153,23 +167,33 @@
     </header>
 
     <div class="container">
-        <div class="row">
-
-            <div class="col-lg-9 col-sm-12 request_box">
-                <h1 class="center-block">Choose type of room:</h1>
-                <div>
-                    <ul class="formList">
-                        <li>
-                            <p>Electric:</p>
-                        </li>
-                        <li>
-                            <p>Water:</p>
-                        </li>
-                        <li>
-                            <p>Service:</p>
-                        </li>
-                    </ul>
-                </div>
+        <button class="btn btn--back" onclick="window.history.back()"><i data-feather="arrow-left"></i>Back</button>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-sm-12 request_box">
+                <h1 class="text-center">Choose Type of Room</h1>
+                <form action="/fpt-dorm/user/booking/select" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="roomType">Room Type:</label>
+                                <select class="form-control" id="roomType" name="roomType" onchange="updatePrice()">
+                                    <option value="" disabled selected>-- Choose an option --</option>
+                                    <option value="4-bed">4-bed Room</option>
+                                    <option value="6-bed">6-bed Room</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Price:</label>
+                                <p id="price" class="font-weight-bold">0 VND</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-block">Next</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -183,7 +207,8 @@
                         <ul class="list-unstyled footer-contact-list">
                             <li>
                                 <i class="fa fa-map-marker fa-lg"></i>
-                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch Thất, TP. HN</p>
+                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch
+                                    Thất, TP. HN</p>
                             </li>
                             <li>
                                 <i class="fa fa-phone fa-lg"></i>
@@ -202,9 +227,11 @@
                             <a href="#"><i class="fa fa-youtube-play"></i></a>
                         </div>
                         <div class="input-group" id="subscribe">
-                            <input type="text" class="form-control subscribe-box" value="" name="subscribe" placeholder="EMAIL ID">
+                            <input type="text" class="form-control subscribe-box" value="" name="subscribe"
+                                   placeholder="EMAIL ID">
                             <span class="input-group-btn">
-                                <button type="button" class="btn subscribe-button"><i class="fa fa-paper-plane fa-lg"></i></button>
+                                <button type="button" class="btn subscribe-button"><i
+                                        class="fa fa-paper-plane fa-lg"></i></button>
                             </span>
                         </div>
                     </div>
@@ -235,9 +262,9 @@
             </div>
 
             <div class="copyright">
-                &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home" target="_blank">SWP391</a>.
+                &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home"
+                                                                target="_blank">SWP391</a>.
             </div>
-
         </div>
     </footer>
 
@@ -246,7 +273,6 @@
         <span><i aria-hidden="true" class="fa fa-angle-up fa-lg"></i></span>
         <span>Top</span>
     </a>
-
 </div>
 </body>
 </html>

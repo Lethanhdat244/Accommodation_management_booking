@@ -74,8 +74,8 @@ public class NewController {
 
     @GetMapping("/fpt-dorm/employee/view-news")
     public String viewNews(Model model,
-                           @RequestParam(defaultValue = "0") int page,
-                           @RequestParam(defaultValue = "5") int size,
+                           @RequestParam(value = "page", defaultValue = "0") int page,
+                           @RequestParam(value = "size", defaultValue = "5") int size,
                            @RequestParam(required = false) String keyword) {
         Page<New> newsPage;
         if (keyword == null || keyword.isEmpty()) {

@@ -6,10 +6,10 @@ import com.accommodation_management_booking.entity.Floor;
 import java.util.List;
 
 public interface FloorService {
-    public List<Floor> getFloorsByDormId(Integer dormId);
+    List<Floor> getFloorsByDormId(int dormId);
     List<FloorBedUsage> getFloorBedUsageByDormId(Integer dormId);
 
-    Floor addFloor(Floor floor);
+    public Floor addFloor(int dormId);
 
     boolean isFloorNumberDuplicate(Integer dormId, Integer floorNumber);
 
@@ -20,4 +20,8 @@ public interface FloorService {
     void updateFloor(Floor floor);
 
     boolean isFloorNumberDuplicateInDorm(Integer dormId, Integer floorNumber, Integer floorId);
+
+    Floor getHighestFloorByDormId(int dormId);
+
+
 }

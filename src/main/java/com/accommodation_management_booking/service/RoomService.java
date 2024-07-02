@@ -1,21 +1,31 @@
 package com.accommodation_management_booking.service;
 
 import com.accommodation_management_booking.dto.RoomBedUsage;
-import com.accommodation_management_booking.dto.RoomDTO;
+import com.accommodation_management_booking.entity.Floor;
 import com.accommodation_management_booking.entity.Room;
-import com.accommodation_management_booking.repository.RoomRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public interface RoomService {
     List<RoomBedUsage> getRoomBedUsageByFloorId(Integer floorId) ;
+    List<Room> getAllRooms();
+    List<Room> getRoomsByFloorId(int floorId);
+
+    @Transactional
+    Room addRoomToFloor(int floorId, Room room);
+
+    Room getRoomById(int roomId);
+
+    void updateRoom(Room room);
+
+    void deleteRoom(int roomId);
+
+    boolean existsByRoomNumberAndFloorId(String roomNumber, int floorId);
+
+    Room findByFloorAndRoomNumber(Floor floor, String roomNumber);
+
+    boolean isBedNameDuplicate(String bedName, Room room);
 }
 
 

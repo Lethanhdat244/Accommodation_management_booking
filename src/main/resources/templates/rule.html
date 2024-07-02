@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html lang="en"
-    xmlns:th="www.thymeleaf.org"
->
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FU Dormitory Regulations</title>
-</head>
-<body>
-    <h1>FU Dormitory Regulations</h1>
-    <embed th:src="@{/KTX-HL.pdf}">
-</body>
-</html>
+<div class="pagination-wrapper">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${newsPage.hasPrevious()} ? '' : 'disabled'">
+                <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${newsPage.number - 1}, size=${newsPage.size}, keyword=${keyword})}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="i : ${newsPage.totalPages > 1 ? #numbers.sequence(0, newsPage.totalPages - 1) : #numbers.sequence(0) }" th:classappend="${newsPage.number == i} ? 'active'">
+                <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${i}, size=${newsPage.size}, keyword=${keyword})}" th:text="${i + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${newsPage.hasNext()} ? '' : 'disabled'">
+                <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${newsPage.number + 1}, size=${newsPage.size}, keyword=${keyword})}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

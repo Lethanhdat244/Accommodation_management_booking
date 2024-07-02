@@ -1,9 +1,15 @@
 package com.accommodation_management_booking.controller;
 
+import com.accommodation_management_booking.dto.UserBookingDTO;
 import com.accommodation_management_booking.dto.UserDTO;
-import com.accommodation_management_booking.entity.Complaint;
-import com.accommodation_management_booking.repository.ComplainRepository;
+import com.accommodation_management_booking.entity.*;
+import com.accommodation_management_booking.repository.*;
+import com.accommodation_management_booking.service.RoomAllService;
+import com.accommodation_management_booking.service.impl.ComplainService;
+import com.accommodation_management_booking.service.impl.NotificationService;
+import com.accommodation_management_booking.service.impl.UsageServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,8 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.accommodation_management_booking.dto.UserDTO;
-import com.accommodation_management_booking.entity.User;
-import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -41,6 +46,33 @@ public class EmployeeController {
 
     @Autowired
     ComplainRepository complainRepository;
+
+    @Autowired
+    private ComplainService complainService;
+
+    @Autowired
+    private RoomsRepository roomsRepository;
+
+    @Autowired
+    private UserBookingRepository userBookingRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private NotificationService notificationService;
+
+    @Autowired
+    private UsageServiceService usageServiceService;
+
+    @Autowired
+    private NotificationRepository notificationRepository;
+
+    @Autowired
+    DormRepository dormRepository;
+
+    @Autowired
+    private RoomAllService roomAllService;
 
     @GetMapping("fpt-dorm/employee/home")
     public String admin_homepage(Model model, Authentication authentication) {
@@ -60,21 +92,80 @@ public class EmployeeController {
     }
 
     @GetMapping("fpt-dorm/employee/complain")
-    public String employee_complain(Model model) {
+    public String employeeComplain(Model model, @RequestParam(name = "status", required = false) Complaint.Status status, Authentication authentication) {
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            String email = oauth2User.getAttribute("email");
+            model.addAttribute("email", email);
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            model.addAttribute("email", userDetails.getUsername());
+        } else {
+            // Handle cases where the authentication is not OAuth2
+            model.addAttribute("email", "Unknown");
+        }
         try {
-            List<Complaint> complainList = complainRepository.getAllRequest();
-            model.addAttribute("complaintDTOList", complainList);
+            List<Complaint> complainList;
+            if (status != null) {
+                // Filter complainList based on status
+                complainList = complainRepository.findDoneComplaints(status);
+            } else {
+                // If no status is selected, get all complaints
+                complainList = complainRepository.findAll();
+            }
+            if (complainList.isEmpty()) {
+                // Handle case where complainList is empty
+                model.addAttribute("message", "No complaints found with the selected status.");
+                // Optionally, you can redirect to another page or render different view
+                // return "redirect:/someOtherPage";
+            } else {
+                model.addAttribute("complaintDTOList", complainList);
+            }
+            model.addAttribute("statusForm", status);
+            return "employee/employee_complain";
         } catch (Exception e) {
             e.printStackTrace();
+            return "error/500";
         }
-        return "employee/employee_complain";
+    }
+
+    @GetMapping("/fpt-dorm/employee/complain/execute/{id}")
+    public String executeComplain(@PathVariable("id") int id, Model model) {
+        var complain = complainRepository.getRequestByComplaintId(id);
+        model.addAttribute("complainObj", complain);
+        return "employee/execute_complain";
+    }
+
+    @PostMapping("/fpt-dorm/employee/complain/execute/{id}")
+    public String executeComplain(Model model, @PathVariable("id") int id, @RequestParam("status") Complaint.Status status, @RequestParam("reply") String reply) {
+        Complaint existComplaint = complainRepository.getRequestByComplaintId(id);
+        if (existComplaint != null) {
+            existComplaint.setStatus(status);
+            existComplaint.setReply(reply);
+            complainService.saveComplain(existComplaint);
+            Notification notification = new Notification();
+            notification.setUser(existComplaint.getUser());
+            notification.setContent("Your request was replied");
+            notification.setRead(false);
+            notificationService.saveNotification(notification);
+            try {
+                List<Complaint> complainList = complainRepository.getAllRequest();
+                model.addAttribute("complaintDTOList", complainList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "employee/employee_complain";
+        } else {
+            return "error/403";
+        }
     }
 
     //Xu ly Student
     @GetMapping("/fpt-dorm/employee/student/all-student")
     public String showStudentList(Model model,
                                   @RequestParam(defaultValue = "0") int page,
-                                  @RequestParam(defaultValue = "2") int size,
+                                  @RequestParam(defaultValue = "5") int size,
                                   @RequestParam(defaultValue = "userId,asc") String sort) {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
@@ -90,7 +181,7 @@ public class EmployeeController {
                                  @RequestParam(value = "keyword", required = false) String keyword,
                                  @RequestParam(value = "category", required = false) String category,
                                  @RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "2") int size,
+                                 @RequestParam(defaultValue = "5") int size,
                                  @RequestParam(defaultValue = "userId,asc") String sort) {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
@@ -244,4 +335,150 @@ public class EmployeeController {
         }
         return "redirect:/fpt-dorm/employee/student/add?success";
     }
+
+    @GetMapping("/fpt-dorm/employee/usage-service")
+    public String showListUsageService(Model model, Authentication authentication) {
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            String email = oauth2User.getAttribute("email");
+            model.addAttribute("email", email);
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            model.addAttribute("email", userDetails.getUsername());
+        } else {
+            // Handle cases where the authentication is not OAuth2
+            model.addAttribute("email", "Unknown");
+        }
+        List<Dorm> dorms = dormRepository.findAll();
+        model.addAttribute("dorms", dorms);
+        return "employee/employee_usageService";
+    }
+
+    @PostMapping("/fpt-dorm/employee/usage-service/{id}")
+    public String executeUsageServiceData(@PathVariable(name = "id") int id,
+                                          @RequestParam("electric") int electric,
+                                          @RequestParam("water") int water,
+                                          @RequestParam("others") int others,
+                                          Model model,
+                                          Authentication authentication) {
+        List<UserBookingDTO> usageServiceDTOs = userBookingRepository.findCurrentBookingsByRoomId(id);
+        if (usageServiceDTOs.isEmpty()) {
+            model.addAttribute("error", "This room is currently unoccupied.");
+            List<Dorm> dorms = dormRepository.findAll();
+            model.addAttribute("dorms", dorms);
+            return "employee/employee_usageService";
+        }
+
+        float e = (electric * 4000f) / usageServiceDTOs.size();
+        float w = (water * 5000f) / usageServiceDTOs.size();
+        float o = (others * 1000f) / usageServiceDTOs.size();
+
+        for (UserBookingDTO user : usageServiceDTOs) {
+            UsageService usageService = new UsageService();
+            usageService.setUser(userRepository.searchUserById(user.getUserId()));
+            usageService.setBookingId(user.getBookingId());
+            usageService.setElectricity(e);
+            usageService.setWater(w);
+            usageService.setOthers(o);
+            usageService.setPaymentMethod(UsageService.PaymentMethod.Paypal);
+            usageServiceService.saveUsageService(usageService);
+
+            Notification notification = new Notification();
+            notification.setUser(userRepository.searchUserById(user.getUserId()));
+            notification.setContent("Your usage service bill is ready.");
+            notification.setRead(false);
+            notificationService.saveNotification(notification);
+        }
+
+        String email = null;
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            email = oauth2User.getAttribute("email");
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            email = userDetails.getUsername();
+        }
+        model.addAttribute("email", email != null ? email : "Unknown");
+        List<Dorm> dorms = dormRepository.findAll();
+        model.addAttribute("dorms", dorms);
+        return "employee/employee_usageService";
+    }
+
+    @GetMapping("/fpt-dorm/employee/notifications")
+    public String notification(Model model, Authentication authentication) {
+        User user = null;
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            String email = oauth2User.getAttribute("email");
+            model.addAttribute("email", email);
+            user = userRepository.searchUserByEmail(email);
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            model.addAttribute("email", userDetails.getUsername());
+            user = userRepository.searchUserByEmail(userDetails.getUsername());
+        } else {
+            // Handle cases where the authentication is not OAuth2
+            model.addAttribute("email", "Unknown");
+        }
+        List<Notification> notifications = notificationRepository.getAllByUserId(user.getUserId());
+        if (notifications.isEmpty()) {
+            model.addAttribute("message", "No notification founded.");
+        } else {
+            model.addAttribute("notifications", notifications);
+        }
+        List<Dorm> dorms = dormRepository.findAll();
+        model.addAttribute("dorms", dorms);
+        return "employee/employee_notification";
+    }
+
+
+    @GetMapping("/fpt-dorm/employee/employee_Resident_History")
+    public String employee_list_residentH() {
+        return "redirect:/fpt-dorm/employee/Resident_History/list";
+    }
+
+
+
+    @GetMapping("/fpt-dorm/employee/all-room")
+    public String dormgender(Model model) {
+        List<Dorm> dorms = roomAllService.getAllDorms();
+        model.addAttribute("dorms", dorms);
+        return "/employee/all_room";
+    }
+
+    @GetMapping("/fpt-dorm/employee/all-room/floor")
+    @ResponseBody
+    public List<Floor> getFloorsByDorm(@RequestParam Integer dormId) {
+        return roomAllService.getFloorsByDormId(dormId);
+    }
+
+
+
+
+    @GetMapping("/fpt-dorm/employee/all-room/room-list")
+    @ResponseBody
+    public Page<Room> getRoomsByFloor(@RequestParam Integer dormId, @RequestParam Integer floorNumber, @PageableDefault(size = 2) Pageable pageable) {
+        return roomAllService.getRoomByDormIdAndFloorNumber(dormId, floorNumber, pageable);
+    }
+
+
+
+
+    @GetMapping("/fpt-dorm/employee/room-detail")
+    public String getRoomDetails(@RequestParam String roomNumber, Model model) {
+        List<Bed> beds = roomAllService.getBedsByRoomNumber(roomNumber);
+        if (beds != null && !beds.isEmpty()) {
+            model.addAttribute("beds", beds);
+        } else {
+            model.addAttribute("message", "Currently, this room does not have any beds.");
+        }
+        return "/employee/room_detail";
+    }
+
+
+
+
 }

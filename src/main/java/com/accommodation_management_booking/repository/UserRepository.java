@@ -17,7 +17,15 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE (u.email LIKE :keyword)")
     User searchUserByEmail(@Param("keyword") String keyword);
 
+    @Query("SELECT u FROM User u WHERE (u.userId = :id)")
+    User searchUserById(@Param("id") int id);
+
+    @Query("SELECT u FROM User u WHERE u.roleUser = 'EMPLOYEE' ")
+    List<User> searchAllEmployees();
+
+
     //Dung cho tat ca role
+
     /**
      * Page<User> findAll(Pageable pageable);
      * Page<User> findByUsernameContaining(String username, Pageable pageable);
@@ -27,12 +35,18 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     //Dung cho role cu the
     Page<User> findAllByRoleUser(User.Role role, Pageable pageable);
+
     Page<User> findByUsernameContainingAndRoleUser(String username, User.Role role, Pageable pageable);
+
     Page<User> findByEmailContainingAndRoleUser(String email, User.Role role, Pageable pageable);
+
     Page<User> findByPhoneNumberContainingAndRoleUser(String phoneNumber, User.Role role, Pageable pageable);
+
     Page<User> findByRoleUserAndUsernameContainingOrRoleUserAndEmailContainingOrRoleUserAndPhoneNumberContaining(
             User.Role role1, String keyword1,
             User.Role role2, String keyword2,
             User.Role role3, String keyword3,
             Pageable pageable);
+
+    User findByUserId(Integer userId);
 }

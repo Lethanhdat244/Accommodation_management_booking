@@ -72,7 +72,7 @@
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
                         <span class="logo-title">FPT Dorm</span>
-                        <span class="logo-subtitle">Dashboard</span>
+                        <span class="logo-subtitle">ADMIN</span>
                     </div>
 
                 </a>
@@ -84,10 +84,11 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a class="active"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
+                                                                                  aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn" th:href="@{admin/admin_list_student}">
+                        <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -96,16 +97,16 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_student}">All Students</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_student}">Add new student</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Room
+                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -113,17 +114,32 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_new_room}">Add new room</a>
-                            </li>
-                            <li>
-                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>
+                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
                             </li>
                         </ul>
                     </li>
 
+                    <li>
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>News
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/view-news}">View News</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/add-news}">Add news</a>
+                            </li>
+
+                        </ul>
+                    </li>
 
                     <li>
                         <a class="show-cat-btn">
@@ -135,46 +151,51 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_employees}">All Employees</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_employee}">Add new employee</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
                             </li>
                         </ul>
                     </li>
+
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/view-dorm-list}">
+                        <a class="show-cat-btn" href="#">
+                            <span class="icon folder" aria-hidden="true"></span>Payment
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/admin_payment_list}">All
+                                    Payments</a>
+                            </li>
+                            <li>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Dorm manage
+                            Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_payment_list}">
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Payment
+                            Resident History
                         </a>
                     </li>
-
 
                     <li>
                         <a th:href="@{admin/admin_chart}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Chart
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_booking_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
                         </a>
                     </li>
 
@@ -186,7 +207,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
@@ -195,11 +216,10 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="##" class="sidebar-user">
+            <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -298,7 +318,7 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">View Floor</h2>
+                <h1 class="main-title" style="text-align: center;">View Floors of Dorm <span th:text="${dormName}"></span></h1>
                 <h1 th:if="${error}" style="color: red;">
                     <p th:text="${error}"></p>
                 </h1>
@@ -312,7 +332,7 @@
                                     <th>Total Beds</th>
                                     <th>Used Beds</th>
                                     <th>Free Beds</th>
-                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                                 <tbody>
                                 <tr th:each="floorUsage : ${floorBedUsageList}">
@@ -321,10 +341,23 @@
                                     <td th:text="${floorUsage.usedBeds}"></td>
                                     <td th:text="${floorUsage.freeBeds}"></td>
                                     <td>
-                                        <a style="color: blue">Detail</a> <br>
-                                        <a style="color: #e06722;" th:href="@{/fpt-dorm/admin/edit-floor-form/{floorId}(floorId=${floorUsage.floor.floorId})}">Quick edit</a><br>
-                                        <a style="color: red;" th:href="@{/fpt-dorm/admin/delete-floor/{floorId}(floorId=${floorUsage.floor.floorId})}">Delete</a><br>
+                                        <select onchange="handleFloorActionChange(this)">
+                                            <option value="">Select Action</option>
+                                            <option th:value="'/fpt-dorm/admin/view-rooms/' + ${floorUsage.getDormId()} + '/'   + ${floorUsage.floor.floorId}">View Rooms</option> <!-- Thêm tùy chọn mới -->
+                                            <option th:value="'/fpt-dorm/admin/edit-floor-form/'+ ${floorUsage.getDormId()} + '/' + ${floorUsage.floor.floorId}">Quick edit</option>
+                                            <option th:value="'/fpt-dorm/admin/delete-floor/' + ${floorUsage.floor.floorId}">Delete</option>
+                                        </select>
                                     </td>
+
+                                    <script>
+                                        function handleFloorActionChange(select) {
+                                            const value = select.value;
+                                            if (value) {
+                                                window.location.href = value;
+                                            }
+                                        }
+                                    </script>
+
                                 </tr>
 
                                 </tbody>

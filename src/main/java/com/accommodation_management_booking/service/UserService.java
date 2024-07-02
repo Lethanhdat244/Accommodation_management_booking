@@ -18,6 +18,7 @@ public interface UserService {
     boolean changePassword(String currentPassword, String newPassword);
 
     void updateUser(UserDTO userDTO, int id, MultipartFile[] avatars, MultipartFile[] frontCccdImages, MultipartFile[] backCccdImages);
+
     void deleteUser(int id);
 
     Page<User> findAllStudent(Pageable pageable);
@@ -33,5 +34,7 @@ public interface UserService {
     Page<User> searchByPhoneNumberEmployee(String phoneNumber, Pageable pageable);
 
     User findByEmail(String email);
+
     public void updateUser1(String email, UserDTO userDTO, MultipartFile[] avatarFile, MultipartFile[] frontImageFile, MultipartFile[] backImageFile);
+
 }

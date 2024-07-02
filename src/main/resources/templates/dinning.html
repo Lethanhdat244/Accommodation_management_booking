@@ -22,6 +22,82 @@
     <script src="/static/homepage_user/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
     <script src="/static/homepage_user/js/instafeed.min.js" type="text/javascript"></script>
     <script src="/static/homepage_user/js/custom.js" type="text/javascript"></script>
+    <style>
+        .comment-section {
+            background: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-form h3 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .comment-form .form-control {
+            margin-bottom: 15px;
+            border-radius: 5px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment-form .submit-btn {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .comment-form .submit-btn:hover {
+            background: #218838;
+        }
+        .comment {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .comment p {
+            margin: 0;
+        }
+        .comment strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .comment time {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .pagination-wrapper {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .pagination li a {
+            background: #fff;
+            border: 1px solid #ddd;
+            color: #007bff;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin: 0 5px;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        .pagination li a:hover {
+            background: #007bff;
+            color: #fff;
+        }
+        .pagination li.active a {
+            background: #007bff;
+            color: #fff;
+            border: 1px solid #007bff;
+        }
+    </style>
 </head>
 <body>
 <div id="page">
@@ -129,13 +205,46 @@
                     <div class="clearfix"></div>
                     <div class="single-bottom comment-form">
                         <h3>Leave your Comment</h3>
-                        <form action="#" method="post">
-                            <input type="text" class="form-control" name="Name" placeholder="Name" required="">
-                            <input type="email" class="form-control" name="Email" placeholder="Email" required="">
-                            <textarea class="form-control" name="Message" placeholder="Message Here...." required=""></textarea>
+                        <form th:action="@{/fpt-dorm/home/dinning/comments}" method="post">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Name"
+                                   required="">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email"
+                                   required="">
+                            <textarea class="form-control" id="message" name="message" placeholder="Message Here...."
+                                      required=""></textarea>
                             <input type="submit" class="submit-btn" value="Send">
                         </form>
                     </div>
+                    <div class="clearfix"></div>
+                    <br/><br/><br/><br/>
+                    <div class="comments">
+                        <h3>All Comments</h3><br/>
+                        <div class="comment" th:each="comment : ${comments}">
+                            <p><strong th:text="${comment.getName()}">Name</strong> (<span
+                                    th:text="${comment.getEmail()}">Email</span>)</p>
+                            <p th:text="${comment.getCreated_at()}">Created At</p>
+                            <p th:text="${comment.getMessage()}">Message</p>
+                        </div>
+                    </div>
+                    <div class="pagination-wrapper">
+                        <ul class="pagination">
+                            <li th:if="${currentPage > 1}">
+                                <a th:href="@{/fpt-dorm/home/dinning(page=${currentPage - 1})}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <li th:each="i : ${#numbers.sequence(1, totalPages)}"
+                                th:classappend="${i == currentPage} ? 'active'">
+                                <a th:href="@{/fpt-dorm/home/dinning(page=${i})}" th:text="${i}">1</a>
+                            </li>
+                            <li th:if="${currentPage < totalPages}">
+                                <a th:href="@{/fpt-dorm/home/dinning(page=${currentPage + 1})}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
                 <aside class="col-md-3 col-sm-4 col-xs-12">
                     <div class="blog-list">
@@ -159,60 +268,6 @@
                             <li><a href="#"><i class="fa fa-caret-right"> </i>December (25)</a></li>
                             <li><a href="#"><i class="fa fa-caret-right"> </i>August (9)</a></li>
                         </ul>
-                    </div>
-                    <div class="blog-list1">
-                        <h4>Popular Posts</h4>
-<!--                        <div class="blog-list-top">-->
-<!--                            <div class="blog-img">-->
-<!--                                <a href="#"><img class="img-responsive" src="/static/homepage_user/images/Home/img1.jpg" alt="Popular Post 1"></a>-->
-<!--                            </div>-->
-<!--                            <div class="blog-text">-->
-<!--                                <p><a href="#">Top 10 Dining Tips for Students</a></p>-->
-<!--                                <span class="link">-->
-<!--                                    Sep 14, 2023-->
-<!--                                </span>-->
-<!--                            </div>-->
-<!--                            <div class="clearfix"> </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="blog-list-top">-->
-<!--                            <div class="blog-img">-->
-<!--                                <a href="#"><img class="img-responsive" src="/static/homepage_user/images/Home/img3.jpg" alt="Popular Post 2"></a>-->
-<!--                            </div>-->
-<!--                            <div class="blog-text">-->
-<!--                                <p><a href="#">Healthy Meal Options at FPT Dorm</a></p>-->
-<!--                                <span class="link">-->
-<!--                                    Aug 20, 2023-->
-<!--                                </span>-->
-<!--                            </div>-->
-<!--                            <div class="clearfix"> </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="blog-list-top">-->
-<!--                            <div class="blog-img">-->
-<!--                                <a href="#"><img class="img-responsive" src="/static/homepage_user/images/Home/img4.jpg" alt="Popular Post 3"></a>-->
-<!--                            </div>-->
-<!--                            <div class="blog-text">-->
-<!--                                <p><a href="#">Exploring International Cuisine</a></p>-->
-<!--                                <span class="link">-->
-<!--                                    Jul 25, 2023-->
-<!--                                </span>-->
-<!--                            </div>-->
-<!--                            <div class="clearfix"> </div>-->
-<!--                        </div>-->
-
-<!--                        <div class="blog-list-top">-->
-<!--                            <div class="blog-img">-->
-<!--                                <a href="#"><img class="img-responsive" src="/static/homepage_user/images/Home/img5.jpg" alt="Popular Post 4"></a>-->
-<!--                            </div>-->
-<!--                            <div class="blog-text">-->
-<!--                                <p><a href="#">Meet Our Chefs</a></p>-->
-<!--                                <span class="link">-->
-<!--                                    Jun 18, 2023-->
-<!--                                </span>-->
-<!--                            </div>-->
-<!--                            <div class="clearfix"> </div>-->
-<!--                        </div>-->
                     </div>
                 </aside>
             </div>
@@ -294,5 +349,61 @@
     </a>
 
 </div>
+
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        function loadComments(page) {-->
+<!--            console.log("Loading comments for page: " + page);-->
+<!--            $.ajax({-->
+<!--                url: "/fpt-dorm/home/dinning/comments",-->
+<!--                type: "GET",-->
+<!--                data: { page: page },-->
+<!--                success: function(data) {-->
+<!--                    console.log("Comments loaded successfully for page: " + page);-->
+<!--                    console.log("AJAX response data:", data);-->
+
+<!--                    // Update #comments-wrapper with new comments-->
+<!--                    var newCommentsWrapper = $(data).find('#comments-wrapper').html();-->
+<!--                    $('#comments-wrapper').html(newCommentsWrapper);-->
+
+<!--                    // Update pagination-->
+<!--                    var newPagination = $(data).find('.pagination-wrapper').html();-->
+<!--                    $('.pagination-wrapper').html(newPagination);-->
+
+<!--                    console.log("Updated #comments-wrapper with new comments for page: " + page);-->
+<!--                    console.log("Updated .pagination-wrapper with new pagination for page: " + page);-->
+<!--                },-->
+<!--                error: function() {-->
+<!--                    console.error("Error loading comments for page: " + page);-->
+<!--                    alert("Error loading comments");-->
+<!--                }-->
+<!--            });-->
+<!--        }-->
+
+<!--        $(document).on('click', '.page-link', function(e) {-->
+<!--            e.preventDefault();-->
+<!--            var page = $(this).data('page');-->
+<!--            loadComments(page);-->
+<!--        });-->
+
+<!--        $(document).on('click', '#prev-page a', function(e) {-->
+<!--            e.preventDefault();-->
+<!--            var page = parseInt($('.pagination .active').text()) - 1;-->
+<!--            loadComments(page);-->
+<!--        });-->
+
+<!--        $(document).on('click', '#next-page a', function(e) {-->
+<!--            e.preventDefault();-->
+<!--            var page = parseInt($('.pagination .active').text()) + 1;-->
+<!--            loadComments(page);-->
+<!--        });-->
+
+<!--        // Load initial comments on page load-->
+<!--        loadComments(1);-->
+<!--    });-->
+<!--</script>-->
+
+
+
 </body>
 </html>

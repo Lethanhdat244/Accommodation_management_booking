@@ -1,10 +1,8 @@
 package com.accommodation_management_booking.controller;
 
-import com.accommodation_management_booking.dto.NewDTO;
 import com.accommodation_management_booking.dto.UserDTO;
 import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.UserRepository;
-import com.accommodation_management_booking.service.NewService;
 import com.accommodation_management_booking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,7 +38,7 @@ public class ProfileController {
         List<User> users = userRepository.searchByEmail(email);
         if (users != null) {
             model.addAttribute("user", users.getFirst());
-            return "admin/admin_profile";
+            return "admin/admin-profile";
 
         } else {
             return "error/error";
@@ -52,7 +50,7 @@ public class ProfileController {
         List<User> users = userRepository.searchByEmail(email);
         if (users != null) {
             model.addAttribute("user", users.getFirst());
-            return "employee/employee_profile";
+            return "employee/employee-profile";
 
         } else {
             return "error/error";
@@ -64,7 +62,7 @@ public class ProfileController {
         // Lấy thông tin của người dùng từ cơ sở dữ liệu bằng email
         User user = userService.findByEmail(email);
         model.addAttribute("user", user);
-        return "editUserProfile";
+        return "user/editUserProfile";
     }
 
 
@@ -107,7 +105,7 @@ public class ProfileController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "An error occurred while updating user. Please try again.");
             e.printStackTrace();
-            return "admin/admin_profile";
+            return "admin/admin-profile";
         }
         return "redirect:/fpt-dorm/admin/edit-profile/" + email + "?success";
     }
@@ -133,7 +131,7 @@ public class ProfileController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", "An error occurred while updating user. Please try again.");
             e.printStackTrace();
-            return "employee/employee_profile";
+            return "employee/employee-profile";
         }
         return "redirect:/fpt-dorm/employee/edit-profile/" + email + "?success";
     }

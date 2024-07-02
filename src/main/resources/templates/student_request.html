@@ -41,14 +41,44 @@
             box-shadow: 4px 8px 12px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
-        h1{
+
+        h1 {
             font-weight: 700;
             margin-bottom: 20px;
         }
-        .request_list{
+
+        .request_list {
             padding: 20px;
             margin-bottom: 30px;
             margin-right: auto;
+        }
+
+        .info {
+            color: #555555;
+            background-color: rgba(58, 72, 65, 0.1);
+            padding: 5px 15px;
+            border-radius: 15px;
+        }
+
+        .warning {
+            color: #ffb648;
+            background-color: rgba(255, 172, 50, .1);
+            padding: 5px 15px;
+            border-radius: 15px;
+        }
+
+        .success {
+            color: green;
+            background-color: rgba(75, 222, 151, 0.1);
+            padding: 5px 15px;
+            border-radius: 15px;
+        }
+
+        .danger {
+            color: red;
+            background-color: rgba(222, 75, 126, 0.1);
+            padding: 5px 15px;
+            border-radius: 15px;
         }
     </style>
 </head>
@@ -87,7 +117,7 @@
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
@@ -109,20 +139,20 @@
                                 <ul class="list-unstyled nav1 cl-effect-10">
                                     <li><a data-hover="News" th:href="@{/fpt-dorm/user/news}"><span>News</span></a></li>
                                     <li><a data-hover="Booking"
-                                           th:href="@{/fpt-dorm/home-user/booking}"><span>Booking</span></a></li>
+                                           th:href="@{/fpt-dorm/user/booking}"><span>Booking</span></a></li>
                                     <li><a data-hover="Availble beds"
-                                           th:href="@{/fpt-dorm/home-user/detail-dorm}"><span>Available beds</span></a>
+                                           th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
                                     </li>
                                     <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a>
                                     </li>
                                     <li><a data-hover="Payment"
-                                           th:href="@{/fpt-dorm/home-user/payment}"><span>Payment</span></a></li>
+                                           th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a></li>
                                     <li><a data-hover="Resident History"
-                                           th:href="@{/fpt-dorm/home-user/resident}"><span>Resident History</span></a>
+                                           th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a>
                                     </li>
                                     <li><a data-hover="Request" class="active"
                                            th:href="@{/fpt-dorm/user/news/my-request}"><span>Request</span></a></li>
-                                    <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/home-user/rule}"><span>Dormitory rules</span></a>
+                                    <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/user/rule}"><span>Dormitory rules</span></a>
                                     </li>
                                     <li><a data-hover="FAQ" th:href="@{/fpt-dorm/user/faq}"><span>FAQ</span></a></li>
                                 </ul>
@@ -134,8 +164,7 @@
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
-
+                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
@@ -153,7 +182,8 @@
             <div class="col-lg-8 col-sm-12 request_list">
                 <h1>Request History</h1>
                 <div>
-                    <div th:if="${errorMessage != null}"><span class="danger" th:text="${errorMessage}"></span></div>
+                    <div th:if="${errorMessage != null}"><span class="alert-danger" th:text="${errorMessage}"></span>
+                    </div>
                     <table class="table table-responsive table-bordered">
                         <thead>
                             <tr>
@@ -161,17 +191,45 @@
                                 <th>Content</th>
                                 <th>Sent At</th>
                                 <th>Status</th>
+                                <th>Reply</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr th:each="complain : ${complaintDTOList}">
-                                <td th:text="${complain.complaintId}"></td>
-                                <td th:text="${complain.description}"></td>
-                                <td th:text="${complain.createdAt}"></td>
-                                <td th:text="${complain.status}"></td>
-                            </tr>
+                        <tr th:each="complain : ${complaintDTOList}">
+                            <td th:text="${complain.complaintId}"></td>
+                            <td th:text="${complain.title}"></td>
+                            <td th:text="${complain.getFormattedCreatedAt()}"></td>
+                            <td>
+                                    <span th:text="${complain.status.getDisplayName()}"
+                                          th:class="${complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING ? 'info' :
+                                               (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS ? 'warning' :
+                                               (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).DONE ? 'success' :
+                                               (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT ? 'danger' : '')))}"
+                                    ></span>
+                            </td>
+                            <td th:text="${complain.reply}"></td>
+                        </tr>
                         </tbody>
                     </table>
+                    <!--                    <div class="pagination-wrapper">-->
+                    <!--                        <nav aria-label="Page navigation">-->
+                    <!--                            <ul class="pagination">-->
+                    <!--                                <li class="page-item" th:classappend="${complaintPage.hasPrevious()} ? 'enabled'">-->
+                    <!--                                    <a class="page-link" th:href="@{/fpt-dorm/user/my-request(page=${complaintPage.number - 1}, size=${complaintPage.size})}" aria-label="Previous">-->
+                    <!--                                        <span aria-hidden="true">&laquo;</span>-->
+                    <!--                                    </a>-->
+                    <!--                                </li>-->
+                    <!--                                <li class="page-item" th:each="i : ${#numbers.sequence(0, complaintPage.totalPages - 1)}" th:classappend="${complaintPage.number == i} ? 'active'">-->
+                    <!--                                    <a class="page-link" th:href="@{/fpt-dorm/user/my-request(page=${i}, size=${complaintPage.size})}" th:text="${i + 1}">1</a>-->
+                    <!--                                </li>-->
+                    <!--                                <li class="page-item" th:classappend="${complaintPage.hasNext()} ? 'enabled'">-->
+                    <!--                                    <a class="page-link" th:href="@{/fpt-dorm/user/my-request(page=${complaintPage.number + 1}, size=${complaintPage.size})}" aria-label="Next">-->
+                    <!--                                        <span aria-hidden="true">&raquo;</span>-->
+                    <!--                                    </a>-->
+                    <!--                                </li>-->
+                    <!--                            </ul>-->
+                    <!--                        </nav>-->
+                    <!--                    </div>-->
                 </div>
             </div>
             <div class="col-lg-4 col-sm-12" style="padding: 10px">
@@ -180,11 +238,11 @@
                         <h1 class="center-block">Request Form</h1>
                         <ul class="formList">
                             <li>
-                                <label class="control-label">Tilte<span class="text-danger">*</span></label>
+                                <label class="control-label">Title<span class="text-danger">*</span></label>
                                 <input type="text" name="title" class="form-control" required>
                             </li>
                             <li>
-                                <label class="control-label">Content<span class="text-danger">*</span></label>
+                                <label class="control-label">Description<span class="text-danger">*</span></label>
                                 <textarea name="content" class="form-control" cols="100" rows="10"></textarea>
                             </li>
                             <li>
@@ -269,7 +327,6 @@
         <span><i aria-hidden="true" class="fa fa-angle-up fa-lg"></i></span>
         <span>Top</span>
     </a>
-
 </div>
 </body>
 </html>

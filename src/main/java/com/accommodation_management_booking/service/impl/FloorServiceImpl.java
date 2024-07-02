@@ -1,7 +1,6 @@
 package com.accommodation_management_booking.service.impl;
 
 import com.accommodation_management_booking.dto.FloorBedUsage;
-import com.accommodation_management_booking.dto.FloorDTO;
 import com.accommodation_management_booking.entity.Bed;
 import com.accommodation_management_booking.entity.Dorm;
 import com.accommodation_management_booking.entity.Floor;
@@ -11,7 +10,6 @@ import com.accommodation_management_booking.repository.DormRepository;
 import com.accommodation_management_booking.repository.FloorRepository;
 import com.accommodation_management_booking.service.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +30,7 @@ public class FloorServiceImpl implements FloorService {
     private BedRepository bedRepository;
 
     @Override
-    public List<Floor> getFloorsByDormId(Integer dormId) {
+    public List<Floor> getFloorsByDormId(int dormId) {
         return floorRepository.findByDormDormId(dormId);
     }
 
@@ -62,8 +60,20 @@ public class FloorServiceImpl implements FloorService {
 
 
     @Override
-    public Floor addFloor(Floor floor) {
-        return floorRepository.save(floor);
+    public Floor addFloor(int dormId) {
+        // Lấy Dorm từ dormId
+        Dorm dorm = dormRepository.findById(dormId).orElseThrow(() -> new IllegalArgumentException("Invalid dormId: " + dormId));
+
+        // Lấy số lượng tầng hiện tại trong dorm
+        int currentFloorCount = floorRepository.countByDorm(dorm);
+
+        // Tạo đối tượng Floor mới
+        Floor newFloor = new Floor();
+        newFloor.setDorm(dorm);
+        newFloor.setFloorNumber(currentFloorCount + 1);
+
+        // Lưu đối tượng Floor vào cơ sở dữ liệu
+        return floorRepository.save(newFloor);
     }
 
     @Override
@@ -116,6 +126,7 @@ public class FloorServiceImpl implements FloorService {
         // Lưu thông tin tầng cập nhật vào database
         floorRepository.save(floor);
     }
+    @Override
     public boolean isFloorNumberDuplicateInDorm(Integer dormId, Integer floorNumber, Integer floorIdToExclude) {
         List<Floor> existingFloors = floorRepository.findByDormDormId(dormId);
 
@@ -129,6 +140,11 @@ public class FloorServiceImpl implements FloorService {
     }
 
 
+
+    @Override
+    public Floor getHighestFloorByDormId(int dormId) {
+        return floorRepository.findTopByDormDormIdOrderByFloorNumberDesc(dormId);
+    }
 
 
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
@@ -32,4 +33,8 @@ public class Notification {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    public String getFormattedCreatedAt() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm ");
+        return createdAt != null ? createdAt.format(formatter) : "";
+    }
 }

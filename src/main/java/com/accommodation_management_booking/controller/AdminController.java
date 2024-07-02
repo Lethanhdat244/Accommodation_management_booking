@@ -62,7 +62,12 @@ public class AdminController {
 
     @GetMapping("fpt-dorm/admin/admin_payment_list")
     public String admin_payment_list() {
-        return "admin_payment_list";
+        return "redirect:/fpt-dorm/admin/all-payment";
+    }
+
+    @GetMapping("fpt-dorm/admin/admin_payment_request")
+    public String admin_payment_request() {
+        return "redirect:/fpt-dorm/admin/payment-request";
     }
 
     @GetMapping("fpt-dorm/admin/admin_add_new_type_room")
@@ -91,4 +96,16 @@ public class AdminController {
         return "admin/admin_complain";
     }
 
+
+
+    @GetMapping("/fpt-dorm/admin/admin_Resident_History")
+    public String admin_list_residentH() {
+        return "redirect:/fpt-dorm/admin/Resident_History/list";
+    }
+
+
+    @GetMapping("/fpt-dorm/admin/admin_all_rooms")
+    public String admin_list_all_rooms() {
+        return "redirect:/fpt-dorm/admin/all-room";
+    }
 }

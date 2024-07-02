@@ -272,7 +272,7 @@
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
                         <span class="logo-title">Dormitory</span>
-                        <span class="logo-subtitle">Employee</span>
+                        <span class="logo-subtitle">EMPLOYEE</span>
                     </div>
 
                 </a>
@@ -284,10 +284,10 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a class="active"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn" th:href="@{admin/admin_list_student}">
+                        <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -296,13 +296,18 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/students-list}">All Students</a>
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
+                                    Students</a>
+                            </li>
+                            <li>
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
+                                    student</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn" >
-                            <span class="icon folder" aria-hidden="true"></span>Room
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -310,16 +315,17 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_new_room}">Add new room</a>
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
+
                         </ul>
                     </li>
 
                     <li>
-                        <a class="show-cat-btn" >
+                        <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -328,33 +334,46 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{view-news}">View News</a>
+                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{add-news}">Add news</a>
+                                <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
                             </li>
 
                         </ul>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_payment_list}">
+                        <a class="show-cat-btn" href="#">
+                            <span class="icon folder" aria-hidden="true"></span>Payment
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
+                                    Payments</a>
+                            </li>
+                            <li>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                    Request</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Payment
+                            Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_booking_list}">
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
+                            Resident History
                         </a>
                     </li>
 
@@ -373,14 +392,20 @@
                     </li>
 
 
-
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/notifications}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Notifications
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -400,7 +425,7 @@
 
                     <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
                         <h2 class="main-title text-center">Edit Student</h2>
-                        <form th:action="@{/fpt-dorm/admin/update-user-profile}" method="post" enctype="multipart/form-data" th:object="${user}" onsubmit="return validateForm()">
+                        <form th:action="@{/fpt-dorm/employee/update-user-profile}" method="post" enctype="multipart/form-data" th:object="${user}" onsubmit="return validateForm()">
                             <div class="row mb-3">
                                 <label for="fullname" class="col-sm-4 col-form-label">Name</label>
                                 <div class="col-sm-8">
@@ -510,7 +535,7 @@
 
                             <div class="row" style="margin-top: 50px;">
                                 <div class="offset-sm-4 col-sm-4 d-grid">
-                                    <a class="btn secondary-default-btn" th:href="@{/fpt-dorm/admin/profile(email=${email})}" role="button">Back</a>
+                                    <a class="btn secondary-default-btn" th:href="@{/fpt-dorm/employee/home}" role="button">Back</a>
                                 </div>
                                 <div class="col-sm-4 d-grid">
                                     <button type="submit" class="btn primary-default-btn" role="button">Save</button>

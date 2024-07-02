@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,7 +63,7 @@ public class DormServiceImpl implements DormService {
     }
 
     @Override
-    public Dorm getDormById(Integer dormId) {
+    public Dorm getDormById(int dormId) {
         Optional<Dorm> dormOptional = dormRepository.findById(dormId);
         return dormOptional.orElse(null);
     }
@@ -84,8 +83,19 @@ public class DormServiceImpl implements DormService {
 
     @Override
     public void updateDorm(Dorm dorm) {
+        Dorm existingDorm = dormRepository.findById(dorm.getDormId()).orElseThrow(() -> new IllegalArgumentException("Dorm not found"));
+
+        if (!existingDorm.getDormName().equals(dorm.getDormName()) && dormRepository.existsByDormName(dorm.getDormName())) {
+            throw new IllegalArgumentException("Dorm with the same name already exists");
+        }
+
         dormRepository.save(dorm);
     }
 
 
+    @Override
+    public String getDormNameById(int dormId) {
+        Optional<Dorm> dormOptional = dormRepository.findById(dormId);
+        return dormOptional.map(Dorm::getDormName).orElse("Dorm not found");
+    }
 }

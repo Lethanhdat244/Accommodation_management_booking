@@ -1,15 +1,12 @@
 package com.accommodation_management_booking.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -25,10 +22,6 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -50,6 +43,7 @@ public class Payment {
 
 
     public enum PaymentMethod {
-        CreditCard, DebitCard, BankQRCode
+        PayPal,
+        BankQRCode
     }
 }
