@@ -56,14 +56,14 @@ public class DormController {
     public String getAllDormBedInfo(Model model) {
         List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo();
         model.addAttribute("dormBedInfoList", dormBedInfoList);
-        return "available_beds"; // Thymeleaf view name
+        return "user/available_bed"; // Thymeleaf view name
     }
 
     @GetMapping("/fpt-dorm/user/floor-list/{dormId}")
     public String dormDetail(@PathVariable("dormId") int dormId, Model model) {
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
         model.addAttribute("floorBedUsageList", floorBedUsageList);
-        return "floor_list";
+        return "user/floor_list";
     }
 
 
@@ -71,7 +71,7 @@ public class DormController {
     public String floorDetail(@PathVariable("floorId") int floorId, Model model) {
         List<RoomBedUsage> roomBedUsageList = roomService.getRoomBedUsageByFloorId(floorId);
         model.addAttribute("roomBedUsageList", roomBedUsageList);
-        return "used_room_list";
+        return "user/used_room_list";
     }
 
 
