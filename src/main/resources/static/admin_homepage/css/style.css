@@ -1368,14 +1368,14 @@ button.disabled:focus {
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
   border-radius: 4px;
-    padding: 10px 20px;
-    background-color: #2f49d1;
-    color: #fff;
+  padding: 10px 20px;
+  background-color: #2f49d1;
+  color: #fff;
 }
 
 .primary-default-btn:hover {
-    background-color: #4661F0;
-    color: #fff;
+  background-color: #4661F0;
+  color: #fff;
 }
 
 .cancel-default-btn {
@@ -1402,14 +1402,14 @@ button.disabled:focus {
 }
 
 .primary-white-btn {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
@@ -1996,10 +1996,10 @@ label {
 }
 
 .users-table img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 7px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 7px;
 }
 
 .image-container {
@@ -2024,13 +2024,13 @@ label {
 }
 
 .table-wrapper {
-    overflow-x: auto;
-    overflow-y: hidden;
-    margin-bottom: 20px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin-bottom: 20px;
 }
 
 .table-wrapper table {
-    min-width: 850px;
+  min-width: 850px;
 }
 
 .table-wrapper table.posts-table {

@@ -5,6 +5,9 @@ import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.UsageServiceRepository;
 import com.accommodation_management_booking.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -12,6 +15,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -27,8 +31,10 @@ public class UsageServiceController {
 
     @GetMapping("/fpt-dorm/user/usage-service")
     public String fptDormUsedServices(Model model,
+                                      @RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "8") int size,
                                       Authentication authentication) {
-
+        Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oauth2User = oauth2Token.getPrincipal();
@@ -45,7 +51,7 @@ public class UsageServiceController {
         }
         UsageService u = usageServiceRepository.getCurrentUsageService(user.getUserId());
         model.addAttribute("usageService", u);
-        List<UsageService> usageServiceList = usageServiceRepository.getUsageServicesByUserId(user.getUserId());
+        Page<UsageService> usageServiceList = usageServiceRepository.getUsageServicesByUserId(user.getUserId(), pageable);
         if (usageServiceList.isEmpty()) {
             model.addAttribute("emptyMessage", "No data");
             model.addAttribute("usageServiceList", usageServiceList);

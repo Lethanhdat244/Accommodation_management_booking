@@ -182,54 +182,67 @@
             <div class="col-lg-8 col-sm-12 request_list">
                 <h1>Request History</h1>
                 <div>
-                    <div th:if="${errorMessage != null}"><span class="alert-danger" th:text="${errorMessage}"></span>
                     </div>
                     <table class="table table-responsive table-bordered">
                         <thead>
-                            <tr>
-                                <th>No.</th>
-                                <th>Content</th>
-                                <th>Sent At</th>
-                                <th>Status</th>
-                                <th>Reply</th>
-                            </tr>
+                        <tr>
+                            <th>No.</th>
+                            <th>Content</th>
+                            <th>Sent At</th>
+                            <th>Status</th>
+                            <th>Reply</th>
+                        </tr>
                         </thead>
-                        <tbody>
+                        <tbody th:if="${emptyMessage != null}">
+                        <tr>
+                            <td th:colspan="5" th:text="${emptyMessage}" style="text-align: center;"></td>
+                        </tr>
+                        </tbody>
+                        <tbody th:if="${emptyMessage == null}">
                         <tr th:each="complain : ${complaintDTOList}">
                             <td th:text="${complain.complaintId}"></td>
                             <td th:text="${complain.title}"></td>
                             <td th:text="${complain.getFormattedCreatedAt()}"></td>
                             <td>
-                                    <span th:text="${complain.status.getDisplayName()}"
-                                          th:class="${complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING ? 'info' :
-                                               (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS ? 'warning' :
-                                               (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).DONE ? 'success' :
-                                               (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT ? 'danger' : '')))}"
-                                    ></span>
+                                        <span th:text="${complain.status.getDisplayName()}"
+                                              th:class="${complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING ? 'info' :
+                                                   (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS ? 'warning' :
+                                                   (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).DONE ? 'success' :
+                                                   (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT ? 'danger' : '')))}"
+                                        ></span>
                             </td>
                             <td th:text="${complain.reply}"></td>
                         </tr>
                         </tbody>
                     </table>
-                    <!--                    <div class="pagination-wrapper">-->
-                    <!--                        <nav aria-label="Page navigation">-->
-                    <!--                            <ul class="pagination">-->
-                    <!--                                <li class="page-item" th:classappend="${complaintPage.hasPrevious()} ? 'enabled'">-->
-                    <!--                                    <a class="page-link" th:href="@{/fpt-dorm/user/my-request(page=${complaintPage.number - 1}, size=${complaintPage.size})}" aria-label="Previous">-->
-                    <!--                                        <span aria-hidden="true">&laquo;</span>-->
-                    <!--                                    </a>-->
-                    <!--                                </li>-->
-                    <!--                                <li class="page-item" th:each="i : ${#numbers.sequence(0, complaintPage.totalPages - 1)}" th:classappend="${complaintPage.number == i} ? 'active'">-->
-                    <!--                                    <a class="page-link" th:href="@{/fpt-dorm/user/my-request(page=${i}, size=${complaintPage.size})}" th:text="${i + 1}">1</a>-->
-                    <!--                                </li>-->
-                    <!--                                <li class="page-item" th:classappend="${complaintPage.hasNext()} ? 'enabled'">-->
-                    <!--                                    <a class="page-link" th:href="@{/fpt-dorm/user/my-request(page=${complaintPage.number + 1}, size=${complaintPage.size})}" aria-label="Next">-->
-                    <!--                                        <span aria-hidden="true">&raquo;</span>-->
-                    <!--                                    </a>-->
-                    <!--                                </li>-->
-                    <!--                            </ul>-->
-                    <!--                        </nav>-->
-                    <!--                    </div>-->
+                <div th:if="${complaintDTOList != null}" class="pagination-wrapper">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${complaintDTOList.hasPrevious()} ? '' : 'disabled'">
+                                <a class="page-link" th:if="${complaintDTOList.hasPrevious()}"
+                                   th:href="@{/fpt-dorm/user/my-request(page=${complaintDTOList.number - 1})}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                                <span class="page-link" th:unless="${complaintDTOList.hasPrevious()}">&laquo;</span>
+                            </li>
+                            <li class="page-item"
+                                th:each="i : ${#numbers.sequence(0, complaintDTOList.totalPages - 1)}"
+                                th:classappend="${complaintDTOList.number == i} ? 'active'">
+                                <a class="page-link"
+                                   th:href="@{/fpt-dorm/user/my-request(page=${i})}"
+                                   th:text="${i + 1}">1</a>
+                            </li>
+                            <li class="page-item" th:classappend="${complaintDTOList.hasNext()} ? 'enabled'">
+                                <a class="page-link" th:if="${complaintDTOList.hasNext()}"
+                                   th:href="@{/fpt-dorm/user/my-request(page=${complaintDTOList.number + 1})}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                                <span class="page-link" th:unless="${complaintDTOList.hasNext()}">&raquo;</span>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
             <div class="col-lg-4 col-sm-12" style="padding: 10px">
@@ -252,6 +265,7 @@
                     </form>
                 </div>
             </div>
+        </div>
         </div>
     </div>
 
