@@ -57,7 +57,6 @@ public class PaymentController {
 
     private final BookingRepository bookingRepository;
     private final PaymentService paymentService;
-
     private final PaymentRepository paymentRepository;
 
     @GetMapping("/fpt-dorm/employee/all-payment")
@@ -225,6 +224,7 @@ public class PaymentController {
             PaymentTransactionDTO paymentTransactionDTO = paymentService.findByPaymentId(id);
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
+                model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
             } else {
                 throw new Exception("Payment not found");
             }
@@ -279,8 +279,7 @@ public class PaymentController {
                 model.addAttribute("keyword", keyword);
                 model.addAttribute("selectedCategory", category);
                 model.addAttribute("sort", sort);
-                return "admin/payment/payment_request";
-//                return "redirect:/fpt-dorm/admin/payment-request";
+                return "employee/payment/payment_request";
             }
         } else {
             switch (category) {
@@ -328,7 +327,24 @@ public class PaymentController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("selectedCategory", category);
         model.addAttribute("sort", sort);
-        return "admin/payment/payment_request";
+        return "employee/payment/payment_request";
+    }
+
+    @GetMapping("/fpt-dorm/employee/payment-request/id={id}")
+    public String showPaymentRequestDetailEmployee(Model model, @PathVariable("id") int id) {
+        try {
+            PaymentTransactionDTO paymentTransactionDTO = paymentService.findByPaymentId(id);
+            if (paymentTransactionDTO != null) {
+                model.addAttribute("payment", paymentTransactionDTO);
+                model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+            } else {
+                throw new Exception("Payment not found");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return "redirect:/fpt-dorm/employee/all-payment";
+        }
+        return "employee/payment/payment_request_detail";
     }
 
     @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
@@ -532,8 +548,6 @@ public class PaymentController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
         Page<PaymentTransactionDTO> paymentPage;
 
-        System.out.println("paymentDate: " + keyword);
-
         if (category == null || category.isEmpty()) {
             if (keyword == null || keyword.isEmpty()) {
                 paymentPage = Page.empty(pageable);
@@ -596,6 +610,7 @@ public class PaymentController {
             PaymentTransactionDTO paymentTransactionDTO = paymentService.findByPaymentId(id);
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
+                model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
             } else {
                 throw new Exception("Payment not found");
             }
@@ -700,6 +715,23 @@ public class PaymentController {
         model.addAttribute("selectedCategory", category);
         model.addAttribute("sort", sort);
         return "admin/payment/payment_request";
+    }
+
+    @GetMapping("/fpt-dorm/admin/payment-request/id={id}")
+    public String showPaymentRequestDetailAdmin(Model model, @PathVariable("id") int id) {
+        try {
+            PaymentTransactionDTO paymentTransactionDTO = paymentService.findByPaymentId(id);
+            if (paymentTransactionDTO != null) {
+                model.addAttribute("payment", paymentTransactionDTO);
+                model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+            } else {
+                throw new Exception("Payment not found");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return "redirect:/fpt-dorm/admin/all-payment";
+        }
+        return "admin/payment/payment_request_detail";
     }
 
     @GetMapping("/fpt-dorm/admin/payment-request/cancel/id={id}")

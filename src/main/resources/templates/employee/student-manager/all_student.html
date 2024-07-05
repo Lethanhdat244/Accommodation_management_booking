@@ -381,7 +381,7 @@
                 <h2 class="main-title">Student List</h2>
                 <div class="row">
                     <div class="col-lg-6">
-                        <form th:action="@{/fpt-dorm/admin/student/search}" method="get" class="search-form">
+                        <form th:action="@{/fpt-dorm/employee/student/search}" method="get" class="search-form">
                             <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
                                    class="search-box"/>
                             <select name="category" class="search-dropdown">
@@ -473,31 +473,34 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div>
+                                <h3 th:if="${userPage.totalPages == 0}">
+                                    No data recorded
+                                </h3>
+                            </div>
                             <div class="pagination-wrapper">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination">
-                                        <li class="page-item" th:classappend="${userPage.hasPrevious()} ? 'enabled'">
-                                            <a class="page-link" th:if="${userPage.hasPrevious()}"
+                                        <li class="page-item" th:classappend="${userPage.hasPrevious()} ? '' : 'disabled'">
+                                            <a class="page-link"
                                                th:href="@{|?page=${userPage.number - 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
-                                            <span class="page-link" th:unless="${userPage.hasPrevious()}">&laquo;</span>
                                         </li>
                                         <li class="page-item"
-                                            th:each="i : ${#numbers.sequence(0, userPage.totalPages - 1)}"
+                                            th:each="i : ${userPage.totalPages > 0 ? #numbers.sequence(0, userPage.totalPages - 1) : {0}}"
                                             th:classappend="${userPage.number == i} ? 'active'">
                                             <a class="page-link"
                                                th:href="@{|?page=${i}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                th:text="${i + 1}">1</a>
                                         </li>
-                                        <li class="page-item" th:classappend="${userPage.hasNext()} ? 'enabled'">
-                                            <a class="page-link" th:if="${userPage.hasNext()}"
+                                        <li class="page-item" th:classappend="${userPage.hasNext()} ? '' : 'disabled'">
+                                            <a class="page-link"
                                                th:href="@{|?page=${userPage.number + 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
-                                            <span class="page-link" th:unless="${userPage.hasNext()}">&raquo;</span>
                                         </li>
                                     </ul>
                                 </nav>
