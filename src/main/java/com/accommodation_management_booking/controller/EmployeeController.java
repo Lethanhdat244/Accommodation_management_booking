@@ -104,7 +104,7 @@ public class EmployeeController {
                 complainList = complainRepository.findDoneComplaints(status);
             } else {
                 // If no status is selected, get all complaints
-                complainList = complainRepository.findAll();
+                complainList = complainRepository.getAllRequest();
             }
             if (complainList.isEmpty()) {
                 // Handle case where complainList is empty
@@ -373,7 +373,6 @@ public class EmployeeController {
             usageService.setElectricity(e);
             usageService.setWater(w);
             usageService.setOthers(o);
-            usageService.setPaymentMethod(UsageService.PaymentMethod.Paypal);
             usageServiceService.saveUsageService(usageService);
 
             Notification notification = new Notification();

@@ -12,6 +12,31 @@
     <link rel="stylesheet" href="/static/admin_homepage/css/style.css">
     <script src="/static/homepage_user/js/jquery.min.js" type="text/javascript"></script>
     <style>
+        .popup {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid #888;
+            background-color: white;
+            z-index: 1;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .popup-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .popup-header .close {
+            cursor: pointer;
+            font-size: 24px; /* Adjust this value to make it larger */
+            font-weight: bold;
+        }
+
         .news-card {
             margin-bottom: 20px;
             border: 1px solid #ddd;
@@ -121,7 +146,7 @@
 
         .btn {
             padding: 15px 40px;
-            margin: 30px 0px;
+            margin: 20px 0px;
             border-radius: 7px;
             font-weight: 700;
         }
@@ -391,8 +416,8 @@
                                     <thead>
                                     <tr class="users-table-info">
                                         <th style="width: 100px">No.</th>
-                                        <th style="width: 200px">Room Number</th>
-                                        <th>Action</th>
+                                        <th style="width: 400px">Room Number</th>
+                                        <th style="width: 400px">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -415,6 +440,28 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div id="popupForm" class="popup" style="width: 600px; height: 430px; border-radius:10px">
+                    <div class="popup-header" style="margin-bottom: 20px">
+                        <h1>Usage service for <span id="roomNumber"></span></h1>
+                        <span class="close">&times;</span>
+                    </div>
+                    <form id="usageServiceForm" method="post">
+                        <input type="hidden" id="roomId" name="roomId">
+                        <div class="form-group">
+                            <label>Electricity:</label>
+                            <input min="0" type="number" placeholder="Electricity" name="electric" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Water:</label>
+                            <input min="0" type="number" placeholder="Water" name="water" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Others:</label>
+                            <input min="0" type="number" placeholder="Others" name="others" required>
+                        </div>
+                        <button class="btn primary" type="submit">Send</button>
+                    </form>
                 </div>
             </div>
         </main>
@@ -454,14 +501,35 @@
                     '<td>' + room.roomId + '</td>\n' +
                     '<td>' + room.roomNumber + '</td>\n' +
                     '<td>\n' +
-                    '<form action="/fpt-dorm/employee/usage-service/' + room.roomId + '" method="post">\n' +
-                    '<input min="0" type="number" placeholder="Electricity" name="electric" required>\n' +
-                    '<input min="0" type="number" placeholder="Water" name="water" required>\n' +
-                    '<input min="0" type="number" placeholder="Others" name="others" required>\n' +
-                    '<button class="btn primary" type="submit">Save</button>\n' +
-                    '</form>\n' +
+                    '<button class="btn primary popupBtn" data-room-id="' + room.roomId + '" data-room-number="' + room.roomNumber + '">Update</button>\n' +
                     '</td>\n' +
                     '</tr>');
+            });
+            $(document).on('click', '.popupBtn', function () {
+                const roomId = $(this).data('room-id');
+                const roomNumber = $(this).data('room-number');
+                $('#roomId').val(roomId);
+                $('#roomNumber').text(roomNumber);
+                $('#popupForm').show();
+            });
+
+            // Close popup form
+            $('.close').click(function () {
+                $('#popupForm').hide();
+            });
+
+            // Handle form submission
+            $('#usageServiceForm').submit(function (e) {
+                e.preventDefault(); // Prevent the form from submitting the default way
+                const formData = $(this).serialize();
+
+                $.post('/fpt-dorm/employee/usage-service/' + $('#roomId').val(), formData, function (response) {
+                    // Hide the row after successful submission
+                    $('button[data-room-id="' + $('#roomId').val() + '"]').closest('tr').hide();
+                    $('#popupForm').hide(); // Hide the popup form
+                }).fail(function () {
+                    alert('Failed to submit data');
+                });
             });
         }).fail(function () {
             alert("Failed to retrieve room data. Please try again later.");

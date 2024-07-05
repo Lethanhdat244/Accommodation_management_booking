@@ -1,7 +1,9 @@
 package com.accommodation_management_booking.controller;
 
 import com.accommodation_management_booking.entity.Complaint;
+import com.accommodation_management_booking.entity.Notification;
 import com.accommodation_management_booking.repository.ComplainRepository;
+import com.accommodation_management_booking.service.impl.ComplainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +12,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -18,8 +23,11 @@ public class AdminController {
 
     @Autowired
     ComplainRepository complainRepository;
+    @Autowired
+    ComplainService complainService;
+
     @GetMapping("fpt-dorm/admin/home")
-    public String admin_homepage(Model model, Authentication authentication){
+    public String admin_homepage(Model model, Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oauth2User = oauth2Token.getPrincipal();
@@ -86,16 +94,74 @@ public class AdminController {
     }
 
     @GetMapping("fpt-dorm/admin/admin_list_complaint")
-    public String admin_complain(Model model) {
+    public String admin_complain(Model model, @RequestParam(name = "status", required = false) Complaint.Status status, Authentication authentication) {
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            String email = oauth2User.getAttribute("email");
+            model.addAttribute("email", email);
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            model.addAttribute("email", userDetails.getUsername());
+        } else {
+            // Handle cases where the authentication is not OAuth2
+            model.addAttribute("email", "Unknown");
+        }
         try {
-            List<Complaint> complainList = complainRepository.getAllRequest();
-            model.addAttribute("complaintDTOList", complainList);
+            List<Complaint> complainList;
+            if (status != null) {
+                // Filter complainList based on status
+                complainList = complainRepository.findDoneComplaints(status);
+            } else {
+                // If no status is selected, get all complaints
+                complainList = complainRepository.findAll();
+            }
+            if (complainList.isEmpty()) {
+                // Handle case where complainList is empty
+                model.addAttribute("message", "No complaints found with the selected status.");
+                // Optionally, you can redirect to another page or render different view
+                // return "redirect:/someOtherPage";
+            } else {
+                model.addAttribute("complaintDTOList", complainList);
+            }
+            model.addAttribute("statusForm", status);
+            return "admin/admin_list_complaint";
         } catch (Exception e) {
             e.printStackTrace();
+            return "error/500";
         }
-        return "admin/admin_complain";
     }
 
+    @GetMapping("/fpt-dorm/admin/complain/execute/{id}")
+    public String executeComplain(@PathVariable("id") int id, Model model) {
+        var complain = complainRepository.getRequestByComplaintId(id);
+        model.addAttribute("complainObj", complain);
+        return "admin/execute_complain";
+    }
+
+    @PostMapping("/fpt-dorm/admin/complain/execute/{id}")
+    public String executeComplain(Model model, @PathVariable("id") int id, @RequestParam("status") Complaint.Status status, @RequestParam("reply") String reply) {
+        Complaint existComplaint = complainRepository.getRequestByComplaintId(id);
+        if (existComplaint != null) {
+            existComplaint.setStatus(status);
+            existComplaint.setReply(reply);
+            complainService.saveComplain(existComplaint);
+            Notification notification = new Notification();
+            notification.setUser(existComplaint.getUser());
+            notification.setContent("Your request was replied");
+            notification.setRead(false);
+//            notificationService.saveNotification(notification);
+            try {
+                List<Complaint> complainList = complainRepository.getAllRequest();
+                model.addAttribute("complaintDTOList", complainList);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return "admin/admin_list_complaint";
+        } else {
+            return "error/403";
+        }
+    }
 
 
     @GetMapping("/fpt-dorm/admin/admin_Resident_History")

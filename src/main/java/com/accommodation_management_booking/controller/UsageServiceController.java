@@ -46,6 +46,12 @@ public class UsageServiceController {
         UsageService u = usageServiceRepository.getCurrentUsageService(user.getUserId());
         model.addAttribute("usageService", u);
         List<UsageService> usageServiceList = usageServiceRepository.getUsageServicesByUserId(user.getUserId());
+        if (usageServiceList.isEmpty()) {
+            model.addAttribute("emptyMessage", "No data");
+            model.addAttribute("usageServiceList", usageServiceList);
+            return "student_usage_services";
+        }
+        model.addAttribute("emptyMessage", null);
         model.addAttribute("usageServiceList", usageServiceList);
         return "student_usage_services";
     }

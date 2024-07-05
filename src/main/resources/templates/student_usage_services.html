@@ -127,7 +127,7 @@
                                            th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a>
                                     </li>
                                     <li><a data-hover="Request"
-                                           th:href="@{/fpt-dorm/user/news/my-request}"><span>Request</span></a></li>
+                                           th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a></li>
                                     <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/user/rule}"><span>Dormitory rules</span></a>
                                     </li>
                                     <li><a data-hover="FAQ" th:href="@{/fpt-dorm/user/faq}"><span>FAQ</span></a></li>
@@ -160,21 +160,28 @@
                 <div>
                     <table class="table table-responsive table-bordered">
                         <thead>
-                            <tr>
-                                <td>ID</td>
-                                <td>Month</td>
-                                <td>Electric</td>
-                                <td>Water</td>
-                                <td>Service</td>
-                            </tr>
+                        <tr>
+                            <td>ID</td>
+                            <td>Month</td>
+                            <td>Electric</td>
+                            <td>Water</td>
+                            <td>Service</td>
+                            <td>Total</td>
+                        </tr>
                         </thead>
-                        <tbody>
+                        <tbody th:if="${emptyMessage == null}">
                         <tr th:each="u : ${usageServiceList}">
                             <td th:text="${u.serviceBookingId}"></td>
                             <td th:text="${u.formattedCreatedAt}"></td>
                             <td th:text="${u.electricity}"></td>
                             <td th:text="${u.water}"></td>
                             <td th:text="${u.others}"></td>
+                            <td th:text="${u.others + u.water + u.electricity}"></td>
+                        </tr>
+                        </tbody>
+                        <tbody th:if="${emptyMessage != null}">
+                        <tr>
+                            <td colspan="5" th:text="${emptyMessage}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -183,15 +190,34 @@
             <div class="col-lg-5 col-sm-12 request_box">
                 <h1 class="center-block">Current Usage:</h1>
                 <div>
-                    <ul class="formList">
+                    <ul class="formList" th:if="${usageService != null}">
                         <li>
-                            <p>Electric: <span th:text="${usageService.electricity}"></span></p>
+                            <p>Electric: <span th:text="${usageService.electricity} VND"></span></p>
                         </li>
                         <li>
-                            <p>Water: <span th:text="${usageService.water}"></span></p>
+                            <p>Water: <span th:text="${usageService.water} VND"></span></p>
                         </li>
                         <li>
-                            <p>Service: <span th:text="${usageService.others}"></span></p>
+                            <p>Service: <span th:text="${usageService.others} VND"></span></p>
+                        </li>
+                        <li>
+                            <p>Total: <span id="total-vnd"
+                                            th:text="${usageService.others + usageService.water + usageService.electricity} VND"></span>
+                            </p>
+                        </li>
+                        <li>
+                            <p>Total in USD: <span id="total-usd"></span></p>
+                        </li>
+                    </ul>
+                    <ul class="formList" th:if="${usageService == null}">
+                        <li>
+                            <p>Electric: <span></span></p>
+                        </li>
+                        <li>
+                            <p>Water: <span></span></p>
+                        </li>
+                        <li>
+                            <p>Service: <span></span></p>
                         </li>
                     </ul>
                 </div>
@@ -273,5 +299,41 @@
     </a>
 
 </div>
+<script>
+    let exchangeRate = 0;
+
+    async function fetchExchangeRate() {
+        try {
+            const response = await fetch('https://v6.exchangerate-api.com/v6/2d1a5a4cadea1c1901c667ea/latest/VND');
+            const data = await response.json();
+            exchangeRate = data.conversion_rates.USD;
+            convertToUSD();
+        } catch (error) {
+            console.error('Error fetching exchange rate:', error);
+        }
+    }
+
+    function convertToUSD() {
+        const vndElement = document.getElementById('total-vnd');
+        if (!vndElement) {
+            console.error('Total VND element not found');
+            return;
+        }
+        const usdElement = document.getElementById('total-usd');
+        if (!usdElement) {
+            console.error('Total USD element not found');
+            return;
+        }
+        const vndAmount = parseFloat(vndElement.textContent);
+        if (isNaN(vndAmount)) {
+            console.error('Invalid VND amount');
+            return;
+        }
+        const usdAmount = (vndAmount * exchangeRate).toFixed(2);
+        usdElement.textContent = usdAmount + '$';
+    }
+
+    document.addEventListener('DOMContentLoaded', fetchExchangeRate);
+</script>
 </body>
 </html>

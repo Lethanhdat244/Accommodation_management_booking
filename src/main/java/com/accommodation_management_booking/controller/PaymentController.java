@@ -190,7 +190,7 @@ public class PaymentController {
                             try {
                                 paymentDate = LocalDate.parse(keyword, formatter);
                                 break;
-                            } catch (DateTimeParseException _) {
+                            } catch (DateTimeParseException exception) {
                             }
                         }
                         if (paymentDate == null) {
@@ -561,7 +561,7 @@ public class PaymentController {
                             try {
                                 paymentDate = LocalDate.parse(keyword, formatter);
                                 break;
-                            } catch (DateTimeParseException _) {
+                            } catch (DateTimeParseException ex) {
                             }
                         }
                         if (paymentDate == null) {

@@ -60,6 +60,10 @@ public class RequestController {
         }
         try {
             List<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId());
+            if (complainList.isEmpty()) {
+                model.addAttribute("emptyMessage", "No data");
+                return "student_request";
+            }
             model.addAttribute("complaintDTOList", complainList);
 //            Page<Complaint> complaintPage;
 //            complaintPage = complainService.getAllComplainByPage(page, size);

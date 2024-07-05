@@ -14,18 +14,21 @@ import java.util.List;
 
 @Service
 public class PaypalService {
-    @Autowired
-    private APIContext apiContext;
+    private final APIContext apiContext;
+
+    public PaypalService(APIContext apiContext) {
+        this.apiContext = apiContext;
+    }
 
     public Payment createPayment(
-        float total,
-        String currency,
-        PaypalPaymentMethod method,
-        PaypalPaymentIntent intent,
-        String description,
-        String cancelUrl,
-        String successUrl) throws PayPalRESTException {
-            Amount amount = new Amount();
+            float total,
+            String currency,
+            PaypalPaymentMethod method,
+            PaypalPaymentIntent intent,
+            String description,
+            String cancelUrl,
+            String successUrl) throws PayPalRESTException {
+        Amount amount = new Amount();
             amount.setCurrency(currency);
             amount.setTotal(String.format("%.2f", total));
 
