@@ -25,5 +25,4 @@ public interface ComplainRepository extends JpaRepository<Complaint, Long> {
     @Query("SELECT c FROM Complaint c WHERE c.complaintId = :id")
     Complaint getRequestByComplaintId(@Param("id") int id);
 
-    Page<Complaint> findAll(Pageable pageable);
 }

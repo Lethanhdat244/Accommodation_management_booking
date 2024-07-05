@@ -1,61 +1,21 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Student Payment List</title>
-    <!-- Favicon -->
-    <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
-    <!-- Custom styles -->
+    <title>Payment Detail</title>
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/admin_homepage/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <style>
-        .pagination-wrapper {
-            text-align: left;
-            margin-top: 20px;
-        }
-
-        .pagination {
-            display: inline-flex;
-            padding-left: 0;
-            list-style: none;
-            border-radius: 0.25rem;
-        }
-
-        .pagination .page-item {
-            display: inline;
-        }
-
-        .pagination .page-link {
-            position: relative;
-            display: block;
-            padding: 0.5rem 0.75rem;
-            margin-left: -1px;
-            line-height: 1.25;
-            color: #007bff;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-        }
-
-        .pagination .page-item.disabled .page-link {
-            color: #6c757d;
-            pointer-events: none;
-            cursor: auto;
-            background-color: #fff;
-            border-color: #dee2e6;
-        }
-
-        .pagination .page-item.active .page-link {
-            z-index: 1;
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
+        .form-control {
+            line-height: 1.5;
         }
 
         /* Modal styles */
@@ -88,6 +48,8 @@
             float: right;
             font-size: 28px;
             font-weight: bold;
+            text-align: right;
+            height: 20px;
         }
 
         .close:hover,
@@ -104,36 +66,20 @@
         }
     </style>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('sortDropdown').addEventListener('change', function () {
-                const selectedValue = this.value;
-                const [sortField, sortDirection] = selectedValue.split(',');
-
-                const params = new URLSearchParams(window.location.search);
-                params.set('sort', sortField + ',' + sortDirection);
-
-                window.location.href = window.location.pathname + '?' + params.toString();
+        document.addEventListener("DOMContentLoaded", function () {
+            var image1 = document.getElementById('backCccd');
+            var image2 = document.getElementById('frontCccd');
+            image1.addEventListener('click', function () {
+                this.classList.toggle('zoomed');
+            });
+            image2.addEventListener('click', function () {
+                this.classList.toggle('zoomed');
             });
         });
 
-        document.addEventListener('DOMContentLoaded', function () {
-            const sortDropdown = document.getElementById('sortDropdown');
-            const params = new URLSearchParams(window.location.search);
-            let storedSort = params.get('sort');
-
-            if (!storedSort) {
-                const defaultSort = 'paymentDate,desc';
-                storedSort = defaultSort;
-                params.set('sort', defaultSort);
-                window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
-            }
-
-            sortDropdown.value = storedSort;
-
-            sortDropdown.addEventListener('change', function () {
-                const selectedSort = this.value;
-                params.set('sort', selectedSort);
-                window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+        document.addEventListener("DOMContentLoaded", function () {
+            flatpickr('.flatpickr-input', {
+                dateFormat: "d/m/Y",
             });
         });
         document.addEventListener('DOMContentLoaded', function () {
@@ -199,7 +145,6 @@
                             </li>
                         </ul>
                     </li>
-
                     <li>
                         <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Room
@@ -221,7 +166,6 @@
                         </ul>
                     </li>
 
-
                     <li>
                         <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>News
@@ -240,6 +184,7 @@
 
                         </ul>
                     </li>
+
 
                     <li>
                         <a id="menu-payment" class="show-cat-btn active">
@@ -307,11 +252,12 @@
         </div>
         <div class="sidebar-footer">
             <a href="#" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
+                <span class="sidebar-user-img">
+                    <picture>
+                        <source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp">
+                        <img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name">
+                    </picture>
+                </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
                     <span class="sidebar-user__subtitle">Support manager</span>
@@ -391,7 +337,7 @@
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+                            <!--                            <li><a th:href="@{/fpt-dorm/admin/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -404,110 +350,106 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Payment Request List</h2>
                 <div class="row">
-                    <div class="col-lg-6">
-                        <form th:action="@{/fpt-dorm/admin/payment-request/search}" method="get" class="search-form">
-                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
-                                   class="search-box"/>
-                            <select name="category" class="search-dropdown">
-                                <option value="" th:text="'--Select--'"
-                                        th:selected="${selectedCategory == null}"></option>
-                                <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
-                                <option value="Date" th:text="'Date'"
-                                        th:selected="${selectedCategory == 'Date'}"></option>
-                            </select>
-                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
-                        </form>
-                    </div>
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-4">
-                        <div style="text-align: right;">
-                            Sort by:
-                            <select id="sortDropdown" class="sort-dropdown">
-                                <option value="paymentId,asc">ID Ascending</option>
-                                <option value="paymentId,desc">ID Descending</option>
-                                <option value="paymentDate,asc">Oldest</option>
-                                <option value="paymentDate,desc">Newest</option>
-                                <option value="totalPrice,asc">Amount Ascending</option>
-                                <option value="totalPrice,desc">Amount Descending</option>
-                            </select>
+                    <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
+                        <h1 class="main-title text-center">Payment Request Detail</h1>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <label for="transactionId" class="col-form-label">Payment Code</label>
+                                <input id="transactionId" name="transactionId" class="form-control border"
+                                       th:field="${payment.paymentDetail}" readonly>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="canvas-wrapper">
-                            <div class="users-table">
-                                <table class="posts-table">
-                                    <thead>
-                                    <tr class="users-table-info">
-                                        <th>Payment ID</th>
-                                        <th>Date</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="payment : ${paymentPage.content}">
-                                        <td th:text="${payment.paymentId}"></td>
-                                        <td th:text="${payment.paymentDate.toString().substring(0, 10)}"></td>
-                                        <td th:text="${payment.totalPrice}"></td>
-                                        <td>
-                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Pending')}"
-                                                  class="badge-pending" th:text="${payment.status}"></span>
-                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Confirmed')}"
-                                                  class="badge-success" th:text="${payment.status}"></span>
-                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Canceled')}"
-                                                  class="badge-trashed" th:text="${payment.status}"></span>
-                                        </td>
 
-                                        <td>
-                                            <a class="btn btn-primary"
-                                               th:href="@{/fpt-dorm/admin/payment-request/id={id}(id=${payment.paymentId})}"
-                                               role="button" style="color: #0061f7;">Detail</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                        <div class="row mb-2">
+                            <div class="col-sm-7">
+                                <label for="studentName" class="col-form-label">Student Name</label>
+                                <input id="studentName" readonly class="form-control border"
+                                       th:field="${payment.username}">
                             </div>
-                            <div>
-                                <h3 th:if="${paymentPage.totalPages == 0}">
-                                    No data recorded
-                                </h3>
+                            <div class="col-sm-5">
+                                <label for="studentId" class="col-form-label">ID Card</label>
+                                <input readonly id="studentId" class="form-control border"
+                                       th:field="${user.cccdNumber}">
                             </div>
-                            <div class="pagination-wrapper">
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination">
-                                        <li class="page-item"
-                                            th:classappend="${paymentPage.hasPrevious()} ? '' : 'disabled'">
-                                            <a class="page-link"
-                                               th:href="@{|?page=${paymentPage.number - 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
-                                               aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"
-                                            th:each="i : ${paymentPage.totalPages > 0 ? #numbers.sequence(0, paymentPage.totalPages - 1) : {0}}"
-                                            th:classappend="${paymentPage.number == i} ? 'active'">
-                                            <a class="page-link"
-                                               th:href="@{|?page=${i}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
-                                               th:text="${i + 1}">1</a>
-                                        </li>
-                                        <li class="page-item"
-                                            th:classappend="${paymentPage.hasNext()} ? '' : 'disabled'">
-                                            <a class="page-link"
-                                               th:href="@{|?page=${paymentPage.number + 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
-                                               aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="frontCccd" class="col-form-label">Front CCCD</label><br>
+                                <div class="image-container">
+                                    <img id="frontCccd" th:src="${user.frontCccdImage}" alt="Front CCCD">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="backCccd" class="col-form-label">Back CCCD</label><br>
+                                <div class="image-container">
+                                    <img id="backCccd" th:src="${user.backCccdImage}" alt="Back CCCD">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="email" class="col-form-label">Email</label>
+                                <input id="email" readonly class="form-control border" th:field="${payment.email}"
+                                       type="email">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="phone" class="col-form-label">Phone Number</label>
+                                <input readonly id="phone" class="form-control border"
+                                       th:field="${payment.phoneNumber}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <label for="totalPrice0" class="col-form-label">Total Price</label>
+                                <input readonly id="totalPrice0" class="form-control border"
+                                       th:field="${payment.totalPrice}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="amountPaid0" class="col-form-label">Amount Paid</label>
+                                <input readonly id="amountPaid0" class="form-control border"
+                                       th:field="${payment.amountPaid}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="paymentDate" class="col-form-label">Payment Date</label>
+                                <input readonly id="paymentDate" name="paymentDate" class="form-control border"
+                                       th:value="${#temporals.format(payment.paymentDate, 'yyyy-MM-dd HH:mm:ss')}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="paymentMethod" class="col-form-label">Payment Method</label>
+                                <input readonly id="paymentMethod" name="paymentMethod" class="form-control border"
+                                       th:field="${payment.paymentMethod}">
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="status" class="col-form-label">Payment Status</label>
+                                <input readonly id="status" name="paymentMethod" class="form-control border"
+                                       th:field="${payment.status}">
+                            </div>
+                        </div>
+
+                        <div class="row" style="margin-top: 20px;">
+                            <div class="col-sm-4 d-grid">
+                                <a class="btn secondary-default-btn" onclick="window.history.back()"
+                                   role="button">Back</a>
+                            </div>
+                            <div class="col-sm-4 d-grid">
+                                <a class="cancel-default-btn"
+                                   th:onclick="'showCancelConfirmModal(' + ${payment.bookingId} + ',' + ${payment.amountPaid} + ')'">Cancel</a>
                             </div>
 
+                            <div class="col-sm-4 d-grid">
+                                <a class="primary-default-btn"
+                                   th:onclick="'showConfirmConfirmModal(' + ${payment.bookingId} + ',' + ${payment.totalPrice} + ',' + ${payment.amountPaid} + ')'">Confirm</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -528,11 +470,19 @@
         </footer>
     </div>
 </div>
-
 <div id="confirmCancelModal" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeConfirmCancelModal()">&times;</span>
         <p>Are you sure you want to cancel this payment?</p>
+        <div id="confirmCancelDetails"></div>
+        <div id="refundDetails" style="display: none;">
+            <label for="refundAmount">Refund Amount:</label>
+            <input type="number" id="refundAmount" name="refundAmount" value="" readonly required>
+            <br><br>
+            <label for="refundDate">Refund Date:</label>
+            <input type="date" id="refundDate" name="refundDate" value="" required>
+            <br>
+        </div>
         <div class="modal-actions">
             <button id="confirmCancelBtn" class="btn danger-btn" onclick="cancelPayment()">Yes</button>
             <button class="btn primary-white-btn" style="color: #0e0e0ebd;" onclick="closeConfirmCancelModal()">No
@@ -546,14 +496,6 @@
         <span class="close" onclick="closeConfirmConfirmModal()">&times;</span>
         <p>Are you sure you want to confirm this payment?</p><br>
         <div id="confirmDetails"></div>
-        <div id="refundDetails" style="display: none;">
-            <label for="refundAmount">Refund Amount:</label>
-            <input type="number" id="refundAmount" name="refundAmount" value="" readonly required>
-            <br><br>
-            <label for="refundDate">Refund Date:</label>
-            <input type="date" id="refundDate" name="refundDate" value="" required>
-            <br>
-        </div>
         <div class="modal-actions">
             <button id="confirmBtn" class="btn primary-default-btn" onclick="confirmPayment()">Confirm</button>
             <button class="btn secondary-default-btn" onclick="closeConfirmConfirmModal()">Cancel</button>
@@ -567,15 +509,46 @@
     let amountPaid = 0;
 
     // Function to show the cancel confirmation modal
-    function showCancelConfirmModal(bookingId) {
+    function showCancelConfirmModal(bookingId, ap) {
         currentBookingId = bookingId;
+        amountPaid = parseFloat(ap);
         const modal = document.getElementById('confirmCancelModal');
+        const confirmDetails = document.getElementById('confirmCancelDetails');
+        const refundDetails = document.getElementById('refundDetails');
+        confirmDetails.innerHTML = `
+            <p>Amount Paid: ${amountPaid}</p><br>
+        `;
+
+        refundDetails.style.display = 'block';
+        document.getElementById('refundAmount').value = (amountPaid).toFixed(2);
+
+        const now = new Date();
+        const minDate = formatDate(now);
+        now.setDate(now.getDate() + 3);
+        const defaultDate = formatDate(now);
+        now.setDate(now.getDate() + 4); // Move 4 more days ahead to set maxDate
+        const maxDate = formatDate(now);
+
+        document.getElementById('refundDate').value = defaultDate;
+        document.getElementById('refundDate').min = minDate;
+        document.getElementById('refundDate').max = maxDate;
+
         modal.style.display = 'block';
     }
 
     // Function to handle canceling payment
     function cancelPayment() {
         if (!currentBookingId) return;
+
+        const refundDateInput = document.getElementById('refundDate');
+        const refundDate = refundDateInput.value;
+        const minDate = refundDateInput.min;
+        const maxDate = refundDateInput.max;
+
+        if (refundDate < minDate || refundDate > maxDate) {
+            alert('Refund date must be between ' + minDate + ' and ' + maxDate);
+            return;
+        }
 
         fetch(`/fpt-dorm/admin/payment-request/cancel/id=${currentBookingId}`, {
             method: 'GET',
@@ -585,8 +558,11 @@
         })
             .then(response => {
                 if (response.ok) {
-                    alert('Canceled successfully');
-                    location.reload(); // Reload the page to reflect changes
+                    // location.reload();
+                    setTimeout(function () {
+                        alert('Canceled successfully');
+                        window.location.href = '/fpt-dorm/admin/payment-request';
+                    }, 70);
                 } else {
                     alert('Failed to cancel');
                 }
@@ -619,37 +595,14 @@
         amountPaid = parseFloat(ap);
         const modal = document.getElementById('confirmConfirmModal');
         const confirmDetails = document.getElementById('confirmDetails');
-        const refundDetails = document.getElementById('refundDetails');
 
         confirmDetails.innerHTML = `
             <p>Total Price: ${totalPrice}</p><br>
             <p>Amount Paid: ${amountPaid}</p><br>
         `;
 
-        if (totalPrice > amountPaid) {
-            confirmDetails.innerHTML += `<p style="color: red;">Cannot confirm: Total Price exceeds Amount Paid</p>`;
-            refundDetails.style.display = 'none';
-            document.getElementById('confirmBtn').disabled = true;
-        } else if (totalPrice < amountPaid) {
-            refundDetails.style.display = 'block';
-            document.getElementById('refundAmount').value = (amountPaid - totalPrice).toFixed(2);
-
-            const now = new Date();
-            const minDate = formatDate(now);
-            now.setDate(now.getDate() + 3);
-            const defaultDate = formatDate(now);
-            now.setDate(now.getDate() + 4); // Move 4 more days ahead to set maxDate
-            const maxDate = formatDate(now);
-
-            document.getElementById('refundDate').value = defaultDate;
-            document.getElementById('refundDate').min = minDate;
-            document.getElementById('refundDate').max = maxDate;
-
-            document.getElementById('confirmBtn').disabled = false;
-        } else {
-            refundDetails.style.display = 'none';
-            document.getElementById('confirmBtn').disabled = false;
-        }
+        refundDetails.style.display = 'none';
+        document.getElementById('confirmBtn').disabled = false;
 
         modal.style.display = 'block';
     }
@@ -695,8 +648,10 @@
         })
             .then(response => {
                 if (response.ok) {
-                    alert('Payment confirmed successfully');
-                    location.reload(); // Reload the page to reflect changes
+                    setTimeout(function () {
+                        alert('Payment confirmed successfully');
+                        window.location.href = '/fpt-dorm/admin/payment-request';
+                    }, 70);
                 } else {
                     alert('Failed to confirm payment');
                 }

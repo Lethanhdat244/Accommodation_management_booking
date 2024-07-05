@@ -1,23 +1,122 @@
 <!DOCTYPE html>
 <html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
-
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title> Complain | Admin</title>
-    <!-- Favicon -->
-    <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
+    <title>Title</title>
+    <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
-
-    <link rel="stylesheet" href="/static/admin_homepage/css/style.css">
     <style>
-        .btn {
+        .news-card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-card .card-header {
+            background-color: #f8f9fa;
             padding: 10px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .news-card .card-body {
+            padding: 20px;
+        }
+
+        .news-card .card-title {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .info {
+            color: #555555;
+        }
+
+        .danger {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .warning {
+            color: #ffb648;
+        }
+
+        .news-card .card-text {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            color: #333;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .news-image {
+            width: 70%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 1em;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group select {
+            width: 100%;
+            padding: 0.5em;
+            margin-top: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group select option {
+            padding: 0.5em;
+            margin-top: 0.5em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.5em;
+            margin-top: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            padding: 0.7em 1.5em;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .success-message {
+            color: green;
+        }
+
+        .btn {
+            padding: 15px 40px;
             margin: 30px 0px;
             border-radius: 7px;
             font-weight: 700;
@@ -27,98 +126,12 @@
             background: #2f49d1;
             color: white;
         }
-
-        .info {
-            color: #555555;
-            background-color: rgba(58, 72, 65, 0.1);
-            padding: 5px 15px;
-            border-radius: 15px;
-        }
-
-        .warning {
-            color: #ffb648;
-            background-color: rgba(255, 172, 50, .1);
-            padding: 5px 15px;
-            border-radius: 15px;
-        }
-
-        select {
-            width: 20%;
-            padding: 0.5em;
-            margin-top: 0.5em;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        select option {
-            padding: 0.5em;
-            margin-top: 0.5em;
-        }
-
-        .success {
-            color: green;
-            background-color: rgba(75, 222, 151, 0.1);
-            padding: 5px 15px;
-            border-radius: 15px;
-        }
-
-        .danger {
-            color: red;
-            background-color: rgba(222, 75, 126, 0.1);
-            padding: 5px 15px;
-            border-radius: 15px;
-        }
-
-        .pagination-wrapper {
-            text-align: left;
-            margin-top: 20px;
-        }
-
-        .pagination {
-            display: inline-flex;
-            padding-left: 0;
-            list-style: none;
-            border-radius: 0.25rem;
-        }
-
-        .pagination .page-item {
-            display: inline;
-        }
-
-        .pagination .page-link {
-            position: relative;
-            display: block;
-            padding: 0.5rem 0.75rem;
-            margin-left: -1px;
-            line-height: 1.25;
-            color: #007bff;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-        }
-
-        .pagination .page-item.disabled .page-link {
-            color: #6c757d;
-            pointer-events: none;
-            cursor: auto;
-            background-color: #fff;
-            border-color: #dee2e6;
-        }
-
-        .pagination .page-item.active .page-link {
-            z-index: 1;
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
-        }
     </style>
 </head>
-
 <body>
 <div class="layer"></div>
-<!-- ! Body -->
-<!--<a class="skip-link sr-only" href="#skip-target">Skip to content</a>-->
 <div class="page-flex">
-    <!-- ! Sidebar -->
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-start">
             <div class="sidebar-head">
@@ -139,8 +152,8 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home"
-                                                                   aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
+                                                                                  aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn">
@@ -238,7 +251,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                        <a th:href="@{/fpt-dorm/admin/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Usage Service
                         </a>
@@ -266,7 +279,7 @@
                     </li>
 
                     <li>
-                        <a class="active" th:href="@{/fpt-dorm/admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
@@ -287,13 +300,15 @@
             </a>
         </div>
     </aside>
+
     <div class="main-wrapper">
-        <!-- ! Main nav -->
+        <!-- Main nav -->
         <nav class="main-nav--bg">
             <div class="container main-nav">
                 <div class="main-nav-start">
                     <div class="search-wrapper">
                         <i data-feather="search" aria-hidden="true"></i>
+                        <!-- <input type="text" placeholder="Enter keywords ..." required> -->
                     </div>
                 </div>
                 <div class="main-nav-end">
@@ -313,31 +328,29 @@
                         </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
-                                <a href="#">
+                                <a href="##">
                                     <div class="notification-dropdown-icon info">
                                         <i data-feather="check"></i>
                                     </div>
                                     <div class="notification-dropdown-text">
                                         <span class="notification-dropdown__title">System just updated</span>
-                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more
-                  here.</span>
+                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>
                                     </div>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="##">
                                     <div class="notification-dropdown-icon danger">
                                         <i data-feather="info" aria-hidden="true"></i>
                                     </div>
                                     <div class="notification-dropdown-text">
                                         <span class="notification-dropdown__title">The cache is full!</span>
-                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and
-                  interfere ...</span>
+                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>
                                     </div>
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="##">
                                     <div class="notification-dropdown-icon info">
                                         <i data-feather="check" aria-hidden="true"></i>
                                     </div>
@@ -347,20 +360,17 @@
                                     </div>
                                 </a>
                             </li>
-                            <li>
-                                <a class="link-to-page" href="#">Go to Notifications page</a>
-                            </li>
+                            <li><a class="link-to-page" href="##">Go to Notifications page</a></li>
                         </ul>
                     </div>
                     <div class="nav-user-wrapper">
-                        <button href="#" class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                        <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
-                                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp"
-                                                 type="image/webp"><img
-                                        src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png"
-                                        alt="User name"></picture>
-                              </span>
+                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp"
+                                 type="image/webp"><img
+                        src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
+              </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
@@ -375,7 +385,7 @@
                 </div>
             </div>
         </nav>
-        <!-- ! Main -->
+        <!-- Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
                 <button class="btn primary" onclick="window.history.back()" style="margin: 0">Back</button>
@@ -383,7 +393,7 @@
                 <div class=""
                      style="margin: 10px 50px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1); border-radius: 10px; padding: 30px 40px; background: white">
                     <form th:object="${complainObj}"
-                          th:action="@{/fpt-dorm/employee/complain/execute/{id}(id=${complainObj.complaintId})}"
+                          th:action="@{/fpt-dorm/admin/complain/execute/{id}(id=${complainObj.complaintId})}"
                           method="post">
                         <div class="row">
                             <div class="col-lg-6">
@@ -453,7 +463,7 @@
                 </div>
             </div>
         </main>
-        <!-- ! Footer -->
+        <!-- Footer -->
         <footer class="footer">
             <div class="container footer--flex">
             </div>
@@ -467,5 +477,4 @@
 <!-- Custom scripts -->
 <script src="/static/admin_homepage/js/script.js"></script>
 </body>
-
 </html>

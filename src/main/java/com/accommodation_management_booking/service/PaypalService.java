@@ -14,11 +14,8 @@ import java.util.List;
 
 @Service
 public class PaypalService {
-    private final APIContext apiContext;
-
-    public PaypalService(APIContext apiContext) {
-        this.apiContext = apiContext;
-    }
+    @Autowired
+    private APIContext apiContext;
 
     public Payment createPayment(
             float total,
@@ -29,15 +26,15 @@ public class PaypalService {
             String cancelUrl,
             String successUrl) throws PayPalRESTException {
         Amount amount = new Amount();
-            amount.setCurrency(currency);
-            amount.setTotal(String.format("%.2f", total));
+        amount.setCurrency(currency);
+        amount.setTotal(String.format("%.2f", total));
 
-            Transaction transaction = new Transaction();
-            transaction.setDescription(description);
-            transaction.setAmount(amount);
+        Transaction transaction = new Transaction();
+        transaction.setDescription(description);
+        transaction.setAmount(amount);
 
-            List<Transaction> transactions = new ArrayList<>();
-            transactions.add(transaction);
+        List<Transaction> transactions = new ArrayList<>();
+        transactions.add(transaction);
 
             Payer payer = new Payer();
             payer.setPaymentMethod(method.toString());

@@ -1,9 +1,16 @@
 package com.accommodation_management_booking.controller;
 
+import com.accommodation_management_booking.dto.UserBookingDTO;
 import com.accommodation_management_booking.entity.Complaint;
+import com.accommodation_management_booking.entity.Dorm;
 import com.accommodation_management_booking.entity.Notification;
+import com.accommodation_management_booking.entity.UsageService;
 import com.accommodation_management_booking.repository.ComplainRepository;
+import com.accommodation_management_booking.repository.DormRepository;
+import com.accommodation_management_booking.repository.UserBookingRepository;
+import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.impl.ComplainService;
+import com.accommodation_management_booking.service.impl.UsageServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +32,14 @@ public class AdminController {
     ComplainRepository complainRepository;
     @Autowired
     ComplainService complainService;
+    @Autowired
+    DormRepository dormRepository;
+    @Autowired
+    UserBookingRepository userBookingRepository;
+    @Autowired
+    UsageServiceService usageServiceService;
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("fpt-dorm/admin/home")
     public String admin_homepage(Model model, Authentication authentication) {
@@ -169,5 +184,67 @@ public class AdminController {
         return "redirect:/fpt-dorm/admin/Resident_History/list";
     }
 
+    @GetMapping("/fpt-dorm/admin/usage-service")
+    public String showListUsageService(Model model, Authentication authentication) {
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            String email = oauth2User.getAttribute("email");
+            model.addAttribute("email", email);
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            model.addAttribute("email", userDetails.getUsername());
+        } else {
+            // Handle cases where the authentication is not OAuth2
+            model.addAttribute("email", "Unknown");
+        }
+        List<Dorm> dorms = dormRepository.findAll();
+        model.addAttribute("dorms", dorms);
+        return "admin/admin_usageService";
+    }
+
+    @PostMapping("/fpt-dorm/admin/usage-service/{id}")
+    public String executeUsageServiceData(@PathVariable(name = "id") int id,
+                                          @RequestParam("electric") int electric,
+                                          @RequestParam("water") int water,
+                                          @RequestParam("others") int others,
+                                          Model model,
+                                          Authentication authentication) {
+        List<UserBookingDTO> usageServiceDTOs = userBookingRepository.findCurrentBookingsByRoomId(id);
+        if (usageServiceDTOs.isEmpty()) {
+            model.addAttribute("error", "This room is currently unoccupied.");
+            List<Dorm> dorms = dormRepository.findAll();
+            model.addAttribute("dorms", dorms);
+            return "admin/admin_usageService";
+        }
+
+        float e = (electric * 4000f) / usageServiceDTOs.size();
+        float w = (water * 5000f) / usageServiceDTOs.size();
+        float o = (others * 1000f) / usageServiceDTOs.size();
+
+        for (UserBookingDTO user : usageServiceDTOs) {
+            UsageService usageService = new UsageService();
+            usageService.setUser(userRepository.searchUserById(user.getUserId()));
+            usageService.setBookingId(user.getBookingId());
+            usageService.setElectricity(e);
+            usageService.setWater(w);
+            usageService.setOthers(o);
+            usageServiceService.saveUsageService(usageService);
+        }
+
+        String email = null;
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            email = oauth2User.getAttribute("email");
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            email = userDetails.getUsername();
+        }
+        model.addAttribute("email", email != null ? email : "Unknown");
+        List<Dorm> dorms = dormRepository.findAll();
+        model.addAttribute("dorms", dorms);
+        return "admin/admin_usageService";
+    }
 
 }

@@ -49,6 +49,9 @@ public class EmployeeController {
     private ComplainService complainService;
 
     @Autowired
+    private RoomsRepository roomsRepository;
+
+    @Autowired
     private UserBookingRepository userBookingRepository;
 
     @Autowired
@@ -374,12 +377,6 @@ public class EmployeeController {
             usageService.setWater(w);
             usageService.setOthers(o);
             usageServiceService.saveUsageService(usageService);
-
-            Notification notification = new Notification();
-            notification.setUser(userRepository.searchUserById(user.getUserId()));
-            notification.setContent("Your usage service bill is ready.");
-            notification.setRead(false);
-            notificationService.saveNotification(notification);
         }
 
         String email = null;

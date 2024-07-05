@@ -42,7 +42,7 @@ public class RequestController {
     @GetMapping("fpt-dorm/user/my-request")
     public String studentRequest(Model model,
                                  @RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "5") int size,
+                                 @RequestParam(defaultValue = "8") int size,
                                  Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;

@@ -20,13 +20,24 @@
     </style>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            var image1 = document.getElementById('backCccd');
+            var image2 = document.getElementById('frontCccd');
+            image1.addEventListener('click', function () {
+                this.classList.toggle('zoomed');
+            });
+            image2.addEventListener('click', function () {
+                this.classList.toggle('zoomed');
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
             flatpickr('.flatpickr-input', {
                 dateFormat: "d/m/Y",
             });
         });
         document.addEventListener('DOMContentLoaded', function () {
-            const A = document.getElementById('menu-student');
-            const B = document.getElementById('menu-all-students');
+            const A = document.getElementById('menu-payment');
+            const B = document.getElementById('menu-all-payments');
 
             A.addEventListener('click', function () {
                 if (A.classList.contains('active')) {
@@ -297,9 +308,9 @@
                         <h1 class="main-title text-center">Payment Detail</h1>
                         <div class="row mb-2">
                             <div class="col-sm-12">
-                                <label for="transactionId" class="col-form-label">Payment ID</label>
+                                <label for="transactionId" class="col-form-label">Payment Code</label>
                                 <input id="transactionId" name="transactionId" class="form-control border"
-                                       th:field="${payment.paymentId}" readonly>
+                                       th:field="${payment.paymentDetail}" readonly>
                             </div>
                         </div>
 
@@ -310,8 +321,24 @@
                                        th:field="${payment.username}">
                             </div>
                             <div class="col-sm-5">
-                                <label for="studentId" class="col-form-label">Student ID</label>
-                                <input id="studentId" class="form-control border" th:field="${payment.userId}">
+                                <label for="studentId" class="col-form-label">ID Card</label>
+                                <input readonly id="studentId" class="form-control border"
+                                       th:field="${user.cccdNumber}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="frontCccd" class="col-form-label">Front CCCD</label><br>
+                                <div class="image-container">
+                                    <img id="frontCccd" th:src="${user.frontCccdImage}" alt="Front CCCD">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="backCccd" class="col-form-label">Back CCCD</label><br>
+                                <div class="image-container">
+                                    <img id="backCccd" th:src="${user.backCccdImage}" alt="Back CCCD">
+                                </div>
                             </div>
                         </div>
 
@@ -323,21 +350,24 @@
                             </div>
                             <div class="col-sm-6">
                                 <label for="phone" class="col-form-label">Phone Number</label>
-                                <input id="phone" class="form-control border" th:field="${payment.phoneNumber}">
+                                <input readonly id="phone" class="form-control border"
+                                       th:field="${payment.phoneNumber}">
                             </div>
                         </div>
 
                         <div class="row mb-2">
                             <div class="col-sm-12">
                                 <label for="totalPrice" class="col-form-label">Total Price</label>
-                                <input id="totalPrice" class="form-control border" th:field="${payment.totalPrice}">
+                                <input readonly id="totalPrice" class="form-control border"
+                                       th:field="${payment.totalPrice}">
                             </div>
                         </div>
 
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <label for="amountPaid" class="col-form-label">Amount Paid</label>
-                                <input id="amountPaid" class="form-control border" th:field="${payment.amountPaid}">
+                                <input readonly id="amountPaid" class="form-control border"
+                                       th:field="${payment.amountPaid}">
                             </div>
                             <div class="col-sm-6">
                                 <label for="paymentDate" class="col-form-label">Payment Date</label>
@@ -349,7 +379,8 @@
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <label for="refundAmount" class="col-form-label">Refund</label>
-                                <input id="refundAmount" class="form-control border" th:field="${payment.refundAmount}">
+                                <input readonly id="refundAmount" class="form-control border"
+                                       th:field="${payment.refundAmount}">
                             </div>
                             <div class="col-sm-6">
                                 <label for="refundDate" class="col-form-label">Refund Date</label>
@@ -368,14 +399,6 @@
                                 <label for="status" class="col-form-label">Payment Status</label>
                                 <input readonly id="status" name="paymentMethod" class="form-control border"
                                        th:field="${payment.status}">
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="col-sm-12">
-                                <label for="paymentDetail" class="col-form-label">Payment Description</label>
-                                <textarea readonly id="paymentDetail" name="paymentDetail" class="form-control border"
-                                          th:field="${payment.paymentDetail}"></textarea>
                             </div>
                         </div>
 
