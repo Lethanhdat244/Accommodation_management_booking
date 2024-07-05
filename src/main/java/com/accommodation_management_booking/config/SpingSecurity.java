@@ -54,6 +54,7 @@ public class SpingSecurity {
                 .requestMatchers("fpt-dorm/home/dinning").permitAll()
                 .requestMatchers("/fpt-dorm/home/**").permitAll()
                 .requestMatchers("/fpt-dorm").permitAll()
+                .requestMatchers("/pay").permitAll()
                 .requestMatchers("/fpt-dorm/admin/**").hasRole("ADMIN")
                 .requestMatchers("/fpt-dorm/employee/**").hasAnyRole("ADMIN", "EMPLOYEE")
                 .requestMatchers("/fpt-dorm/user/news/**").hasAnyRole("ADMIN", "EMPLOYEE", "USER")

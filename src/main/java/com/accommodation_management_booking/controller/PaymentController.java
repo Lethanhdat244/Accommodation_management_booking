@@ -2,6 +2,7 @@ package com.accommodation_management_booking.controller;
 
 import com.accommodation_management_booking.config.PaypalPaymentIntent;
 import com.accommodation_management_booking.config.PaypalPaymentMethod;
+import com.accommodation_management_booking.config.VNPayConfig;
 import com.accommodation_management_booking.dto.PaymentTransactionDTO;
 import com.accommodation_management_booking.entity.Bed;
 import com.accommodation_management_booking.entity.Booking;
@@ -12,6 +13,8 @@ import com.accommodation_management_booking.service.EmailService;
 import com.accommodation_management_booking.service.PaymentService;
 import com.accommodation_management_booking.service.PaypalService;
 import com.accommodation_management_booking.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -38,13 +41,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @AllArgsConstructor
@@ -861,7 +866,12 @@ public class PaymentController {
                 // Send email
                 String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
                 String subject = "Payment Successful - Booking Confirmation";
-                String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was successful. Booking ID: " + bookingId + "\nTotal Amount Paid: " + booking.getTotalPrice() + "\n\nThank you for your booking.";
+                String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was successful."+
+                        "\n Payment code: " + payment1.getPaymentDetail() +
+                        "\nTotal Price: " + booking.getTotalPrice() +
+                        "\nAmount Paid: " + booking.getAmountPaid() +
+                        "\nDate: " + payment1.getPaymentDate() +
+                        "\n\nThank you for your booking.";
                 emailService.sendBill(toEmail, subject, body);
 
                 return "success";
@@ -874,8 +884,8 @@ public class PaymentController {
     }
 
 
-    @PostMapping("/fpt-dorm/user/booking/vnpay")
-    public String vnpay() {
-        return "index";
-    }
+
+
+
+
 }
