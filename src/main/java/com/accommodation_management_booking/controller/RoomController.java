@@ -23,12 +23,24 @@ public class RoomController {
     @Autowired
     private RoomAllService roomAllService;
 
+    @GetMapping("/fpt-dorm/admin/dorms-by-gender")
+    @ResponseBody
+    public List<Dorm> getDormsByGender(@RequestParam("gender") Dorm.DormGender gender) {
+        return roomAllService.getDormsByGender(gender);
+    }
+
     @GetMapping("/fpt-dorm/admin/all-room")
     public String dormgender(Model model) {
         List<Dorm> dorms = roomAllService.getAllDorms();
         model.addAttribute("dorms", dorms);
         return "admin/admin_all_room";
     }
+
+
+
+
+
+
 
     @GetMapping("/fpt-dorm/admin/all-room/floor")
     @ResponseBody

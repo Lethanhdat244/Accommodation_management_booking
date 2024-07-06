@@ -405,7 +405,7 @@
                                         <td th:text="${bed.bedName}"></td>
                                         <td>
                                             <span th:class="${bed.isAvailable ? 'badge-success' : 'badge-trashed'}"
-                                                  th:text="${bed.isAvailable ? 'Active' : 'Inactive'}"></span>
+                                                  th:text="${bed.isAvailable ? 'Available' : 'Unavailable'}"></span>
                                         </td>
                                         <td>
     <span th:class="${bed.maintenanceStatus.name() == 'Available' ? 'badge badge-success' : 'badge badge-trashed'}"
@@ -421,7 +421,8 @@
                         </div>
                     </div>
                     <div class="offset-sm-2 col-sm-2 d-grid">
-                        <a class="btn secondary-default-btn" onclick="window.location.href='/fpt-dorm/admin/all-room'" role="button">Back</a>
+                        <a class="btn secondary-default-btn" onclick="window.history.back()"
+                           role="button">Back</a>
                     </div>
                 </div>
             </div>

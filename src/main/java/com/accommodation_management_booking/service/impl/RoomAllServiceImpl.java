@@ -16,10 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class RoomAllImpl implements RoomAllService {
+public class RoomAllServiceImpl implements RoomAllService {
 
     @Autowired
     private DormRepository dormRepo;
@@ -62,5 +61,10 @@ public class RoomAllImpl implements RoomAllService {
     public Page<Room> getRoomByDormIdAndFloorNumber(Integer dormId, Integer floorNumber, Pageable pageable) {
         return roomRepo.findByFloorDormDormIdAndFloorFloorNumber(dormId, floorNumber, pageable);
 
+    }
+
+
+    public List<Dorm> getDormsByGender(Dorm.DormGender gender) {
+        return dormRepo.findByDormGender(gender);
     }
 }

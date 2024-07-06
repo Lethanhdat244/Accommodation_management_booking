@@ -442,6 +442,13 @@ public class EmployeeController {
 
 
 
+
+    @GetMapping("/fpt-dorm/employee/dorms-by-gender")
+    @ResponseBody
+    public List<Dorm> getDormsByGender(@RequestParam("gender") Dorm.DormGender gender) {
+        return roomAllService.getDormsByGender(gender);
+    }
+
     @GetMapping("/fpt-dorm/employee/all-room")
     public String dormgender(Model model) {
         List<Dorm> dorms = roomAllService.getAllDorms();

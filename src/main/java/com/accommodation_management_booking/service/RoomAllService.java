@@ -14,5 +14,6 @@ public interface RoomAllService {
     List<Floor> getFloorsByDormId(Integer dormId);
     Page<Room> getRoomByDormIdAndFloorNumber(Integer dormId, Integer floorNumber, Pageable pageable);
     List<Bed> getBedsByRoomNumber(String roomNumber);
+    List<Dorm> getDormsByGender(Dorm.DormGender gender);
 
 }

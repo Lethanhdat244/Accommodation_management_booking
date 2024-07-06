@@ -437,19 +437,33 @@
             <div class="container">
                 <h2 class="main-title">All Rooms</h2>
                 <div class="canvas-wrapper" style="margin-bottom: 20px">
-                    <label for="dorm">Dorm Gender</label>
-                    <select class="form-control" id="dorm" name="dorm" onchange="updateFloorAndRooms()">
-                        <option value="" disabled selected>-- Select Dorm Gender --</option>
-                        <option th:each="dorm : ${dorms}" th:value="${dorm.dormId}" th:text="${dorm.dormGender}"></option>
-                    </select>
-                    <span id="dormError" class="text-danger"></span>
+                    <div class="row" >
+                        <div class="col-md-4">
+                            <label for="dorm">Dorm Gender</label>
+                            <select class="form-control" style="width: 50%"  id="gender" name="gender" onchange="updategenderAndDormName()">
+                                <option value="" disabled selected>-- Select Dorm Gender --</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="dorm">Dorm Name</label>
+                            <select class="form-control" style="width: 50%" id="dorm" name="dorm" onchange="updateFloorAndRooms()">
+                                <option value="" disabled selected>-- Select Dorm Name --</option>
+                            </select>
+                            <span id="dormError" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
 
-                    <label for="floor">Floor</label>
-                    <select class="form-control" id="floor" name="floor" onchange="updateRoom(0)">
-                        <option value="" disabled selected>-- Select Floor --</option>
-                    </select>
-                    <span id="floorError" class="text-danger"></span>
-                    <span th:if="${error != null}" class="btn danger" th:text="${error}"></span>
+                            <label for="floor">Floor</label>
+                            <select class="form-control" style="width: 50%" id="floor" name="floor" onchange="updateRoom(0)">
+                                <option value="" disabled selected>-- Select Floor --</option>
+                            </select>
+                            <span id="floorError" class="text-danger"></span>
+                            <span th:if="${error != null}" class="btn danger" th:text="${error}"></span>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -468,12 +482,11 @@
                                 </table>
 
                                 <div class="pagination-wrapper">
-                                <nav aria-label="Page navigation">
-                                    <ul id="paginationList" class="pagination">
-                                        <!-- Các nút phân trang sẽ được thêm vào đây bởi JavaScript -->
-                                    </ul>
-                                </nav>
-                            </div>
+                                    <nav aria-label="Page navigation">
+                                        <ul id="paginationList" class="pagination">
+                                        </ul>
+                                    </nav>
+                                </div>
 
 
                             </div>
@@ -485,16 +498,28 @@
                 </div>
             </div>
         </main>
-
-
-
-
-
-
-
     </div>
 
 </div>
+<script>
+    function updategenderAndDormName() {
+        var gender = document.getElementById("gender").value;
+        fetch(`/fpt-dorm/admin/dorms-by-gender?gender=${gender}`)
+            .then(response => response.json())
+            .then(data => {
+                var dormSelect = document.getElementById("dorm");
+                dormSelect.innerHTML = '<option value="" disabled selected>-- Select Dorm Name --</option>';
+                data.forEach(dorm => {
+                    var option = document.createElement("option");
+                    option.value = dorm.dormId;
+                    option.textContent = dorm.dormName;
+                    dormSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+
 
 <script>
     function updateFloorAndRooms() {
@@ -577,10 +602,6 @@
             paginationList.append(last);
         }
     }
-
-
-
-
 
 </script>
 <script src="/static/admin_homepage/plugins/chart.min.js"></script>
