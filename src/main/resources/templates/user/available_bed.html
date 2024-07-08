@@ -69,6 +69,38 @@
                 padding: 10px;
             }
         }
+        .news-section {
+            margin: 30px 0;
+        }
+
+        .news-container {
+            max-height: 400px; /* Adjust the height as needed */
+            overflow-y: scroll;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+        }
+
+        .news-item {
+            margin-bottom: 10px;
+        }
+
+        .news-item a {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            text-decoration: none;
+        }
+
+        .news-item a:hover {
+            text-decoration: underline;
+        }
+
+        .news-item span {
+            display: block;
+            color: #777;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 <body>
@@ -105,10 +137,7 @@
                     <div class="col-sm-6 visible-sm">
                         <div class="text-right">
                             <div class="dropdown">
-                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">
-                                    <USER></USER>
-                                    <span class="caret"></span></a>
+                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
@@ -120,8 +149,7 @@
                     <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
                         <nav class="navbar navbar-default">
                             <div class="navbar-header page-scroll">
-                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle"
-                                        type="button">
+                                <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
                                     <span class="sr-only">Toggle navigation</span>
                                     <span class="icon-bar"></span>
                                     <span class="icon-bar"></span>
@@ -130,10 +158,10 @@
                             </div>
                             <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                 <ul class="list-unstyled nav1 cl-effect-10">
-                                    <li><a data-hover="News" class="active"><span>News</span></a></li>
+                                    <li><a data-hover="News" th:href="@{/fpt-dorm/user/news}"><span>News</span></a></li>
                                     <li><a data-hover="Booking" th:href="@{/fpt-dorm/user/booking}"><span>Booking</span></a>
                                     </li>
-                                    <li><a data-hover="Available beds" th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
+                                    <li><a data-hover="Available beds" class="active" th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
                                     </li>
                                     <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a>
                                     </li>
@@ -153,10 +181,10 @@
                     <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
                         <div class="text-right">
                             <div class="dropdown">
-                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button"
-                                   aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
+                                <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>

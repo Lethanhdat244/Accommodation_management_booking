@@ -5,6 +5,11 @@ import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,10 +28,31 @@ public class ProfileController {
     private UserService userService;
 
     @GetMapping("fpt-dorm/user/profile")
-    public String profile(@RequestParam("email") String email, Model model) {
+    public String profile(Model model) {
+        // Get the current authentication
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = null;
+
+        // Extract email from the authentication object
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            email = oauth2User.getAttribute("email");
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            email = userDetails.getUsername();
+        } else {
+            // Handle cases where the authentication is not OAuth2 or UserDetails
+            email = "Unknown";
+        }
+
+        // Add the email to the model
+        model.addAttribute("email", email);
+
+        // Fetch the user profile using the email
         List<User> users = userRepository.searchByEmail(email);
-        if (users != null) {
-            model.addAttribute("user", users.getFirst());
+        if (users != null && !users.isEmpty()) {
+            model.addAttribute("user", users.get(0));
             return "user_profile";
         } else {
             return "error/error";
@@ -34,24 +60,64 @@ public class ProfileController {
     }
 
     @GetMapping("fpt-dorm/admin/profile")
-    public String admin_profile(@RequestParam("email") String email, Model model) {
-        List<User> users = userRepository.searchByEmail(email);
-        if (users != null) {
-            model.addAttribute("user", users.getFirst());
-            return "admin/admin-profile";
+    public String admin_profile(Model model) {
+        // Get the current authentication
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = null;
 
+        // Extract email from the authentication object
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            email = oauth2User.getAttribute("email");
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            email = userDetails.getUsername();
+        } else {
+            // Handle cases where the authentication is not OAuth2 or UserDetails
+            email = "Unknown";
+        }
+
+        // Add the email to the model
+        model.addAttribute("email", email);
+
+        // Fetch the user profile using the email
+        List<User> users = userRepository.searchByEmail(email);
+        if (users != null && !users.isEmpty()) {
+            model.addAttribute("user", users.get(0));
+            return "admin/admin-profile";
         } else {
             return "error/error";
         }
     }
 
     @GetMapping("fpt-dorm/employee/profile")
-    public String employee_profile(@RequestParam("email") String email, Model model) {
-        List<User> users = userRepository.searchByEmail(email);
-        if (users != null) {
-            model.addAttribute("user", users.getFirst());
-            return "employee/employee-profile";
+    public String employee_profile(Model model) {
+// Get the current authentication
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = null;
 
+        // Extract email from the authentication object
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            email = oauth2User.getAttribute("email");
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            email = userDetails.getUsername();
+        } else {
+            // Handle cases where the authentication is not OAuth2 or UserDetails
+            email = "Unknown";
+        }
+
+        // Add the email to the model
+        model.addAttribute("email", email);
+
+        // Fetch the user profile using the email
+        List<User> users = userRepository.searchByEmail(email);
+        if (users != null && !users.isEmpty()) {
+            model.addAttribute("user", users.get(0));
+            return "employee/employee-profile";
         } else {
             return "error/error";
         }

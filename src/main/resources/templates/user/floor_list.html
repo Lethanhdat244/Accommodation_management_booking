@@ -130,16 +130,18 @@
                             </div>
                             <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
                                 <ul class="list-unstyled nav1 cl-effect-10">
-                                    <li><a data-hover="News" class="active"><span>News</span></a></li>
+                                    <li><a data-hover="News" th:href="@{/fpt-dorm/user/news}"><span>News</span></a></li>
                                     <li><a data-hover="Booking" th:href="@{/fpt-dorm/user/booking}"><span>Booking</span></a>
                                     </li>
-                                    <li><a data-hover="Available beds" th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
+                                    <li><a data-hover="Available beds" class="active"
+                                           th:href="@{/fpt-dorm/user/detail-dorm}"><span>Available beds</span></a>
                                     </li>
                                     <li><a data-hover="Usage service" th:href="@{/fpt-dorm/user/usage-service}"><span>Usage service</span></a>
                                     </li>
                                     <li><a data-hover="Payment" th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a>
                                     </li>
-                                    <li><a data-hover="Resident History" th:href="@{/fpt-dorm/user/resident-history/list}"><span>Resident History</span></a>
+                                    <li><a data-hover="Resident History"
+                                           th:href="@{/fpt-dorm/user/resident-history/list}"><span>Resident History</span></a>
                                     </li>
                                     <li><a data-hover="Request"
                                            th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a></li>
@@ -156,7 +158,7 @@
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button"
                                    aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -171,119 +173,112 @@
 
     <div class="container">
         <div class="news-section1">
-            <h2>View by Dom</h2>
-            <div>
-                <label for="dormId">Dorm:</label>
-                <input type="number" id="dormId" name="dormId" required>
-                <button onclick="fetchFloors()">Fetch Floors</button>
-            </div>
-            <script>
-                function fetchFloors() {
-                    const dormId = document.getElementById("dormId").value;
-                    const url = `/fpt-dorm/user/floor-list/${dormId}`;
-                    window.location.href = url;
-                }
-            </script>
-            <table th:if="${floorBedUsageList != null && !floorBedUsageList.isEmpty()}">
-                <thead>
-                <tr>
-                    <th>Floor Number</th>
-                    <th>Used Beds</th>
-                    <th>Free Beds</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="floorUsage : ${floorBedUsageList}">
-                    <td th:text="${floorUsage.floor.floorNumber}"></td>
-                    <td th:text="${floorUsage.usedBeds}"></td>
-                    <td th:text="${floorUsage.freeBeds}"></td>
-                    <td style="font-weight: bold; color: blue;">
-                        <a th:href="@{/fpt-dorm/user/room-list-used/{floorId}(floorId=${floorUsage.floor.floorId})}">
-                            Detail
-                        </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <h2 style="color: red" th:if="${floorBedUsageList == null || floorBedUsageList.isEmpty()}">No floors found for this dorm.</h2>
-        </div>
-    </div>
+            <button onclick="window.history.back();" class="btn btn-primary">Back</button>
 
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12 width-set-50">
-                    <div class="footer-details">
-                        <h4>Get in touch</h4>
-                        <ul class="list-unstyled footer-contact-list">
-                            <li>
-                                <i class="fa fa-map-marker fa-lg"></i>
-                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch
-                                    Thất, TP. HN</p>
-                            </li>
-                            <li>
-                                <i class="fa fa-phone fa-lg"></i>
-                                <p><a href="tel:+84-24-7300-1866"> +84-24-7300-1866</a></p>
-                            </li>
-                            <li>
-                                <i class="fa fa-envelope-o fa-lg"></i>
-                                <p><a href="mailto:dormbooking@fpt.edu.vn"> dormbooking@fpt.edu.vn</a></p>
-                            </li>
-                        </ul>
-                        <div class="footer-social-icon">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        </div>
-                        <div class="input-group" id="subscribe">
-                            <input type="text" class="form-control subscribe-box" value="" name="subscribe"
-                                   placeholder="EMAIL ID">
-                            <span class="input-group-btn">
+            <h2>View by Dorm</h2>
+            <div>
+                <table th:if="${floorBedUsageList != null && !floorBedUsageList.isEmpty()}">
+                    <thead>
+                    <tr>
+                        <th>Floor Number</th>
+                        <th>Used Beds</th>
+                        <th>Free Beds</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="floorUsage : ${floorBedUsageList}">
+                        <td th:text="${floorUsage.floor.floorNumber}"></td>
+                        <td th:text="${floorUsage.usedBeds}"></td>
+                        <td th:text="${floorUsage.freeBeds}"></td>
+                        <td style="font-weight: bold; color: blue;">
+                            <a th:href="@{/fpt-dorm/user/room-list-used/{floorId}(floorId=${floorUsage.floor.floorId})}">
+                                Detail
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h2 style="color: red" th:if="${floorBedUsageList == null || floorBedUsageList.isEmpty()}">No floors
+                    found for this dorm.</h2>
+            </div>
+        </div>
+
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-xs-12 width-set-50">
+                        <div class="footer-details">
+                            <h4>Get in touch</h4>
+                            <ul class="list-unstyled footer-contact-list">
+                                <li>
+                                    <i class="fa fa-map-marker fa-lg"></i>
+                                    <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long,
+                                        Thạch
+                                        Thất, TP. HN</p>
+                                </li>
+                                <li>
+                                    <i class="fa fa-phone fa-lg"></i>
+                                    <p><a href="tel:+84-24-7300-1866"> +84-24-7300-1866</a></p>
+                                </li>
+                                <li>
+                                    <i class="fa fa-envelope-o fa-lg"></i>
+                                    <p><a href="mailto:dormbooking@fpt.edu.vn"> dormbooking@fpt.edu.vn</a></p>
+                                </li>
+                            </ul>
+                            <div class="footer-social-icon">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a href="#"><i class="fa fa-google-plus"></i></a>
+                                <a href="#"><i class="fa fa-youtube-play"></i></a>
+                            </div>
+                            <div class="input-group" id="subscribe">
+                                <input type="text" class="form-control subscribe-box" value="" name="subscribe"
+                                       placeholder="EMAIL ID">
+                                <span class="input-group-btn">
                                 <button type="button" class="btn subscribe-button"><i
                                         class="fa fa-paper-plane fa-lg"></i></button>
                             </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 width-50 width-set-50">
-                    <div class="footer-details">
-                        <h4>Explore</h4>
-                        <ul class="list-unstyled footer-links">
-                            <li><a th:href="@{/fpt-dorm/home}">Home</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/about}">About</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/room}">Rooms</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/gallery}">Gallery</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/dinning}">Dining</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/contact}">Contact</a></li>
-                        </ul>
+                    <div class="col-md-3 col-sm-6 col-xs-12 width-50 width-set-50">
+                        <div class="footer-details">
+                            <h4>Explore</h4>
+                            <ul class="list-unstyled footer-links">
+                                <li><a th:href="@{/fpt-dorm/home}">Home</a></li>
+                                <li><a th:href="@{/fpt-dorm/home/about}">About</a></li>
+                                <li><a th:href="@{/fpt-dorm/home/room}">Rooms</a></li>
+                                <li><a th:href="@{/fpt-dorm/home/gallery}">Gallery</a></li>
+                                <li><a th:href="@{/fpt-dorm/home/dinning}">Dining</a></li>
+                                <li><a th:href="@{/fpt-dorm/home/contact}">Contact</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
-                    <div class="footer-details">
-                        <h4>Now On Instagram</h4>
-                        <div class="row">
-                            <div class="instagram-images">
-                                <div id="instafeed"></div>
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="footer-details">
+                            <h4>Now On Instagram</h4>
+                            <div class="row">
+                                <div class="instagram-images">
+                                    <div id="instafeed"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="copyright">
+                    &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home"
+                                                                    target="_blank">SWP391</a>.
+                </div>
             </div>
-            <div class="copyright">
-                &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home"
-                                                                target="_blank">SWP391</a>.
-            </div>
-        </div>
-    </footer>
+        </footer>
 
-    <!--back to top--->
-    <a style="display: none;" href="javascript:void(0);" class="scrollTop back-to-top" id="back-to-top">
-        <span><i aria-hidden="true" class="fa fa-angle-up fa-lg"></i></span>
-        <span>Top</span>
-    </a>
-</div>
+        <!--back to top--->
+        <a style="display: none;" href="javascript:void(0);" class="scrollTop back-to-top" id="back-to-top">
+            <span><i aria-hidden="true" class="fa fa-angle-up fa-lg"></i></span>
+            <span>Top</span>
+        </a>
+    </div>
 </body>
 </html>
