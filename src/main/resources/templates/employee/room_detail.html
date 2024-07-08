@@ -173,23 +173,20 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn active">
+                        <a id="menu-room" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Room
                             <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                                <span class="sr-only">Open list</span>
+                                <span class="icon arrow-down" aria-hidden="true"></span>
+                            </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                                <a id="menu-all-room" class="" th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_new_room}">Add new room</a>
+                                <a>Add new room</a>
                             </li>
-                            <!--                            <li>-->
-                            <!--                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>-->
-                            <!--                            </li>-->
                         </ul>
                     </li>
 
@@ -427,6 +424,23 @@
         </footer>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-room');
+        const B = document.getElementById('menu-all-room');
+
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script>
 <!-- Chart library -->
 <script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
