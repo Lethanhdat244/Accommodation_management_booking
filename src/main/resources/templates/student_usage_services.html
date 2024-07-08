@@ -173,10 +173,10 @@
                         <tr th:each="u : ${usageServiceList}">
                             <td th:text="${u.serviceBookingId}"></td>
                             <td th:text="${u.formattedCreatedAt}"></td>
-                            <td th:text="${u.electricity}"></td>
-                            <td th:text="${u.water}"></td>
-                            <td th:text="${u.others}"></td>
-                            <td th:text="${u.others + u.water + u.electricity}"></td>
+                            <td th:text="${#numbers.formatDecimal(u.electricity, 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(u.water, 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(u.others, 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(u.others + u.water + u.electricity, 1, 'COMMA', 2, 'POINT')}"></td>
                         </tr>
                         </tbody>
                         <tbody th:if="${emptyMessage != null}">
@@ -222,17 +222,24 @@
                 <div>
                     <ul class="formList" th:if="${usageService != null}">
                         <li>
-                            <p>Electric: <span th:text="${usageService.electricity} + ' VND'"></span></p>
+                            <p>Electric: <span
+                                    th:text="${#numbers.formatDecimal(usageService.electricity, 1, 'COMMA', 2, 'POINT') + ' VND'}"></span>
+                            </p>
                         </li>
                         <li>
-                            <p>Water: <span th:text="${usageService.water} + 'VND'"></span></p>
+                            <p>Water: <span
+                                    th:text="${#numbers.formatDecimal(usageService.water, 1, 'COMMA', 2, 'POINT') + ' VND'}"></span>
+                            </p>
                         </li>
                         <li>
-                            <p>Service: <span th:text="${usageService.others} + 'VND'"></span></p>
+                            <p>Service: <span
+                                    th:text="${#numbers.formatDecimal(usageService.others, 1, 'COMMA', 2, 'POINT') + ' VND'}"></span>
+                            </p>
                         </li>
                         <li>
-                            <p>Total: <span id="total-vnd"
-                                            th:text="${usageService.others + usageService.water + usageService.electricity} + 'VND'"></span>
+                            <p>Total:
+                                <span id="total-vnd"
+                                      th:text="${#numbers.formatDecimal(usageService.others + usageService.water + usageService.electricity, 1, 'COMMA', 2, 'POINT')} + ' VND'"></span>
                             </p>
                         </li>
                         <li>
@@ -354,13 +361,15 @@
             console.error('Total USD element not found');
             return;
         }
-        const vndAmount = parseFloat(vndElement.textContent);
+        const vndText = vndElement.textContent.trim();
+        const vndAmount = parseFloat(vndText.replace(/,/g, ''));
         if (isNaN(vndAmount)) {
             console.error('Invalid VND amount');
             return;
         }
         const usdAmount = (vndAmount * exchangeRate).toFixed(2);
         usdElement.textContent = usdAmount + '$';
+        console.log((vndAmount))
     }
 
     document.addEventListener('DOMContentLoaded', fetchExchangeRate);

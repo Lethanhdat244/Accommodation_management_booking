@@ -32,7 +32,7 @@ public class UsageServiceController {
     @GetMapping("/fpt-dorm/user/usage-service")
     public String fptDormUsedServices(Model model,
                                       @RequestParam(defaultValue = "0") int page,
-                                      @RequestParam(defaultValue = "8") int size,
+                                      @RequestParam(defaultValue = "3") int size,
                                       Authentication authentication) {
         Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
