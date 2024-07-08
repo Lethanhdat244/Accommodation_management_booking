@@ -1,5 +1,6 @@
 package com.accommodation_management_booking.entity;
 
+import com.accommodation_management_booking.service.impl.MaintenanceStatusConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,7 +30,9 @@ public class Bed {
     @Column(nullable = false)
     private Boolean isAvailable = true;
 
-    @Enumerated(EnumType.STRING)
+
+
+    @Convert(converter = MaintenanceStatusConverter.class)
     @Column(nullable = false)
     private MaintenanceStatus maintenanceStatus = MaintenanceStatus.Available;
 
@@ -44,4 +47,8 @@ public class Bed {
     public enum MaintenanceStatus {
         Available, UnderMaintenance
     }
+
+
+
+
 }

@@ -158,7 +158,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -180,7 +180,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a class="show-cat-btn" >
                             <span class="icon folder" aria-hidden="true"></span>Room
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -189,7 +189,7 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
                             <li>
                                 <a th:href="@{admin_add_new_room}">Add new room</a>
@@ -201,7 +201,7 @@
                     </li>
 
                     <li>
-                        <a class="show-cat-btn">
+                        <a class="show-cat-btn" >
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -220,23 +220,36 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_payment_list}">
+                        <a class="show-cat-btn" href="#">
+                            <span class="icon folder" aria-hidden="true"></span>Payment
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
+                                    Payments</a>
+                            </li>
+                            <li>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                    Request</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Payment
+                            Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_booking_list}">
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
+                            Resident History
                         </a>
                     </li>
 
@@ -254,12 +267,6 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a class="active">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Usage Service
-                        </a>
-                    </li>
 
                     <li>
                         <a th:href="@{/fpt-dorm/employee/notifications}">
@@ -273,9 +280,8 @@
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
