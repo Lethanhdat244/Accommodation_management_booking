@@ -88,12 +88,13 @@ public class VNPayController {
         booking.setTotalPrice(totalPrice);
         bookingRepository.save(booking);
 
-        bed.setIsAvailable(false);
-        bedRepository.save(bed);
+//        bed.setIsAvailable(false);
+//        bedRepository.save(bed);
 
         // Store booking ID in session
         request.getSession().setAttribute("bookingId", booking.getBookingId());
         request.getSession().setAttribute("totalPrice", totalPrice);
+        request.getSession().setAttribute("bedId", bed.getBedId());
 
         String vnp_Version = "2.1.0";
         String vnp_Command = "pay";
@@ -168,6 +169,10 @@ public class VNPayController {
     public String cancelPay(HttpServletRequest request) {
         Integer bookingId = (Integer) request.getSession().getAttribute("bookingId");
         bookingRepository.deleteById(bookingId);
+        Integer bedId = (Integer) request.getSession().getAttribute("bedId");
+        Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+        bed.setIsAvailable(true);
+        bedRepository.save(bed);
         return "cancel";
     }
 
@@ -192,6 +197,10 @@ public class VNPayController {
             payment.setBooking(booking);
             paymentRepository.save(payment);
 
+            Integer bedId = (Integer) request.getSession().getAttribute("bedId");
+            Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+            bed.setIsAvailable(false);
+            bedRepository.save(bed);
             booking.setAmountPaid(booking.getTotalPrice());
             bookingRepository.save(booking);
 

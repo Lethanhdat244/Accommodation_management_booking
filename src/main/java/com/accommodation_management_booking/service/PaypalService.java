@@ -60,4 +60,26 @@ public class PaypalService {
             paymentExecution.setPayerId(payerId);
             return payment.execute(apiContext, paymentExecution);
         }
+    public void refundPayment(String paymentId, float amount) throws PayPalRESTException {
+        try {
+            // Create a refund request
+            RefundRequest refundRequest = new RefundRequest();
+            refundRequest.setAmount(new Amount().setCurrency("USD").setTotal(String.format("%.2f", amount)));
+
+            // Get the payment and find the sale transaction
+            Payment payment = Payment.get(apiContext, paymentId);
+            Transaction transaction = payment.getTransactions().get(0); // Assuming there's only one transaction
+            RelatedResources relatedResources = transaction.getRelatedResources().get(0); // Assuming there's only one related resource
+            Sale sale = relatedResources.getSale();
+
+            // Create the refund
+            DetailedRefund refund = sale.refund(apiContext, refundRequest);
+
+            System.out.println("Refund ID: " + refund.getId());
+        } catch (PayPalRESTException e) {
+            System.err.println(e.getDetails());
+            throw e;
+        }
+    }
+
 }

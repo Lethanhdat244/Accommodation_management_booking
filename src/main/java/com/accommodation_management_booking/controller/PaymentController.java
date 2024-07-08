@@ -347,19 +347,19 @@ public class PaymentController {
         return "employee/payment/payment_request_detail";
     }
 
-    @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
-    public ResponseEntity<String> cancelBooking(@PathVariable("id") int id) {
-        Optional<Booking> optionalBooking = bookingRepository.findById(id);
-
-        if (optionalBooking.isPresent()) {
-            Booking booking = optionalBooking.get();
-            booking.setStatus(Booking.Status.Canceled);
-            bookingRepository.save(booking);
-            return ResponseEntity.ok("Canceled successfully");
-        } else {
-            return ResponseEntity.status(404).body("Booking not found");
-        }
-    }
+//    @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
+//    public ResponseEntity<String> cancelBooking(@PathVariable("id") int id) {
+//        Optional<Booking> optionalBooking = bookingRepository.findById(id);
+//
+//        if (optionalBooking.isPresent()) {
+//            Booking booking = optionalBooking.get();
+//            booking.setStatus(Booking.Status.Canceled);
+//            bookingRepository.save(booking);
+//            return ResponseEntity.ok("Canceled successfully");
+//        } else {
+//            return ResponseEntity.status(404).body("Booking not found");
+//        }
+//    }
 
     @PostMapping("/fpt-dorm/employee/payment-request/confirm")
     public ResponseEntity<String> confirmPayment(@RequestBody Booking request) {
@@ -839,11 +839,12 @@ public class PaymentController {
 //        booking.setAmountPaid(totalPrice);
         bookingRepository.save(booking);
 
-        bed.setIsAvailable(false);
-        bedRepository.save(bed);
+//        bed.setIsAvailable(false);
+//        bedRepository.save(bed);
 
         // Store booking ID in session
         request.getSession().setAttribute("bookingId", booking.getBookingId());
+        request.getSession().setAttribute("bedId", bed.getBedId());
 
         String cancelUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
         String successUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
@@ -872,6 +873,10 @@ public class PaymentController {
         // Store booking ID in session
         Integer bookingId = (Integer) request.getSession().getAttribute("bookingId");
         bookingRepository.deleteById(bookingId);
+        Integer bedId = (Integer) request.getSession().getAttribute("bedId");
+        Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+        bed.setIsAvailable(true);
+        bedRepository.save(bed);
         return "cancel";
     }
 
@@ -892,6 +897,10 @@ public class PaymentController {
                 payment1.setBooking(booking);
                 paymentRepository.save(payment1);
 
+                Integer bedId = (Integer) request.getSession().getAttribute("bedId");
+                Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+                bed.setIsAvailable(false);
+                bedRepository.save(bed);
                 booking.setAmountPaid(payment1.getBooking().getTotalPrice());
                 bookingRepository.save(booking);
 
@@ -916,7 +925,34 @@ public class PaymentController {
     }
 
 
+    @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
+    public ResponseEntity<String> cancelBooking(@PathVariable("id") int id) {
+        Optional<Booking> optionalBooking = bookingRepository.findById(id);
 
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            booking.setStatus(Booking.Status.Canceled);
+            bookingRepository.save(booking);
+
+            if (booking.getAmountPaid() > 0) {
+                com.accommodation_management_booking.entity.Payment payment = booking.getPayment();
+                if (payment != null) {
+                    try {
+                        paypalService.refundPayment(payment.getPaymentDetail(), booking.getAmountPaid());
+                        return ResponseEntity.ok("Canceled successfully");
+                    } catch (PayPalRESTException e) {
+                        e.printStackTrace();
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Refund failed");
+                    }
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No payment found for this booking");
+                }
+            }
+            return ResponseEntity.ok("Canceled successfully, no payment to refund");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
+        }
+    }
 
 
 
