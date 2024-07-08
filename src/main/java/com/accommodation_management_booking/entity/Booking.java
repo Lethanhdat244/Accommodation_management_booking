@@ -66,6 +66,10 @@ public class Booking {
     private LocalDateTime updatedAt = LocalDateTime.now();
 
 
+    @OneToOne
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
+
     public enum Status {
         Pending, Confirmed, Canceled
     }
