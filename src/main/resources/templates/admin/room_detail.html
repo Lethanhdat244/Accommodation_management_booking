@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Student Payment List</title>
+    <title>Student List</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -95,7 +95,7 @@
             let storedSort = params.get('sort');
 
             if (!storedSort) {
-                const defaultSort = 'paymentId,asc';
+                const defaultSort = 'userId,asc';
                 storedSort = defaultSort;
                 params.set('sort', defaultSort);
                 window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
@@ -110,8 +110,8 @@
             });
         });
         document.addEventListener('DOMContentLoaded', function () {
-            const A = document.getElementById('menu-payment');
-            const B = document.getElementById('menu-all-payments');
+            const A = document.getElementById('menu-student');
+            const B = document.getElementById('menu-all-students');
 
             A.addEventListener('click', function () {
                 if (A.classList.contains('active')) {
@@ -134,12 +134,12 @@
     <aside class="sidebar">
         <div class="sidebar-start">
             <div class="sidebar-head">
-                <a th:href="@{/fpt-dorm/employee/home}" class="logo-wrapper" title="Home">
+                <a th:href="@{/fpt-dorm/admin/home}" class="logo-wrapper" title="Home">
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
                         <span class="logo-title">FPT Dorm</span>
-                        <span class="logo-subtitle">EMPLOYEE</span>
+                        <span class="logo-subtitle">ADMIN</span>
                     </div>
 
                 </a>
@@ -151,31 +151,12 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}" ><span class="icon home"
+                                                                                  aria-hidden="true"></span>Dashboard</a>
                     </li>
-                    <li>
-                        <a id="menu-student" class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Student
-                            <span class="category__btn transparent-btn" title="Open list">
-                                <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                            </span>
-                        </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
-                                    Students</a>
-                            </li>
-                            <li>
-                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
-                                    student</a>
-                            </li>
-                        </ul>
-                    </li>
-
                     <li>
                         <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Room
+                            <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -183,17 +164,30 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_new_room}">Add new room</a>
-                            </li>
-                            <li>
-                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
                             </li>
                         </ul>
                     </li>
-
+                    <li>
+                        <a id="menu-room" class="show-cat-btn active">
+                            <span class="icon folder" aria-hidden="true"></span>Room
+                            <span class="category__btn transparent-btn" title="Open list">
+                                <span class="sr-only">Open list</span>
+                                <span class="icon arrow-down" aria-hidden="true"></span>
+                            </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-room" class="" th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
+                            </li>
+                            <li>
+                                <a>Add new room</a>
+                            </li>
+                        </ul>
+                    </li>
 
                     <li>
                         <a class="show-cat-btn">
@@ -205,17 +199,35 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
+                                <a th:href="@{/fpt-dorm/admin/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
+                                <a th:href="@{/fpt-dorm/admin/add-news}">Add news</a>
                             </li>
 
                         </ul>
                     </li>
 
                     <li>
-                        <a id="menu-payment" class="show-cat-btn active">
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>Employee
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Payment
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -224,35 +236,33 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/admin_payment_list}">All
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
-                                    Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
 
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Usage Service
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Resident History
+                        </a>
+                    </li>
 
                     <li>
                         <a th:href="@{admin/admin_chart}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Chart
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_booking_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
                         </a>
                     </li>
 
@@ -264,15 +274,9 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/fpt-dorm/employee/admin_Resident_History/list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
                         </a>
                     </li>
                 </ul>
@@ -281,9 +285,8 @@
         <div class="sidebar-footer">
             <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -362,7 +365,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
@@ -377,123 +380,52 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Student Payment List</h2>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <form th:action="@{/fpt-dorm/employee/all-payment/student/search}" method="get"
-                              class="search-form">
-                            <input type="hidden" name="userId" th:value="${userId}">
-                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
-                                   class="search-box"/>
-                            <select name="category" class="search-dropdown">
-                                <option value="" th:text="'--Select--'"
-                                        th:selected="${selectedCategory == null}"></option>
-                                <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
-                                <option value="Date" th:text="'Date'"
-                                        th:selected="${selectedCategory == 'Date'}"></option>
-                            </select>
-                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
-                        </form>
-                    </div>
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-4">
-                        <div style="text-align: right;">
-                            Sort by:
-                            <select id="sortDropdown" class="sort-dropdown">
-                                <option value="paymentId,asc">ID Ascending</option>
-                                <option value="paymentId,desc">ID Descending</option>
-                                <option value="paymentDate,asc">Oldest</option>
-                                <option value="paymentDate,desc">Newest</option>
-                                <option value="totalPrice,asc">Amount Ascending</option>
-                                <option value="totalPrice,desc">Amount Descending</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                <h2 class="main-title">Room Detail</h2>
                 <br>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="canvas-wrapper">
                             <div class="users-table table-wrapper">
-                                <table class="posts-table">
+                                <div th:if="${message}">
+                                    <p th:text="${message}" class="alert alert-warning"></p>
+                                </div>
+                                <table class="posts-table" th:if="${not #lists.isEmpty(beds)}">
                                     <thead>
                                     <tr class="users-table-info">
-                                        <th>Payment ID</th>
-                                        <th>Date</th>
-                                        <th>Amount</th>
-                                        <th>Status</th>
-                                        <th>Action</th>
+                                        <th style="width: 33.33%;">Bed Name</th>
+                                        <th style="width: 33.33%;">Is Available</th>
+                                        <th style="width: 33.33%;">Maintenance Status</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="payment : ${paymentPage.content}">
-                                        <td th:text="${payment.paymentId}"></td>
-                                        <td th:text="${payment.paymentDate.toString().substring(0, 10)}"></td>
-                                        <td th:text="${payment.totalPrice}"></td>
+                                    <tr th:each="bed : ${beds}">
+                                        <td th:text="${bed.bedName}"></td>
                                         <td>
-                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Pending')}"
-                                                  class="badge-pending" th:text="${payment.status}"></span>
-                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Confirmed')}"
-                                                  class="badge-success" th:text="${payment.status}"></span>
-                                            <span th:if="${#strings.equalsIgnoreCase(payment.status, 'Canceled')}"
-                                                  class="badge-trashed" th:text="${payment.status}"></span>
+                                            <span th:class="${bed.isAvailable ? 'badge-success' : 'badge-trashed'}"
+                                                  th:text="${bed.isAvailable ? 'Available' : 'Unavailable'}"></span>
                                         </td>
-
                                         <td>
-                                            <a class="btn btn-primary"
-                                               th:href="@{/fpt-dorm/employee/all-payment/student/payment/id={id}(id=${payment.paymentId})}"
-                                               role="button" style="color: #0061f7;">Detail</a>
+    <span th:class="${bed.maintenanceStatus.name() == 'Available' ? 'badge badge-success' : 'badge badge-trashed'}"
+          th:text="${bed.maintenanceStatus.name() == 'Available' ? 'Available' : 'Under Maintenance'}"></span>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
+                                <div th:if="${#lists.isEmpty(beds)}">
+                                    <p class="alert alert-info">No beds available for this room.</p>
+                                </div>
                             </div>
-                            <div>
-                                <h3 th:if="${paymentPage.totalPages == 0}">
-                                    No data recorded
-                                </h3>
-                            </div>
-                            <div class="pagination-wrapper">
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination">
-                                        <li class="page-item" th:classappend="${paymentPage.hasPrevious()} ? '' : 'disabled'">
-                                            <a class="page-link"
-                                               th:href="@{|?page=${paymentPage.number - 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
-                                               aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"
-                                            th:each="i : ${paymentPage.totalPages > 0 ? #numbers.sequence(0, paymentPage.totalPages - 1) : {0}}"
-                                            th:classappend="${paymentPage.number == i} ? 'active'">
-                                            <a class="page-link"
-                                               th:href="@{|?page=${i}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
-                                               th:text="${i + 1}">1</a>
-                                        </li>
-                                        <li class="page-item" th:classappend="${paymentPage.hasNext()} ? '' : 'disabled'">
-                                            <a class="page-link"
-                                               th:href="@{|?page=${paymentPage.number + 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
-                                               aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-
                         </div>
                     </div>
-                </div>
-                <div class="row" style="margin-top: 50px;">
-                    <div class="col-sm-4 d-grid"></div>
-                    <div class="col-sm-4 d-grid">
-                        <a class="btn secondary-default-btn" onclick="window.history.back()"
-                           role="button">Back</a>
+
+                    <div class="offset-sm-2 col-sm-2 d-grid">
+                        <a class="btn secondary-default-btn" href="/fpt-dorm/admin/all-room" role="button">Back</a>
                     </div>
-                    <div class="col-sm-4 d-grid"></div>
                 </div>
             </div>
         </main>
+
+
         <!-- ! Footer -->
         <footer class="footer">
             <div class="container footer--flex">
@@ -509,6 +441,23 @@
         </footer>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-room');
+        const B = document.getElementById('menu-all-room');
+
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script>
 <!-- Chart library -->
 <script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
