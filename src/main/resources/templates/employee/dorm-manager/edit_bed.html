@@ -13,7 +13,101 @@
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
+    <style>
+        .pagination-wrapper {
+            text-align: center; /* Center align the pagination */
+            margin-top: 20px;
+        }
 
+        .pagination {
+            display: inline-flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
+        }
+
+        .pagination .page-item {
+            display: inline;
+        }
+
+        .pagination .page-link {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #000; /* Black text color */
+            background-color: #fff; /* White background color */
+            border: 1px solid #dee2e6;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #e9ecef;
+            color: #000;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+
+        .pagination .page-item.active .page-link {
+            z-index: 1;
+            font-weight: bold; /* Bold text for active page */
+            color: #000;
+            background-color: #fff;
+            border-color: #007bff;
+        }
+
+        .pagination .page-item:first-child .page-link {
+            margin-left: 0;
+            border-top-left-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .pagination .page-item:last-child .page-link {
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .main-title {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .table-wrapper {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary-custom {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .users-item-dropdown.dropdown {
+            background-color: white; /* Thiết lập màu nền cho dropdown */
+            border: 1px solid #ccc; /* Thiết lập viền */
+            padding: 5px; /* Căn lề nội dung bên trong dropdown */
+        }
+    </style>
 </head>
 
 <body>
@@ -261,68 +355,140 @@
 
 
         <!-- ! Main -->
-        <main class="main users chart-page" id="skip-target" style="background-color: white">
+        <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h1 class="main-title" style="padding-bottom: 50px; text-align: center;">Edit Bed</h1>
+                <h2>Add Bed</h2>
 
                 <!-- Success or error messages -->
-                <div style="color: green" th:if="${successMessage}" class="alert alert-success" role="alert">
+                <div style="color: green; margin-top: 30px;" th:if="${successMessage}" class="alert alert-success"
+                     role="alert">
                     <span th:text="${successMessage}"></span>
                 </div>
-                <div style="color: red" th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                <div style="color: red; margin-top: 30px;" th:if="${errorMessage}" class="alert alert-danger"
+                     role="alert">
                     <span th:text="${errorMessage}"></span>
                 </div>
 
-                <!-- Form to edit bed -->
-                <form th:action="@{/fpt-dorm/employee/edit-bed}" th:object="${bed}" method="post">
-                    <input type="hidden" th:field="*{bedId}">
+                <!-- Form to add a new bed -->
+                <div style="padding-top: 20px; height: 280px; width: 500px; margin-top: 30px;"
+                     class="users-table table-wrapper posts-table">
+                    <form action="#" th:action="@{/fpt-dorm/admin/edit-bed}" th:object="${bed}" method="post">
+                        <input type="hidden" th:field="*{bedId}">
 
-                    <!-- Select Room -->
-                    <h2 class="form-group" style="padding-bottom: 50px;">
-                        <label for="roomId">Room:</label>
-                        <select id="roomId" name="roomId" class="form-control" th:field="*{room.roomId}">
-                            <option th:each="room : ${rooms}" th:value="${room.roomId}" th:text="${room.roomNumber}"></option>
-                        </select>
-                    </h2>
-
-                    <!-- Bed Name -->
-                    <h2 class="form-group" style="padding-bottom: 50px;">
-                        <label for="bedName">Bed Name:</label>
-                        <input type="text" id="bedName" name="bedName" class="form-control" th:field="*{bedName}">
-                    </h2>
-
-                    <!-- Available Checkbox -->
-                    <h2 class="form-group" style="padding-bottom: 50px;">
-                        <div class="form-check">
-                            <label class="form-check-label" for="isAvailable">Available</label>
-                            <input type="checkbox" id="isAvailable" name="isAvailable" class="form-check-input"
-                                   th:field="*{isAvailable}">
+                        <!-- Select Room -->
+                        <div class="form-group" style="padding-bottom: 50px; display: none;">
+                            <label for="roomId">Room:</label>
+                            <select id="roomId" name="roomId" class="form-control" th:field="*{room.roomId}">
+                                <option th:each="room : ${rooms}" th:value="${room.roomId}"
+                                        th:text="${room.roomNumber}"></option>
+                            </select>
                         </div>
-                        <!-- Hidden input to ensure a value is always submitted -->
-                        <input type="hidden" name="isAvailable" value="false">
-                    </h2>
 
-                    <!-- Maintenance Status Dropdown -->
-                    <h2 class="form-group" style="padding-bottom: 50px;">
-                        <label for="maintenanceStatus">Maintenance Status:</label>
-                        <select id="maintenanceStatus" name="maintenanceStatus" class="form-control"
-                                th:field="*{maintenanceStatus}">
-                            <option value="Available">Available</option>
-                            <option value="UnderMaintenance">Under Maintenance</option>
-                        </select>
-                    </h2>
+                        <!-- Bed Name -->
+                        <div class="form-group">
+                            <label for="bedName">Bed Name:</label>
+                            <input type="text" id="bedName" name="bedName" class="form-control" th:field="*{bedName}" required>
+                        </div>
 
-                    <!-- Submit and Back buttons -->
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary"
-                                style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
-                            Update Bed
-                        </button>
-                        <a th:href="@{'/fpt-dorm/employee/list-beds/' + ${bed.room.roomId}}" class="btn btn-secondary" style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
-                            Back to List
-                        </a>
+                        <!-- Available Checkbox -->
+                        <div class="form-group" style="margin-top: 30px;">
+                            <div class="form-check">
+                                <label class="form-check-label" for="isAvailable">Available</label>
+                                <input type="checkbox" id="isAvailable" name="isAvailable" class="form-check-input"
+                                       th:checked="${bed.isAvailable}">
+                            </div>
+                            <!-- Hidden input to ensure a value is always submitted -->
+                            <input type="hidden" name="isAvailable" value="false">
+                        </div>
+
+                        <!-- Maintenance Status Dropdown -->
+                        <div class="form-group" style="margin-top: 30px;">
+                            <label for="maintenanceStatus">Maintenance Status:</label>
+                            <select id="maintenanceStatus" name="maintenanceStatus" class="form-control"
+                                    th:field="*{maintenanceStatus}">
+                                <option value="Available">Available</option>
+                                <option value="UnderMaintenance">Under Maintenance</option>
+                            </select>
+                        </div>
+
+
+                        <!-- Submit and Back buttons -->
+                        <div class="form-group" style="margin-top: 30px;">
+                            <button type="submit" class="btn btn-primary"
+                                    style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
+                                Update Bed
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-lg-11">
+                        <div class="users-table table-wrapper">
+
+                            <table class="posts-table">
+                                <thead>
+                                <tr>
+                                    <th>Room</th>
+                                    <th>Name</th>
+                                    <th>Available</th>
+                                    <th>Maintenance Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="bed : ${beds}">
+                                    <td th:text="${bed.room.roomNumber}">101</td>
+                                    <td th:text="${bed.bedName}">Bed A</td>
+                                    <td th:text="${bed.isAvailable ? 'Yes' : 'No'}">Yes</td>
+                                    <td th:text="${bed.maintenanceStatus}">Available</td>
+                                    <td>
+                                        <a style="color: red"
+                                           th:href="@{/fpt-dorm/employee/edit-bed/{bedId}(bedId=${bed.bedId})}">Edit</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <button class="btn btn-primary"
+                                    style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;"
+                                    onclick="goBack()">Back
+                            </button>
+
+                            <script>
+                                function goBack() {
+                                    window.history.back();
+                                }
+                            </script>
+                            <div class="pagination-wrapper">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <li class="page-item" th:classappend="${beds.first ? 'disabled' : ''}">
+                                            <a class="page-link"
+                                               th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${roomId},page=0)}"
+                                               aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"
+                                            th:each="pageNum : ${#numbers.sequence(0, beds.totalPages - 1)}"
+                                            th:class="${beds.number == pageNum ? 'active' : ''}">
+                                            <a class="page-link"
+                                               th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${roomId},page=${pageNum})}"
+                                               th:text="${pageNum + 1}"></a>
+                                        </li>
+                                        <li class="page-item" th:classappend="${beds.last ? 'disabled' : ''}">
+                                            <a class="page-link"
+                                               th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${roomId},page=${beds.number + 1})}"
+                                               aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
                     </div>
-                </form>
+                </div>
             </div>
         </main>
 

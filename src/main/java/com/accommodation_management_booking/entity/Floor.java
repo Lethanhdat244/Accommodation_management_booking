@@ -35,6 +35,4 @@ public class Floor {
     @UpdateTimestamp
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "floor")
-    private List<Room> rooms;
 }

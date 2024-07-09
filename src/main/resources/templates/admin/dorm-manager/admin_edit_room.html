@@ -1,15 +1,56 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Edit Room</title>
+    <title>Dashboard | Dashboard</title>
+    <!-- Favicon -->
+    <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .main-title {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .table-wrapper {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary-custom {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .users-item-dropdown.dropdown {
+            background-color: white; /* Thiết lập màu nền cho dropdown */
+            border: 1px solid #ccc; /* Thiết lập viền */
+            padding: 5px; /* Căn lề nội dung bên trong dropdown */
+        }
+
+    </style>
 </head>
 <body>
+<
 <div class="layer"></div>
 <!-- ! Body -->
 <div class="page-flex">
@@ -35,7 +76,7 @@
                 <ul class="sidebar-body-menu">
                     <li>
                         <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home"
-                                                                                  aria-hidden="true"></span>Dashboard</a>
+                                                                   aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn">
@@ -123,7 +164,8 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class=""
+                                   th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
@@ -242,8 +284,10 @@
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
                                 <picture>
-                                    <source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp">
-                                    <img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name">
+                                    <source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp"
+                                            type="image/webp">
+                                    <img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png"
+                                         alt="User name">
                                 </picture>
                             </span>
                         </button>
@@ -266,26 +310,66 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h1>Edit Room in Floor <span th:text="${floorNumber}">Floor Number</span> in Dorm <span th:text="${dormName}">Dorm Name</span></h1>
-                <form th:action="@{'/fpt-dorm/admin/edit-room/' + ${dormId} + '/' + ${floorId} + '/' + ${room.roomId}}" th:object="${room}" method="post">
-                    <div>
-                        <label>Room Number:</label>
-                        <input type="text" th:field="*{roomNumber}" />
-                    </div>
-                    <div>
-                        <label>Capacity:</label>
-                        <input type="number" th:field="*{capacity}" />
-
+                <h2>Edit Room in Floor <span th:text="${floorNumber}">Floor Number</span> in Dorm <span
+                        th:text="${dormName}">Dorm Name</span></h2>
+                <h2 th:if="${error}" style="color: red; margin-top: 30px;">
+                    <p th:text="${error}"></p>
+                </h2>
+                <script th:if="${error != null}">
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 3000); // Redirect after 3 seconds if no error
+                </script>
+                <div style="padding-top: 20px; height: 300px; width: 500px; margin-top: 30px;"
+                     class="users-table table-wrapper posts-table">
+                    <form th:action="@{'/fpt-dorm/admin/edit-room/' + ${dormId} + '/' + ${floorId} + '/' + ${room.roomId}}"
+                          th:object="${room}" method="post">
                         <div>
-                            <label>Price per Bed:</label>
-                            <input type="number" th:field="*{pricePerBed}" step="0.01" />
+                            <label>Room Number:</label>
+                            <input type="text" th:field="*{roomNumber}" required/>
                         </div>
-                        <button  type="submit" style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
-                           Update Room
+                        <div style="margin-top: 30px;">
+                            <label>Capacity:</label>
+                            <input type="number" th:field="*{capacity}" required min="0"/>
+                        </div>
+
+                        <div style="margin-top: 30px;">
+                            <label>Price per Bed:</label>
+                            <input type="number" th:field="*{pricePerBed}" step="1" required min="0"/>
+                        </div>
+                        <button type="submit"
+                                style="background-color: blue; margin-top: 30px; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
+                            Update Room
                         </button>
+                    </form>
+                </div>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-lg-11">
+                        <div class="users-table table-wrapper">
+                            <table class="posts-table">
+                                <thead>
+                                <tr>
+                                    <th>Room Number</th>
+                                    <th>Capacity</th>
+                                    <th>Price Per Bed</th>
+                                </tr>
+                                <tbody>
+                                <tr th:each="room : ${rooms}">
+                                    <td th:text="${room.roomNumber}"></td>
+                                    <td th:text="${room.capacity}"></td>
+                                    <td th:text="${room.pricePerBed}"></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                            <a th:href="@{/fpt-dorm/admin/view-floor-list/{dormId}(dormId=${dormId})}"
+                               class="btn btn-primary"
+                               style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
+                                Back
+                            </a>
+                        </div>
                     </div>
-                </form>
-                <p th:if="${error}" th:text="${error}"></p>
+                </div>
             </div>
         </main>
 

@@ -8,6 +8,7 @@ import com.accommodation_management_booking.entity.Room;
 import com.accommodation_management_booking.repository.BedRepository;
 import com.accommodation_management_booking.repository.DormRepository;
 import com.accommodation_management_booking.repository.FloorRepository;
+import com.accommodation_management_booking.repository.RoomRepository;
 import com.accommodation_management_booking.service.FloorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,8 @@ public class FloorServiceImpl implements FloorService {
 
     @Autowired
     private BedRepository bedRepository;
+    @Autowired
+    private RoomRepository roomRepository;
 
     @Override
     public List<Floor> getFloorsByDormId(int dormId) {
@@ -36,26 +39,22 @@ public class FloorServiceImpl implements FloorService {
 
     @Override
     public List<FloorBedUsage> getFloorBedUsageByDormId(Integer dormId) {
-        Dorm dorm = dormRepository.findById(dormId).orElse(null); // Assuming you have a DormRepository
-        if (dorm == null) {
-            throw new IllegalArgumentException("Dorm not found with id: " + dormId);
-        }
+        Dorm dorm = dormRepository.findById(dormId).orElseThrow(() -> new IllegalArgumentException("Dorm not found with id: " + dormId));
 
         List<Floor> floors = floorRepository.findByDormDormId(dormId);
         return floors.stream().map(floor -> {
             int totalBeds = 0;
             int usedBeds = 0;
-            for (Room room : floor.getRooms()) {
-                for (Bed bed : room.getBeds()) {
-                    totalBeds++;
-                    if (!bed.getIsAvailable()) {
-                        usedBeds++;
-                    }
-                }
+            List<Room> rooms = roomRepository.findByFloorFloorId(floor.getFloorId()); // Fetch rooms by floor ID
+            for (Room room : rooms) {
+                List<Bed> beds = bedRepository.findByRoomRoomId(room.getRoomId()); // Fetch beds by room ID
+                totalBeds += beds.size();
+                usedBeds += beds.stream().filter(bed -> !bed.getIsAvailable()).count();
             }
             return new FloorBedUsage(floor, dorm, dormId, totalBeds, usedBeds, totalBeds - usedBeds);
         }).collect(Collectors.toList());
     }
+
 
 
 

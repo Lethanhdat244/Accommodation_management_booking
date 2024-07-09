@@ -19,4 +19,8 @@ public interface BedRepository extends JpaRepository<Bed, Integer> {
     Bed findByRoomAndBedName(Room room, String bedName);
 
     boolean existsByRoom_RoomIdAndBedName(int roomId, String bedName);
+    List<Bed> findByRoomRoomId(Integer roomId);
+    boolean existsByRoomRoomIdAndBedName(int roomId, String bedName);
+
+    Bed findByBedName(String bedName);
 }

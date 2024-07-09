@@ -25,6 +25,9 @@ public class BedServiceImpl  implements BedService {
     @Override
     @Transactional
     public void addBedToRoom(int roomId, String bedName) {
+        if (bedRepository.existsByRoomRoomIdAndBedName(roomId, bedName)) {
+            throw new IllegalArgumentException("Bed with name " + bedName + " already exists in this room.");
+        }
         Optional<Room> optionalRoom = roomRepository.findById(roomId);
         if (optionalRoom.isPresent()) {
             Room room = optionalRoom.get();
@@ -88,5 +91,9 @@ public class BedServiceImpl  implements BedService {
     @Override
     public boolean bedNameExistsInRoom(int roomId, String bedName) {
         return bedRepository.existsByRoom_RoomIdAndBedName(roomId, bedName);
+    }
+    @Override
+    public Bed getBedByName(String bedName) {
+        return bedRepository.findByBedName(bedName); // Implement findByBedName in your repository
     }
 }

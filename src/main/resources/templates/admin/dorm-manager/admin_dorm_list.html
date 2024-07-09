@@ -14,17 +14,20 @@
     body {
         background-color: #f8f9fa;
     }
+
     .main-title {
         margin-top: 20px;
         margin-bottom: 20px;
         text-align: center;
     }
+
     .table-wrapper {
         background-color: #ffffff;
         border-radius: 5px;
         padding: 20px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
+
     .btn-primary-custom {
         background-color: #007bff;
         color: white;
@@ -60,7 +63,7 @@
                 <ul class="sidebar-body-menu">
                     <li>
                         <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home"
-                                                                                  aria-hidden="true"></span>Dashboard</a>
+                                                                   aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn">
@@ -148,7 +151,8 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class=""
+                                   th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
@@ -267,8 +271,10 @@
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
                                 <picture>
-                                    <source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp">
-                                    <img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name">
+                                    <source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp"
+                                            type="image/webp">
+                                    <img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png"
+                                         alt="User name">
                                 </picture>
                             </span>
                         </button>
@@ -288,20 +294,22 @@
 
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">View Dorms</h2>
-                <div th:if="${error}" style="color: red;">
+                <h2>View Dorms</h2>
+                <div th:if="${error}" style="color: red; margin-top: 30px; ">
                     <p th:text="${error}"></p>
                 </div>
                 <script th:if="${error != null}">
-                    setTimeout(function() {
+                    setTimeout(function () {
                         window.history.back();
                     }, 3000); // Redirect after 3 seconds if no error
                 </script>
-                <div id="addDormForm" style="display: none; padding-top: 20px;">
+
+                <div id="addDormForm" style="display: none; padding-top: 20px; height: 200px; width: 500px; margin-top: 30px;"
+                     class="users-table table-wrapper posts-table">
                     <form action="/fpt-dorm/admin/save" method="post" th:object="${dorm}">
                         <input type="hidden" th:field="*{dormId}">
                         <p>Dorm Name: <input type="text" th:field="*{dormName}" required></p>
-                        <p>Dorm Gender:
+                        <p style="margin-top: 50px;">Dorm Gender:
                             <select th:field="*{dormGender}">
                                 <option th:each="gender : ${T(com.accommodation_management_booking.entity.Dorm$DormGender).values()}"
                                         th:value="${gender}" th:text="${gender}"></option>
@@ -316,45 +324,60 @@
                     </form>
                 </div>
 
-                <div class="row" style="text-align: center;">
+
+                <div class="row" style="text-align: center; margin-top: 30px;">
                     <div class="col-lg-11">
                         <div class="users-table table-wrapper">
                             <table class="posts-table">
                                 <thead>
                                 <tr class="users-table-info">
-                                    <th style="text-align: center;">Dorm Name</th>
-                                    <th style="text-align: center;">Dorm Gender</th>
-                                    <th style="text-align: center;">Total Beds</th>
-                                    <th style="text-align: center;">Used Beds</th>
-                                    <th style="text-align: center;">Available Beds</th>
-                                    <th style="text-align: center;">Action</th>
+                                    <th>Dorm Name</th>
+                                    <th>Dorm Gender</th>
+                                    <th>Total Beds</th>
+                                    <th>Used Beds</th>
+                                    <th>Available Beds</th>
+                                    <th>Action</th>
                                 </tr>
                                 </thead>
-                                <tbody th:each="dormBedInfo : ${dormBedInfoList}">
-                                <tr>
-                                    <td style="text-align: center;" th:text="${dormBedInfo.dormName}"></td>
-                                    <td style="text-align: center;" th:text="${dormBedInfo.dormGender}"></td>
-                                    <td style="text-align: center;" th:text="${dormBedInfo.totalBeds}"></td>
-                                    <td style="text-align: center;" th:text="${dormBedInfo.usedBeds}"></td>
-                                    <td style="text-align: center;" th:text="${dormBedInfo.availableBeds}"></td>
-                                    <td style="text-align: center;">
-                                        <select onchange="handleActionChange(this)">
-                                            <option value="">Select Action</option>
-                                            <option th:value="'/fpt-dorm/admin/view-floor-list/' + ${dormBedInfo.dormId}">Floor Detail</option>
-                                            <option th:value="'/fpt-dorm/admin/edit-dorm-form/' + ${dormBedInfo.dormId}">Quick Edit</option>
-                                            <option th:value="'/fpt-dorm/admin/delete-dorm/' + ${dormBedInfo.dormId}">Delete</option>
-                                        </select>
+                                <tbody>
+                                <tr th:each="dormBedInfo : ${dormBedInfoList}">
+                                    <td th:text="${dormBedInfo.dormName}"></td>
+                                    <td th:text="${dormBedInfo.dormGender}"></td>
+                                    <td th:text="${dormBedInfo.totalBeds}"></td>
+                                    <td th:text="${dormBedInfo.usedBeds}"></td>
+                                    <td th:text="${dormBedInfo.availableBeds}"></td>
+                                    <td>
+                <span class="p-relative">
+                    <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                        <div class="sr-only">More info</div>
+                        <i data-feather="more-horizontal" aria-hidden="true"></i>
+                    </button>
+                    <ul class="users-item-dropdown dropdown">
+                        <li><a th:href="'/fpt-dorm/admin/view-floor-list/' + ${dormBedInfo.dormId}">Floor Detail</a></li>
+                        <li><a th:href="'/fpt-dorm/admin/edit-dorm-form/' + ${dormBedInfo.dormId}">Quick Edit</a></li>
+                        <li><a th:href="'/fpt-dorm/admin/delete-dorm/' + ${dormBedInfo.dormId}">Delete</a></li>
+                    </ul>
+                </span>
                                     </td>
                                 </tr>
                                 </tbody>
                             </table>
+
                             <div style="text-align: left;">
                                 <button id="addDormButton" class="btn btn-primary"
                                         style="background-color: blue; color: white; padding: 10px 20px; border-radius: 5px; border: none; cursor: pointer;"
-                                        onclick="toggleAddDormForm()">Add Dorm</button>
-                                <a href="/fpt-dorm/admin/home"
-                                   class="btn btn-primary"
-                                   style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">Back</a>
+                                        onclick="toggleAddDormForm()">Add Dorm
+                                </button>
+                                <button class="btn btn-primary"
+                                        style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;"
+                                        onclick="goBack()">Back
+                                </button>
+
+                                <script>
+                                    function goBack() {
+                                        window.history.back();
+                                    }
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -376,12 +399,7 @@
                 }
             }
 
-            function handleActionChange(select) {
-                var selectedOption = select.value;
-                if (selectedOption) {
-                    window.location.href = selectedOption;
-                }
-            }
+
         </script>
 
     </div>

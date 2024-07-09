@@ -13,4 +13,6 @@ public interface BedService {
     void deleteBed(int bedId);
 
     public boolean bedNameExistsInRoom(int roomId, String bedName);
+
+    Bed getBedByName(String bedName);
 }

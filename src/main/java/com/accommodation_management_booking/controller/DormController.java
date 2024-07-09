@@ -14,6 +14,7 @@ import com.accommodation_management_booking.service.DormService;
 import com.accommodation_management_booking.service.FloorService;
 import com.accommodation_management_booking.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -72,11 +73,6 @@ public class DormController {
         model.addAttribute("roomBedUsageList", roomBedUsageList);
         return "user/used_room_list";
     }
-
-
-
-
-
 
 
     @GetMapping("/fpt-dorm/admin/view-dorm-list")
@@ -138,21 +134,6 @@ public class DormController {
             return "admin/dorm-manager/admin_edit_dorm_form";
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     @GetMapping("/fpt-dorm/admin/view-floor-list/{dormId}")
@@ -232,25 +213,6 @@ public class DormController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/fpt-dorm/admin/view-rooms/{dormId}/{floorId}")
     public String viewRooms(@PathVariable int dormId, @PathVariable int floorId, Model model) {
         try {
@@ -276,7 +238,6 @@ public class DormController {
             return "admin/dorm-manager/admin_floor_list";
         }
     }
-
 
 
     @GetMapping("/fpt-dorm/admin/add-room/{dormId}/{floorId}")
@@ -353,7 +314,8 @@ public class DormController {
             model.addAttribute("room", room);
             model.addAttribute("dormId", dormId);
             model.addAttribute("floorId", floorId);
-
+            List<Room> rooms = roomService.getRoomsByFloorId(floorId);
+            model.addAttribute("rooms", rooms);
             String dormName = dormService.getDormNameById(dormId);
             model.addAttribute("dormName", dormName);
 
@@ -406,23 +368,6 @@ public class DormController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/fpt-dorm/admin/list-beds/{roomId}")
     public String listBeds(Model model, @RequestParam(defaultValue = "0") int page, @PathVariable int roomId) {
         // Create a PageRequest with sorting by bedName in ascending order
@@ -430,7 +375,7 @@ public class DormController {
 
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
-
+        model.addAttribute("roomId", roomId);
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
         model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
@@ -439,10 +384,16 @@ public class DormController {
     }
 
 
+    @GetMapping("/fpt-dorm/admin/add-bed/{roomId}")
+    public String showAddBedForm(Model model, @RequestParam(defaultValue = "0") int page, @PathVariable int roomId) {
+        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "bedName"));
 
-
-    @GetMapping("/fpt-dorm/admin/add-bed")
-    public String showAddBedForm(Model model) {
+        // Fetch the paginated and sorted list of beds
+        Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
+        model.addAttribute("roomId", roomId);
+        model.addAttribute("beds", bedsPage);
+        model.addAttribute("currentPage", page); // Current page number
+        model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
         model.addAttribute("rooms", roomService.getAllRooms()); // Get all rooms to populate dropdown
         model.addAttribute("bed", new Bed()); // BedForm is a DTO for form submission
         return "admin/dorm-manager/add-bed";
@@ -461,8 +412,16 @@ public class DormController {
     }
 
 
-    @GetMapping("/fpt-dorm/admin/edit-bed/{bedId}")
-    public String showEditBedForm(@PathVariable("bedId") int bedId, Model model) {
+    @GetMapping("/fpt-dorm/admin/edit-bed/{roomId}/{bedId}")
+    public String showEditBedForm(@PathVariable("bedId") int bedId, Model model, @RequestParam(defaultValue = "0") int page, @PathVariable int roomId) {
+        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "bedName"));
+
+        // Fetch the paginated and sorted list of beds
+        Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
+        model.addAttribute("roomId", roomId);
+        model.addAttribute("beds", bedsPage);
+        model.addAttribute("currentPage", page); // Current page number
+        model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
         Bed bed = bedService.getBedById(bedId);
         model.addAttribute("bed", bed);
         model.addAttribute("rooms", roomService.getAllRooms()); // Get all rooms to populate dropdown
@@ -473,13 +432,19 @@ public class DormController {
     public String updateBed(@ModelAttribute("bed") Bed bed,
                             RedirectAttributes redirectAttributes) {
         try {
+            Bed existingBed = bedService.getBedByName(bed.getBedName());
+            if (existingBed != null && existingBed.getBedId() != bed.getBedId()) {
+                throw new IllegalArgumentException("Bed name '" + bed.getBedName() + "' already exists.");
+            }
+
             bedService.updateBed(bed);
             redirectAttributes.addFlashAttribute("successMessage", "Bed updated successfully");
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/fpt-dorm/admin/list-beds/" +bed.getRoom().getRoomId(); // Redirect back to list-beds page
+        return "redirect:/fpt-dorm/admin/list-beds/" + bed.getRoom().getRoomId();
     }
+
 
     @GetMapping("/fpt-dorm/admin/delete-bed/{bedId}")
     public String deleteBed(@PathVariable("bedId") int bedId,
@@ -492,26 +457,36 @@ public class DormController {
         }
         return "redirect:/fpt-dorm/admin/list-beds"; // Redirect back to list-beds page
     }
+
     @PostMapping("/fpt-dorm/admin/delete-bed/{roomId}")
     public String deleteSelectedBeds(@RequestParam("bedIds") List<Integer> bedIds,
                                      RedirectAttributes redirectAttributes, @PathVariable int roomId) {
         try {
-            bedIds.forEach(bedId -> bedService.deleteBed(bedId));
+            for (Integer bedId : bedIds) {
+                try {
+                    bedService.deleteBed(bedId);
+                } catch (DataIntegrityViolationException ex) {
+                    // Handle specific exception for foreign key constraint violation
+                    String errorMessage = "Cannot delete bed  because it is bookings.";
+                    redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+                    return "redirect:/fpt-dorm/admin/list-beds/" + roomId;
+                } catch (IllegalArgumentException ex) {
+                    // Handle other specific exceptions if needed
+                    redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+                    return "redirect:/fpt-dorm/admin/list-beds/" + roomId;
+                } catch (Exception ex) {
+                    // Handle general exceptions
+                    redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete bed with ID " + bedId);
+                    return "redirect:/fpt-dorm/admin/list-beds/" + roomId;
+                }
+            }
             redirectAttributes.addFlashAttribute("successMessage", "Selected beds deleted successfully");
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        } catch (Exception e) {
+            // Handle any unexpected exceptions
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete selected beds");
         }
         return "redirect:/fpt-dorm/admin/list-beds/" + roomId;
     }
-
-
-
-
-
-
-
-
-
 
 
     @GetMapping("/fpt-dorm/employee/view-dorm-list")
@@ -575,19 +550,6 @@ public class DormController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/fpt-dorm/employee/view-floor-list/{dormId}")
     public String employeeFloorList(@PathVariable("dormId") int dormId, Model model) {
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
@@ -622,8 +584,8 @@ public class DormController {
 
     @GetMapping("/fpt-dorm/employee/edit-floor-form/{dormId}/{floorId}")
     public String EditFloor(@PathVariable("dormId") int dormId,
-                                    @PathVariable("floorId") int floorId,
-                                    Model model) {
+                            @PathVariable("floorId") int floorId,
+                            Model model) {
         Floor floor = floorService.getFloorById(floorId);
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
         model.addAttribute("dormId", dormId);
@@ -665,19 +627,6 @@ public class DormController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/fpt-dorm/employee/view-rooms/{dormId}/{floorId}")
     public String listRooms(@PathVariable int dormId, @PathVariable int floorId, Model model) {
         try {
@@ -703,7 +652,6 @@ public class DormController {
             return "employee/dorm-manager/floor_list";
         }
     }
-
 
 
     @GetMapping("/fpt-dorm/employee/add-room/{dormId}/{floorId}")
@@ -780,7 +728,8 @@ public class DormController {
             model.addAttribute("room", room);
             model.addAttribute("dormId", dormId);
             model.addAttribute("floorId", floorId);
-
+            List<Room> rooms = roomService.getRoomsByFloorId(floorId);
+            model.addAttribute("rooms", rooms);
             String dormName = dormService.getDormNameById(dormId);
             model.addAttribute("dormName", dormName);
 
@@ -837,7 +786,6 @@ public class DormController {
     }
 
 
-
     @GetMapping("/fpt-dorm/employee/delete-room/{dormId}/{floorId}/{roomId}")
     public String DeleteRoom(@PathVariable("dormId") int dormId, @PathVariable("floorId") int floorId, @PathVariable("roomId") int roomId, Model model) {
         try {
@@ -860,16 +808,6 @@ public class DormController {
     }
 
 
-
-
-
-
-
-
-
-
-
-
     @GetMapping("/fpt-dorm/employee/list-beds/{roomId}")
     public String ListBeds(Model model, @RequestParam(defaultValue = "0") int page, @PathVariable int roomId) {
         // Create a PageRequest with sorting by bedName in ascending order
@@ -886,35 +824,44 @@ public class DormController {
     }
 
 
+    @GetMapping("/fpt-dorm/employee/add-bed/{roomId}")
+    public String AddBedForm(Model model, @RequestParam(defaultValue = "0") int page, @PathVariable int roomId) {
+        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "bedName"));
 
-
-    @GetMapping("/fpt-dorm/employee/add-bed")
-    public String AddBed(Model model) {
+        // Fetch the paginated and sorted list of beds
+        Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
+        model.addAttribute("roomId", roomId);
+        model.addAttribute("beds", bedsPage);
+        model.addAttribute("currentPage", page); // Current page number
+        model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
         model.addAttribute("rooms", roomService.getAllRooms()); // Get all rooms to populate dropdown
-        model.addAttribute("bed", new Bed()); // BedForm is a DTO for form submission
+        model.addAttribute("bed", new Bed()); // BedForm is a DTO for form submission// BedForm is a DTO for form submission
         return "employee/dorm-manager/add_bed";
     }
 
     @PostMapping("/fpt-dorm/employee/add-bed")
     public String BedToRoom(@ModelAttribute("bed") Bed bed, RedirectAttributes redirectAttributes) {
-        if (bedService.bedNameExistsInRoom(bed.getRoom().getRoomId(), bed.getBedName())) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Bed name already exists in the selected room.");
-            return "redirect:/fpt-dorm/employee/add-bed";
-        }
-
         try {
             bedService.addBedToRoom(bed.getRoom().getRoomId(), bed.getBedName());
             redirectAttributes.addFlashAttribute("successMessage", "Bed added successfully");
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-
         return "redirect:/fpt-dorm/employee/list-beds/" + bed.getRoom().getRoomId();
     }
 
 
-    @GetMapping("/fpt-dorm/employee/edit-bed/{bedId}")
-    public String EditBedForm(@PathVariable("bedId") int bedId, Model model) {
+
+    @GetMapping("/fpt-dorm/employee/edit-bed/{roomId}/{bedId}")
+    public String EditBedForm(@PathVariable("bedId") int bedId, Model model, @RequestParam(defaultValue = "0") int page, @PathVariable int roomId) {
+        PageRequest pageRequest = PageRequest.of(page, 10, Sort.by(Sort.Direction.ASC, "bedName"));
+
+        // Fetch the paginated and sorted list of beds
+        Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
+        model.addAttribute("roomId", roomId);
+        model.addAttribute("beds", bedsPage);
+        model.addAttribute("currentPage", page); // Current page number
+        model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
         Bed bed = bedService.getBedById(bedId);
         model.addAttribute("bed", bed);
         model.addAttribute("rooms", roomService.getAllRooms()); // Get all rooms to populate dropdown
@@ -943,7 +890,7 @@ public class DormController {
         try {
             bedService.updateBed(bed);
             model.addAttribute("successMessage", "Bed updated successfully.");
-            return "redirect:/fpt-dorm/employee/list-beds";
+            return "redirect:/fpt-dorm/employee/list-beds/" + bed.getRoom().getRoomId();
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Failed to update bed.");
             model.addAttribute("bed", bed);
@@ -964,14 +911,33 @@ public class DormController {
         }
         return "redirect:/fpt-dorm/employee/list-beds"; // Redirect back to list-beds page
     }
+
     @PostMapping("/fpt-dorm/employee/delete-bed/{roomId}")
     public String DeleteSelectedBeds(@RequestParam("bedIds") List<Integer> bedIds,
                                      RedirectAttributes redirectAttributes, @PathVariable int roomId) {
         try {
-            bedIds.forEach(bedId -> bedService.deleteBed(bedId));
+            for (Integer bedId : bedIds) {
+                try {
+                    bedService.deleteBed(bedId);
+                } catch (DataIntegrityViolationException ex) {
+                    // Handle specific exception for foreign key constraint violation
+                    String errorMessage = "Cannot delete bed  because it is bookings.";
+                    redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+                    return "redirect:/fpt-dorm/employee/list-beds/" + roomId;
+                } catch (IllegalArgumentException ex) {
+                    // Handle other specific exceptions if needed
+                    redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+                    return "redirect:/fpt-dorm/employee/list-beds/" + roomId;
+                } catch (Exception ex) {
+                    // Handle general exceptions
+                    redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete bed with ID " + bedId);
+                    return "redirect:/fpt-dorm/employee/list-beds/" + roomId;
+                }
+            }
             redirectAttributes.addFlashAttribute("successMessage", "Selected beds deleted successfully");
-        } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        } catch (Exception e) {
+            // Handle any unexpected exceptions
+            redirectAttributes.addFlashAttribute("errorMessage", "Failed to delete selected beds");
         }
         return "redirect:/fpt-dorm/employee/list-beds/" + roomId;
     }

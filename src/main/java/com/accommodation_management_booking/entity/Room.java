@@ -41,6 +41,4 @@ public class Room {
     @UpdateTimestamp
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "room")
-    private List<Bed> beds;
 }

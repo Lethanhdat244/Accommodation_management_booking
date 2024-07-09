@@ -29,15 +29,21 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<RoomBedUsage> getRoomBedUsageByFloorId(Integer floorId) {
-        Floor floor = floorRepository.findById(floorId).orElseThrow(() -> new IllegalArgumentException("Invalid floor ID"));
+        Floor floor = floorRepository.findById(floorId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid floor ID"));
 
-        return floor.getRooms().stream().map(room -> {
-            int totalBeds = room.getBeds().size();
-            int freeBeds = (int) room.getBeds().stream().filter(Bed::getIsAvailable).count();
-            int usedBeds = totalBeds - freeBeds;
-            return new RoomBedUsage(room, totalBeds, freeBeds, usedBeds);
+        List<Room> rooms = roomRepository.findByFloorFloorId(floorId); // Fetch rooms by floor ID
+        return rooms.stream().map(room -> {
+            List<Bed> beds = bedRepository.findByRoomRoomId(room.getRoomId()); // Fetch beds by room ID
+            int totalBeds = beds.size();
+            long freeBeds = beds.stream().filter(Bed::getIsAvailable).count();
+            int usedBeds = totalBeds - (int) freeBeds;
+            return new RoomBedUsage(room, totalBeds, (int) freeBeds, usedBeds);
         }).collect(Collectors.toList());
     }
+
+
+
 
     @Override
     public List<Room> getAllRooms() {

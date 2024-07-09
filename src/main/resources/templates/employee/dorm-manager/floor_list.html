@@ -14,46 +14,31 @@
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
     <style>
-        .pagination-wrapper {
-            text-align: left;
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .main-title {
             margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .pagination {
-            display: inline-flex;
-            padding-left: 0;
-            list-style: none;
-            border-radius: 0.25rem;
+        .table-wrapper {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .pagination .page-item {
-            display: inline;
-        }
-
-        .pagination .page-link {
-            position: relative;
-            display: block;
-            padding: 0.5rem 0.75rem;
-            margin-left: -1px;
-            line-height: 1.25;
-            color: #007bff;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-        }
-
-        .pagination .page-item.disabled .page-link {
-            color: #6c757d;
-            pointer-events: none;
-            cursor: auto;
-            background-color: #fff;
-            border-color: #dee2e6;
-        }
-
-        .pagination .page-item.active .page-link {
-            z-index: 1;
-            color: #fff;
+        .btn-primary-custom {
             background-color: #007bff;
-            border-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -305,22 +290,31 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h1 class="main-title" style="text-align: center;">View Floors of Dorm <span th:text="${dormName}"></span></h1>
-                <h1 th:if="${error}" style="color: red;">
+                <h2 >View Floors of Dorm <span th:text="${dormName}"></span></h2>
+
+                <div th:if="${error}" style="color: red; margin-top: 30px;">
                     <p th:text="${error}"></p>
-                </h1>
-                <div class="row">
+                </div>
+                <script th:if="${error != null}">
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 3000); // Redirect after 3 seconds if no error
+                </script>
+
+
+                <div class="row" style="text-align: center; margin-top: 30px;">
                     <div class="col-lg-11">
                         <div class="users-table table-wrapper">
                             <table class="posts-table">
                                 <thead>
-                                <tr>
+                                <tr class="users-table-info">
                                     <th>Floor Number</th>
                                     <th>Total Beds</th>
                                     <th>Used Beds</th>
                                     <th>Free Beds</th>
                                     <th>Action</th>
                                 </tr>
+                                </thead>
                                 <tbody>
                                 <tr th:each="floorUsage : ${floorBedUsageList}">
                                     <td th:text="${floorUsage.floor.floorNumber}"></td>
@@ -328,35 +322,45 @@
                                     <td th:text="${floorUsage.usedBeds}"></td>
                                     <td th:text="${floorUsage.freeBeds}"></td>
                                     <td>
-                                        <select onchange="handleFloorActionChange(this)">
-                                            <option value="">Select Action</option>
-                                            <option th:value="'/fpt-dorm/employee/view-rooms/' + ${floorUsage.getDormId()} + '/'   + ${floorUsage.floor.floorId}">View Rooms</option> <!-- Thêm tùy chọn mới -->
-                                            <option th:value="'/fpt-dorm/employee/edit-floor-form/'+ ${floorUsage.getDormId()} + '/' + ${floorUsage.floor.floorId}">Quick edit</option>
-                                            <option th:value="'/fpt-dorm/employee/delete-floor/' + ${floorUsage.floor.floorId}">Delete</option>
-                                        </select>
+                <span class="p-relative">
+                    <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                        <div class="sr-only">More info</div>
+                        <i data-feather="more-horizontal" aria-hidden="true"></i>
+                    </button>
+                    <ul class="users-item-dropdown dropdown">
+                        <li>
+                                                    <a th:href="'/fpt-dorm/employee/view-rooms/' + ${floorUsage.getDormId()} + '/' + ${floorUsage.floor.floorId}">View Rooms</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="'/fpt-dorm/employee/edit-floor-form/' + ${floorUsage.getDormId()} + '/' + ${floorUsage.floor.floorId}">Quick Edit</a>
+                                                </li>
+                                                <li>
+                                                    <a th:href="'/fpt-dorm/employee/delete-floor/' + ${floorUsage.floor.floorId}">Delete</a>
+                                                </li>
+                    </ul>
+                </span>
                                     </td>
-
-                                    <script>
-                                        function handleFloorActionChange(select) {
-                                            const value = select.value;
-                                            if (value) {
-                                                window.location.href = value;
-                                            }
-                                        }
-                                    </script>
-
                                 </tr>
-
                                 </tbody>
                             </table>
-                            <a th:href="@{/fpt-dorm/employee/add-floor-form/{dormId}(dormId=${dormId})}"
-                               class="btn btn-primary"
-                               style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
-                                Add Floor
-                            </a>
 
-                            <a th:href="@{/fpt-dorm/employee/view-dorm-list}" class="btn btn-primary"
-                               style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">Back</a>
+                            <div style="text-align: left;">
+                                <a th:href="@{/fpt-dorm/employee/add-floor-form/{dormId}(dormId=${dormId})}"
+                                   class="btn btn-primary"
+                                   style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
+                                    Add Floor
+                                </a>
+                                <button class="btn btn-primary"
+                                        style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;"
+                                        onclick="goBack()">Back
+                                </button>
+
+                                <script>
+                                    function goBack() {
+                                        window.history.back();
+                                    }
+                                </script>
+                            </div>
                         </div>
                     </div>
                 </div>

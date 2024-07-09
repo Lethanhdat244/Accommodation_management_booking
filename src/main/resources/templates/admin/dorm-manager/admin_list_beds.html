@@ -75,6 +75,38 @@
             border-top-right-radius: 0.25rem;
             border-bottom-right-radius: 0.25rem;
         }
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .main-title {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .table-wrapper {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary-custom {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .users-item-dropdown.dropdown {
+            background-color: white; /* Thiết lập màu nền cho dropdown */
+            border: 1px solid #ccc; /* Thiết lập viền */
+            padding: 5px; /* Căn lề nội dung bên trong dropdown */
+        }
     </style>
 </head>
 
@@ -339,30 +371,34 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title" style="text-align: center">View List Bed</h2>
-                <div th:if="${error}" style="color: red;">
-                    <p th:text="${error}"></p>
+                <h2>View List Bed</h2>
+                <div th:if="${errorMessage}" style="color: red; margin-top: 30px;">
+                    <p th:text="${errorMessage}"></p>
                 </div>
-
+                <script th:if="${errorMessage != null}">
+                    setTimeout(function () {
+                        window.history.back();
+                    }, 3000); // Redirect after 3 seconds if no error
+                </script>
 
                 <!-- Search input and button -->
                 <div class="search-container">
-                    <input type="text" id="searchInput" placeholder="Search by bed name..." style="margin-left: 50px;">
+                    <input type="text" id="searchInput" placeholder="Search by bed name..." >
                     <button type="button" onclick="searchBed()"
                             style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
                         Search
                     </button>
 
-                    <button style="margin-left: 700px;background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
-                        <a th:href="@{/fpt-dorm/admin/add-bed}">ADD</a></button>
+                    <button style="margin-left: 750px;background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
+                        <a th:href="@{'/fpt-dorm/admin/add-bed/' + ${roomId}}">ADD</a></button>
                 </div>
                 <!-- Table and Pagination -->
-                <div class="row" style="margin-left: 50px">
+                <div class="row" style="margin-top: 30px;">
                     <div class="col-lg-11">
                         <div class="users-table table-wrapper">
-                            <form id="deleteForm" action="#"
+                            <form id="deleteForm"
                                   th:action="@{/fpt-dorm/admin/delete-bed/{roomId}(roomId=${roomId})}" method="post">
-                                <table>
+                                <table class="posts-table">
                                     <thead>
                                     <tr>
                                         <th></th>
@@ -382,7 +418,7 @@
                                         <td th:text="${bed.maintenanceStatus}">Available</td>
                                         <td>
                                             <a style="color: red"
-                                               th:href="@{/fpt-dorm/admin/edit-bed/{bedId}(bedId=${bed.bedId})}">Edit</a>
+                                               th:href="@{'/fpt-dorm/admin/edit-bed/' + ${roomId} + '/' + ${bed.bedId}}">Edit</a>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -391,8 +427,16 @@
                             text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
                                     Delete Selected
                                 </button>
-                                <a href="/fpt-dorm/admin/home" class="btn btn-primary"
-                                   style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">Back</a>
+                                <button class="btn btn-primary"
+                                        style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;"
+                                        onclick="goBack()">Back
+                                </button>
+
+                                <script>
+                                    function goBack() {
+                                        window.history.back();
+                                    }
+                                </script>
                                 <div class="pagination-wrapper">
                                     <nav aria-label="Page navigation">
                                         <ul class="pagination">

@@ -14,46 +14,31 @@
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
     <style>
-        .pagination-wrapper {
-            text-align: left;
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .main-title {
             margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
         }
 
-        .pagination {
-            display: inline-flex;
-            padding-left: 0;
-            list-style: none;
-            border-radius: 0.25rem;
+        .table-wrapper {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .pagination .page-item {
-            display: inline;
-        }
-
-        .pagination .page-link {
-            position: relative;
-            display: block;
-            padding: 0.5rem 0.75rem;
-            margin-left: -1px;
-            line-height: 1.25;
-            color: #007bff;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-        }
-
-        .pagination .page-item.disabled .page-link {
-            color: #6c757d;
-            pointer-events: none;
-            cursor: auto;
-            background-color: #fff;
-            border-color: #dee2e6;
-        }
-
-        .pagination .page-item.active .page-link {
-            z-index: 1;
-            color: #fff;
+        .btn-primary-custom {
             background-color: #007bff;
-            border-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -305,12 +290,12 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h1 class="main-title" style="text-align: center;">Rooms in Floor <span
-                        th:text="${floor.floorNumber}"></span> of Dorm <span th:text="${dormName}"></span></h1>
-                <h1 th:if="${error}" style="color: red;">
+                <h2>Rooms in Floor <span
+                        th:text="${floor.floorNumber}"></span> of Dorm <span th:text="${dormName}"></span></h2>
+                <h1 th:if="${error}" style="color: red; margin-top: 30px;">
                     <p th:text="${error}"></p>
                 </h1>
-                <div class="row">
+                <div class="row" style="margin-top: 30px;">
                     <div class="col-lg-11">
                         <div class="users-table table-wrapper">
                             <table class="posts-table">
@@ -327,28 +312,19 @@
                                     <td th:text="${room.capacity}"></td>
                                     <td th:text="${room.pricePerBed}"></td>
                                     <td>
-                                        <select onchange="handleFloorActionChange(this)">
-                                            <option value="">Select Action</option>
-                                            <option th:value="'/fpt-dorm/employee/list-beds/'  + ${room.roomId}">
-                                                List bed
-                                            </option> <!-- Thêm tùy chọn mới -->
-                                            <option th:value="'/fpt-dorm/employee/edit-room/'+ ${dormId} + '/' + ${floorId} + '/' + ${room.roomId} ">
-                                                Quick edit
-                                            </option>
-                                            <option th:value="'/fpt-dorm/employee/delete-room/'+ ${dormId} + '/' + ${floorId} + '/' + ${room.roomId} ">
-                                                Delete
-                                            </option>
-                                        </select>
+    <span class="p-relative">
+        <button class="dropdown-btn transparent-btn" type="button" title="More info">
+            <div class="sr-only">More info</div>
+            <i data-feather="more-horizontal" aria-hidden="true"></i>
+        </button>
+        <ul class="users-item-dropdown dropdown">
+<a class="dropdown-item" th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${room.roomId})}">List beds</a>
+            <a class="dropdown-item" th:href="@{/fpt-dorm/employee/edit-room/{dormId}/{floorId}/{roomId}(dormId=${dormId},floorId=${floorId},roomId=${room.roomId})}">Quick edit</a>
+            <a class="dropdown-item" th:href="@{/fpt-dorm/employee/delete-room/{dormId}/{floorId}/{roomId}(dormId=${dormId},floorId=${floorId},roomId=${room.roomId})}">Delete</a>
+        </ul>
+    </span>
                                     </td>
 
-                                    <script>
-                                        function handleFloorActionChange(select) {
-                                            const value = select.value;
-                                            if (value) {
-                                                window.location.href = value;
-                                            }
-                                        }
-                                    </script>
 
                                 </tr>
 
