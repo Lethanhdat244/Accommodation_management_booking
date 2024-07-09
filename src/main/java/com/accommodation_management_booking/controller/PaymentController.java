@@ -29,7 +29,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -40,6 +42,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -740,11 +743,68 @@ public class PaymentController {
 
         if (optionalBooking.isPresent()) {
             Booking booking = optionalBooking.get();
+            System.out.println("Booking found: " + booking);
             booking.setStatus(Booking.Status.Canceled);
             bookingRepository.save(booking);
-            return ResponseEntity.ok("Canceled successfully");
-        } else {
-            return ResponseEntity.status(404).body("Booking not found");
+
+            if (booking.getAmountPaid() > 0) {
+                Optional<com.accommodation_management_booking.entity.Payment> optionalPayment = paymentRepository.findByBooking(booking);
+                if(optionalPayment.isPresent()){
+                    com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
+                    System.out.println("Payment found: " + payment);
+                    try{
+                        // Get the current exchange rate from VND to USD
+                        float exchangeRate = getExchangeRateVNDToUSD();
+                        if (exchangeRate == 0) {
+                            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve exchange rate.");
+                        }
+
+                        // Convert the amount paid from VND to USD
+                        float amountPaidInUSD = booking.getAmountPaid() * exchangeRate;
+                        float refundAmount = amountPaidInUSD /exchangeRate;
+                        // Logging for debugging
+                        System.out.println("Amount paid in VND: " + booking.getAmountPaid());
+                        System.out.println("Exchange rate VND to USD: " + exchangeRate);
+                        System.out.println("Amount to be refunded in USD: " + amountPaidInUSD);
+                        paypalService.refundPayment(payment.getPaymentDetail(), amountPaidInUSD);
+                        booking.setRefundAmount(refundAmount);
+                        booking.setRefundDate(LocalDate.now());
+                        bookingRepository.save(booking);
+
+                        // Update the bed status
+                        Integer bedId = booking.getBed().getBedId();
+                        Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+                        bed.setIsAvailable(true);
+                        bedRepository.save(bed);
+
+                        // Send email
+                        String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
+                        String subject = "Refund successful";
+                        String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully"+
+                                "\n Please check your account: " + payment.getPaymentDetail() +
+                                "\nRefundAmount: " + booking.getRefundAmount() +
+                                "\nDate: " + booking.getRefundDate() +
+                                "\nDue to PayPal's refund policy, your refund may vary from the amount you paid!"+
+                                "\nAny questions or complaints please contact us:"+
+                                "\nAddress: Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN" +
+                                "\nPhone: (024) 7300.1866 / (024) 7300.5588" +
+                                "\n\nThank you for using our service.";
+                        emailService.sendBill(toEmail, subject, body);
+
+                        return ResponseEntity.ok("Canceled successfully");
+                    } catch (PayPalRESTException e) {
+                        e.printStackTrace();
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Refund failed: " + e.getMessage());
+                    }
+                }
+            }else {
+                System.out.println("No payment found for this booking");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No payment found for this booking");
+            }
+            return ResponseEntity.ok("Canceled successfully, no payment to refund");
+        }else {
+            System.out.println("Booking not found with id: " + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
         }
     }
 
@@ -904,6 +964,7 @@ public class PaymentController {
                 booking.setAmountPaid(payment1.getBooking().getTotalPrice());
                 bookingRepository.save(booking);
 
+
                 // Send email
                 String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
                 String subject = "Payment Successful - Booking Confirmation";
@@ -931,29 +992,90 @@ public class PaymentController {
 
         if (optionalBooking.isPresent()) {
             Booking booking = optionalBooking.get();
+            System.out.println("Booking found: " + booking);
             booking.setStatus(Booking.Status.Canceled);
             bookingRepository.save(booking);
 
             if (booking.getAmountPaid() > 0) {
-                com.accommodation_management_booking.entity.Payment payment = booking.getPayment();
-                if (payment != null) {
-                    try {
-                        paypalService.refundPayment(payment.getPaymentDetail(), booking.getAmountPaid());
+                Optional<com.accommodation_management_booking.entity.Payment> optionalPayment = paymentRepository.findByBooking(booking);
+                if(optionalPayment.isPresent()){
+                    com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
+                    System.out.println("Payment found: " + payment);
+                    try{
+                        // Get the current exchange rate from VND to USD
+                        float exchangeRate = getExchangeRateVNDToUSD();
+                        if (exchangeRate == 0) {
+                            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve exchange rate.");
+                        }
+
+                        // Convert the amount paid from VND to USD
+                        float amountPaidInUSD = booking.getAmountPaid() * exchangeRate;
+                        float refundAmount = amountPaidInUSD /exchangeRate;
+                        // Logging for debugging
+                        System.out.println("Amount paid in VND: " + booking.getAmountPaid());
+                        System.out.println("Exchange rate VND to USD: " + exchangeRate);
+                        System.out.println("Amount to be refunded in USD: " + amountPaidInUSD);
+                        paypalService.refundPayment(payment.getPaymentDetail(), amountPaidInUSD);
+                        booking.setRefundAmount(refundAmount);
+                        booking.setRefundDate(LocalDate.now());
+                        bookingRepository.save(booking);
+
+
+                        // Update the bed status
+                        Integer bedId = booking.getBed().getBedId();
+                        Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+                        bed.setIsAvailable(true);
+                        bedRepository.save(bed);
+
+                        // Send email
+                        String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
+                        String subject = "Refund successful";
+                        String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully"+
+                                "\n Please check your account: " + payment.getPaymentDetail() +
+                                "\nRefundAmount: " + booking.getRefundAmount() +
+                                "\nDate: " + booking.getRefundDate() +
+                                "\nDue to PayPal's refund policy, your refund may vary from the amount you paid!"+
+                                "\nAny questions or complaints please contact us:"+
+                                "\nAddress: Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN" +
+                                "\nPhone: (024) 7300.1866 / (024) 7300.5588" +
+                                "\n\nThank you for using our service.";
+                        emailService.sendBill(toEmail, subject, body);
+
                         return ResponseEntity.ok("Canceled successfully");
                     } catch (PayPalRESTException e) {
                         e.printStackTrace();
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Refund failed");
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Refund failed: " + e.getMessage());
                     }
-                } else {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No payment found for this booking");
                 }
+            }else {
+                System.out.println("No payment found for this booking");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No payment found for this booking");
             }
             return ResponseEntity.ok("Canceled successfully, no payment to refund");
-        } else {
+        }else {
+            System.out.println("Booking not found with id: " + id);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
         }
+
     }
 
-
+    private float getExchangeRateVNDToUSD() {
+        // Example implementation using a hypothetical external service
+        // Replace with actual API call to get the current exchange rate
+        try {
+            // Example: Using a service like ExchangeRate-API
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "https://api.exchangerate-api.com/v4/latest/VND";
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {});
+            Map<String, Object> responseBody = response.getBody();
+            if (responseBody != null && responseBody.containsKey("rates")) {
+                Map<String, Double> rates = (Map<String, Double>) responseBody.get("rates");
+                return rates.get("USD").floatValue();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0; // Return 0 if there is an error
+    }
 
 }

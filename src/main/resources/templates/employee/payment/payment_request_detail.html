@@ -560,6 +560,7 @@
                     }, 70);
                 } else {
                     alert('Failed to cancel');
+                    response.text().then(text => alert('Failed to cancel: ' + text));
                 }
             })
             .catch(error => {
