@@ -114,6 +114,7 @@
                             </li>
                         </ul>
                     </li>
+
                     <li>
                         <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>News
@@ -133,7 +134,6 @@
                         </ul>
                     </li>
 
-
                     <li>
                         <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Employee
@@ -152,7 +152,6 @@
                         </ul>
                     </li>
 
-
                     <li>
                         <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Payment
@@ -167,31 +166,29 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class=""
-                                   th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
 
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Usage Service
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Resident History
+                        </a>
+                    </li>
 
                     <li>
                         <a th:href="@{admin/admin_chart}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Chart
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_booking_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
                         </a>
                     </li>
 
@@ -203,15 +200,9 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
-                        </a>
-                    </li>
-                    <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History/list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
                         </a>
                     </li>
                 </ul>
