@@ -106,7 +106,7 @@
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -156,8 +156,6 @@
     </header>
 
     <div class="container">
-        <button class="btn btn--back" onclick="window.history.back()"><i data-feather="arrow-left"></i>Back</button>
-
         <div class="row justify-content-center">
             <div class="col-lg-7 col-sm-12 request_box">
                 <h1>Resident History</h1>

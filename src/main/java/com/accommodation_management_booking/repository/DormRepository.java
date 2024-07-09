@@ -9,6 +9,8 @@ import java.util.Optional;
 
 public interface DormRepository extends JpaRepository<Dorm, Integer> {
     List<Dorm> findByDormGender(Dorm.DormGender dormGender);
+
+    List<Dorm> findAll();
     Optional<Dorm> findByDormName(String dormName);
     boolean existsByDormName(String dormName);
 }

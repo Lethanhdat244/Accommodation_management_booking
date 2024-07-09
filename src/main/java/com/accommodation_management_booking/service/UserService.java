@@ -36,5 +36,4 @@ public interface UserService {
     User findByEmail(String email);
 
     public void updateUser1(String email, UserDTO userDTO, MultipartFile[] avatarFile, MultipartFile[] frontImageFile, MultipartFile[] backImageFile);
-
 }

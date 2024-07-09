@@ -104,8 +104,4 @@ public class AdminController {
     }
 
 
-    @GetMapping("/fpt-dorm/admin/admin_all_rooms")
-    public String admin_list_all_rooms() {
-        return "redirect:/fpt-dorm/admin/all-room";
-    }
 }

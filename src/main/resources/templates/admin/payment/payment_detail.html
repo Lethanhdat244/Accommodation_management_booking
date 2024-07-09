@@ -19,6 +19,16 @@
         }
     </style>
     <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var image1 = document.getElementById('backCccd');
+            var image2 = document.getElementById('frontCccd');
+            image1.addEventListener('click', function() {
+                this.classList.toggle('zoomed');
+            });
+            image2.addEventListener('click', function() {
+                this.classList.toggle('zoomed');
+            });
+        });
         document.addEventListener("DOMContentLoaded", function () {
             flatpickr('.flatpickr-input', {
                 dateFormat: "d/m/Y",
@@ -66,29 +76,30 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
-                                                                                  aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a id="menu-student" class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                                <span class="sr-only">Open list</span>
+                                <span class="icon arrow-down" aria-hidden="true"></span>
+                            </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/student/all-student}">All
+                                    Students</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/student/add}">Add new
+                                    student</a>
                             </li>
                         </ul>
                     </li>
                     <li>
                         <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
+                            <span class="icon folder" aria-hidden="true"></span>Room
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -96,10 +107,13 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
+                                <a th:href="@{admin_list_room}">All Rooms</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
+                                <a th:href="@{admin_add_new_room}">Add new room</a>
+                            </li>
+                            <li>
+                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>
                             </li>
                         </ul>
                     </li>
@@ -123,26 +137,9 @@
                         </ul>
                     </li>
 
-                    <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Employee
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                        </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
-                            </li>
-                        </ul>
-                    </li>
 
                     <li>
-                        <a class="show-cat-btn" href="#">
+                        <a id="menu-payment" class="show-cat-btn active" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Payment
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -155,29 +152,31 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class=""
+                                   th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
 
-                    <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Usage Service
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
-                        </a>
-                    </li>
 
                     <li>
                         <a th:href="@{admin/admin_chart}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Chart
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{admin/admin_booking_list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Booking requirement
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{admin/admin_service_list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Service requirement
                         </a>
                     </li>
 
@@ -189,9 +188,15 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
+                        <a th:href="@{admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History/list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Resident History
                         </a>
                     </li>
                 </ul>
@@ -199,10 +204,12 @@
         </div>
         <div class="sidebar-footer">
             <a href="#" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
+                <span class="sidebar-user-img">
+                    <picture>
+                        <source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp">
+                        <img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name">
+                    </picture>
+                </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
                     <span class="sidebar-user__subtitle">Support manager</span>
@@ -300,9 +307,9 @@
                         <h1 class="main-title text-center">Payment Detail</h1>
                         <div class="row mb-2">
                             <div class="col-sm-12">
-                                <label for="transactionId" class="col-form-label">Payment ID</label>
+                                <label for="transactionId" class="col-form-label">Payment Code</label>
                                 <input id="transactionId" name="transactionId" class="form-control border"
-                                       th:field="${payment.paymentId}" readonly>
+                                       th:field="${payment.paymentDetail}" readonly>
                             </div>
                         </div>
 
@@ -313,8 +320,23 @@
                                        th:field="${payment.username}">
                             </div>
                             <div class="col-sm-5">
-                                <label for="studentId" class="col-form-label">Student ID</label>
-                                <input id="studentId" class="form-control border" th:field="${payment.userId}">
+                                <label for="studentId" class="col-form-label">ID Card</label>
+                                <input readonly id="studentId" class="form-control border" th:field="${user.cccdNumber}">
+                            </div>
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="frontCccd" class="col-form-label">Front CCCD</label><br>
+                                <div class="image-container">
+                                    <img id="frontCccd" th:src="${user.frontCccdImage}" alt="Front CCCD">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="backCccd" class="col-form-label">Back CCCD</label><br>
+                                <div class="image-container">
+                                    <img id="backCccd" th:src="${user.backCccdImage}" alt="Back CCCD">
+                                </div>
                             </div>
                         </div>
 
@@ -326,21 +348,21 @@
                             </div>
                             <div class="col-sm-6">
                                 <label for="phone" class="col-form-label">Phone Number</label>
-                                <input id="phone" class="form-control border" th:field="${payment.phoneNumber}">
+                                <input readonly id="phone" class="form-control border" th:field="${payment.phoneNumber}">
                             </div>
                         </div>
 
                         <div class="row mb-2">
                             <div class="col-sm-12">
                                 <label for="totalPrice" class="col-form-label">Total Price</label>
-                                <input id="totalPrice" class="form-control border" th:field="${payment.totalPrice}">
+                                <input readonly  id="totalPrice" class="form-control border" th:field="${payment.totalPrice}">
                             </div>
                         </div>
 
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <label for="amountPaid" class="col-form-label">Amount Paid</label>
-                                <input id="amountPaid" class="form-control border" th:field="${payment.amountPaid}">
+                                <input readonly  id="amountPaid" class="form-control border" th:field="${payment.amountPaid}">
                             </div>
                             <div class="col-sm-6">
                                 <label for="paymentDate" class="col-form-label">Payment Date</label>
@@ -352,7 +374,7 @@
                         <div class="row mb-2">
                             <div class="col-sm-6">
                                 <label for="refundAmount" class="col-form-label">Refund</label>
-                                <input id="refundAmount" class="form-control border" th:field="${payment.refundAmount}">
+                                <input readonly  id="refundAmount" class="form-control border" th:field="${payment.refundAmount}">
                             </div>
                             <div class="col-sm-6">
                                 <label for="refundDate" class="col-form-label">Refund Date</label>
@@ -371,14 +393,6 @@
                                 <label for="status" class="col-form-label">Payment Status</label>
                                 <input readonly id="status" name="paymentMethod" class="form-control border"
                                        th:field="${payment.status}">
-                            </div>
-                        </div>
-
-                        <div class="row mb-2">
-                            <div class="col-sm-12">
-                                <label for="paymentDetail" class="col-form-label">Payment Description</label>
-                                <textarea readonly id="paymentDetail" name="paymentDetail" class="form-control border"
-                                          th:field="${payment.paymentDetail}"></textarea>
                             </div>
                         </div>
 

@@ -8,9 +8,8 @@ import java.util.List;
 
 public interface FloorRepository extends JpaRepository<Floor, Integer> {
     List<Floor> findByDormDormId(Integer dormId);
+
     int countByDorm(Dorm dorm);
 
     Floor findTopByDormDormIdOrderByFloorNumberDesc(int dormId);
-
-
 }

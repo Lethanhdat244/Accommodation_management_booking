@@ -178,26 +178,28 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
-                                                                                  aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a id="menu-student" class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                                <span class="sr-only">Open list</span>
+                                <span class="icon arrow-down" aria-hidden="true"></span>
+                            </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/student/all-student}">All
+                                    Students</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/student/add}">Add new
+                                    student</a>
                             </li>
                         </ul>
                     </li>
+
                     <li>
                         <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Dorm Manage
@@ -208,13 +210,14 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
+                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
                             </li>
                             <li>
                                 <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
                             </li>
                         </ul>
                     </li>
+
 
                     <li>
                         <a class="show-cat-btn">
@@ -236,25 +239,7 @@
                     </li>
 
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Employee
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                        </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
-                            </li>
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a class="show-cat-btn" href="#">
+                        <a id="menu-payment" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Payment
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -263,33 +248,35 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/admin_payment_list}">All
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/all-payment}">All
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/payment-request}">Payment
+                                    Request</a>
                             </li>
                         </ul>
                     </li>
 
-                    <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Usage Service
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
-                        </a>
-                    </li>
 
                     <li>
                         <a th:href="@{admin/admin_chart}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Chart
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{admin/admin_booking_list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Booking requirement
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{admin/admin_service_list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Service requirement
                         </a>
                     </li>
 
@@ -301,9 +288,15 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
+                        <a th:href="@{admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
+                        </a>
+                    </li>
+                    <li>
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History/list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Resident History
                         </a>
                     </li>
                 </ul>
@@ -312,8 +305,9 @@
         <div class="sidebar-footer">
             <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
+                                 type="image/webp"><img
+                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -468,51 +462,42 @@
                                         </td>
 
                                         <td>
-                                            <span class="p-relative">
-                                                <button class="dropdown-btn transparent-btn" type="button"
-                                                        title="More info">
-                                                    <div class="sr-only">More info</div>
-                                                    <i data-feather="more-horizontal" aria-hidden="true"></i>
-                                                </button>
-                                                <ul class="users-item-dropdown dropdown">
-                                                    <li><a class="cancel-btn danger"
-                                                           th:onclick="'showConfirmConfirmModal(' + ${payment.bookingId} + ',' + ${payment.totalPrice} + ',' + ${payment.amountPaid} + ')'">Confirm</a></li>
-                                                    <li><a th:href="@{/fpt-dorm/admin/all-payment/student/payment/id={id}(id=${payment.paymentId})}">View</a></li>
-                                                    <li><a class="cancel-btn danger"
-                                                           th:onclick="'showCancelConfirmModal(' + ${payment.bookingId} + ')'">Cancel</a></li>
-                                                </ul>
-                                            </span>
+                                            <a class="btn btn-primary"
+                                               th:href="@{/fpt-dorm/admin/payment-request/id={id}(id=${payment.paymentId})}"
+                                               role="button" style="color: #0061f7;">Detail</a>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
+                            <div>
+                                <h3 th:if="${paymentPage.totalPages == 0}">
+                                    No data recorded
+                                </h3>
+                            </div>
                             <div class="pagination-wrapper">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination">
-                                        <li class="page-item" th:classappend="${paymentPage.hasPrevious()} ? 'enabled'">
-                                            <a class="page-link" th:if="${paymentPage.hasPrevious()}"
+                                        <li class="page-item" th:classappend="${paymentPage.hasPrevious()} ? '' : 'disabled'">
+                                            <a class="page-link"
                                                th:href="@{|?page=${paymentPage.number - 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
-                                            <span class="page-link"
-                                                  th:unless="${paymentPage.hasPrevious()}">&laquo;</span>
                                         </li>
                                         <li class="page-item"
-                                            th:each="i : ${#numbers.sequence(0, paymentPage.totalPages - 1)}"
+                                            th:each="i : ${paymentPage.totalPages > 0 ? #numbers.sequence(0, paymentPage.totalPages - 1) : {0}}"
                                             th:classappend="${paymentPage.number == i} ? 'active'">
                                             <a class="page-link"
                                                th:href="@{|?page=${i}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                th:text="${i + 1}">1</a>
                                         </li>
-                                        <li class="page-item" th:classappend="${paymentPage.hasNext()} ? 'enabled'">
-                                            <a class="page-link" th:if="${paymentPage.hasNext()}"
+                                        <li class="page-item" th:classappend="${paymentPage.hasNext()} ? '' : 'disabled'">
+                                            <a class="page-link"
                                                th:href="@{|?page=${paymentPage.number + 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
-                                            <span class="page-link" th:unless="${paymentPage.hasNext()}">&raquo;</span>
                                         </li>
                                     </ul>
                                 </nav>

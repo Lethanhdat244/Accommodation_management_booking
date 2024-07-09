@@ -105,7 +105,7 @@
                                     <USER></USER>
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
@@ -174,6 +174,11 @@
                 <div class="request_box">
                     <h1 class="main-title text-center">Payment Detail</h1><br>
 
+                    <div class="col-md-12 mb-3">
+                        <label for="paymentDetail" class="col-form-label">Payment Code</label>
+                        <input id="paymentDetail" readonly class="form-control border" th:field="${payment.paymentDetail}">
+                    </div>
+
                     <div class="col-md-6 mb-3">
                         <label for="studentName" class="col-form-label">Student Name</label>
                         <input id="studentName" readonly class="form-control border" th:field="${payment.username}">
@@ -222,12 +227,6 @@
                         <label for="status" class=" col-form-label">Payment Status</label>
                         <input readonly id="status" name="paymentMethod" class="form-control border"
                                th:field="${payment.status}">
-                    </div>
-
-                    <div class="col-md-12 mb-3">
-                        <label for="paymentDetail" class="col-form-label">Payment Description</label>
-                        <textarea readonly id="paymentDetail" name="paymentDetail" class="form-control border"
-                                  th:field="${payment.paymentDetail}"></textarea>
                     </div>
 
                     <div class="row" style="text-align: center;">

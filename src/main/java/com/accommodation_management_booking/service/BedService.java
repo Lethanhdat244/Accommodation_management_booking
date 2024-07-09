@@ -1,7 +1,6 @@
 package com.accommodation_management_booking.service;
 
 import com.accommodation_management_booking.entity.Bed;
-import com.accommodation_management_booking.entity.Room;
 
 import java.util.List;
 

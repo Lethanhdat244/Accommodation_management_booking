@@ -4,12 +4,10 @@ import com.accommodation_management_booking.dto.UserBookingDTO;
 import com.accommodation_management_booking.dto.UserDTO;
 import com.accommodation_management_booking.entity.*;
 import com.accommodation_management_booking.repository.*;
-import com.accommodation_management_booking.service.RoomAllService;
 import com.accommodation_management_booking.service.impl.ComplainService;
 import com.accommodation_management_booking.service.impl.NotificationService;
 import com.accommodation_management_booking.service.impl.UsageServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -70,9 +68,6 @@ public class EmployeeController {
 
     @Autowired
     DormRepository dormRepository;
-
-    @Autowired
-    private RoomAllService roomAllService;
 
     @GetMapping("fpt-dorm/employee/home")
     public String admin_homepage(Model model, Authentication authentication) {
@@ -439,46 +434,5 @@ public class EmployeeController {
     public String employee_list_residentH() {
         return "redirect:/fpt-dorm/employee/Resident_History/list";
     }
-
-
-
-    @GetMapping("/fpt-dorm/employee/all-room")
-    public String dormgender(Model model) {
-        List<Dorm> dorms = roomAllService.getAllDorms();
-        model.addAttribute("dorms", dorms);
-        return "/employee/all_room";
-    }
-
-    @GetMapping("/fpt-dorm/employee/all-room/floor")
-    @ResponseBody
-    public List<Floor> getFloorsByDorm(@RequestParam Integer dormId) {
-        return roomAllService.getFloorsByDormId(dormId);
-    }
-
-
-
-
-    @GetMapping("/fpt-dorm/employee/all-room/room-list")
-    @ResponseBody
-    public Page<Room> getRoomsByFloor(@RequestParam Integer dormId, @RequestParam Integer floorNumber, @PageableDefault(size = 2) Pageable pageable) {
-        return roomAllService.getRoomByDormIdAndFloorNumber(dormId, floorNumber, pageable);
-    }
-
-
-
-
-    @GetMapping("/fpt-dorm/employee/room-detail")
-    public String getRoomDetails(@RequestParam String roomNumber, Model model) {
-        List<Bed> beds = roomAllService.getBedsByRoomNumber(roomNumber);
-        if (beds != null && !beds.isEmpty()) {
-            model.addAttribute("beds", beds);
-        } else {
-            model.addAttribute("message", "Currently, this room does not have any beds.");
-        }
-        return "/employee/room_detail";
-    }
-
-
-
 
 }

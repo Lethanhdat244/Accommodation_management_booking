@@ -29,7 +29,8 @@ public class ServiceService {
     }
 
     public ServiceDTO getServiceDetailById(int serviceId) {
-
+        // Đảm bảo rằng ServiceRepository có phương thức để tìm dịch vụ theo ID
+        // Đây là một ví dụ giả định
         com.accommodation_management_booking.entity.Service service = serviceRepository.findById(serviceId).orElse(null);
         if (service != null) {
             ServiceDTO serviceDTO = new ServiceDTO();

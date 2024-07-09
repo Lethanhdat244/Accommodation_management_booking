@@ -84,7 +84,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
+                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home"
                                                                                   aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
@@ -114,7 +114,7 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
+                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
                             </li>
                             <li>
                                 <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
@@ -179,7 +179,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                        <a th:href="@{/fpt-dorm/admin/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Usage Service
                         </a>
@@ -301,9 +301,9 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/admin/profile)}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/admin/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>

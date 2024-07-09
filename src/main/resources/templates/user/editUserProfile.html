@@ -364,7 +364,14 @@
                                     <div id="emailError" class="error"></div>
                                 </div>
                             </div>
-
+                            <div class="row mb-3">
+                                <label for="idcard" class="col-sm-4 col-form-label">CCCD</label>
+                                <div class="col-sm-8">
+                                    <input id="idcard" name="cccdNumber" class="form-control border " readonly
+                                           th:field="*{cccdNumber}">
+                                    <div id="idcardError" class="error"></div>
+                                </div>
+                            </div>
                             <div class="row mb-3">
                                 <label for="phone" class="col-sm-4 col-form-label">Phone Number</label>
                                 <div class="col-sm-8">
@@ -428,21 +435,14 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
-                                <label for="idcard" class="col-sm-4 col-form-label">CCCD</label>
-                                <div class="col-sm-8">
-                                    <input id="idcard" name="cccdNumber" class="form-control border"
-                                           th:field="*{cccdNumber}">
-                                    <div id="idcardError" class="error"></div>
-                                </div>
-                            </div>
 
-                            <div class="row mb-3">
+
+                            <div class="row mb-3" style="display: none;">
                                 <div class="offset-sm-4 col-sm-8">
                                     <img th:src="${user.frontCccdImage}" th:alt="*{frontCccdImage}" width="150">
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-3" style="display: none;">
                                 <label for="frontface" class="col-sm-4 col-form-label">Front CCCD Upload</label>
                                 <div class="col-sm-8">
                                     <input id="frontface" name="frontface" class="form-control border" type="file">
@@ -450,12 +450,12 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-3">
+                            <div class="row mb-3" style="display: none;">
                                 <div class="offset-sm-4 col-sm-8">
                                     <img th:src="${user.backCccdImage}" th:alt="*{backCccdImage}" width="150">
                                 </div>
                             </div>
-                            <div class="row mb-3">
+                            <div class="row mb-3" style="display: none;">
                                 <label for="backface" class="col-sm-4 col-form-label">Back CCCD Upload</label>
                                 <div class="col-sm-8">
                                     <input id="backface" name="backface" class="form-control border" type="file">

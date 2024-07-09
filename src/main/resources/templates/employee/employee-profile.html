@@ -141,7 +141,7 @@
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
                         <span class="logo-title">Dormitory</span>
-                        <span class="logo-subtitle">EMPLOYEE</span>
+                        <span class="logo-subtitle">Employee</span>
                     </div>
 
                 </a>
@@ -153,7 +153,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a class="active"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -189,12 +189,11 @@
                             <li>
                                 <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
-
                         </ul>
                     </li>
 
                     <li>
-                        <a class="show-cat-btn">
+                        <a class="show-cat-btn" >
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -203,10 +202,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
+                                <a th:href="@{view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
+                                <a th:href="@{add-news}">Add news</a>
                             </li>
 
                         </ul>
@@ -233,16 +232,16 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                        <a th:href="@{admin/admin_booking_list}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Usage Service
+                            Booking requirement
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
+                        <a th:href="@{admin/admin_service_list}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
+                            Service requirement
                         </a>
                     </li>
 
@@ -259,22 +258,22 @@
                             Complaint
                         </a>
                     </li>
-
-
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/notifications}">
+                        <a th:href="@{/fpt-dorm/employee/admin_Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Notifications
+                            Resident History
                         </a>
                     </li>
+
+
+
                 </ul>
             </div>
         </div>
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -297,9 +296,7 @@
                         <div class="profile-info">
                             <h1 class="profile-name" th:text="${user.username}">User Name</h1>
                             <p class="profile-email" th:text="${user.email}">Email</p>
-                            <a th:href="@{/fpt-dorm/employee/edit-profile/{email}(email=${user.email})}">
-                                <button class="edit-profile-btn">Edit Profile</button>
-                            </a>
+                            <button class="edit-profile-btn">Edit Profile</button>
                         </div>
                     </div>
                     <div class="profile-body">
@@ -312,8 +309,17 @@
                                 </div>
 
                                 <div class="info-item">
-                                    <div class="info-label">Gender:</div>
-                                    <div class="info-value" th:text="${user.gender}"></div>
+                                    <div class="info-label" style="font-weight: 600">Gender:</div>
+                                    <div class="info-value">
+                                        <label>
+                                            <input type="radio" th:field="*{user.gender}" value="Male"
+                                                   th:checked="${user.gender == 'Male'}" disabled> Male
+                                        </label>
+                                        <label>
+                                            <input type="radio" th:field="*{user.gender}" value="Female"
+                                                   th:checked="${user.gender == 'Female'}" disabled> Female
+                                        </label>
+                                    </div>
                                 </div>
 
                                 <div class="info-item">
@@ -337,7 +343,7 @@
                                 </div>
                             </div>
                             <div class="profile-section"  style="margin-top: 30px">
-                                <h3>Account Settings</h3>
+                                <h2>Account Settings</h2>
                                 <br>
                                 <a th:href="@{/fpt-dorm/change-password}" class="change-password-btn-link">
                                     <button class="change-password-btn">Change Password</button>

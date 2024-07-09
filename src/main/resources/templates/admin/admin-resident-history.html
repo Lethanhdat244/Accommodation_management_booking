@@ -130,6 +130,7 @@
 <div class="layer"></div>
 <!-- ! Body -->
 <div class="page-flex">
+    <!-- ! Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-start">
             <div class="sidebar-head">
@@ -150,26 +151,28 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
-                                                                                  aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a id="menu-student" class="show-cat-btn ">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                                <span class="sr-only">Open list</span>
+                                <span class="icon arrow-down" aria-hidden="true"></span>
+                            </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/admin_list_student}">All
+                                    Students</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/admin_add_student}">Add new
+                                    student</a>
                             </li>
                         </ul>
                     </li>
+
                     <li>
                         <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Dorm Manage
@@ -180,13 +183,14 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
+                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
                             </li>
                             <li>
                                 <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
                             </li>
                         </ul>
                     </li>
+
 
                     <li>
                         <a class="show-cat-btn">
@@ -206,7 +210,6 @@
 
                         </ul>
                     </li>
-
                     <li>
                         <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Employee
@@ -244,24 +247,25 @@
                         </ul>
                     </li>
 
-                    <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Usage Service
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
-                        </a>
-                    </li>
 
                     <li>
                         <a th:href="@{admin/admin_chart}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Chart
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{admin/admin_booking_list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Booking requirement
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{admin/admin_service_list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Service requirement
                         </a>
                     </li>
 
@@ -278,14 +282,21 @@
                             Complaint
                         </a>
                     </li>
+                    <li >
+                        <a th:href="@{/fpt-dorm/admin/Resident_History/list}" class="active">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Resident History
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>
         <div class="sidebar-footer">
             <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
+                                 type="image/webp"><img
+                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -408,7 +419,7 @@
                                     <tr th:each="residentHistory : ${residentHistoryPage.content}">
                                         <td th:text="${residentHistory.username}"></td>
                                         <td th:text="${residentHistory.email}"></td>                                         <td>
-                                            <a th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${residentHistory.userId}}">Detail</a>
+                                            <li><a th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${residentHistory.userId}}">Detail</a></li>
                                         </td>
                                     </tr>
                                     </tbody>

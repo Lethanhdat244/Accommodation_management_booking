@@ -2,6 +2,7 @@ package com.accommodation_management_booking.controller;
 
 import com.accommodation_management_booking.config.PaypalPaymentIntent;
 import com.accommodation_management_booking.config.PaypalPaymentMethod;
+import com.accommodation_management_booking.config.VNPayConfig;
 import com.accommodation_management_booking.dto.PaymentTransactionDTO;
 import com.accommodation_management_booking.entity.Bed;
 import com.accommodation_management_booking.entity.Booking;
@@ -12,6 +13,8 @@ import com.accommodation_management_booking.service.EmailService;
 import com.accommodation_management_booking.service.PaymentService;
 import com.accommodation_management_booking.service.PaypalService;
 import com.accommodation_management_booking.utils.Utils;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -38,13 +41,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @AllArgsConstructor
@@ -52,7 +57,6 @@ public class PaymentController {
 
     private final BookingRepository bookingRepository;
     private final PaymentService paymentService;
-
     private final PaymentRepository paymentRepository;
 
     @GetMapping("/fpt-dorm/employee/all-payment")
@@ -220,6 +224,7 @@ public class PaymentController {
             PaymentTransactionDTO paymentTransactionDTO = paymentService.findByPaymentId(id);
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
+                model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
             } else {
                 throw new Exception("Payment not found");
             }
@@ -274,8 +279,7 @@ public class PaymentController {
                 model.addAttribute("keyword", keyword);
                 model.addAttribute("selectedCategory", category);
                 model.addAttribute("sort", sort);
-                return "admin/payment/payment_request";
-//                return "redirect:/fpt-dorm/admin/payment-request";
+                return "employee/payment/payment_request";
             }
         } else {
             switch (category) {
@@ -323,22 +327,39 @@ public class PaymentController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("selectedCategory", category);
         model.addAttribute("sort", sort);
-        return "admin/payment/payment_request";
+        return "employee/payment/payment_request";
     }
 
-    @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
-    public ResponseEntity<String> cancelBooking(@PathVariable("id") int id) {
-        Optional<Booking> optionalBooking = bookingRepository.findById(id);
-
-        if (optionalBooking.isPresent()) {
-            Booking booking = optionalBooking.get();
-            booking.setStatus(Booking.Status.Canceled);
-            bookingRepository.save(booking);
-            return ResponseEntity.ok("Canceled successfully");
-        } else {
-            return ResponseEntity.status(404).body("Booking not found");
+    @GetMapping("/fpt-dorm/employee/payment-request/id={id}")
+    public String showPaymentRequestDetailEmployee(Model model, @PathVariable("id") int id) {
+        try {
+            PaymentTransactionDTO paymentTransactionDTO = paymentService.findByPaymentId(id);
+            if (paymentTransactionDTO != null) {
+                model.addAttribute("payment", paymentTransactionDTO);
+                model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+            } else {
+                throw new Exception("Payment not found");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return "redirect:/fpt-dorm/employee/all-payment";
         }
+        return "employee/payment/payment_request_detail";
     }
+
+//    @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
+//    public ResponseEntity<String> cancelBooking(@PathVariable("id") int id) {
+//        Optional<Booking> optionalBooking = bookingRepository.findById(id);
+//
+//        if (optionalBooking.isPresent()) {
+//            Booking booking = optionalBooking.get();
+//            booking.setStatus(Booking.Status.Canceled);
+//            bookingRepository.save(booking);
+//            return ResponseEntity.ok("Canceled successfully");
+//        } else {
+//            return ResponseEntity.status(404).body("Booking not found");
+//        }
+//    }
 
     @PostMapping("/fpt-dorm/employee/payment-request/confirm")
     public ResponseEntity<String> confirmPayment(@RequestBody Booking request) {
@@ -527,8 +548,6 @@ public class PaymentController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
         Page<PaymentTransactionDTO> paymentPage;
 
-        System.out.println("paymentDate: " + keyword);
-
         if (category == null || category.isEmpty()) {
             if (keyword == null || keyword.isEmpty()) {
                 paymentPage = Page.empty(pageable);
@@ -591,6 +610,7 @@ public class PaymentController {
             PaymentTransactionDTO paymentTransactionDTO = paymentService.findByPaymentId(id);
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
+                model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
             } else {
                 throw new Exception("Payment not found");
             }
@@ -695,6 +715,23 @@ public class PaymentController {
         model.addAttribute("selectedCategory", category);
         model.addAttribute("sort", sort);
         return "admin/payment/payment_request";
+    }
+
+    @GetMapping("/fpt-dorm/admin/payment-request/id={id}")
+    public String showPaymentRequestDetailAdmin(Model model, @PathVariable("id") int id) {
+        try {
+            PaymentTransactionDTO paymentTransactionDTO = paymentService.findByPaymentId(id);
+            if (paymentTransactionDTO != null) {
+                model.addAttribute("payment", paymentTransactionDTO);
+                model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+            } else {
+                throw new Exception("Payment not found");
+            }
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            return "redirect:/fpt-dorm/admin/all-payment";
+        }
+        return "admin/payment/payment_request_detail";
     }
 
     @GetMapping("/fpt-dorm/admin/payment-request/cancel/id={id}")
@@ -802,11 +839,12 @@ public class PaymentController {
 //        booking.setAmountPaid(totalPrice);
         bookingRepository.save(booking);
 
-        bed.setIsAvailable(false);
-        bedRepository.save(bed);
+//        bed.setIsAvailable(false);
+//        bedRepository.save(bed);
 
         // Store booking ID in session
         request.getSession().setAttribute("bookingId", booking.getBookingId());
+        request.getSession().setAttribute("bedId", bed.getBedId());
 
         String cancelUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
         String successUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
@@ -819,7 +857,7 @@ public class PaymentController {
                     "Payment for booking",
                     cancelUrl,
                     successUrl);
-            for (Links link : ((com.paypal.api.payments.Payment) payment).getLinks()) {
+            for (Links link : ((Payment) payment).getLinks()) {
                 if (link.getRel().equals("approval_url")) {
                     return "redirect:" + link.getHref();
                 }
@@ -835,6 +873,10 @@ public class PaymentController {
         // Store booking ID in session
         Integer bookingId = (Integer) request.getSession().getAttribute("bookingId");
         bookingRepository.deleteById(bookingId);
+        Integer bedId = (Integer) request.getSession().getAttribute("bedId");
+        Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+        bed.setIsAvailable(true);
+        bedRepository.save(bed);
         return "cancel";
     }
 
@@ -855,13 +897,22 @@ public class PaymentController {
                 payment1.setBooking(booking);
                 paymentRepository.save(payment1);
 
+                Integer bedId = (Integer) request.getSession().getAttribute("bedId");
+                Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+                bed.setIsAvailable(false);
+                bedRepository.save(bed);
                 booking.setAmountPaid(payment1.getBooking().getTotalPrice());
                 bookingRepository.save(booking);
 
                 // Send email
                 String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
                 String subject = "Payment Successful - Booking Confirmation";
-                String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was successful. Booking ID: " + bookingId + "\nTotal Amount Paid: " + booking.getTotalPrice() + "\n\nThank you for your booking.";
+                String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was successful."+
+                        "\n Payment code: " + payment1.getPaymentDetail() +
+                        "\nTotal Price: " + booking.getTotalPrice() +
+                        "\nAmount Paid: " + booking.getAmountPaid() +
+                        "\nDate: " + payment1.getPaymentDate() +
+                        "\n\nThank you for your booking.";
                 emailService.sendBill(toEmail, subject, body);
 
                 return "success";
@@ -874,8 +925,35 @@ public class PaymentController {
     }
 
 
-    @PostMapping("/fpt-dorm/user/booking/vnpay")
-    public String vnpay() {
-        return "index";
+    @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
+    public ResponseEntity<String> cancelBooking(@PathVariable("id") int id) {
+        Optional<Booking> optionalBooking = bookingRepository.findById(id);
+
+        if (optionalBooking.isPresent()) {
+            Booking booking = optionalBooking.get();
+            booking.setStatus(Booking.Status.Canceled);
+            bookingRepository.save(booking);
+
+            if (booking.getAmountPaid() > 0) {
+                com.accommodation_management_booking.entity.Payment payment = booking.getPayment();
+                if (payment != null) {
+                    try {
+                        paypalService.refundPayment(payment.getPaymentDetail(), booking.getAmountPaid());
+                        return ResponseEntity.ok("Canceled successfully");
+                    } catch (PayPalRESTException e) {
+                        e.printStackTrace();
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Refund failed");
+                    }
+                } else {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No payment found for this booking");
+                }
+            }
+            return ResponseEntity.ok("Canceled successfully, no payment to refund");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
+        }
     }
+
+
+
 }
