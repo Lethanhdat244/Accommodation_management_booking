@@ -2003,24 +2003,22 @@ label {
 }
 
 .image-container {
-    position: relative;
-    width: 150px;
+  position: relative;
+  width: 150px;
 }
-
 .image-container img {
-    width: 100%;
-    cursor: pointer;
-    transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.3s ease, width 0.3s ease, height 0.3s ease;
 }
-
 .image-container img.zoomed {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-    height: 100vh;
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  height: 100vh;
+  z-index: 1000;
 }
 
 .table-wrapper {

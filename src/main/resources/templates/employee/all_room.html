@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update News | Admin</title>
+    <title> All Room | Employee</title>
     <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
@@ -12,31 +12,6 @@
     <link rel="stylesheet" href="/static/admin_homepage/css/style.css">
     <script src="/static/homepage_user/js/jquery.min.js" type="text/javascript"></script>
     <style>
-        .popup {
-            display: none;
-            position: fixed;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px solid #888;
-            background-color: white;
-            z-index: 1;
-            padding: 20px;
-            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-        }
-
-        .popup-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .popup-header .close {
-            cursor: pointer;
-            font-size: 24px; /* Adjust this value to make it larger */
-            font-weight: bold;
-        }
-
         .news-card {
             margin-bottom: 20px;
             border: 1px solid #ddd;
@@ -101,7 +76,8 @@
             font-weight: bold;
         }
 
-        .form-group select, select {
+        .form-group select,
+        select {
             width: 30%;
             padding: 0.5em;
             margin-top: 0.5em;
@@ -109,7 +85,8 @@
             border-radius: 4px;
         }
 
-        .form-group select option, form select option {
+        .form-group select option,
+        form select option {
             padding: 0.5em;
             margin-top: 0.5em;
         }
@@ -146,7 +123,7 @@
 
         .btn {
             padding: 15px 40px;
-            margin: 20px 0px;
+            margin: 30px 0px;
             border-radius: 7px;
             font-weight: 700;
         }
@@ -155,7 +132,50 @@
             background: #2f49d1;
             color: white;
         }
+
+        .pagination-wrapper {
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .pagination {
+            display: inline-flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
+        }
+
+        .pagination .page-item {
+            display: inline;
+        }
+
+        .pagination .page-link {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+        }
+
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+
+        .pagination .page-item.active .page-link {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
     </style>
+
 </head>
 
 <body>
@@ -183,7 +203,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -204,26 +224,27 @@
                             </li>
                         </ul>
                     </li>
+
+
+
                     <li>
-                        <a class="show-cat-btn" >
+                        <a id="menu-room" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Room
                             <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                                <span class="sr-only">Open list</span>
+                                <span class="icon arrow-down" aria-hidden="true"></span>
+                            </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                                <a id="menu-all-room" class="" th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_new_room}">Add new room</a>
+                                <a>Add new room</a>
                             </li>
-                            <!--                            <li>-->
-                            <!--                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>-->
-                            <!--                            </li>-->
                         </ul>
                     </li>
+
 
                     <li>
                         <a class="show-cat-btn" >
@@ -395,25 +416,42 @@
                     </div>
                 </div>
             </div>
+
         </nav>
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Usage Services</h2>
+                <h2 class="main-title">All Rooms</h2>
                 <div class="canvas-wrapper" style="margin-bottom: 20px">
-                    <label for="dorm">Dorm:</label>
-                    <select class="form-control" id="dorm" name="dorm" onchange="updateFloors()">
-                        <option value="" disabled selected>-- Select Dorm --</option>
-                        <option th:each="dorm : ${dorms}" th:value="${dorm.dormId}" th:text="${dorm.dormName}"></option>
-                    </select>
-                    <span id="dormError" class="text-danger"></span>
-                    <label for="floor">Floor:</label>
-                    <select class="form-control" id="floor" name="floor" onchange="updateRooms()">
-                        <option value="" disabled selected>-- Select Floor --</option>
-                    </select>
-                    <span id="floorError" class="text-danger"></span>
-                    <span th:if="${error != null}" class="btn danger" th:text="${error}"></span>
+                    <div class="row" >
+                        <div class="col-md-4">
+                            <label for="dorm">Dorm Gender</label>
+                            <select class="form-control" style="width: 50%"  id="gender" name="gender" onchange="updategenderAndDormName()">
+                                <option value="" disabled selected>-- Select Dorm Gender --</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="dorm">Dorm Name</label>
+                            <select class="form-control" style="width: 50%" id="dorm" name="dorm" onchange="updateFloorAndRooms()">
+                                <option value="" disabled selected>-- Select Dorm Name --</option>
+                            </select>
+                            <span id="dormError" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+
+                            <label for="floor">Floor</label>
+                            <select class="form-control" style="width: 50%" id="floor" name="floor" onchange="updateRoom(0)">
+                                <option value="" disabled selected>-- Select Floor --</option>
+                            </select>
+                            <span id="floorError" class="text-danger"></span>
+                            <span th:if="${error != null}" class="btn danger" th:text="${error}"></span>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="canvas-wrapper">
@@ -421,137 +459,167 @@
                                 <table id="roomTable" class="posts-table">
                                     <thead>
                                     <tr class="users-table-info">
-                                        <th style="width: 100px">No.</th>
-                                        <th style="width: 400px">Room Number</th>
-                                        <th style="width: 400px">Action</th>
+                                        <th>Room Number</th>
+                                        <th>Capacity</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <!--                                    <tr th:each="room : ${rooms}">-->
-                                    <!--                                        <td th:text="${room.roomId}"></td>-->
-                                    <!--                                        <td th:text="${room.floorId}"></td>-->
-                                    <!--                                        <td th:text="${room.roomNumber}"></td>-->
-                                    <!--                                        <td style="width: 700px">-->
-                                    <!--                                            <form th:action="@{/fpt-dorm/employee/usage-service/{id}(id=${room.roomId})}"-->
-                                    <!--                                                  method="post">-->
-                                    <!--                                                <input type="number" placeholder="Electricity" name="electric">-->
-                                    <!--                                                <input type="number" placeholder="Water" name="water">-->
-                                    <!--                                                <input type="number" placeholder="Others" name="others">-->
-                                    <!--                                                <button class="btn primary" type="submit">Save</button>-->
-                                    <!--                                            </form>-->
-                                    <!--                                        </td>-->
-                                    <!--                                    </tr>-->
-                                    </tbody>
+                                    <tbody></tbody>
                                 </table>
+
+                                <div class="pagination-wrapper">
+                                    <nav aria-label="Page navigation">
+                                        <ul id="paginationList" class="pagination">
+                                            <!-- Các nút phân trang sẽ được thêm vào đây bởi JavaScript -->
+                                        </ul>
+                                    </nav>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id="popupForm" class="popup" style="width: 600px; height: 430px; border-radius:10px">
-                    <div class="popup-header" style="margin-bottom: 20px">
-                        <h1>Usage service for <span id="roomNumber"></span></h1>
-                        <span class="close">&times;</span>
+
+                    <div class="offset-sm-2 col-sm-2 d-grid">
+                        <a class="btn secondary-default-btn" onclick="window.history.back()"
+                           role="button">Back</a>
                     </div>
-                    <form id="usageServiceForm" method="post">
-                        <input type="hidden" id="roomId" name="roomId">
-                        <div class="form-group">
-                            <label>Electricity:</label>
-                            <div class="row">
-                                <input class="col-11" min="0" type="number" placeholder="Electricity" name="electric"
-                                       required>
-                                <span class="col-1">KW</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Water:</label>
-                            <div class="row">
-                                <input class="col-11" min="0" type="number" placeholder="Water" name="water" required>
-                                <span class="col-1">&#13221;</span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Others:</label>
-                            <div class="row">
-                                <input class="col-11" min="0" type="number" placeholder="Others" name="others" required>
-                                <span class="col-1">000 VND</span>
-                            </div>
-                        </div>
-                        <button class="btn primary" type="submit">Send</button>
-                    </form>
                 </div>
             </div>
         </main>
-        <!-- ! Footer -->
-        <footer class="footer">
-            <div class="container footer--flex">
-            </div>
-        </footer>
+
     </div>
+
 </div>
-<!-- Chart library -->
+<script>
+    function updategenderAndDormName() {
+        var gender = document.getElementById("gender").value;
+        fetch(`/fpt-dorm/employee/dorms-by-gender?gender=${gender}`)
+            .then(response => response.json())
+            .then(data => {
+                var dormSelect = document.getElementById("dorm");
+                dormSelect.innerHTML = '<option value="" disabled selected>-- Select Dorm Name --</option>';
+                data.forEach(dorm => {
+                    var option = document.createElement("option");
+                    option.value = dorm.dormId;
+                    option.textContent = dorm.dormName;
+                    dormSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+
+
+<script>
+    function updateFloorAndRooms() {
+        const dormId = document.getElementById("dorm").value;
+
+        $.get('/fpt-dorm/employee/all-room/floor', { dormId: dormId }, function (data) {
+            let floorSelect = $('#floor');
+            floorSelect.empty();
+            floorSelect.append('<option value="" disabled selected>-- Select Floor --</option>');
+
+            $.each(data, function (i, floor) {
+                floorSelect.append('<option value="' + floor.floorNumber + '">' + floor.floorNumber + '</option>');
+            });
+
+            clearRoomTableAndPagination();
+
+            if (data.length > 0) {
+                document.getElementById("floor").value = data[0].floorNumber;
+                updateRoom(0);
+            }
+        }).fail(function() {
+            $('#dormError').text('Failed to retrieve floor data. Please try again later.');
+        });
+    }
+    function updateRoom(page) {
+        const floorNumber = document.getElementById("floor").value;
+        const dormId = document.getElementById("dorm").value;
+
+        $.get('/fpt-dorm/employee/all-room/room-list', { dormId: dormId, floorNumber: floorNumber, page: page }, function (data) {
+            console.log("Data from server:", data); // Thêm dòng này để log dữ liệu từ server
+
+            let roomTable = $('#roomTable tbody');
+            roomTable.empty();
+
+            $.each(data.content, function (i, room) {
+                var row = $('<tr>\n' +
+                    '<td>' + room.roomNumber + '</td>\n' +
+                    '<td>' + room.capacity + '</td>\n' +
+                    '<td><button class="btn btn-primary detail-button" data-room-number="' + room.roomNumber + '">Detail</button></td>\n' +
+                    '</tr>');
+                roomTable.append(row);
+            });
+
+            roomTable.off('click', '.detail-button').on('click', '.detail-button', function() {
+                var roomNumber = $(this).data('room-number');
+                window.location.href = '/fpt-dorm/employee/room-detail?roomNumber=' + roomNumber;
+            });
+
+            updatePagination(data);
+        }).fail(function() {
+            $('#floorError').text('Failed to retrieve room data. Please try again later.');
+        });
+    }
+
+    function updatePagination(data) {
+        let paginationList = $('#paginationList');
+        paginationList.empty();
+
+        if (data.totalPages > 1) {
+            let first = '<li class="page-item ' + (data.number === 0 ? 'disabled' : '') + '">' +
+                '<a class="page-link" href="#" onclick="updateRoom(0); return false;" aria-label="First">' +
+                '<span aria-hidden="true">&laquo;</span>' +
+                '</a>' +
+                '</li>';
+            paginationList.append(first);
+
+            for (let i = 0; i < data.totalPages; i++) {
+                let active = (i === data.number) ? 'active' : '';
+                let pageItem = '<li class="page-item ' + active + '">' +
+                    '<a class="page-link" href="#" onclick="updateRoom(' + i + '); return false;">' + (i + 1) + '</a>' +
+                    '</li>';
+                paginationList.append(pageItem);
+            }
+
+            let last = '<li class="page-item ' + (data.number === data.totalPages - 1 ? 'disabled' : '') + '">' +
+                '<a class="page-link" href="#" onclick="updateRoom(' + (data.totalPages - 1) + '); return false;" aria-label="Last">' +
+                '<span aria-hidden="true">&raquo;</span>' +
+                '</a>' +
+                '</li>';
+            paginationList.append(last);
+        }
+    }
+
+
+
+
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-room');
+        const B = document.getElementById('menu-all-room');
+
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script>
 <script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
 <script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="/static/admin_homepage/js/script.js"></script>
-<script>
-    function updateFloors() {
-        const dormId = document.getElementById("dorm").value;
-        $.get('/fpt-dorm/user/booking/floors', {dormId: dormId}, function (data) {
-            let floorSelect = $('#floor');
-            floorSelect.empty();
-            floorSelect.append('<option value="" disabled selected>-- Select Floor --</option>');
-            $.each(data, function (i, floor) {
-                floorSelect.append('<option value="' + floor.floorId + '">' + floor.floorNumber + '</option>');
-            });
-        });
-    }
 
-    function updateRooms() {
-        const floorId = document.getElementById("floor").value;
-        $.get('/fpt-dorm/user/booking/roomsByFloor', {floorId: floorId}, function (data) {
-            let roomTable = $('#roomTable tbody');
-            roomTable.empty(); // Clear existing rows
-            $.each(data, function (i, room) {
-                roomTable.append('<tr>\n' +
-                    '<td>' + room.roomId + '</td>\n' +
-                    '<td>' + room.roomNumber + '</td>\n' +
-                    '<td>\n' +
-                    '<button class="btn primary popupBtn" data-room-id="' + room.roomId + '" data-room-number="' + room.roomNumber + '">Update</button>\n' +
-                    '</td>\n' +
-                    '</tr>');
-            });
-            $(document).on('click', '.popupBtn', function () {
-                const roomId = $(this).data('room-id');
-                const roomNumber = $(this).data('room-number');
-                $('#roomId').val(roomId);
-                $('#roomNumber').text(roomNumber);
-                $('#popupForm').show();
-            });
-
-            // Close popup form
-            $('.close').click(function () {
-                $('#popupForm').hide();
-            });
-
-            // Handle form submission
-            $('#usageServiceForm').submit(function (e) {
-                e.preventDefault(); // Prevent the form from submitting the default way
-                const formData = $(this).serialize();
-
-                $.post('/fpt-dorm/employee/usage-service/' + $('#roomId').val(), formData, function (response) {
-                    // Hide the row after successful submission
-                    $('button[data-room-id="' + $('#roomId').val() + '"]').closest('tr').hide();
-                    $('#popupForm').hide(); // Hide the popup form
-                }).fail(function () {
-                    alert('Failed to submit data');
-                });
-            });
-        }).fail(function () {
-            alert("Failed to retrieve room data. Please try again later.");
-        });
-    }
-</script>
 </body>
 
 </html>

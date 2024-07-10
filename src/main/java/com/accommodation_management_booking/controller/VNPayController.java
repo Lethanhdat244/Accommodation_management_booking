@@ -162,7 +162,7 @@ public class VNPayController {
 
         System.out.println(totalPrice);
 
-        return "redirect:" + paymentUrl;
+        return "redirect:"+paymentUrl;
     }
 
     @GetMapping("/vnpay/cancel")

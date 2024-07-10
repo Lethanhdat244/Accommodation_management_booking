@@ -154,12 +154,12 @@
                         <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a id="menu-student" class="show-cat-btn">
+                        <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
-                                <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                            </span>
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
@@ -172,9 +172,8 @@
                             </li>
                         </ul>
                     </li>
-
                     <li>
-                        <a class="show-cat-btn">
+                        <a class="show-cat-btn" >
                             <span class="icon folder" aria-hidden="true"></span>Room
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -183,20 +182,16 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{admin_list_room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
                             <li>
                                 <a th:href="@{admin_add_new_room}">Add new room</a>
                             </li>
-                            <li>
-                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>
-                            </li>
                         </ul>
                     </li>
 
-
                     <li>
-                        <a class="show-cat-btn">
+                        <a class="show-cat-btn" >
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -234,25 +229,17 @@
                         </ul>
                     </li>
 
-
                     <li>
-                        <a th:href="@{admin/admin_chart}">
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Chart
+                            Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_booking_list}">
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
+                            Resident History
                         </a>
                     </li>
 
@@ -264,15 +251,17 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
                     </li>
+
+
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/admin_Resident_History/list}">
+                        <a th:href="@{/fpt-dorm/employee/notifications}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
+                            Notifications
                         </a>
                     </li>
                 </ul>
@@ -456,8 +445,7 @@
                             <div class="pagination-wrapper">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination">
-                                        <li class="page-item"
-                                            th:classappend="${paymentPage.hasPrevious()} ? '' : 'disabled'">
+                                        <li class="page-item" th:classappend="${paymentPage.hasPrevious()} ? '' : 'disabled'">
                                             <a class="page-link"
                                                th:href="@{|?page=${paymentPage.number - 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                aria-label="Previous">
@@ -471,8 +459,7 @@
                                                th:href="@{|?page=${i}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                th:text="${i + 1}">1</a>
                                         </li>
-                                        <li class="page-item"
-                                            th:classappend="${paymentPage.hasNext()} ? '' : 'disabled'">
+                                        <li class="page-item" th:classappend="${paymentPage.hasNext()} ? '' : 'disabled'">
                                             <a class="page-link"
                                                th:href="@{|?page=${paymentPage.number + 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                aria-label="Next">

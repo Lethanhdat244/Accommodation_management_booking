@@ -18,4 +18,6 @@ public interface RoomAllService {
 
     List<Bed> getBedsByRoomNumber(String roomNumber);
 
+    List<Dorm> getDormsByGender(Dorm.DormGender gender);
+
 }
