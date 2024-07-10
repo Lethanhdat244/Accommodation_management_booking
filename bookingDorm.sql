@@ -123,7 +123,7 @@ CREATE TABLE `usage_service` (
                                  `electricity` float NOT NULL,
                                  `water` float NOT NULL,
                                  `others` float NOT NULL,
-                                 `payment_method` enum('Paypal','BankQRCode') NOT NULL,
+                                 `payment_method` enum('Paypal','BankQRCode') NULL,
                                  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
                                  `quantity` float DEFAULT NULL,
                                  PRIMARY KEY (`service_booking_id`),

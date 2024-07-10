@@ -44,7 +44,7 @@ public class RequestController {
     @GetMapping("fpt-dorm/user/my-request")
     public String studentRequest(Model model,
                                  @RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "8") int size,
+                                 @RequestParam(defaultValue = "3") int size,
                                  Authentication authentication) {
         Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
@@ -123,19 +123,11 @@ public class RequestController {
                 e.printStackTrace();
             }
         } catch (IllegalArgumentException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            e.printStackTrace();
-            Page<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId(), pageable);
-            model.addAttribute("complaintDTOList", complainList);
-            return "student_request";
+            return "redirect:/fpt-dorm/user/my-request";
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "An error occurred while creating complain. Please try again.");
-            e.printStackTrace();
-            Page<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId(), pageable);
-            model.addAttribute("complaintDTOList", complainList);
-            return "student_request";
+            return "redirect:/fpt-dorm/user/my-request";
         }
 
-        return "student_request";
+        return "redirect:/fpt-dorm/user/my-request";
     }
 }
