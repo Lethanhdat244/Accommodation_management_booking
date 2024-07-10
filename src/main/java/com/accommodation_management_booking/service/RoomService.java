@@ -26,6 +26,7 @@ public interface RoomService {
     Room findByFloorAndRoomNumber(Floor floor, String roomNumber);
 
     boolean isBedNameDuplicate(String bedName, Room room);
+
 }
 
 

@@ -309,21 +309,25 @@
                 <h2 th:if="${error}" style="color: red; margin-top: 30px;">
                     <p th:text="${error}"></p>
                 </h2>
-                <div style="padding-top: 20px; height: 300px; width: 500px; margin-top: 30px;"
-                     class="users-table table-wrapper posts-table">
-                    <form th:action="@{'/fpt-dorm/admin/add-room/' + ${dormId} + '/' + ${floorId}}" th:object="${room}"
-                          method="post">
+                <div style="padding-top: 20px; height: 300px; width: 500px; margin-top: 30px;" class="users-table table-wrapper posts-table">
+                    <form th:action="@{'/fpt-dorm/admin/add-room/' + ${dormId} + '/' + ${floorId}}" th:object="${room}" method="post">
                         <div>
                             <label>Room Number:</label>
-                            <input type="text" th:field="*{roomNumber}" required/>
+                            <input type="text" th:field="*{roomNumber}" required />
                         </div>
                         <div style="margin-top: 30px;">
                             <label>Capacity:</label>
-                            <input type="number" th:field="*{capacity}" min="0" required/>
+                            <div style="display: flex; align-items: center; margin-top: 30px;">
+                                <input type="radio" id="capacity4" name="capacity" value="4" th:field="*{capacity}" onchange="updatePrice()" required />
+                                <label for="capacity4" style="margin-left: 8px; margin-right: 20px;">4 beds</label>
+                                <input type="radio" id="capacity6" name="capacity" value="6" th:field="*{capacity}" onchange="updatePrice()" required />
+                                <label for="capacity6" style="margin-left: 8px;">6 beds</label>
+                            </div>
+
                         </div>
                         <div style="margin-top: 30px;">
                             <label>Price per Bed:</label>
-                            <input type="number" th:field="*{pricePerBed}" step="1" required/>
+                            <input type="number" th:field="*{pricePerBed}" step="1" id="pricePerBed" readonly required />
                         </div>
                         <div style="margin-top: 30px;">
                             <button type="submit" class="btn btn-primary"
@@ -333,6 +337,21 @@
                         </div>
                     </form>
                 </div>
+
+                <script>
+                    function updatePrice() {
+                        var pricePerBedInput = document.getElementById("pricePerBed");
+                        var capacity4 = document.getElementById("capacity4");
+                        var capacity6 = document.getElementById("capacity6");
+
+                        if (capacity4.checked) {
+                            pricePerBedInput.value = 1000000;
+                        } else if (capacity6.checked) {
+                            pricePerBedInput.value = 1200000;
+                        }
+                    }
+                </script>
+
 
 
                 <div class="row" style="margin-top: 30px;">

@@ -113,4 +113,6 @@ public class RoomServiceImpl implements RoomService {
     public boolean isBedNameDuplicate(String bedName, Room room) {
         return bedRepository.findByRoomAndBedName(room, bedName) != null;
     }
+
+
 }

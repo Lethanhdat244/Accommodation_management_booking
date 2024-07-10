@@ -258,7 +258,7 @@ public class DormController {
             model.addAttribute("floorNumber", floor.getFloorNumber());
 
         } catch (RuntimeException e) {
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("error", "Fail to add room");
 
             return "admin/dorm-manager/admin_add_room"; // Hoặc trang lỗi khác
         }
@@ -290,6 +290,11 @@ public class DormController {
             }
 
             // Add room to floor
+            List<Room> rooms = roomService.getRoomsByFloorId(floorId);
+            if (rooms.size() >= 10) {
+                redirectAttributes.addFlashAttribute("error", "The floor already has 10 rooms. Cannot add more.");
+                return "redirect:/fpt-dorm/admin/view-rooms/" + dormId + "/" + floorId;
+            }
             roomService.addRoomToFloor(floorId, room);
 
             // Create and add beds to the room based on the capacity
@@ -305,6 +310,7 @@ public class DormController {
             return "redirect:/fpt-dorm/admin/view-rooms/" + dormId + "/" + floorId;
         }
     }
+
 
 
     @GetMapping("/fpt-dorm/admin/edit-room/{dormId}/{floorId}/{roomId}")
@@ -330,9 +336,14 @@ public class DormController {
     }
 
     @PostMapping("/fpt-dorm/admin/edit-room/{dormId}/{floorId}/{roomId}")
-    public String editRoom(@PathVariable int dormId, @PathVariable int floorId, @PathVariable int roomId, @ModelAttribute Room room, Model model) {
+    public String editRoom(@PathVariable int dormId, @PathVariable int floorId, @PathVariable int roomId, @ModelAttribute Room room, Model model , RedirectAttributes redirectAttributes) {
         Room existingRoom = roomService.getRoomById(roomId);
         if (existingRoom != null) {
+            boolean roomExists = roomService.existsByRoomNumberAndFloorId(room.getRoomNumber(), floorId);
+            if (roomExists) {
+                redirectAttributes.addFlashAttribute("error", "Room number already exists in the given floor");
+                return "redirect:/fpt-dorm/employee/view-rooms/" + dormId + "/" + floorId;
+            }
             existingRoom.setRoomNumber(room.getRoomNumber());
             existingRoom.setCapacity(room.getCapacity());
             existingRoom.setPricePerBed(room.getPricePerBed());
@@ -344,6 +355,7 @@ public class DormController {
             return "admin/dorm-manager/admin_edit_room"; // Hoặc trang lỗi khác
         }
     }
+
 
 
     @GetMapping("/fpt-dorm/admin/delete-room/{dormId}/{floorId}/{roomId}")
@@ -672,7 +684,7 @@ public class DormController {
             model.addAttribute("floorNumber", floor.getFloorNumber());
 
         } catch (RuntimeException e) {
-            model.addAttribute("error", e.getMessage());
+            model.addAttribute("error", "Fail to add room");
 
             return "employee/dorm-manager/add_room"; // Hoặc trang lỗi khác
         }
@@ -704,6 +716,11 @@ public class DormController {
             }
 
             // Add room to floor
+            List<Room> rooms = roomService.getRoomsByFloorId(floorId);
+            if (rooms.size() >= 10) {
+                redirectAttributes.addFlashAttribute("error", "The floor already has 10 rooms. Cannot add more.");
+                return "redirect:/fpt-dorm/employee/view-rooms/" + dormId + "/" + floorId;
+            }
             roomService.addRoomToFloor(floorId, room);
 
             // Create and add beds to the room based on the capacity
