@@ -33,19 +33,19 @@
       font-weight: bold;
     }
 
-    .info {
+    .btninfo {
       color: #555555;
     }
 
-    .danger {
+    .btndanger {
       color: red;
     }
 
-    .success {
+    .btnsuccess {
       color: green;
     }
 
-    .warning {
+    .btnwarning {
       color: #ffb648;
     }
 
@@ -206,6 +206,19 @@
           <li><a class="active" th:href="@{/fpt-dorm/employee/complain}"><span class="icon folder"
                                                                                aria-hidden="true"></span>Complaint</a>
           </li>
+          <li>
+            <a th:href="@{/fpt-dorm/employee/usage-service}">
+              <span class="icon folder" aria-hidden="true"></span>
+              Usage Service
+            </a>
+          </li>
+
+          <li>
+            <a th:href="@{/fpt-dorm/employee/notifications}">
+              <span class="icon folder" aria-hidden="true"></span>
+              Notifications
+            </a>
+          </li>
         </ul>
       </div>
     </div>
@@ -357,13 +370,13 @@
                 <div class="form-group">
                   <label>Status:</label>
                   <select class="" id="status" name="status" th:field="*{status}">
-                    <option class="info" th:value="WAITING" th:text="WAITING"
+                    <option class="btninfo" th:value="WAITING" th:text="WAITING"
                             th:selected="${complainObj.status == 'WAITING'}"></option>
-                    <option class="warning" th:value="INPROGRESS" th:text="INPROGRESS"
+                    <option class="btnwarning" th:value="INPROGRESS" th:text="INPROGRESS"
                             th:selected="${complainObj.status == 'INPROGRESS'}"></option>
-                    <option class="success" th:value="DONE" th:text="DONE"
+                    <option class="btnsuccess" th:value="DONE" th:text="DONE"
                             th:selected="${complainObj.status == 'DONE'}"></option>
-                    <option class="danger" th:value="REJECT" th:text="REJECT"
+                    <option class="btndanger" th:value="REJECT" th:text="REJECT"
                             th:selected="${complainObj.status == 'REJECT'}"></option>
                   </select>
                 </div>

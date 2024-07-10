@@ -23,19 +23,19 @@
             font-weight: 700;
         }
 
-        .primary {
+        .btnprimary {
             background: #2f49d1;
             color: white;
         }
 
-        .info {
+        .btninfo {
             color: #555555;
             background-color: rgba(58, 72, 65, 0.1);
             padding: 5px 15px;
             border-radius: 15px;
         }
 
-        .warning {
+        .btnwarning {
             color: #ffb648;
             background-color: rgba(255, 172, 50, .1);
             padding: 5px 15px;
@@ -55,14 +55,14 @@
             margin-top: 0.5em;
         }
 
-        .success {
+        .btnsuccess {
             color: green;
             background-color: rgba(75, 222, 151, 0.1);
             padding: 5px 15px;
             border-radius: 15px;
         }
 
-        .danger {
+        .btndanger {
             color: red;
             background-color: rgba(222, 75, 126, 0.1);
             padding: 5px 15px;
@@ -366,24 +366,24 @@
                     <form th:action="@{/fpt-dorm/employee/complain}" th:method="get">
                         <select class="" id="status" name="status">
                             <option class="" value="" th:selected="${statusForm == null}">All Type</option>
-                            <option class="info" value="WAITING"
+                            <option class="btninfo" value="WAITING"
                                     th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING}">
                                 Waiting
                             </option>
-                            <option class="warning" value="INPROGRESS"
+                            <option class="btnwarning" value="INPROGRESS"
                                     th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS}">
                                 In Progress
                             </option>
-                            <option class="success" value="DONE"
+                            <option class="btnsuccess" value="DONE"
                                     th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).DONE}">
                                 Done
                             </option>
-                            <option class="danger" value="REJECT"
+                            <option class="btndanger" value="REJECT"
                                     th:selected="${statusForm == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT}">
                                 Reject
                             </option>
                         </select>
-                        <button class="btn primary" type="submit">Filter</button>
+                        <button class="btn btnprimary" type="submit">Filter</button>
                     </form>
                 </div>
                 <div class="row">
@@ -393,11 +393,11 @@
                                 <table class="posts-table">
                                     <thead>
                                     <tr class="users-table-info">
-                                        <th>No.</th>
-                                        <th style="width: 700px">Title</th>
-                                        <th>Sent At</th>
-                                        <th>Status</th>
-                                        <th style="width: 150px">Action</th>
+                                        <th class="col-1">No.</th>
+                                        <th class="col-5">Title</th>
+                                        <th class="col-2">Sent At</th>
+                                        <th class="col-2">Status</th>
+                                        <th class="col-2">Action</th>
                                     </tr>
                                     </thead>
                                     <tbody th:if="${message == null}">
@@ -407,14 +407,14 @@
                                         <td th:text="${complain.getFormattedCreatedAt()}"></td>
                                         <td>
                                                 <span th:text="${complain.status.getDisplayName()}"
-                                                      th:class="${complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING ? 'info' :
-                                                           (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS ? 'warning' :
-                                                           (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).DONE ? 'success' :
-                                                           (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT ? 'danger' : '')))}">
+                                                      th:class="${complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).WAITING ? 'btninfo' :
+                                                           (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).INPROGRESS ? 'btnwarning' :
+                                                           (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).DONE ? 'btnsuccess' :
+                                                           (complain.status == T(com.accommodation_management_booking.entity.Complaint.Status).REJECT ? 'btndanger' : '')))}">
                                                 </span>
                                         </td>
                                         <td>
-                                            <a class="btn primary"
+                                            <a class="btn btnprimary"
                                                th:href="@{/fpt-dorm/employee/complain/execute/{id}(id=${complain.complaintId})}">Execute</a>
                                             <!--                                                <span class="p-relative">-->
                                             <!--                                                    <button class="dropdown-btn transparent-btn" type="button"-->
