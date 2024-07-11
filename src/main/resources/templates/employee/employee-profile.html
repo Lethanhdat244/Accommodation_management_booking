@@ -295,7 +295,9 @@
                         <div class="profile-info">
                             <h1 class="profile-name" th:text="${user.username}">User Name</h1>
                             <p class="profile-email" th:text="${user.email}">Email</p>
-                            <button class="edit-profile-btn">Edit Profile</button>
+                            <a th:href="@{/fpt-dorm/employee/edit-profile}">
+                                <button class="edit-profile-btn">Edit Profile</button>
+                            </a>
                         </div>
                     </div>
                     <div class="profile-body">

@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Dashboard | Dashboard</title>
+    <title>ADMIN | EDIT ROOM</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -47,7 +47,22 @@
             padding: 5px; /* Căn lề nội dung bên trong dropdown */
         }
 
-    </style>
+    </style><script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-dorm');
+        const B = document.getElementById('dorm-list');
+
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script>
 </head>
 <body>
 <div class="layer"></div>
@@ -95,7 +110,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a id="menu-dorm" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -104,10 +119,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
+                                <a id="dorm-list" class=""  th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
                         </ul>
                     </li>
@@ -319,14 +334,32 @@
                         window.history.back();
                     }, 3000); // Redirect after 3 seconds if no error
                 </script>
-                <div style="padding-top: 20px; height: 300px; width: 500px; margin-top: 30px;"
+                <div style="padding-top: 20px; height: 330px; width: 500px; margin-top: 30px;"
                      class="users-table table-wrapper posts-table">
                     <form th:action="@{'/fpt-dorm/admin/edit-room/' + ${dormId} + '/' + ${floorId} + '/' + ${room.roomId}}"
                           th:object="${room}" method="post">
                         <div>
                             <label>Room Number:</label>
-                            <input type="text" th:field="*{roomNumber}" required/>
+                            <input type="text" th:field="*{roomNumber}" required oninput="validateRoomNumber(this)"/>
                         </div>
+                        <script th:inline="javascript">
+                            /*<![CDATA[*/
+                            function validateRoomNumber(input) {
+                                var roomNumberValue = input.value.trim();  // Lấy giá trị và loại bỏ dấu cách thừa ở đầu và cuối
+                                roomNumberValue = roomNumberValue.replace(/\s+/g, ' ');  // Thay thế nhiều dấu cách liên tiếp thành một dấu cách
+
+                                // Kiểm tra nếu giá trị chỉ là dấu cách
+                                if (roomNumberValue.length === 0) {
+                                    input.setCustomValidity("Room Number cannot be empty or just spaces.");
+                                } else {
+                                    input.setCustomValidity("");  // Đặt thông báo lỗi trống nếu giá trị hợp lệ
+                                }
+
+                                input.value = roomNumberValue;  // Cập nhật giá trị vào trường nhập liệu
+                            }
+                            /*]]>*/
+                        </script>
+
                         <div style="margin-top: 30px;">
                             <label>Capacity:</label>
                             <script>
@@ -341,10 +374,13 @@
                                         pricePerBedInput.value = 1200000;
                                     }
                                 }
-                            </script>                            <div style="display: flex; align-items: center; margin-top: 30px;">
-                                <input type="radio" id="capacity4" name="capacity" value="4" th:field="*{capacity}" onchange="updatePrice()" required />
+                            </script>
+                            <div style="display: flex; align-items: center; margin-top: 30px;">
+                                <input type="radio" id="capacity4" name="capacity" value="4" th:field="*{capacity}"
+                                       onchange="updatePrice()" required/>
                                 <label for="capacity4" style="margin-left: 8px; margin-right: 20px;">4 beds</label>
-                                <input type="radio" id="capacity6" name="capacity" value="6" th:field="*{capacity}" onchange="updatePrice()" required />
+                                <input type="radio" id="capacity6" name="capacity" value="6" th:field="*{capacity}"
+                                       onchange="updatePrice()" required/>
                                 <label for="capacity6" style="margin-left: 8px;">6 beds</label>
                             </div>
                         </div>
@@ -359,6 +395,8 @@
                         </button>
                     </form>
                 </div>
+                <h2>List Room in Floor <span th:text="${floorNumber}">Floor Number</span> in Dorm <span
+                        th:text="${dormName}">Dorm Name</span></h2>
                 <div class="row" style="margin-top: 30px;">
                     <div class="col-lg-11">
                         <div class="users-table table-wrapper">

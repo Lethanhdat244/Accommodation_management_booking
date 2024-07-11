@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Dashboard | Dashboard</title>
+    <title>ADMIN | DORM </title>
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
 </head>
 
@@ -38,7 +38,37 @@
         margin-right: 10px;
     }
 </style>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-employee');
+        const B = document.getElementById('dorm-list');
 
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script><script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-dorm');
+        const B = document.getElementById('dorm-list');
+
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script>
 <body>
 <div class="layer"></div>
 <div class="page-flex">
@@ -83,7 +113,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a id="menu-dorm" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -92,10 +122,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
+                                <a id="dorm-list" class=""  th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
                         </ul>
                     </li>
@@ -261,7 +291,7 @@
                                     </div>
                                 </a>
                             </li>
-                            <li
+                            <li>
                             <a class="link-to-page" href="##">Go to Notifications page</a>
                             </li>
                         </ul>
@@ -306,9 +336,31 @@
 
                 <div id="addDormForm" style="display: none; padding-top: 20px; height: 200px; width: 500px; margin-top: 30px;"
                      class="users-table table-wrapper posts-table">
-                    <form action="/fpt-dorm/admin/save" method="post" th:object="${dorm}">
+                    <form action="/fpt-dorm/admin/save" method="post" th:object="${dorm}" onsubmit="return validateForm()">
                         <input type="hidden" th:field="*{dormId}">
                         <p>Dorm Name: <input type="text" th:field="*{dormName}" required></p>
+                        <div th:if="${#fields.hasErrors('dormName')}">
+                            <p th:errors="*{dormName}">Dorm Name Error</p>
+                        </div>
+
+                        <script>
+                            function validateForm() {
+                                var dormNameField = document.querySelector('[name="dormName"]');
+                                var dormNameValue = dormNameField.value;
+
+                                // Replace multiple spaces with a single space
+                                dormNameValue = dormNameValue.replace(/\s+/g, ' ').trim();
+
+                                // Check if the dorm name is only spaces
+                                if (dormNameValue.length === 0) {
+                                    alert("Dorm Name cannot be empty or just spaces.");
+                                    return false;
+                                }
+
+                                dormNameField.value = dormNameValue;
+                                return true;
+                            }
+                        </script>
                         <p style="margin-top: 50px;">Dorm Gender:
                             <select th:field="*{dormGender}">
                                 <option th:each="gender : ${T(com.accommodation_management_booking.entity.Dorm$DormGender).values()}"

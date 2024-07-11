@@ -123,9 +123,24 @@ public class ProfileController {
         }
     }
 
-    @GetMapping("/fpt-dorm/user/edit-profile/{email}")
-    public String showEditProfileForm(@PathVariable("email") String email, Model model) {
+    @GetMapping("/fpt-dorm/user/edit-profile")
+    public String showEditProfileForm(Model model) {
         // Lấy thông tin của người dùng từ cơ sở dữ liệu bằng email
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = null;
+
+        // Extract email from the authentication object
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            email = oauth2User.getAttribute("email");
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            email = userDetails.getUsername();
+        } else {
+            // Handle cases where the authentication is not OAuth2 or UserDetails
+            email = "Unknown";
+        }model.addAttribute("email", email);
         User user = userService.findByEmail(email);
         model.addAttribute("user", user);
         return "user/editUserProfile";
@@ -146,12 +161,27 @@ public class ProfileController {
             e.printStackTrace();
             return "user_profile";
         }
-        return "redirect:/fpt-dorm/user/profile?email=" + email;
+        return "redirect:/fpt-dorm/user/profile";
     }
 
 
-    @GetMapping("/fpt-dorm/admin/edit-profile/{email}")
-    public String showEditAdminProfile(@PathVariable("email") String email, Model model) {
+    @GetMapping("/fpt-dorm/admin/edit-profile")
+    public String showEditAdminProfile(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = null;
+
+        // Extract email from the authentication object
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            email = oauth2User.getAttribute("email");
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            email = userDetails.getUsername();
+        } else {
+            // Handle cases where the authentication is not OAuth2 or UserDetails
+            email = "Unknown";
+        }model.addAttribute("email", email);
         // Lấy thông tin của người dùng từ cơ sở dữ liệu bằng email
         User user = userService.findByEmail(email);
         model.addAttribute("user", user);
@@ -173,11 +203,26 @@ public class ProfileController {
             e.printStackTrace();
             return "admin/admin-profile";
         }
-        return "redirect:/fpt-dorm/admin/edit-profile/" + email + "?success";
+        return "redirect:/fpt-dorm/admin/edit-profile?success";
     }
 
-    @GetMapping("/fpt-dorm/employee/edit-profile/{email}")
-    public String showEditEmployeeProfile(@PathVariable("email") String email, Model model) {
+    @GetMapping("/fpt-dorm/employee/edit-profile")
+    public String showEditEmployeeProfile(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = null;
+
+        // Extract email from the authentication object
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
+            OAuth2User oauth2User = oauth2Token.getPrincipal();
+            email = oauth2User.getAttribute("email");
+        } else if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            email = userDetails.getUsername();
+        } else {
+            // Handle cases where the authentication is not OAuth2 or UserDetails
+            email = "Unknown";
+        }model.addAttribute("email", email);
         // Lấy thông tin của người dùng từ cơ sở dữ liệu bằng email
         User user = userService.findByEmail(email);
         model.addAttribute("user", user);
@@ -199,7 +244,7 @@ public class ProfileController {
             e.printStackTrace();
             return "employee/employee-profile";
         }
-        return "redirect:/fpt-dorm/employee/edit-profile/" + email + "?success";
+        return "redirect:/fpt-dorm/employee/edit-profile?success";
     }
 
 

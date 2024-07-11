@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Dashboard | Dashboard</title>
+    <title>EMPLOYEE | ROOMS LIST</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -41,6 +41,22 @@
             margin-right: 10px;
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const A = document.getElementById('menu-dorm');
+            const B = document.getElementById('dorm-list');
+
+            A.addEventListener('click', function () {
+                if (A.classList.contains('active')) {
+                    A.classList.remove('active');
+                    B.classList.add('active');
+                } else {
+                    A.classList.add('active');
+                    B.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -69,7 +85,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}" class="active"><span class="icon home"
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home"
                                                                                      aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
@@ -92,7 +108,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a id="menu-dorm" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -101,12 +117,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
+                                <a id="dorm-list" class=""  th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
                                 <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
-
                         </ul>
                     </li>
 

@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title> Dashboard | Dashboard</title>
+    <title> EMPLOYEE | BEDS LIST</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -110,7 +110,22 @@
         }
     </style>
 </head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-dorm');
+        const B = document.getElementById('dorm-list');
 
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script>
 <body>
 <div class="layer"></div>
 <!-- ! Body -->
@@ -137,7 +152,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}" class="active"><span class="icon home"
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home"
                                                                                      aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
@@ -160,7 +175,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a id="menu-dorm" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -169,12 +184,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
+                                <a id="dorm-list" class=""  th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
                                 <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
-
                         </ul>
                     </li>
 
@@ -380,11 +394,42 @@
 
                 <!-- Search input and button -->
                 <div class="search-container">
-                    <input type="text" id="searchInput" placeholder="Search by bed name..." >
+                    <input type="text" id="searchInput" placeholder="Search by bed name...">
                     <button type="button" onclick="searchBed()"
                             style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
                         Search
                     </button>
+                    <script>
+                        function searchBed() {
+                            var input = document.getElementById("searchInput").value.trim().toUpperCase();
+
+                            var table = document.querySelector(".users-table table");
+                            var rows = table.getElementsByTagName("tr");
+                            var found = false;
+
+                            for (var i = 0; i < rows.length; i++) {
+                                var td = rows[i].getElementsByTagName("td")[1]; // Column 3 is the bed name
+                                if (td) {
+                                    var textValue = td.textContent || td.innerText;
+                                    if (textValue.toUpperCase().indexOf(input) > -1) {
+                                        rows[i].style.display = "";
+                                        found = true;
+                                    } else {
+                                        rows[i].style.display = "none";
+                                    }
+                                }
+                            }
+
+                            // Show no results message if no beds are found
+                            document.getElementById("noResultsMessage").style.display = found ? "none" : "";
+
+                            // Reload the page if the search input is empty
+                            if (input === "") {
+                                window.location.reload();
+                            }
+                        }
+                    </script>
+
 
                     <button style="margin-left: 750px;background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
                         <a th:href="@{'/fpt-dorm/employee/add-bed/' + ${roomId}}">ADD</a></button>
@@ -393,113 +438,70 @@
                 <div class="row" style="margin-top: 30px;">
                     <div class="col-lg-11">
                         <div class="users-table table-wrapper">
-                            <form id="deleteForm"
-                                  th:action="@{/fpt-dorm/employee/delete-bed/{roomId}(roomId=${roomId})}" method="post">
-                                <table class="posts-table">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Room</th>
-                                        <th>Name</th>
-                                        <th>Available</th>
-                                        <th>Maintenance Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="bed : ${beds}">
-                                        <td><input type="checkbox" th:value="${bed.bedId}" name="bedIds"></td>
-                                        <td th:text="${bed.room.roomNumber}">101</td>
-                                        <td th:text="${bed.bedName}">Bed A</td>
-                                        <td th:text="${bed.isAvailable ? 'Yes' : 'No'}">Yes</td>
-                                        <td th:text="${bed.maintenanceStatus}">Available</td>
-                                        <td>
-                                            <a style="color: red"
-                                               th:href="@{'/fpt-dorm/employee/edit-bed/' + ${roomId} + '/' + ${bed.bedId}}">Edit</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                                <button type="button" onclick="deleteSelected()" style="background-color: blue; color: white;
-                            text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
-                                    Delete Selected
-                                </button>
-
-                                <div class="pagination-wrapper">
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination">
-                                            <li class="page-item" th:classappend="${beds.first ? 'disabled' : ''}">
-                                                <a class="page-link"
-                                                   th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${roomId},page=0)}"
-                                                   aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                            </li>
-                                            <li class="page-item"
-                                                th:each="pageNum : ${#numbers.sequence(0, beds.totalPages - 1)}"
-                                                th:class="${beds.number == pageNum ? 'active' : ''}">
-                                                <a class="page-link"
-                                                   th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${roomId},page=${pageNum})}"
-                                                   th:text="${pageNum + 1}"></a>
-                                            </li>
-                                            <li class="page-item" th:classappend="${beds.last ? 'disabled' : ''}">
-                                                <a class="page-link"
-                                                   th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${roomId},page=${beds.number + 1})}"
-                                                   aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </form>
+                            <table class="posts-table">
+                                <thead>
+                                <tr class="users-table-info">
+                                    <th>Room</th>
+                                    <th>Name</th>
+                                    <th>Available</th>
+                                    <th>Maintenance Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="bed : ${beds}">
+                                    <td th:text="${bed.room.roomNumber}">101</td>
+                                    <td th:text="${bed.bedName}">Bed A</td>
+                                    <td th:text="${bed.isAvailable ? 'Yes' : 'No'}">Yes</td>
+                                    <td th:text="${bed.maintenanceStatus}">Available</td>
+                                    <td>
+                <span class="p-relative">
+                    <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                        <div class="sr-only">More info</div>
+                        <i data-feather="more-horizontal" aria-hidden="true"></i>
+                    </button>
+                    <ul class="users-item-dropdown dropdown">
+                        <li class="dropdown-item"><a th:href="@{/fpt-dorm/employee/edit-bed/{roomId}/{bedId}(roomId=${roomId}, bedId=${bed.bedId})}">Quick Edit</a></li>
+                        <li><a th:href="@{/fpt-dorm/employee/delete-bed/{roomId}/{bedId}(roomId=${roomId}, bedId=${bed.bedId})}">Delete</a></li>
+                    </ul>
+                </span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div class="pagination-wrapper" th:if="${not beds.empty}">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <li class="page-item" th:classappend="${beds.first ? 'disabled' : ''}">
+                                            <a class="page-link"
+                                               th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${roomId},page=0)}"
+                                               aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"
+                                            th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                                            th:class="${beds.number == pageNum ? 'active' : ''}">
+                                            <a class="page-link"
+                                               th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${roomId},page=${pageNum})}"
+                                               th:text="${pageNum + 1}"></a>
+                                        </li>
+                                        <li class="page-item" th:classappend="${beds.last ? 'disabled' : ''}">
+                                            <a class="page-link"
+                                               th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${roomId},page=${beds.number + 1})}"
+                                               aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                            <!--                            </form>-->
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-        <script th:inline="javascript">
-            function deleteSelected() {
-                var form = document.getElementById('deleteForm');
-                var checkboxes = form.querySelectorAll('input[name="bedIds"]:checked');
-
-                if (checkboxes.length === 0) {
-                    alert('Please select at least one bed to delete.');
-                    return;
-                }
-
-                if (confirm('Are you sure you want to delete the selected beds?')) {
-                    form.submit();
-                }
-            }
-        </script>
-        <!-- JavaScript for search function -->
-        <script>
-            function searchBed() {
-                // Lấy giá trị từ ô input
-                var input = document.getElementById("searchInput").value.toUpperCase();
-
-                // Lấy danh sách các dòng trong bảng
-                var table = document.querySelector(".users-table table");
-                var rows = table.getElementsByTagName("tr");
-
-                // Duyệt qua từng dòng và ẩn hiện dựa trên từ khóa tìm kiếm
-                for (var i = 0; i < rows.length; i++) {
-                    var td = rows[i].getElementsByTagName("td")[2]; // Cột thứ 3 là tên giường (bedName)
-                    if (td) {
-                        var textValue = td.textContent || td.innerText;
-                        if (textValue.toUpperCase().indexOf(input) > -1) {
-                            rows[i].style.display = "";
-                        } else {
-                            rows[i].style.display = "none";
-                        }
-                    }
-                }
-            }
-        </script>
-
-
-        <!-- ! Footer -->
         <footer class="footer">
             <div class="container footer--flex">
             </div>

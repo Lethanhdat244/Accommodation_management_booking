@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Dashboard | Dashboard</title>
+    <title>EMPLOYEE | ADD ROOM</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -42,7 +42,22 @@
         }
     </style>
 </head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-dorm');
+        const B = document.getElementById('dorm-list');
 
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script>
 <body>
 <div class="layer"></div>
 <!-- ! Body -->
@@ -69,7 +84,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}" class="active"><span class="icon home"
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home"
                                                                                      aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
@@ -92,7 +107,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a id="menu-dorm" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -101,12 +116,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
+                                <a id="dorm-list" class=""  th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
                                 <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
-
                         </ul>
                     </li>
 
@@ -295,18 +309,40 @@
                 <h2 th:if="${error}" style="color: red; margin-top: 30px;">
                     <p th:text="${error}"></p>
                 </h2>
-                <div style="padding-top: 20px; height: 300px; width: 500px; margin-top: 30px;"
+                <div style="padding-top: 20px; height: 330px; width: 500px; margin-top: 30px;"
                      class="users-table table-wrapper posts-table">
                     <form th:action="@{'/fpt-dorm/employee/add-room/' + ${dormId} + '/' + ${floorId}}" th:object="${room}"
-                          method="post">
+                          method="post" onsubmit="return validateForm()">
                         <div>
                             <label>Room Number:</label>
                             <input type="text" th:field="*{roomNumber}" required/>
                         </div>
+                        <div th:if="${#fields.hasErrors('roomNumber')}">
+                            <p th:errors="*{roomNumber}">Room Number Error</p>
+                        </div>
+
+                        <script>
+                            function validateForm() {
+                                var roomNumberField = document.querySelector('[name="roomNumber"]');
+                                var roomNumberValue = roomNumberField.value;
+
+                                // Replace multiple spaces with a single space
+                                roomNumberValue = roomNumberValue.replace(/\s+/g, ' ').trim();
+
+                                // Check if the room number is only spaces
+                                if (roomNumberValue.length === 0) {
+                                    alert("Room Number cannot be empty or just spaces.");
+                                    return false;
+                                }
+
+                                roomNumberField.value = roomNumberValue;
+                                return true;
+                            }
+                        </script>
                         <div style="margin-top: 30px;">
                             <label>Capacity:</label>
                             <div style="display: flex; align-items: center; margin-top: 30px;">
-                                <input type="radio" id="capacity4" name="capacity" value="4" th:field="*{capacity}" onchange="updatePrice()" required />
+                                <input type="radio" id="capacity4" name="capacity" value="4" th:field="*{capacity}" onchange="updatePrice()" required checked/>
                                 <label for="capacity4" style="margin-left: 8px; margin-right: 20px;">4 beds</label>
                                 <input type="radio" id="capacity6" name="capacity" value="6" th:field="*{capacity}" onchange="updatePrice()" required />
                                 <label for="capacity6" style="margin-left: 8px;">6 beds</label>
@@ -339,6 +375,8 @@
                         }
                     }
                 </script>
+                <h2>List room in Floor <span th:text="${floor.floorNumber}"></span> of Dorm <span
+                        th:text="${dormName}"></span></h2>
                 <div class="row" style="margin-top: 30px;">
                     <div class="col-lg-11">
                         <div class="users-table table-wrapper">

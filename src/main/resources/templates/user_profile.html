@@ -165,7 +165,7 @@
                     <label for="address">Address:</label>
                     <span id="address" th:text="${user.address}">123 Main St, City, Country</span>
                 </div>
-                <a th:href="@{/fpt-dorm/user/edit-profile/{email}(email=${user.email})}">
+                <a th:href="@{/fpt-dorm/user/edit-profile}">
                     <button type="submit" class="btn btn-primary">Update Profile</button>
                 </a>
             </div>
