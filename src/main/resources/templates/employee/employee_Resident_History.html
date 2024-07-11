@@ -209,50 +209,27 @@
 
                         </ul>
                     </li>
-                    <li>
-                        <a th:href="@{employee/employee_payment_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Payment
-                        </a>
-                    </li>
 
                     <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
+                        <a class="show-cat-btn" href="#">
+                            <span class="icon folder" aria-hidden="true"></span>Payment
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
+                                    Payments</a>
+                            </li>
+                            <li>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                    Request</a>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li>
-                        <a th:href="@{employee/employee_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{employee/employee_booking_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-
-
-                    <li>
-                        <a th:href="@{employee/employee_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
-
-
-                    <li>
-                        <a th:href="@{/fpt-dorm/employee/complain}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Complaint
-                        </a>
-                    </li>
                     <li>
                         <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
@@ -261,9 +238,23 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}" class="active">
+                        <a class="show-cat-btn active" th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{admin/admin_list_feedback}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Feedback
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/complain}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Complaint
                         </a>
                     </li>
 
@@ -279,9 +270,8 @@
         <div class="sidebar-footer">
             <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -405,7 +395,7 @@
                                         <td th:text="${residentHistory.username}"></td>
                                         <td th:text="${residentHistory.email}"></td>
                                         <td>
-                                            <li><a th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${residentHistory.userId}}">Detail</a></li>
+                                            <a th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${residentHistory.userId}}">Detail</a>
                                         </td>
                                     </tr>
                                     </tbody>

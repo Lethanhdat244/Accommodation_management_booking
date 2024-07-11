@@ -20,10 +20,9 @@ public interface ComplainRepository extends JpaRepository<Complaint, Long> {
     List<Complaint> findDoneComplaints(@Param("status") Complaint.Status status);
 
     @Query("SELECT c FROM Complaint c WHERE c.user.userId = :userid ORDER BY c.createdAt desc")
-    List<Complaint> getRequestsByUserId(@Param("userid") int userid);
+    Page<Complaint> getRequestsByUserId(@Param("userid") int userid, Pageable pageable);
 
     @Query("SELECT c FROM Complaint c WHERE c.complaintId = :id")
     Complaint getRequestByComplaintId(@Param("id") int id);
 
-    Page<Complaint> findAll(Pageable pageable);
 }

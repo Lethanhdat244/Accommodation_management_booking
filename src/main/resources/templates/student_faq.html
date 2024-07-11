@@ -33,10 +33,6 @@
             align-items: center;
         }
 
-        /*ul li{*/
-        /*    list-style: none;*/
-        /*    margin: 40px;*/
-        /*}*/
         h1 {
             font-weight: 700;
             margin-bottom: 20px;
@@ -103,7 +99,6 @@
                     <div class="col-md-2 col-sm-6 col-xs-6">
                         <div id="logo">
                             <a th:href="@{/fpt-dorm/home}"><span>FPT</span>Dorm</a>
-                            <!--                            <h1>Welcome, <span th:text="${email}">[email]</span></h1>-->
                         </div>
                     </div>
                     <div class="col-sm-6 visible-sm">
@@ -142,10 +137,11 @@
                                     <li><a data-hover="Payment"
                                            th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a></li>
                                     <li><a data-hover="Resident History"
-                                           th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a>
+                                           th:href="@{/fpt-dorm/user/resident-history/list}"><span>Resident History</span></a>
                                     </li>
                                     <li><a data-hover="Request"
-                                           th:href="@{/fpt-dorm/user/news/my-request}"><span>Request</span></a></li>
+                                           th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a>
+                                    </li>
                                     <li><a data-hover="Dormitory rules" th:href="@{/fpt-dorm/user/rule}"><span>Dormitory rules</span></a>
                                     </li>
                                     <li><a class="active" data-hover="FAQ"
@@ -203,20 +199,6 @@
                 </ol>
             </div>
         </div>
-        <!--        <div class="row">-->
-        <!--            <p class="rule" id="parent3" onclick="toggleVisibility('child3')">3. Rule 3</p>-->
-        <!--            <div class="content_rule hidden" id="child3">-->
-        <!--                <p>Bước 1: Vào chức năng My request</p>-->
-        <!--                <br>-->
-        <!--                <p>Bước 2: Bấm vào nút Create new request -> Chọn Báo cáo vấn đề kỹ thuật ở mục Type request</p>-->
-        <!--                <br>-->
-        <!--                <p>Bước 3: Hệ thống sẽ dẫn tới trang https://cim.fpt.edu.vn/</p>-->
-<!--                <br>-->
-<!--                <p>Bước 4: Điền những thông tin cần thiết và gửi ảnh tình trạng thiết bị (trên hệ thống CIM)</p>-->
-<!--                <br>-->
-<!--                <p>Bước 5: Bấm vào nút Create (trên hệ thống CIM)</p>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 
     <footer>

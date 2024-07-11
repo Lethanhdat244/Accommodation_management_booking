@@ -189,7 +189,6 @@
             </ul>
           </li>
 
-
           <li>
             <a class="show-cat-btn">
               <span class="icon folder" aria-hidden="true"></span>News
@@ -247,26 +246,24 @@
             </ul>
           </li>
 
+          <li>
+            <a th:href="@{/fpt-dorm/employee/usage-service}">
+              <span class="icon folder" aria-hidden="true"></span>
+              Usage Service
+            </a>
+          </li>
+
+          <li>
+            <a class="show-cat-btn active" th:href="@{/fpt-dorm/admin/admin_Resident_History}">
+              <span class="icon folder" aria-hidden="true"></span>
+              Resident History
+            </a>
+          </li>
 
           <li>
             <a th:href="@{admin/admin_chart}">
               <span class="icon folder" aria-hidden="true"></span>
               Chart
-            </a>
-          </li>
-
-          <li>
-            <a th:href="@{admin/admin_booking_list}">
-              <span class="icon folder" aria-hidden="true"></span>
-              Booking requirement
-            </a>
-          </li>
-
-
-          <li>
-            <a th:href="@{admin/admin_service_list}">
-              <span class="icon folder" aria-hidden="true"></span>
-              Service requirement
             </a>
           </li>
 
@@ -277,17 +274,10 @@
             </a>
           </li>
 
-
           <li>
             <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
               <span class="icon folder" aria-hidden="true"></span>
               Complaint
-            </a>
-          </li>
-          <li>
-            <a th:href="@{/fpt-dorm/admin/Resident_History/list}" class="active">
-              <span class="icon folder" aria-hidden="true"></span>
-              Resident History
             </a>
           </li>
         </ul>
@@ -296,9 +286,8 @@
     <div class="sidebar-footer">
       <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
         <div class="sidebar-user-info">
           <span class="sidebar-user__title">AI</span>

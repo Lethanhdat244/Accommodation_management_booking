@@ -61,7 +61,7 @@
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
                         <span class="logo-title">Dormitory</span>
-                        <span class="logo-subtitle">Employee</span>
+                        <span class="logo-subtitle">EMPLOYEE</span>
                     </div>
 
                 </a>
@@ -122,15 +122,14 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a class="active">View News</a>
+                                <a class="active" th:href="@{/fpt-dorm/employee/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{add-news}">Add news</a>
+                                <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
                             </li>
 
                         </ul>
                     </li>
-
 
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -152,18 +151,17 @@
                         </ul>
                     </li>
 
-
                     <li>
-                        <a th:href="@{admin/admin_booking_list}">
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
+                            Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_service_list}">
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
+                            Resident History
                         </a>
                     </li>
 
@@ -182,15 +180,20 @@
                     </li>
 
 
-
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/notifications}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Notifications
+                        </a>
+                    </li>
                 </ul>
-
             </div>
         </div>
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -274,7 +277,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/employee/profile}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>

@@ -73,7 +73,8 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
+                                                                                  aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -85,12 +86,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/student/all-student}">All
-                                    Students</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
                             </li>
                             <li>
-                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/student/add}">Add new
-                                    student</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
                             </li>
                         </ul>
                     </li>
@@ -104,7 +103,7 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
+                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" >Dorm List</a>
                             </li>
                             <li>
                                 <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
@@ -113,7 +112,7 @@
                     </li>
 
                     <li>
-                        <a class="show-cat-btn" >
+                        <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -122,10 +121,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a class="active">View News</a>
+                                <a th:href="@{/fpt-dorm/admin/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{add-news}">Add news</a>
+                                <a th:href="@{/fpt-dorm/admin/add-news}">Add news</a>
                             </li>
 
                         </ul>
@@ -149,7 +148,6 @@
                         </ul>
                     </li>
 
-
                     <li>
                         <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Payment
@@ -169,18 +167,24 @@
                         </ul>
                     </li>
 
-
                     <li>
-                        <a th:href="@{admin/admin_booking_list}">
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
+                            Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_service_list}">
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
+                            Resident History
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{admin/admin_chart}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Chart
                         </a>
                     </li>
 
@@ -192,27 +196,19 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/complain}">
+                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
                     </li>
-
-                    <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History/list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
-                        </a>
-                    </li>
-
                 </ul>
-
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="##" class="sidebar-user">
+            <a href="#" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -368,7 +364,7 @@
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
-                                    <li class="page-item" th:each="i : ${newsPage.totalPages > 0 ? #numbers.sequence(0, newsPage.totalPages - 1) : {0}}" th:classappend="${newsPage.number == i} ? 'active'">
+                                    <li class="page-item" th:each="i : ${newsPage.totalPages > 0 ? #numbers.sequence(0, newsPage.totalPages - 1) :{0}}" th:classappend="${newsPage.number == i} ? 'active'">
                                         <a class="page-link" th:href="@{/fpt-dorm/admin/view-news(page=${i}, size=${newsPage.size}, keyword=${keyword})}" th:text="${i + 1}">1</a>
                                     </li>
 

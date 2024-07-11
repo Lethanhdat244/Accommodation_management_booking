@@ -1,34 +1,112 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
 
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Student Detail</title>
+    <title>Student List</title>
+    <!-- Favicon -->
+    <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
+    <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <link rel="stylesheet" href="/static/admin_homepage/css/style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <style>
-        .form-control {
-            line-height: 1.7;
+        .pagination-wrapper {
+            text-align: left;
+            margin-top: 20px;
         }
-        .form-check-input {
-            margin-top: auto;
+        .pagination {
+            display: inline-flex;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
         }
-        .error {
-            color: red;
-            font-size: 0.9em;
+        .pagination .page-item {
+            display: inline;
+        }
+        .pagination .page-link {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+        }
+        .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+            pointer-events: none;
+            cursor: auto;
+            background-color: #fff;
+            border-color: #dee2e6;
+        }
+        .pagination .page-item.active .page-link {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
         }
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            flatpickr('.flatpickr-input', {
-                dateFormat: "d/m/Y",
+        function deleteUser(id) {
+            if (confirm('Are you sure you want to delete this user item?')) {
+                fetch(`/fpt-dorm/admin/student/delete/id=${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('User deleted successfully');
+                            location.reload(); // Reload the page to reflect changes
+                        } else {
+                            alert('Failed to delete user');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error deleting user:', error);
+                        alert('An error occurred while deleting the user');
+                    });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('sortDropdown').addEventListener('change', function () {
+                const selectedValue = this.value;
+                const [sortField, sortDirection] = selectedValue.split(',');
+
+                const params = new URLSearchParams(window.location.search);
+                params.set('sort', sortField + ',' + sortDirection);
+
+                window.location.href = window.location.pathname + '?' + params.toString();
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const sortDropdown = document.getElementById('sortDropdown');
+            const params = new URLSearchParams(window.location.search);
+            let storedSort = params.get('sort');
+
+            if (!storedSort) {
+                const defaultSort = 'userId,asc';
+                storedSort = defaultSort;
+                params.set('sort', defaultSort);
+                window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+            }
+
+            sortDropdown.value = storedSort;
+
+            sortDropdown.addEventListener('change', function () {
+                const selectedSort = this.value;
+                params.set('sort', selectedSort);
+                window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
             });
         });
         document.addEventListener('DOMContentLoaded', function () {
@@ -56,12 +134,12 @@
     <aside class="sidebar">
         <div class="sidebar-start">
             <div class="sidebar-head">
-                <a th:href="@{/fpt-dorm/admin/home}" class="logo-wrapper" title="Home">
+                <a th:href="@{/fpt-dorm/employee/home}" class="logo-wrapper" title="Home">
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">FPT Dorm</span>
-                        <span class="logo-subtitle">ADMIN</span>
+                        <span class="logo-title">Dormitory</span>
+                        <span class="logo-subtitle">EMPLOYEE</span>
                     </div>
 
                 </a>
@@ -73,30 +151,11 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a  ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a id="menu-student" class="show-cat-btn active">
+                        <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Student
-                            <span class="category__btn transparent-btn" title="Open list">
-                                <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                            </span>
-                        </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/admin_list_student}">All
-                                    Students</a>
-                            </li>
-                            <li>
-                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/admin_add_student}">Add new
-                                    student</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -104,16 +163,35 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
+                                    Students</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
+                                    student</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a id="menu-room" class="show-cat-btn active">
+                            <span class="icon folder" aria-hidden="true"></span>Room
+                            <span class="category__btn transparent-btn" title="Open list">
+                                <span class="sr-only">Open list</span>
+                                <span class="icon arrow-down" aria-hidden="true"></span>
+                            </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-room" class="" th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                            </li>
+                            <li>
+                                <a>Add new room</a>
                             </li>
                         </ul>
                     </li>
 
                     <li>
-                        <a class="show-cat-btn">
+                        <a class="show-cat-btn" >
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -122,30 +200,12 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-news}">View News</a>
+                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/add-news}">Add news</a>
+                                <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
                             </li>
 
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Employee
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                        </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
-                            </li>
                         </ul>
                     </li>
 
@@ -159,15 +219,15 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/admin_payment_list}">All
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                    Request</a>
                             </li>
                         </ul>
                     </li>
-
 
                     <li>
                         <a th:href="@{/fpt-dorm/employee/usage-service}">
@@ -177,16 +237,9 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
                         </a>
                     </li>
 
@@ -198,22 +251,28 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
+                        </a>
+                    </li>
+
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/notifications}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Notifications
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
-                <span class="sidebar-user-img">
-                    <picture>
-                        <source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp">
-                        <img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name">
-                    </picture>
-                </span>
+            <a href="##" class="sidebar-user">
+            <span class="sidebar-user-img">
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+            </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
                     <span class="sidebar-user__subtitle">Support manager</span>
@@ -291,7 +350,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/admin/profile}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
@@ -306,128 +365,50 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-
+                <h2 class="main-title">Room Detail</h2>
+                <br>
                 <div class="row">
-
-                    <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
-                        <h2 class="main-title text-center">Student Detail</h2>
-                        <div class="row mb-3">
-                            <label for="fullname" class="col-sm-4 col-form-label">Name</label>
-                            <div class="col-sm-8">
-                                <input id="fullname" name="username" class="form-control border"
-                                       th:field="${userDTO.username}">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-sm-4 col-form-label">Email</label>
-                            <div class="col-sm-8">
-                                <input id="email" readonly class="form-control border" th:field="${userDTO.email}"
-                                       type="email">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="phone" class="col-sm-4 col-form-label">Phone Number</label>
-                            <div class="col-sm-8">
-                                <input id="phone" class="form-control border" th:field="${userDTO.phoneNumber}">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label class="col-sm-4 col-form-label">Avatar</label>
-                            <div class="col-sm-8">
-                                <img th:src="${user.avatar}" alt="" width="150">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3 align-items-center">
-                            <label class="col-sm-4 col-form-label">Gender</label>
-                            <div class="col-sm-8">
-                                <div class="form-check form-check-inline">
-                                    <input id="genderMale" name="gender" class="form-check-input border" type="radio"
-                                           th:field="${userDTO.gender}" value="Male"/>
-                                    <label for="genderMale" class="form-check-label">Male</label>
+                    <div class="col-lg-12">
+                        <div class="canvas-wrapper">
+                            <div class="users-table table-wrapper">
+                                <div th:if="${message}">
+                                    <p th:text="${message}" class="alert alert-warning"></p>
                                 </div>
-                                <div class="form-check form-check-inline">
-                                    <input id="genderFemale" name="gender" class="form-check-input border" type="radio"
-                                           th:field="${userDTO.gender}" value="Female"/>
-                                    <label for="genderFemale" class="form-check-label">Female</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input id="genderOther" name="gender" class="form-check-input border" type="radio"
-                                           th:field="${userDTO.gender}" value="Other"/>
-                                    <label for="genderOther" class="form-check-label">Other</label>
+                                <table class="posts-table" th:if="${not #lists.isEmpty(beds)}">
+                                    <thead>
+                                    <tr class="users-table-info">
+                                        <th style="width: 33.33%;">Bed Name</th>
+                                        <th style="width: 33.33%;">Is Available</th>
+                                        <th style="width: 33.33%;">Maintenance Status</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="bed : ${beds}">
+                                        <td th:text="${bed.bedName}"></td>
+                                        <td>
+                                            <span th:class="${bed.isAvailable ? 'badge-success' : 'badge-trashed'}" th:text="${bed.isAvailable ? 'Available' : 'Unavailable'}"></span>
+                                        </td>
+                                        <td>
+                                            <span th:class="${bed.maintenanceStatus.name() == 'Available' ? 'badge badge-success' : 'badge badge-trashed'}"
+                                                  th:text="${bed.maintenanceStatus.name() == 'Available' ? 'Available' : 'Under Maintenance'}"></span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                <div th:if="${#lists.isEmpty(beds)}">
+                                    <p class="alert alert-info">No beds available for this room.</p>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row mb-3">
-                            <label for="birthdate" class="col-sm-4 col-form-label">Birth Date</label>
-                            <div class="col-sm-8">
-                                <input readonly id="birthdate" name="birthdate" class="form-control border" type="date"
-                                       th:value="${userDTO.birthdate}">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="role" class="col-sm-4 col-form-label">Role</label>
-                            <div class="col-sm-8">
-                                <select id="role" name="role" class="form-control" th:field="${userDTO.roleUser}">
-                                    <option value="" disabled th:selected="${userDTO.roleUser == null}">Select Role
-                                    </option>
-                                    <option value="ADMIN" th:selected="${userDTO.roleUser == 'ADMIN'}">Admin</option>
-                                    <option value="MANAGER" th:selected="${userDTO.roleUser == 'MANAGER'}">Manager
-                                    </option>
-                                    <option value="EMPLOYEE" th:selected="${userDTO.roleUser == 'EMPLOYEE'}">Employee
-                                    </option>
-                                    <option value="USER" th:selected="${userDTO.roleUser == 'USER'}">User</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="address" class="col-sm-4 col-form-label">Address</label>
-                            <div class="col-sm-8">
-                                <textarea id="address" name="address" class="form-control"
-                                          th:field="${userDTO.address}"></textarea>
-                                <div id="addressError" class="error"></div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="idcard" class="col-sm-4 col-form-label">CCCD</label>
-                            <div class="col-sm-8">
-                                <input id="idcard" name="cccdNumber" class="form-control border"
-                                       th:field="${userDTO.cccdNumber}">
-                                <div id="idcardError" class="error"></div>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label class="col-sm-4 col-form-label">Front CCCD</label>
-                            <div class="col-sm-8">
-                                <img th:src="${user.frontCccdImage}" alt="" width="150">
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label class="col-sm-4 col-form-label">Back CCCD</label>
-                            <div class="col-sm-8">
-                                <img th:src="${user.backCccdImage}" alt="" width="150">
-                            </div>
-                        </div>
-
-                        <div class="row" style="margin-top: 50px;">
-                            <div class="offset-sm-4 col-sm-4 d-grid">
-                                <a class="btn secondary-default-btn" onclick="window.history.back()"
-                                   role="button">Back</a>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="offset-sm-2 col-sm-2 d-grid">
+                        <a class="btn secondary-default-btn" href="/fpt-dorm/employee/all-room" role="button">Back</a>
                     </div>
                 </div>
             </div>
         </main>
+
+
         <!-- ! Footer -->
         <footer class="footer">
             <div class="container footer--flex">
@@ -443,6 +424,23 @@
         </footer>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-room');
+        const B = document.getElementById('menu-all-room');
+
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script>
 <!-- Chart library -->
 <script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->

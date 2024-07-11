@@ -11,8 +11,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
+
+    Optional<Payment> findByBooking(Booking booking);
+
     @Query("SELECT DISTINCT u FROM User u " +
             "INNER JOIN Booking b ON u.userId = b.user.userId " +
             "INNER JOIN Payment p ON b.bookingId = p.booking.bookingId " +

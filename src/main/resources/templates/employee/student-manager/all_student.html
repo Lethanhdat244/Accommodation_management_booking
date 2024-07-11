@@ -191,7 +191,6 @@
                         </ul>
                     </li>
 
-
                     <li>
                         <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>News
@@ -210,7 +209,6 @@
 
                         </ul>
                     </li>
-
 
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -232,25 +230,17 @@
                         </ul>
                     </li>
 
-
                     <li>
-                        <a th:href="@{admin/admin_chart}">
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Chart
+                            Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_booking_list}">
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
+                            Resident History
                         </a>
                     </li>
 
@@ -262,15 +252,17 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
                     </li>
+
+
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/admin_Resident_History/list}">
+                        <a th:href="@{/fpt-dorm/employee/notifications}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
+                            Notifications
                         </a>
                     </li>
                 </ul>
@@ -360,7 +352,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/employee/profile}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">

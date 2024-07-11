@@ -126,12 +126,12 @@
                         <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a id="menu-student" class="show-cat-btn">
+                        <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
-                                <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                            </span>
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
@@ -181,7 +181,6 @@
                         </ul>
                     </li>
 
-
                     <li>
                         <a id="menu-payment" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Payment
@@ -202,25 +201,17 @@
                         </ul>
                     </li>
 
-
                     <li>
-                        <a th:href="@{admin/admin_chart}">
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Chart
+                            Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_booking_list}">
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Booking requirement
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_service_list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Service requirement
+                            Resident History
                         </a>
                     </li>
 
@@ -232,15 +223,17 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
                     </li>
+
+
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/admin_Resident_History/list}">
+                        <a th:href="@{/fpt-dorm/employee/notifications}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Resident History
+                            Notifications
                         </a>
                     </li>
                 </ul>
@@ -557,6 +550,7 @@
                     }, 70);
                 } else {
                     alert('Failed to cancel');
+                    response.text().then(text => alert('Failed to cancel: ' + text));
                 }
             })
             .catch(error => {

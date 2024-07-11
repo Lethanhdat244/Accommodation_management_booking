@@ -1,34 +1,154 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Payment List</title>
-    <!-- Favicon -->
-    <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
+    <title> All Room | Employee</title>
+    <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
 
     <link rel="stylesheet" href="/static/admin_homepage/css/style.css">
+    <script src="/static/homepage_user/js/jquery.min.js" type="text/javascript"></script>
     <style>
+        .news-card {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .news-card .card-header {
+            background-color: #f8f9fa;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .news-card .card-body {
+            padding: 20px;
+        }
+
+        .news-card .card-title {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .info {
+            color: #555555;
+        }
+
+        .danger {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+
+        .warning {
+            color: #ffb648;
+        }
+
+        .news-card .card-text {
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            color: #333;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+
+        .news-image {
+            width: 70%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 1em;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+        }
+
+        .form-group select,
+        select {
+            width: 30%;
+            padding: 0.5em;
+            margin-top: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group select option,
+        form select option {
+            padding: 0.5em;
+            margin-top: 0.5em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.5em;
+            margin-top: 0.5em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group button {
+            padding: 0.7em 1.5em;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+        }
+
+        .success-message {
+            color: green;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            margin: 30px 0px;
+            border-radius: 7px;
+            font-weight: 700;
+        }
+
+        .primary {
+            background: #2f49d1;
+            color: white;
+        }
+
         .pagination-wrapper {
             text-align: left;
             margin-top: 20px;
         }
+
         .pagination {
             display: inline-flex;
             padding-left: 0;
             list-style: none;
             border-radius: 0.25rem;
         }
+
         .pagination .page-item {
             display: inline;
         }
+
         .pagination .page-link {
             position: relative;
             display: block;
@@ -39,6 +159,7 @@
             background-color: #fff;
             border: 1px solid #dee2e6;
         }
+
         .pagination .page-item.disabled .page-link {
             color: #6c757d;
             pointer-events: none;
@@ -46,6 +167,7 @@
             background-color: #fff;
             border-color: #dee2e6;
         }
+
         .pagination .page-item.active .page-link {
             z-index: 1;
             color: #fff;
@@ -53,77 +175,7 @@
             border-color: #007bff;
         }
     </style>
-    <script>
-        function deleteUser(id) {
-            if (confirm('Are you sure you want to delete this user item?')) {
-                fetch(`/fpt-dorm/admin/student/delete/id=${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            alert('User deleted successfully');
-                            location.reload(); // Reload the page to reflect changes
-                        } else {
-                            alert('Failed to delete user');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error deleting user:', error);
-                        alert('An error occurred while deleting the user');
-                    });
-            }
-        }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('sortDropdown').addEventListener('change', function () {
-                const selectedValue = this.value;
-                const [sortField, sortDirection] = selectedValue.split(',');
-
-                const params = new URLSearchParams(window.location.search);
-                params.set('sort', sortField + ',' + sortDirection);
-
-                window.location.href = window.location.pathname + '?' + params.toString();
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const sortDropdown = document.getElementById('sortDropdown');
-            const params = new URLSearchParams(window.location.search);
-            let storedSort = params.get('sort');
-
-            if (!storedSort) {
-                const defaultSort = 'userId,asc';
-                storedSort = defaultSort;
-                params.set('sort', defaultSort);
-                window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
-            }
-
-            sortDropdown.value = storedSort;
-
-            sortDropdown.addEventListener('change', function () {
-                const selectedSort = this.value;
-                params.set('sort', selectedSort);
-                window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
-            });
-        });
-        document.addEventListener('DOMContentLoaded', function () {
-            const A = document.getElementById('menu-payment');
-            const B = document.getElementById('menu-all-payments');
-
-            A.addEventListener('click', function () {
-                if (A.classList.contains('active')) {
-                    A.classList.remove('active');
-                    B.classList.add('active');
-                } else {
-                    A.classList.add('active');
-                    B.classList.remove('active');
-                }
-            });
-        });
-    </script>
 </head>
 
 <body>
@@ -138,7 +190,7 @@
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">FPT Dorm</span>
+                        <span class="logo-title">Dormitory</span>
                         <span class="logo-subtitle">EMPLOYEE</span>
                     </div>
 
@@ -151,7 +203,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -173,23 +225,26 @@
                         </ul>
                     </li>
 
+
+
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
+                        <a id="menu-room" class="show-cat-btn active">
+                            <span class="icon folder" aria-hidden="true"></span>Room
                             <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                                <span class="sr-only">Open list</span>
+                                <span class="icon arrow-down" aria-hidden="true"></span>
+                            </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
+                                <a id="menu-all-room" class="" th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                                <a>Add new room</a>
                             </li>
                         </ul>
                     </li>
+
 
                     <li>
                         <a class="show-cat-btn" >
@@ -211,7 +266,7 @@
                     </li>
 
                     <li>
-                        <a id="menu-payment" class="show-cat-btn active">
+                        <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Payment
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -269,11 +324,10 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
+            <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -305,7 +359,7 @@
                         </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
-                                <a href="#">
+                                <a href="##">
                                     <div class="notification-dropdown-icon info">
                                         <i data-feather="check"></i>
                                     </div>
@@ -316,7 +370,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="##">
                                     <div class="notification-dropdown-icon danger">
                                         <i data-feather="info" aria-hidden="true"></i>
                                     </div>
@@ -327,7 +381,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="##">
                                     <div class="notification-dropdown-icon info">
                                         <i data-feather="check" aria-hidden="true"></i>
                                     </div>
@@ -338,12 +392,12 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="link-to-page" href="#">Go to Notifications page</a>
+                                <a class="link-to-page" href="##">Go to Notifications page</a>
                             </li>
                         </ul>
                     </div>
                     <div class="nav-user-wrapper">
-                        <button href="#" class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                        <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
             <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp"
@@ -352,9 +406,8 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/employee/profile}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -363,136 +416,210 @@
                     </div>
                 </div>
             </div>
+
         </nav>
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Payment List</h2>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <form th:action="@{/fpt-dorm/employee/all-payment/search}" method="get" class="search-form">
-                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
-                                   class="search-box"/>
-                            <select name="category" class="search-dropdown">
-                                <option value="" th:text="'All Categories'"
-                                        th:selected="${selectedCategory == null}"></option>
-                                <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
-                                <option value="Name" th:text="'Name'"
-                                        th:selected="${selectedCategory == 'Name'}"></option>
-                                <option value="Email" th:text="'Email'"
-                                        th:selected="${selectedCategory == 'Email'}"></option>
-                                <option value="Phone" th:text="'Phone'"
-                                        th:selected="${selectedCategory == 'Phone'}"></option>
+                <h2 class="main-title">All Rooms</h2>
+                <div class="canvas-wrapper" style="margin-bottom: 20px">
+                    <div class="row" >
+                        <div class="col-md-4">
+                            <label for="dorm">Dorm Gender</label>
+                            <select class="form-control" style="width: 50%"  id="gender" name="gender" onchange="updategenderAndDormName()">
+                                <option value="" disabled selected>-- Select Dorm Gender --</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
                             </select>
-                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
-                        </form>
-                    </div>
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-4">
-                        <div style="text-align: right;">
-                            Sort by:
-                            <select id="sortDropdown" class="sort-dropdown">
-                                <option value="userId,asc">ID Ascending</option>
-                                <option value="userId,desc">ID Descending</option>
-                                <option value="username,asc">Name Ascending</option>
-                                <option value="username,desc">Name Descending</option>
-                                <option value="email,asc">Email Ascending</option>
-                                <option value="email,desc">Email Descending</option>
-                                <option value="phoneNumber,asc">Phone Ascending</option>
-                                <option value="phoneNumber,desc">Phone Descending</option>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="dorm">Dorm Name</label>
+                            <select class="form-control" style="width: 50%" id="dorm" name="dorm" onchange="updateFloorAndRooms()">
+                                <option value="" disabled selected>-- Select Dorm Name --</option>
                             </select>
+                            <span id="dormError" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4">
+
+                            <label for="floor">Floor</label>
+                            <select class="form-control" style="width: 50%" id="floor" name="floor" onchange="updateRoom(0)">
+                                <option value="" disabled selected>-- Select Floor --</option>
+                            </select>
+                            <span id="floorError" class="text-danger"></span>
+                            <span th:if="${error != null}" class="btn danger" th:text="${error}"></span>
                         </div>
                     </div>
                 </div>
-                <br>
+
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="canvas-wrapper">
                             <div class="users-table table-wrapper">
-                                <table class="posts-table">
+                                <table id="roomTable" class="posts-table">
                                     <thead>
                                     <tr class="users-table-info">
-                                        <th>Student ID</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
+                                        <th>Room Number</th>
+                                        <th>Capacity</th>
                                         <th>Action</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    <tr th:each="user : ${userPage.content}">
-                                        <td th:text="${user.userId}"></td>
-                                        <td th:text="${user.username}"></td>
-                                        <td th:text="${user.email}"></td>
-                                        <td th:text="${user.phoneNumber}"></td>
-                                        <td>
-                                            <a class="btn btn-primary"
-                                               th:href="@{/fpt-dorm/employee/all-payment/student/id={id}(id=${user.userId})}"
-                                               role="button" style="color: #0061f7;">Detail</a>
-                                        </td>
-                                    </tr>
-                                    </tbody>
+                                    <tbody></tbody>
                                 </table>
-                            </div>
-                            <div>
-                                <h3 th:if="${userPage.totalPages == 0}">
-                                    No data recorded
-                                </h3>
-                            </div>
-                            <div class="pagination-wrapper">
-                                <nav aria-label="Page navigation">
-                                    <ul class="pagination">
-                                        <li class="page-item" th:classappend="${userPage.hasPrevious()} ? '' : 'disabled'">
-                                            <a class="page-link"
-                                               th:href="@{|?page=${userPage.number - 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
-                                               aria-label="Previous">
-                                                <span aria-hidden="true">&laquo;</span>
-                                            </a>
-                                        </li>
-                                        <li class="page-item"
-                                            th:each="i : ${userPage.totalPages > 0 ? #numbers.sequence(0, userPage.totalPages - 1) : {0}}"
-                                            th:classappend="${userPage.number == i} ? 'active'">
-                                            <a class="page-link"
-                                               th:href="@{|?page=${i}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
-                                               th:text="${i + 1}">1</a>
-                                        </li>
-                                        <li class="page-item" th:classappend="${userPage.hasNext()} ? '' : 'disabled'">
-                                            <a class="page-link"
-                                               th:href="@{|?page=${userPage.number + 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
-                                               aria-label="Next">
-                                                <span aria-hidden="true">&raquo;</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
 
+                                <div class="pagination-wrapper">
+                                    <nav aria-label="Page navigation">
+                                        <ul id="paginationList" class="pagination">
+                                            <!-- Các nút phân trang sẽ được thêm vào đây bởi JavaScript -->
+                                        </ul>
+                                    </nav>
+                                </div>
+
+
+                            </div>
                         </div>
+                    </div>
+
+                    <div class="offset-sm-2 col-sm-2 d-grid">
+                        <a class="btn secondary-default-btn" onclick="window.history.back()"
+                           role="button">Back</a>
                     </div>
                 </div>
             </div>
         </main>
-        <!-- ! Footer -->
-        <footer class="footer">
-            <div class="container footer--flex">
-                <div class="footer-start">
-                    <p>2024 © FPT Dorm - <a href="/fpt-dorm/home" target="_blank"
-                                            rel="noopener noreferrer">FPT Dorm</a></p>
-                </div>
-                <ul class="footer-end">
-                    <li><a href="/fpt-dorm/home/about">About</a></li>
-                    <li><a href="/fpt-dorm/home/contact">Contact</a></li>
-                </ul>
-            </div>
-        </footer>
+
     </div>
+
 </div>
-<!-- Chart library -->
+<script>
+    function updategenderAndDormName() {
+        var gender = document.getElementById("gender").value;
+        fetch(`/fpt-dorm/employee/dorms-by-gender?gender=${gender}`)
+            .then(response => response.json())
+            .then(data => {
+                var dormSelect = document.getElementById("dorm");
+                dormSelect.innerHTML = '<option value="" disabled selected>-- Select Dorm Name --</option>';
+                data.forEach(dorm => {
+                    var option = document.createElement("option");
+                    option.value = dorm.dormId;
+                    option.textContent = dorm.dormName;
+                    dormSelect.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+
+
+<script>
+    function updateFloorAndRooms() {
+        const dormId = document.getElementById("dorm").value;
+
+        $.get('/fpt-dorm/employee/all-room/floor', { dormId: dormId }, function (data) {
+            let floorSelect = $('#floor');
+            floorSelect.empty();
+            floorSelect.append('<option value="" disabled selected>-- Select Floor --</option>');
+
+            $.each(data, function (i, floor) {
+                floorSelect.append('<option value="' + floor.floorNumber + '">' + floor.floorNumber + '</option>');
+            });
+
+            clearRoomTableAndPagination();
+
+            if (data.length > 0) {
+                document.getElementById("floor").value = data[0].floorNumber;
+                updateRoom(0);
+            }
+        }).fail(function() {
+            $('#dormError').text('Failed to retrieve floor data. Please try again later.');
+        });
+    }
+    function updateRoom(page) {
+        const floorNumber = document.getElementById("floor").value;
+        const dormId = document.getElementById("dorm").value;
+
+        $.get('/fpt-dorm/employee/all-room/room-list', { dormId: dormId, floorNumber: floorNumber, page: page }, function (data) {
+            console.log("Data from server:", data); // Thêm dòng này để log dữ liệu từ server
+
+            let roomTable = $('#roomTable tbody');
+            roomTable.empty();
+
+            $.each(data.content, function (i, room) {
+                var row = $('<tr>\n' +
+                    '<td>' + room.roomNumber + '</td>\n' +
+                    '<td>' + room.capacity + '</td>\n' +
+                    '<td><button class="btn btn-primary detail-button" data-room-number="' + room.roomNumber + '">Detail</button></td>\n' +
+                    '</tr>');
+                roomTable.append(row);
+            });
+
+            roomTable.off('click', '.detail-button').on('click', '.detail-button', function() {
+                var roomNumber = $(this).data('room-number');
+                window.location.href = '/fpt-dorm/employee/room-detail?roomNumber=' + roomNumber;
+            });
+
+            updatePagination(data);
+        }).fail(function() {
+            $('#floorError').text('Failed to retrieve room data. Please try again later.');
+        });
+    }
+
+    function updatePagination(data) {
+        let paginationList = $('#paginationList');
+        paginationList.empty();
+
+        if (data.totalPages > 1) {
+            let first = '<li class="page-item ' + (data.number === 0 ? 'disabled' : '') + '">' +
+                '<a class="page-link" href="#" onclick="updateRoom(0); return false;" aria-label="First">' +
+                '<span aria-hidden="true">&laquo;</span>' +
+                '</a>' +
+                '</li>';
+            paginationList.append(first);
+
+            for (let i = 0; i < data.totalPages; i++) {
+                let active = (i === data.number) ? 'active' : '';
+                let pageItem = '<li class="page-item ' + active + '">' +
+                    '<a class="page-link" href="#" onclick="updateRoom(' + i + '); return false;">' + (i + 1) + '</a>' +
+                    '</li>';
+                paginationList.append(pageItem);
+            }
+
+            let last = '<li class="page-item ' + (data.number === data.totalPages - 1 ? 'disabled' : '') + '">' +
+                '<a class="page-link" href="#" onclick="updateRoom(' + (data.totalPages - 1) + '); return false;" aria-label="Last">' +
+                '<span aria-hidden="true">&raquo;</span>' +
+                '</a>' +
+                '</li>';
+            paginationList.append(last);
+        }
+    }
+
+
+
+
+
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-room');
+        const B = document.getElementById('menu-all-room');
+
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script>
 <script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
 <script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="/static/admin_homepage/js/script.js"></script>
+
 </body>
 
 </html>

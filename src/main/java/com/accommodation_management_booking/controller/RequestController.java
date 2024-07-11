@@ -11,6 +11,8 @@ import com.accommodation_management_booking.service.impl.ComplainService;
 import com.accommodation_management_booking.service.impl.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -42,8 +44,9 @@ public class RequestController {
     @GetMapping("fpt-dorm/user/my-request")
     public String studentRequest(Model model,
                                  @RequestParam(defaultValue = "0") int page,
-                                 @RequestParam(defaultValue = "5") int size,
+                                 @RequestParam(defaultValue = "3") int size,
                                  Authentication authentication) {
+        Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oauth2User = oauth2Token.getPrincipal();
@@ -59,7 +62,11 @@ public class RequestController {
             model.addAttribute("email", "Unknown");
         }
         try {
-            List<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId());
+            Page<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId(), pageable);
+            if (complainList.isEmpty()) {
+                model.addAttribute("emptyMessage", "No data");
+                return "student_request";
+            }
             model.addAttribute("complaintDTOList", complainList);
 //            Page<Complaint> complaintPage;
 //            complaintPage = complainService.getAllComplainByPage(page, size);
@@ -74,9 +81,12 @@ public class RequestController {
 
     @PostMapping("fpt-dorm/user/send-request")
     public String studentRequest(Model model
-            ,@RequestParam("title") String title
-            ,@RequestParam("content") String content
+            , @RequestParam("title") String title
+            , @RequestParam("content") String content,
+                                 @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "3") int size
             , Authentication authentication){
+        Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oauth2User = oauth2Token.getPrincipal();
@@ -99,33 +109,25 @@ public class RequestController {
         try {
             List<User> Emp = userRepository.searchAllEmployees();
             complainService.saveComplain(complaint);
-            for (User user : Emp) {
-                Notification notification = new Notification();
-                notification.setUser(user);
-                notification.setContent("New request from your tenant");
-                notification.setRead(false);
-                notificationService.saveNotification(notification);
-            }
+//            for (User user : Emp) {
+//                Notification notification = new Notification();
+//                notification.setUser(user);
+//                notification.setContent("New request from your tenant");
+//                notification.setRead(false);
+//                notificationService.saveNotification(notification);
+//            }
             try {
-                List<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId());
+                Page<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId(), pageable);
                 model.addAttribute("complaintDTOList", complainList);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } catch (IllegalArgumentException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            e.printStackTrace();
-            List<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId());
-            model.addAttribute("complaintDTOList", complainList);
-            return "student_request";
+            return "redirect:/fpt-dorm/user/my-request";
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "An error occurred while creating complain. Please try again.");
-            e.printStackTrace();
-            List<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId());
-            model.addAttribute("complaintDTOList", complainList);
-            return "student_request";
+            return "redirect:/fpt-dorm/user/my-request";
         }
 
-        return "student_request";
+        return "redirect:/fpt-dorm/user/my-request";
     }
 }
