@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface PaymentRepository extends JpaRepository<Payment, Integer> {
@@ -179,4 +180,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Integer> {
             "JOIN User u ON b.user.userId = u.userId " +
             "WHERE b.status = 'Pending' AND DATE(p.paymentDate) = :paymentDate")
     Page<PaymentTransactionDTO> findPaymentRequestByPaymentDateWithPage(@Param("paymentDate") LocalDate paymentDate, Pageable pageable);
+
+    List<Payment> findByPaymentMethod(Payment.PaymentMethod paymentMethod);
 }

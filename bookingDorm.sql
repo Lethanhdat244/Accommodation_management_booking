@@ -137,7 +137,7 @@ CREATE TABLE `usage_service` (
 CREATE TABLE `payment` (
                            `payment_id` int NOT NULL AUTO_INCREMENT,
                            `booking_id` int NOT NULL,
-                           `payment_method` enum('PayPal','BankQRCode') NOT NULL,
+                           `payment_method` enum('PayPal','BankQRCode')NULL,
                            `payment_detail` varchar(255) DEFAULT NULL,
                            `payment_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
                            `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,

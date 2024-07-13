@@ -21,6 +21,10 @@ public class HomeController {
         return "homepage";
     }
 
+    @GetMapping("fpt-dorm/home/room")
+    public String room(){
+        return "room";
+    }
 
     @GetMapping("fpt-dorm/home/about")
     public String about(){

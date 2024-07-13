@@ -2,6 +2,7 @@ package com.accommodation_management_booking.service;
 
 import com.accommodation_management_booking.config.PaypalPaymentIntent;
 import com.accommodation_management_booking.config.PaypalPaymentMethod;
+import com.accommodation_management_booking.repository.PaymentRepository;
 import com.paypal.api.payments.*;
 import com.paypal.base.rest.APIContext;
 import com.paypal.base.rest.PayPalRESTException;
@@ -16,6 +17,9 @@ import java.util.List;
 public class PaypalService {
     @Autowired
     private APIContext apiContext;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
 
     public Payment createPayment(
         float total,
@@ -80,6 +84,10 @@ public class PaypalService {
             System.err.println(e.getDetails());
             throw e;
         }
+    }
+
+    public List<com.accommodation_management_booking.entity.Payment> getPaymentsByMethod(com.accommodation_management_booking.entity.Payment.PaymentMethod method) {
+        return paymentRepository.findByPaymentMethod(method);
     }
 
 }
