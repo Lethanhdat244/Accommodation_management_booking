@@ -12,9 +12,12 @@ import com.accommodation_management_booking.repository.*;
 import com.accommodation_management_booking.service.EmailService;
 import com.accommodation_management_booking.service.PaymentService;
 import com.accommodation_management_booking.service.PaypalService;
+//import com.accommodation_management_booking.service.VNPayService;
 import com.accommodation_management_booking.utils.Utils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
@@ -44,7 +47,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.ProtocolException;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -53,6 +59,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+
+import static com.accommodation_management_booking.config.VNPayConfig.hmacSHA512;
 
 @Controller
 @AllArgsConstructor
@@ -583,7 +591,7 @@ public class PaymentController {
                             try {
                                 paymentDate = LocalDate.parse(keyword, formatter);
                                 break;
-                            } catch (DateTimeParseException ẽ) {
+                            } catch (DateTimeParseException ex) {
                             }
                         }
                         if (paymentDate == null) {
@@ -738,7 +746,7 @@ public class PaymentController {
     }
 
     @GetMapping("/fpt-dorm/admin/payment-request/cancel/id={id}")
-    public ResponseEntity<String> cancelBookingAdmin(@PathVariable("id") int id) {
+    public ResponseEntity<String> cancelBookingAdmin(@PathVariable("id") int id) throws IOException {
         Optional<Booking> optionalBooking = bookingRepository.findById(id);
 
         if (optionalBooking.isPresent()) {
@@ -749,25 +757,146 @@ public class PaymentController {
 
             if (booking.getAmountPaid() > 0) {
                 Optional<com.accommodation_management_booking.entity.Payment> optionalPayment = paymentRepository.findByBooking(booking);
-                if(optionalPayment.isPresent()){
-                    com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
-                    System.out.println("Payment found: " + payment);
-                    try{
-                        // Get the current exchange rate from VND to USD
-                        float exchangeRate = getExchangeRateVNDToUSD();
-                        if (exchangeRate == 0) {
-                            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve exchange rate.");
-                        }
+                if(optionalPayment.isPresent()) {
+                    if (optionalPayment.get().getPaymentMethod() == com.accommodation_management_booking.entity.Payment.PaymentMethod.PayPal) {
+                        System.out.println("Paypal");
+                        com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
+                        System.out.println("Payment found: " + payment);
+                        try {
+                            // Get the current exchange rate from VND to USD
+                            float exchangeRate = getExchangeRateVNDToUSD();
+                            if (exchangeRate == 0) {
+                                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve exchange rate.");
+                            }
 
-                        // Convert the amount paid from VND to USD
-                        float amountPaidInUSD = booking.getAmountPaid() * exchangeRate;
-                        float refundAmount = amountPaidInUSD /exchangeRate;
-                        // Logging for debugging
-                        System.out.println("Amount paid in VND: " + booking.getAmountPaid());
-                        System.out.println("Exchange rate VND to USD: " + exchangeRate);
-                        System.out.println("Amount to be refunded in USD: " + amountPaidInUSD);
-                        paypalService.refundPayment(payment.getPaymentDetail(), amountPaidInUSD);
-                        booking.setRefundAmount(refundAmount);
+                            // Convert the amount paid from VND to USD
+                            float amountPaidInUSD = booking.getAmountPaid() * exchangeRate;
+                            float refundAmount = amountPaidInUSD / exchangeRate;
+                            // Logging for debugging
+                            System.out.println("Amount paid in VND: " + booking.getAmountPaid());
+                            System.out.println("Exchange rate VND to USD: " + exchangeRate);
+                            System.out.println("Amount to be refunded in USD: " + amountPaidInUSD);
+                            paypalService.refundPayment(payment.getPaymentDetail(), amountPaidInUSD);
+                            booking.setRefundAmount(refundAmount);
+                            booking.setRefundDate(LocalDate.now());
+                            bookingRepository.save(booking);
+
+
+                            // Update the bed status
+                            Integer bedId = booking.getBed().getBedId();
+                            Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+                            bed.setIsAvailable(true);
+                            bedRepository.save(bed);
+
+                            // Send email
+                            String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
+                            String subject = "Refund successful";
+                            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully" +
+                                    "\n Please check your account: " + payment.getPaymentDetail() +
+                                    "\nRefundAmount: " + booking.getRefundAmount() +
+                                    "\nDate: " + booking.getRefundDate() +
+                                    "\nDue to PayPal's refund policy, your refund may vary from the amount you paid!" +
+                                    "\nAny questions or complaints please contact us:" +
+                                    "\nAddress: Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN" +
+                                    "\nPhone: (024) 7300.1866 / (024) 7300.5588" +
+                                    "\n\nThank you for using our service.";
+                            emailService.sendBill(toEmail, subject, body);
+
+                            return ResponseEntity.ok("Canceled successfully");
+                        } catch (PayPalRESTException e) {
+                            e.printStackTrace();
+                            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Refund failed: " + e.getMessage());
+                        }
+                    } else if (optionalPayment.get().getPaymentMethod() == com.accommodation_management_booking.entity.Payment.PaymentMethod.BankQRCode) {
+                        System.out.println("VNPay");
+                        com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
+                        System.out.println("Payment found: " + payment);
+                        //Command: refund
+                        String vnp_RequestId = VNPayConfig.getRandomNumber(8);
+                        String vnp_Version = "2.1.0";
+                        String vnp_Command = "refund";
+                        String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
+                        String vnp_TransactionType = "refund";
+                        String vnp_TxnRef = payment.getPaymentDetail();
+                        long amount = Math.round(booking.getAmountPaid());
+                        String vnp_Amount = String.valueOf(amount);
+                        String vnp_OrderInfo = "Hoan tien GD OrderId:" + vnp_TxnRef;
+                        String vnp_TransactionNo = payment.getPaymentDetail();
+                        String vnp_TransactionDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+                        String vnp_CreateBy = "admin";
+
+                        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                        String vnp_CreateDate = formatter.format(cld.getTime());
+
+                        String vnp_IpAddr = "127.0.0.1";
+                        ;
+
+                        JsonObject vnp_Params = new JsonObject();
+
+                        vnp_Params.addProperty("vnp_RequestId", vnp_RequestId);
+                        vnp_Params.addProperty("vnp_Version", vnp_Version);
+                        vnp_Params.addProperty("vnp_Command", vnp_Command);
+                        vnp_Params.addProperty("vnp_TmnCode", vnp_TmnCode);
+                        vnp_Params.addProperty("vnp_TransactionType", vnp_TransactionType);
+                        vnp_Params.addProperty("vnp_TxnRef", vnp_TxnRef);
+                        vnp_Params.addProperty("vnp_Amount", vnp_Amount);
+                        vnp_Params.addProperty("vnp_OrderInfo", vnp_OrderInfo);
+
+                        vnp_Params.addProperty("vnp_TransactionNo", vnp_TransactionNo);
+
+                        vnp_Params.addProperty("vnp_TransactionDate", vnp_TransactionDate);
+                        vnp_Params.addProperty("vnp_CreateBy", vnp_CreateBy);
+                        vnp_Params.addProperty("vnp_CreateDate", vnp_CreateDate);
+                        vnp_Params.addProperty("vnp_IpAddr", vnp_IpAddr);
+
+                        String hash_Data = String.join("|", vnp_RequestId, vnp_Version, vnp_Command, vnp_TmnCode,
+                                vnp_TransactionType, vnp_TxnRef, vnp_Amount, vnp_TransactionNo, vnp_TransactionDate,
+                                vnp_CreateBy, vnp_CreateDate, vnp_IpAddr, vnp_OrderInfo);
+
+                        String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hash_Data.toString());
+
+                        vnp_Params.addProperty("vnp_SecureHash", vnp_SecureHash);
+
+                        // Log each parameter
+                        System.out.println("vnp_RequestId: " + vnp_RequestId);
+                        System.out.println("vnp_Version: " + vnp_Version);
+                        System.out.println("vnp_Command: " + vnp_Command);
+                        System.out.println("vnp_TmnCode: " + vnp_TmnCode);
+                        System.out.println("vnp_TransactionType: " + vnp_TransactionType);
+                        System.out.println("vnp_TxnRef: " + vnp_TxnRef);
+                        System.out.println("vnp_Amount: " + vnp_Amount);
+                        System.out.println("vnp_OrderInfo: " + vnp_OrderInfo);
+                        System.out.println("vnp_TransactionDate: " + vnp_TransactionDate);
+                        System.out.println("vnp_CreateBy: " + vnp_CreateBy);
+                        System.out.println("vnp_CreateDate: " + vnp_CreateDate);
+                        System.out.println("vnp_IpAddr: " + vnp_IpAddr);
+                        System.out.println("vnp_SecureHash: " + vnp_SecureHash);
+
+                        URL url = new URL(VNPayConfig.vnp_ApiUrl);
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setRequestMethod("POST");
+                        con.setRequestProperty("Content-Type", "application/json");
+                        con.setDoOutput(true);
+                        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                        wr.writeBytes(vnp_Params.toString());
+                        wr.flush();
+                        wr.close();
+                        int responseCode = con.getResponseCode();
+                        System.out.println("nSending 'POST' request to URL : " + url);
+                        System.out.println("Post Data : " + vnp_Params);
+                        System.out.println("Response Code : " + responseCode);
+                        BufferedReader in = new BufferedReader(
+                                new InputStreamReader(con.getInputStream()));
+                        String output;
+                        StringBuffer response = new StringBuffer();
+                        while ((output = in.readLine()) != null) {
+                            response.append(output);
+                        }
+                        in.close();
+                        System.out.println(response.toString());
+
+                        booking.setRefundAmount(Float.parseFloat(vnp_Amount));
                         booking.setRefundDate(LocalDate.now());
                         bookingRepository.save(booking);
 
@@ -780,22 +909,20 @@ public class PaymentController {
                         // Send email
                         String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
                         String subject = "Refund successful";
-                        String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully"+
+                        String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully" +
                                 "\n Please check your account: " + payment.getPaymentDetail() +
                                 "\nRefundAmount: " + booking.getRefundAmount() +
                                 "\nDate: " + booking.getRefundDate() +
-                                "\nDue to PayPal's refund policy, your refund may vary from the amount you paid!"+
-                                "\nAny questions or complaints please contact us:"+
+                                "\nDue to VNPay's refund policy, your refund may vary from the amount you paid!" +
+                                "\nAny questions or complaints please contact us:" +
                                 "\nAddress: Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN" +
                                 "\nPhone: (024) 7300.1866 / (024) 7300.5588" +
                                 "\n\nThank you for using our service.";
                         emailService.sendBill(toEmail, subject, body);
 
                         return ResponseEntity.ok("Canceled successfully");
-                    } catch (PayPalRESTException e) {
-                        e.printStackTrace();
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Refund failed: " + e.getMessage());
                     }
+
                 }
             }else {
                 System.out.println("No payment found for this booking");
@@ -852,6 +979,9 @@ public class PaymentController {
 
     @Autowired
     private EmailService emailService;
+
+//    @Autowired
+//    private VNPayService vnPayService;
 
     @GetMapping("/")
     public String index() {
@@ -987,7 +1117,7 @@ public class PaymentController {
 
 
     @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
-    public ResponseEntity<String> cancelBooking(@PathVariable("id") int id) {
+    public ResponseEntity<String> cancelBooking(@PathVariable("id") int id) throws IOException {
         Optional<Booking> optionalBooking = bookingRepository.findById(id);
 
         if (optionalBooking.isPresent()) {
@@ -998,28 +1128,148 @@ public class PaymentController {
 
             if (booking.getAmountPaid() > 0) {
                 Optional<com.accommodation_management_booking.entity.Payment> optionalPayment = paymentRepository.findByBooking(booking);
-                if(optionalPayment.isPresent()){
-                    com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
-                    System.out.println("Payment found: " + payment);
-                    try{
-                        // Get the current exchange rate from VND to USD
-                        float exchangeRate = getExchangeRateVNDToUSD();
-                        if (exchangeRate == 0) {
-                            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve exchange rate.");
-                        }
+                if(optionalPayment.isPresent()) {
+                    if (optionalPayment.get().getPaymentMethod() == com.accommodation_management_booking.entity.Payment.PaymentMethod.PayPal) {
+                        System.out.println("Paypal");
+                        com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
+                        System.out.println("Payment found: " + payment);
+                        try {
+                            // Get the current exchange rate from VND to USD
+                            float exchangeRate = getExchangeRateVNDToUSD();
+                            if (exchangeRate == 0) {
+                                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to retrieve exchange rate.");
+                            }
 
-                        // Convert the amount paid from VND to USD
-                        float amountPaidInUSD = booking.getAmountPaid() * exchangeRate;
-                        float refundAmount = amountPaidInUSD /exchangeRate;
-                        // Logging for debugging
-                        System.out.println("Amount paid in VND: " + booking.getAmountPaid());
-                        System.out.println("Exchange rate VND to USD: " + exchangeRate);
-                        System.out.println("Amount to be refunded in USD: " + amountPaidInUSD);
-                        paypalService.refundPayment(payment.getPaymentDetail(), amountPaidInUSD);
-                        booking.setRefundAmount(refundAmount);
+                            // Convert the amount paid from VND to USD
+                            float amountPaidInUSD = booking.getAmountPaid() * exchangeRate;
+                            float refundAmount = amountPaidInUSD / exchangeRate;
+                            // Logging for debugging
+                            System.out.println("Amount paid in VND: " + booking.getAmountPaid());
+                            System.out.println("Exchange rate VND to USD: " + exchangeRate);
+                            System.out.println("Amount to be refunded in USD: " + amountPaidInUSD);
+                            paypalService.refundPayment(payment.getPaymentDetail(), amountPaidInUSD);
+                            booking.setRefundAmount(refundAmount);
+                            booking.setRefundDate(LocalDate.now());
+                            bookingRepository.save(booking);
+
+
+                            // Update the bed status
+                            Integer bedId = booking.getBed().getBedId();
+                            Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
+                            bed.setIsAvailable(true);
+                            bedRepository.save(bed);
+
+                            // Send email
+                            String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
+                            String subject = "Refund successful";
+                            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully" +
+                                    "\n Please check your account: " + payment.getPaymentDetail() +
+                                    "\nRefundAmount: " + booking.getRefundAmount() +
+                                    "\nDate: " + booking.getRefundDate() +
+                                    "\nDue to PayPal's refund policy, your refund may vary from the amount you paid!" +
+                                    "\nAny questions or complaints please contact us:" +
+                                    "\nAddress: Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN" +
+                                    "\nPhone: (024) 7300.1866 / (024) 7300.5588" +
+                                    "\n\nThank you for using our service.";
+                            emailService.sendBill(toEmail, subject, body);
+
+                            return ResponseEntity.ok("Canceled successfully");
+                        } catch (PayPalRESTException e) {
+                            e.printStackTrace();
+                            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Refund failed: " + e.getMessage());
+                        }
+                    } else if (optionalPayment.get().getPaymentMethod() == com.accommodation_management_booking.entity.Payment.PaymentMethod.BankQRCode) {
+                        System.out.println("VNPay");
+                        com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
+                        System.out.println("Payment found: " + payment);
+                        //Command: refund
+                        String vnp_RequestId = VNPayConfig.getRandomNumber(8);
+                        String vnp_Version = "2.1.0";
+                        String vnp_Command = "refund";
+                        String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
+                        String vnp_TransactionType = "refund";
+                        String vnp_TxnRef = payment.getPaymentDetail();
+                        long amount = Math.round(booking.getAmountPaid());
+                        String vnp_Amount = String.valueOf(amount);
+                        String vnp_OrderInfo = "Hoan tien GD OrderId:" + vnp_TxnRef;
+                        String vnp_TransactionNo = payment.getPaymentDetail();
+                        String vnp_TransactionDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+                        String vnp_CreateBy = "admin";
+
+                        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+                        String vnp_CreateDate = formatter.format(cld.getTime());
+
+                        String vnp_IpAddr = "127.0.0.1";
+                        ;
+
+                        JsonObject vnp_Params = new JsonObject();
+
+                        vnp_Params.addProperty("vnp_RequestId", vnp_RequestId);
+                        vnp_Params.addProperty("vnp_Version", vnp_Version);
+                        vnp_Params.addProperty("vnp_Command", vnp_Command);
+                        vnp_Params.addProperty("vnp_TmnCode", vnp_TmnCode);
+                        vnp_Params.addProperty("vnp_TransactionType", vnp_TransactionType);
+                        vnp_Params.addProperty("vnp_TxnRef", vnp_TxnRef);
+                        vnp_Params.addProperty("vnp_Amount", vnp_Amount);
+                        vnp_Params.addProperty("vnp_OrderInfo", vnp_OrderInfo);
+
+                        vnp_Params.addProperty("vnp_TransactionNo", vnp_TransactionNo);
+
+                        vnp_Params.addProperty("vnp_TransactionDate", vnp_TransactionDate);
+                        vnp_Params.addProperty("vnp_CreateBy", vnp_CreateBy);
+                        vnp_Params.addProperty("vnp_CreateDate", vnp_CreateDate);
+                        vnp_Params.addProperty("vnp_IpAddr", vnp_IpAddr);
+
+                        String hash_Data = String.join("|", vnp_RequestId, vnp_Version, vnp_Command, vnp_TmnCode,
+                                vnp_TransactionType, vnp_TxnRef, vnp_Amount, vnp_TransactionNo, vnp_TransactionDate,
+                                vnp_CreateBy, vnp_CreateDate, vnp_IpAddr, vnp_OrderInfo);
+
+                        String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hash_Data.toString());
+
+                        vnp_Params.addProperty("vnp_SecureHash", vnp_SecureHash);
+
+                        // Log each parameter
+                        System.out.println("vnp_RequestId: " + vnp_RequestId);
+                        System.out.println("vnp_Version: " + vnp_Version);
+                        System.out.println("vnp_Command: " + vnp_Command);
+                        System.out.println("vnp_TmnCode: " + vnp_TmnCode);
+                        System.out.println("vnp_TransactionType: " + vnp_TransactionType);
+                        System.out.println("vnp_TxnRef: " + vnp_TxnRef);
+                        System.out.println("vnp_Amount: " + vnp_Amount);
+                        System.out.println("vnp_OrderInfo: " + vnp_OrderInfo);
+                        System.out.println("vnp_TransactionDate: " + vnp_TransactionDate);
+                        System.out.println("vnp_CreateBy: " + vnp_CreateBy);
+                        System.out.println("vnp_CreateDate: " + vnp_CreateDate);
+                        System.out.println("vnp_IpAddr: " + vnp_IpAddr);
+                        System.out.println("vnp_SecureHash: " + vnp_SecureHash);
+
+                        URL url = new URL(VNPayConfig.vnp_ApiUrl);
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                        con.setRequestMethod("POST");
+                        con.setRequestProperty("Content-Type", "application/json");
+                        con.setDoOutput(true);
+                        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+                        wr.writeBytes(vnp_Params.toString());
+                        wr.flush();
+                        wr.close();
+                        int responseCode = con.getResponseCode();
+                        System.out.println("nSending 'POST' request to URL : " + url);
+                        System.out.println("Post Data : " + vnp_Params);
+                        System.out.println("Response Code : " + responseCode);
+                        BufferedReader in = new BufferedReader(
+                                new InputStreamReader(con.getInputStream()));
+                        String output;
+                        StringBuffer response = new StringBuffer();
+                        while ((output = in.readLine()) != null) {
+                            response.append(output);
+                        }
+                        in.close();
+                        System.out.println(response.toString());
+
+                        booking.setRefundAmount(Float.parseFloat(vnp_Amount));
                         booking.setRefundDate(LocalDate.now());
                         bookingRepository.save(booking);
-
 
                         // Update the bed status
                         Integer bedId = booking.getBed().getBedId();
@@ -1030,22 +1280,20 @@ public class PaymentController {
                         // Send email
                         String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
                         String subject = "Refund successful";
-                        String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully"+
+                        String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully" +
                                 "\n Please check your account: " + payment.getPaymentDetail() +
                                 "\nRefundAmount: " + booking.getRefundAmount() +
                                 "\nDate: " + booking.getRefundDate() +
-                                "\nDue to PayPal's refund policy, your refund may vary from the amount you paid!"+
-                                "\nAny questions or complaints please contact us:"+
+                                "\nDue to VNPay's refund policy, your refund may vary from the amount you paid!" +
+                                "\nAny questions or complaints please contact us:" +
                                 "\nAddress: Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN" +
                                 "\nPhone: (024) 7300.1866 / (024) 7300.5588" +
                                 "\n\nThank you for using our service.";
                         emailService.sendBill(toEmail, subject, body);
 
                         return ResponseEntity.ok("Canceled successfully");
-                    } catch (PayPalRESTException e) {
-                        e.printStackTrace();
-                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Refund failed: " + e.getMessage());
                     }
+
                 }
             }else {
                 System.out.println("No payment found for this booking");
@@ -1066,7 +1314,8 @@ public class PaymentController {
             // Example: Using a service like ExchangeRate-API
             RestTemplate restTemplate = new RestTemplate();
             String url = "https://api.exchangerate-api.com/v4/latest/VND";
-            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {});
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {
+            });
             Map<String, Object> responseBody = response.getBody();
             if (responseBody != null && responseBody.containsKey("rates")) {
                 Map<String, Double> rates = (Map<String, Double>) responseBody.get("rates");
@@ -1075,7 +1324,14 @@ public class PaymentController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return 0; // Return 0 if there is an error
+        return 0;
+    }
+
+    @GetMapping("/payments")
+    @ResponseBody
+    public List<com.accommodation_management_booking.entity.Payment> getPayments(@RequestParam com.accommodation_management_booking.entity.Payment.PaymentMethod method) {
+        System.out.println("method: " + method);
+        return paypalService.getPaymentsByMethod(method);
     }
 
 }

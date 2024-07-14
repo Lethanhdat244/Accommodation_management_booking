@@ -17,18 +17,22 @@ public class HomeController {
     }
 
     @GetMapping("fpt-dorm/home")
-    public String homepage(){
+    public String homepage() {
         return "homepage";
     }
 
+    @GetMapping("fpt-dorm/home/room")
+    public String room() {
+        return "room";
+    }
 
     @GetMapping("fpt-dorm/home/about")
-    public String about(){
+    public String about() {
         return "about";
     }
 
     @GetMapping("fpt-dorm/home/gallery")
-    public String gallery(){
+    public String gallery() {
         return "gallery";
     }
 
