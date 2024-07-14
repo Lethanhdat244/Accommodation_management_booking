@@ -14,10 +14,10 @@ import java.util.List;
 
 public interface ComplainRepository extends JpaRepository<Complaint, Long> {
     @Query("SELECT c FROM Complaint c")
-    List<Complaint> getAllRequest();
+    Page<Complaint> getAllRequest(Pageable pageable);
 
     @Query("SELECT c FROM Complaint c WHERE c.status = :status")
-    List<Complaint> findDoneComplaints(@Param("status") Complaint.Status status);
+    Page<Complaint> findDoneComplaints(@Param("status") Complaint.Status status, Pageable pageable);
 
     @Query("SELECT c FROM Complaint c WHERE c.user.userId = :userid ORDER BY c.createdAt desc")
     Page<Complaint> getRequestsByUserId(@Param("userid") int userid, Pageable pageable);

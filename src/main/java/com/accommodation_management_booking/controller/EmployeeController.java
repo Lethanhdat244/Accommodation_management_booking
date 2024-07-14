@@ -92,7 +92,9 @@ public class EmployeeController {
     }
 
     @GetMapping("fpt-dorm/employee/complain")
-    public String employeeComplain(Model model, @RequestParam(name = "status", required = false) Complaint.Status status, Authentication authentication) {
+    public String employeeComplain(Model model, @RequestParam(name = "status", required = false) Complaint.Status status, Authentication authentication, @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "3") int size) {
+        Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oauth2User = oauth2Token.getPrincipal();
@@ -106,13 +108,13 @@ public class EmployeeController {
             model.addAttribute("email", "Unknown");
         }
         try {
-            List<Complaint> complainList;
+            Page<Complaint> complainList;
             if (status != null) {
                 // Filter complainList based on status
-                complainList = complainRepository.findDoneComplaints(status);
+                complainList = complainRepository.findDoneComplaints(status, pageable);
             } else {
                 // If no status is selected, get all complaints
-                complainList = complainRepository.getAllRequest();
+                complainList = complainRepository.getAllRequest(pageable);
             }
             if (complainList.isEmpty()) {
                 // Handle case where complainList is empty
@@ -149,13 +151,7 @@ public class EmployeeController {
             notification.setContent("Your request was replied");
             notification.setRead(false);
             notificationService.saveNotification(notification);
-            try {
-                List<Complaint> complainList = complainRepository.getAllRequest();
-                model.addAttribute("complaintDTOList", complainList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "employee/employee_complain";
+            return "redirect:/fpt-dorm/employee/complain";
         } else {
             return "error/403";
         }

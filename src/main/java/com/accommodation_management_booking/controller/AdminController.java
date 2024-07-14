@@ -12,6 +12,9 @@ import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.impl.ComplainService;
 import com.accommodation_management_booking.service.impl.UsageServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -109,7 +112,11 @@ public class AdminController {
     }
 
     @GetMapping("fpt-dorm/admin/admin_list_complaint")
-    public String admin_complain(Model model, @RequestParam(name = "status", required = false) Complaint.Status status, Authentication authentication) {
+    public String admin_complain(Model model,
+                                 @RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "3") int size,
+                                 @RequestParam(name = "status", required = false) Complaint.Status status, Authentication authentication) {
+        Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oauth2User = oauth2Token.getPrincipal();
@@ -123,13 +130,13 @@ public class AdminController {
             model.addAttribute("email", "Unknown");
         }
         try {
-            List<Complaint> complainList;
+            Page<Complaint> complainList;
             if (status != null) {
                 // Filter complainList based on status
-                complainList = complainRepository.findDoneComplaints(status);
+                complainList = complainRepository.findDoneComplaints(status, pageable);
             } else {
                 // If no status is selected, get all complaints
-                complainList = complainRepository.findAll();
+                complainList = complainRepository.getAllRequest(pageable);
             }
             if (complainList.isEmpty()) {
                 // Handle case where complainList is empty
@@ -161,18 +168,8 @@ public class AdminController {
             existComplaint.setStatus(status);
             existComplaint.setReply(reply);
             complainService.saveComplain(existComplaint);
-            Notification notification = new Notification();
-            notification.setUser(existComplaint.getUser());
-            notification.setContent("Your request was replied");
-            notification.setRead(false);
-//            notificationService.saveNotification(notification);
-            try {
-                List<Complaint> complainList = complainRepository.getAllRequest();
-                model.addAttribute("complaintDTOList", complainList);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return "admin/admin_list_complaint";
+
+            return "redirect:/fpt-dorm/admin/admin_list_complaint";
         } else {
             return "error/403";
         }
@@ -213,9 +210,7 @@ public class AdminController {
         List<UserBookingDTO> usageServiceDTOs = userBookingRepository.findCurrentBookingsByRoomId(id);
         if (usageServiceDTOs.isEmpty()) {
             model.addAttribute("error", "This room is currently unoccupied.");
-            List<Dorm> dorms = dormRepository.findAll();
-            model.addAttribute("dorms", dorms);
-            return "admin/admin_usageService";
+            return "redirect:/fpt-dorm/admin/admin_usageService";
         }
 
         float e = (electric * 4000f) / usageServiceDTOs.size();
