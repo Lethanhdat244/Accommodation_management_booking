@@ -23,14 +23,6 @@
     <script src="/static/homepage_user/js/instafeed.min.js" type="text/javascript"></script>
     <script src="/static/homepage_user/js/custom.js" type="text/javascript"></script>
     <style>
-        /*.ml-auto {*/
-        /*    margin-left: auto;*/
-        /*}*/
-        /*.navbar-custom {*/
-        /*    display: flex;*/
-        /*    justify-content: space-between;*/
-        /*    align-items: center;*/
-        /*}*/
         .formList li{
             list-style: none;
             margin: 40px;
@@ -117,7 +109,7 @@
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
@@ -164,7 +156,7 @@
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
@@ -265,7 +257,6 @@
                     </form>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 

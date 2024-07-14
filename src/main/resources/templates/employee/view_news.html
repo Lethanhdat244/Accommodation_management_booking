@@ -73,7 +73,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -95,8 +95,8 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn" >
-                            <span class="icon folder" aria-hidden="true"></span>Room
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -104,14 +104,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_new_room}">Add new room</a>
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
-                            <!--                            <li>-->
-                            <!--                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>-->
-                            <!--                            </li>-->
                         </ul>
                     </li>
 
@@ -125,7 +122,7 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
+                                <a class="active" th:href="@{/fpt-dorm/employee/view-news}">View News</a>
                             </li>
                             <li>
                                 <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>

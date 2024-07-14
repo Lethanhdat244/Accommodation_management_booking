@@ -153,7 +153,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -175,8 +175,8 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn" >
-                            <span class="icon folder" aria-hidden="true"></span>Room
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -184,14 +184,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_new_room}">Add new room</a>
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
-                            <!--                            <li>-->
-                            <!--                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>-->
-                            <!--                            </li>-->
                         </ul>
                     </li>
 
@@ -275,8 +272,7 @@
         <div class="sidebar-footer">
             <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
             </span>
                 <div class="sidebar-user-info">
                     <span class="sidebar-user__title">AI</span>
@@ -299,7 +295,9 @@
                         <div class="profile-info">
                             <h1 class="profile-name" th:text="${user.username}">User Name</h1>
                             <p class="profile-email" th:text="${user.email}">Email</p>
-                            <button class="edit-profile-btn">Edit Profile</button>
+                            <a th:href="@{/fpt-dorm/employee/edit-profile}">
+                                <button class="edit-profile-btn">Edit Profile</button>
+                            </a>
                         </div>
                     </div>
                     <div class="profile-body">

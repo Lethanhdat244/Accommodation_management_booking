@@ -30,8 +30,6 @@ public class Bed {
     @Column(nullable = false)
     private Boolean isAvailable = true;
 
-
-
     @Convert(converter = MaintenanceStatusConverter.class)
     @Column(nullable = false)
     private MaintenanceStatus maintenanceStatus = MaintenanceStatus.Available;
@@ -47,8 +45,4 @@ public class Bed {
     public enum MaintenanceStatus {
         Available, UnderMaintenance
     }
-
-
-
-
 }

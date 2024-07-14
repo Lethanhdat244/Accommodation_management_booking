@@ -33,10 +33,6 @@
             align-items: center;
         }
 
-        /*ul li{*/
-        /*    list-style: none;*/
-        /*    margin: 40px;*/
-        /*}*/
         h1 {
             font-weight: 700;
             margin-bottom: 20px;
@@ -103,7 +99,6 @@
                     <div class="col-md-2 col-sm-6 col-xs-6">
                         <div id="logo">
                             <a th:href="@{/fpt-dorm/home}"><span>FPT</span>Dorm</a>
-                            <!--                            <h1>Welcome, <span th:text="${email}">[email]</span></h1>-->
                         </div>
                     </div>
                     <div class="col-sm-6 visible-sm">
@@ -111,7 +106,7 @@
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
@@ -160,7 +155,7 @@
                             <div class="dropdown">
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
                                     <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
@@ -204,20 +199,6 @@
                 </ol>
             </div>
         </div>
-        <!--        <div class="row">-->
-        <!--            <p class="rule" id="parent3" onclick="toggleVisibility('child3')">3. Rule 3</p>-->
-        <!--            <div class="content_rule hidden" id="child3">-->
-        <!--                <p>Bước 1: Vào chức năng My request</p>-->
-        <!--                <br>-->
-        <!--                <p>Bước 2: Bấm vào nút Create new request -> Chọn Báo cáo vấn đề kỹ thuật ở mục Type request</p>-->
-        <!--                <br>-->
-        <!--                <p>Bước 3: Hệ thống sẽ dẫn tới trang https://cim.fpt.edu.vn/</p>-->
-<!--                <br>-->
-<!--                <p>Bước 4: Điền những thông tin cần thiết và gửi ảnh tình trạng thiết bị (trên hệ thống CIM)</p>-->
-<!--                <br>-->
-<!--                <p>Bước 5: Bấm vào nút Create (trên hệ thống CIM)</p>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 
     <footer>

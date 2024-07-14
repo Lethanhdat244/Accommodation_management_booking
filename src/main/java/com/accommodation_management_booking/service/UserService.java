@@ -33,4 +33,8 @@ public interface UserService {
     Page<User> searchByEmailEmployee(String email, Pageable pageable);
     Page<User> searchByPhoneNumberEmployee(String phoneNumber, Pageable pageable);
 
+    User findByEmail(String email);
+
+    public void updateUser1(String email, UserDTO userDTO, MultipartFile[] avatarFile, MultipartFile[] frontImageFile, MultipartFile[] backImageFile);
+
 }

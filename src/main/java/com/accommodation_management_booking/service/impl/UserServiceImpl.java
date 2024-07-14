@@ -255,5 +255,62 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    @Override
+    public void updateUser1(String email, UserDTO userDTO, MultipartFile[] avatarFiles, MultipartFile[] frontImageFiles, MultipartFile[] backImageFiles) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            // Update email if provided
+            if (userDTO.getEmail() != null && !userDTO.getEmail().isEmpty()) {
+                user.setEmail(userDTO.getEmail());
+            }
+
+            // Update user fields from DTO
+            user.setUsername(userDTO.getUsername());
+            user.setPhoneNumber(userDTO.getPhoneNumber());
+            user.setGender(userDTO.getGender());
+            user.setAddress(userDTO.getAddress());
+            user.setBirthdate(userDTO.getBirthdate());
+            user.setCccdNumber(userDTO.getCccdNumber());
+
+            // Update avatar image if provided
+            try {
+                if (avatarFiles != null && avatarFiles.length > 0 && !avatarFiles[0].isEmpty()) {
+                    String avatarUrl = uploadImage(avatarFiles[0]);
+                    user.setAvatar(avatarUrl);
+                    System.out.println("Avatar uploaded successfully: " + avatarUrl);  // Debug log
+                } else {
+                    System.out.println("No avatar to upload");  // Debug log
+                }
+
+                // Update front CCCD image if provided
+                if (frontImageFiles != null && frontImageFiles.length > 0 && !frontImageFiles[0].isEmpty()) {
+                    String frontImageUrl = uploadImage(frontImageFiles[0]);
+                    user.setFrontCccdImage(frontImageUrl);
+                    System.out.println("Front CCCD image uploaded successfully: " + frontImageUrl);  // Debug log
+                } else {
+                    System.out.println("No front CCCD image to upload");  // Debug log
+                }
+
+                // Update back CCCD image if provided
+                if (backImageFiles != null && backImageFiles.length > 0 && !backImageFiles[0].isEmpty()) {
+                    String backImageUrl = uploadImage(backImageFiles[0]);
+                    user.setBackCccdImage(backImageUrl);
+                    System.out.println("Back CCCD image uploaded successfully: " + backImageUrl);  // Debug log
+                } else {
+                    System.out.println("No back CCCD image to upload");  // Debug log
+                }
+
+                // Save updated user to database
+                userRepository.save(user);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Error uploading images", e);
+            }
+        }
+    }
+
+
+
 }
 

@@ -138,7 +138,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a class="active" ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a class=""><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -160,8 +160,8 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn" >
-                            <span class="icon folder" aria-hidden="true"></span>Room
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -169,10 +169,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
-                                <a th:href="@{admin_add_new_room}">Add new room</a>
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
                         </ul>
                     </li>
@@ -337,7 +337,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/employee/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
@@ -406,16 +406,6 @@
                                         <td>
                                             <a class="btn btnprimary"
                                                th:href="@{/fpt-dorm/employee/complain/execute/{id}(id=${complain.complaintId})}">Execute</a>
-                                            <!--                                                <span class="p-relative">-->
-                                            <!--                                                    <button class="dropdown-btn transparent-btn" type="button"-->
-                                            <!--                                                            title="More info">-->
-                                            <!--                                                      <div class="sr-only">More info</div>-->
-                                            <!--                                                      <i data-feather="more-horizontal" aria-hidden="true"></i>-->
-                                            <!--                                                    </button>-->
-                                            <!--                                                    <ul class="users-item-dropdown dropdown">-->
-                                            <!--                                                      <li></li>-->
-                                            <!--                                                    </ul>-->
-                                            <!--                                                </span>-->
                                         </td>
                                     </tr>
                                     </tbody>

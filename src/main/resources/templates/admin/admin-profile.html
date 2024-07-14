@@ -153,8 +153,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
-                                                                                  aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn">
@@ -175,7 +174,7 @@
                     </li>
                     <li>
                         <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Room
+                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -183,13 +182,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
+                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
+                            </li>
+                            <li>
                                 <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
-                            </li>
-                            <li>
-                                <a th:href="@{admin_add_new_room}">Add new room</a>
-                            </li>
-                            <li>
-                                <a th:href="@{admin_add_new_type_room}">Add new room type</a>
                             </li>
                         </ul>
                     </li>
@@ -251,7 +247,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                        <a th:href="@{/fpt-dorm/admin/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Usage Service
                         </a>
@@ -313,7 +309,9 @@
                     <div class="profile-info">
                         <h1 class="profile-name" th:text="${user.username}">User Name</h1>
                         <p class="profile-email" th:text="${user.email}">Email</p>
-                        <button class="edit-profile-btn">Edit Profile</button>
+                        <a th:href="@{/fpt-dorm/admin/edit-profile}">
+                            <button class="edit-profile-btn">Edit Profile</button>
+                        </a>
                     </div>
                 </div>
                 <div class="profile-body">
