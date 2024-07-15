@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Residential Accommodation Rental Contract</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    .container {
+      width: 80%;
+      margin: auto;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      text-align: center;
+    }
+
+    /*p {*/
+    /*  text-align: justify;*/
+    /*}*/
+    .party-container {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .party {
+      align-content: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>RESIDENTIAL ACCOMMODATION RENTAL CONTRACT</h2>
+  <p>Today, on the <strong th:text="${day}"></strong> day of <strong th:text="${month}"></strong> in the year <strong
+          th:text="${year}"></strong>; at <strong>FPT Dorm</strong>.</p>
+
+  <h3>Parties involved:</h3>
+
+  <h4>LESSOR (Party A):</h4>
+  <p>
+    <strong>University/College: </strong><span></span> <br>
+    <strong>Represented by: </strong><span></span> <br>
+    <strong>Work unit: </strong><span></span> <br>
+    <strong>Position: </strong><span></span> <br>
+    <strong>Phone number: </strong><span></span>
+  </p>
+
+  <h4>LESSEE (Party B):</h4>
+  <p>
+    <strong>Full name of student: </strong><span th:text="${studentName} + ' '"></span> <strong
+          th:text="${gender}"></strong> <br>
+    <strong>Date of birth: </strong><span th:text="${dob}"></span> <strong>Student ID: </strong><span
+          th:text="${studentId}"></span> <br>
+    <!--    <strong>Class: </strong><span th:text="${className}"></span> <strong>Faculty: </strong><span th:text="${faculty}"></span> <strong>Graduation year: </strong><span th:text="${graduationYear}"></span> <br>-->
+    <strong>Phone number: </strong><span th:text="${phoneNumberB}"></span> <strong>Email: </strong><span
+          th:text="${email}"></span>
+  </p>
+  <p>
+    <strong>Permanent address: </strong><span th:text="${address}"></span>
+  </p>
+
+  <p>
+    Party A is authorized by the Rector of the University/College <span th:text="${university}"></span>, together with
+    Party B, to agree and sign a Residential Accommodation Rental Contract at the University/College Dormitory <span
+          th:text="${building}"></span> with the following terms:
+  </p>
+
+  <h3>Clause 1:</h3>
+  <p>
+    Party A agrees to lease to Party B: <strong>01</strong> residential accommodation at room number: <strong
+          th:text="${roomNumber}"></strong>, Floor: <strong th:text="${floor}"></strong>, Dormitory: <strong
+          th:text="${building}"></strong>, FPT Dormitory . Party B is permitted to use the assets provided by the
+    university/college in the accommodation as well as the communal rooms within the dormitory premises according to the
+    Dormitory Organization & Activities Regulations, rules, and internal regulations of the dormitory.
+  </p>
+
+  <h3>Clause 2: Price, Period, and Payment Method.</h3>
+  <p>
+    2.1. Rental price: <span th:text="${rentalPrice}"></span> per month. <br>
+    2.2. Rental period: from <span th:text="${rentalStart}"></span> to <span th:text="${rentalEnd}"></span> <br>
+    In addition, Party B must pay extra for electricity if usage exceeds the consumption limit of <span
+          th:text="${consumptionLimit}"></span>/month/person, according to the dormitory's general regulations.
+  </p>
+
+  <p>
+    2.3. Payment method: Party B pays Party A the dormitory rental fee in cash once at the Dormitory Management Office
+    of the university/college within 01 day after the contract is signed.
+  </p>
+
+  <h3>Clause 3: Termination of Contract and Party A's Responsibilities.</h3>
+  <p>
+    The contract expires and Party A is not responsible for refunding money to Party B when:
+  <ul>
+    <li>The term specified in the contract ends.</li>
+    <li>Party B requests early termination of the contract.</li>
+    <li>Party B is no longer a student of the university/college: graduated, suspended from studies, expelled, or
+      voluntarily dropped out.
+    </li>
+    <li>Party B does not meet health requirements, infected with infectious diseases as concluded by the district
+      (commune) health authority or higher.
+    </li>
+    <li>Party B violates the Dormitory Regulations, subjected to disciplinary action as per the disciplinary framework
+      for terminating the contract, expelling from the Dormitory.
+    </li>
+  </ul>
+  </p>
+
+  <h3>Clause 4: Lessee's Responsibilities.</h3>
+  <p>
+  <ul>
+    <li>Stay in the assigned place by the Dormitory Administration (room and bed location).</li>
+    <li>Obey the relocation of accommodation by the Dormitory Administration when necessary and justified: (Dormitory
+      repairs and upgrades, reasons of security and order, and other reasons).
+    </li>
+    <li>Do not sublet the accommodation or transfer the contract to others.</li>
+    <li>Do not cook in the accommodation and surrounding dormitory areas.</li>
+    <li>Strictly comply with the regulations of the State, the University, Dormitory Regulations.</li>
+    <li>Self-manage personal property and belongings, take responsibility for ensuring personal safety regarding the use
+      of equipment, tools, and other activities.
+    </li>
+    <li>Consciousness in conserving public property, thoroughly savings, preventing waste, fully fulfilling
+      responsibilities about Dormitory hygiene and order. Commit to strict compliance, with responsibility and
+      collective consciousness.
+    </li>
+    <li>Compensate for the loss of public property damage caused under the university's general regulations.</li>
+    <li>Self-payment of other personal service costs such as dining services, parking...</li>
+    <li>Complete and pay all fees on time, keep receipts for cross-references when necessary.</li>
+    <li>Commit to strict Dormitory discipline, with a sense of responsibility and collective consciousness.</li>
+    <li>Room return and leave the dormitory on the contract's expiration date.</li>
+  </ul>
+  </p>
+
+  <h3>Clause 5: Responsibilities of Party A.</h3>
+  <p>
+  <ul>
+    <li>Arrange accommodation for Party B immediately after Party B has completed accommodation registration procedures
+      according to regulations and contract terms.
+    </li>
+    <li>Ensure living and learning conditions for Party B as per general regulations.</li>
+    <li>Guide Party B in using equipment in the accommodation.</li>
+    <li>Invoice (receipt) all money receipts paid by Party B.</li>
+  </ul>
+  </p>
+
+  <h3>Clause 6: General Provisions.</h3>
+  <p>
+  <ul>
+    <li>Either party who wants to terminate the contract early must have a written notice to the other party at least 15
+      days in advance (except for students who are disciplined for other reasons, or disciplined for violating dormitory
+      regulations).
+    </li>
+    <li>The Dormitory Organization & Activities Regulations, Dormitory Regulations, Dormitory Registration Form, and
+      Signed Commitment Form are the common parts of this contract.
+    </li>
+    <li>Both parties agree to strictly implement the terms of the contract and the Signed Commitment Form.</li>
+    <li>The contract is made in 02 copies of equal value. Party A holds 01 copy, and Party B holds 01 copy.</li>
+    <li>Party B must hand over the dormitory room equipment to Party A when taking summer vacation (Tet), practice, and
+      before the contract expires.
+    </li>
+  </ul>
+  </p>
+
+  <div style="display: flex">
+    <div class="party-container">
+      <div class="party">
+        <p style="text-align: center">
+          <strong>Party A </strong><br><br><br>
+          (Signed, full name)
+        </p>
+      </div>
+      <div class="party">
+        <p style="text-align: center">
+          <strong>Party B </strong><br><br><br>
+          (Signed, full name)
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
