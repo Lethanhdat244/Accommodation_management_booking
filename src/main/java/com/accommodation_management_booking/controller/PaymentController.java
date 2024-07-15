@@ -46,6 +46,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+//import org.apache.pdfbox.pdmodel.PDDocument;
+//import org.apache.pdfbox.pdmodel.PDPage;
+//import org.apache.pdfbox.pdmodel.PDPageContentStream;
+//import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -1114,6 +1118,35 @@ public class PaymentController {
         bookingRepository.delete(bookingRepository.findById((Integer) request.getSession().getAttribute("bookingId")).get());
         return "redirect:/";
     }
+
+//    public void generateContract(String fullName, String identityID, String fileName) throws IOException {
+//        // Create a new document
+//        PDDocument document = new PDDocument();
+//        PDPage page = new PDPage();
+//        document.addPage(page);
+//
+//        // Start a new content stream
+//        PDPageContentStream contentStream = new PDPageContentStream(document, page);
+//
+//        // Set font and draw text
+//        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
+//        contentStream.beginText();
+//        contentStream.newLineAtOffset(50, 700);
+//        contentStream.showText("Contract Details:");
+//        contentStream.newLineAtOffset(0, -20);
+//        contentStream.setFont(PDType1Font.HELVETICA, 12);
+//        contentStream.showText("Full Name: " + fullName);
+//        contentStream.newLineAtOffset(0, -20);
+//        contentStream.showText("Identity ID: " + identityID);
+//        contentStream.endText();
+//
+//        // Close content stream
+//        contentStream.close();
+//
+//        // Save document to file
+//        document.save(fileName);
+//        document.close();
+//    }
 
 
     @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
