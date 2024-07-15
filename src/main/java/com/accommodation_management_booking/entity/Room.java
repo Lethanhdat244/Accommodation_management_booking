@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -17,30 +18,27 @@ import java.time.LocalDateTime;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roomId;
+    private Integer roomId;
 
-    @Enumerated(EnumType.STRING)
-    private RoomStatus roomStatus;
+    @ManyToOne
+    @JoinColumn(name = "floor_id", nullable = false)
+    private Floor floor;
 
-    @Column(length = 10)
+    @Column(nullable = false, length = 20)
     private String roomNumber;
 
-    private int capacity;
+    @Column(nullable = false)
+    private Integer capacity;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+    @Column(nullable = false)
+    private Float pricePerBed;
 
-    @Column(updatable = false)
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
+
+    @Column(nullable = false)
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
-    public enum RoomStatus {
-        Available, Occupied, Maintenance
-    }
-
-    public enum Status {
-        Active, Inactive
-    }
 }

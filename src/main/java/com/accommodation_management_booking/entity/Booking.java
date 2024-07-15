@@ -12,43 +12,60 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "booking")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "booking")
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int bookingId;
+    private Integer bookingId;
+
+    @ManyToOne
+    @JoinColumn(name = "bed_id", nullable = false)
+    private Bed bed;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private int roomId;
+    @ManyToOne
+    @JoinColumn(name = "room_id", nullable = false)
+    private Room room;
 
-    private LocalDate checkInDate;
+    @Column(nullable = false)
+    private LocalDate startDate;
 
-    private LocalDate checkOutDate;
+    @Column(nullable = false)
+    private LocalDate endDate;
 
-    @DecimalMin("0.00")
-    private BigDecimal deposit;
+    @Column(nullable = false)
+    private Float totalPrice;
 
-    @DecimalMin("0.00")
-    private BigDecimal totalAmount;
+    @Column(nullable = false)
+    private Float amountPaid = 0f;
+
+    private Float refundAmount = 0f;
+
+    private LocalDate refundDate;
+
+    @Column(nullable = false)
+    private LocalDateTime bookingDate = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    @Column(nullable = false)
+    private Status status = Status.Pending;
 
-    @Column(updatable = false)
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
+    @Column(nullable = false)
     @UpdateTimestamp
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt = LocalDateTime.now();
 
     public enum Status {
-        Pending, Confirmed, Cancelled, Completed
+        Pending, Confirmed, Canceled
     }
 }

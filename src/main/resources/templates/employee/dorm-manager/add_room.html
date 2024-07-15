@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
+    <title>EMPLOYEE | ADD ROOM</title>
+    <!-- Favicon -->
+    <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .main-title {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .table-wrapper {
+            background-color: #ffffff;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary-custom {
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const A = document.getElementById('menu-dorm');
+        const B = document.getElementById('dorm-list');
+
+        A.addEventListener('click', function () {
+            if (A.classList.contains('active')) {
+                A.classList.remove('active');
+                B.classList.add('active');
+            } else {
+                A.classList.add('active');
+                B.classList.remove('active');
+            }
+        });
+    });
+</script>
+<body>
+<div class="layer"></div>
+<!-- ! Body -->
+<!--<a class="skip-link sr-only" href="#skip-target">Skip to content</a>-->
+<div class="page-flex">
+    <!-- ! Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-start">
+            <div class="sidebar-head">
+                <a th:href="@{/fpt-dorm/employee/home}" class="logo-wrapper" title="Home">
+                    <span class="sr-only">Home</span>
+                    <span class="icon logo" aria-hidden="true"></span>
+                    <div class="logo-text">
+                        <span class="logo-title">Dormitory</span>
+                        <span class="logo-subtitle">EMPLOYEE</span>
+                    </div>
+
+                </a>
+                <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
+                    <span class="sr-only">Toggle menu</span>
+                    <span class="icon menu-toggle" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="sidebar-body">
+                <ul class="sidebar-body-menu">
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home"
+                                                                                     aria-hidden="true"></span>Dashboard</a>
+                    </li>
+                    <li>
+                        <a class="show-cat-btn" href="#">
+                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
+                                    Students</a>
+                            </li>
+                            <li>
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
+                                    student</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a id="menu-dorm" class="show-cat-btn active">
+                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="dorm-list" class=""  th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>News
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="show-cat-btn" href="#">
+                            <span class="icon folder" aria-hidden="true"></span>Payment
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
+                                    Payments</a>
+                            </li>
+                            <li>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                    Request</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Usage Service
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Resident History
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{admin/admin_list_feedback}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Feedback
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/complain}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Complaint
+                        </a>
+                    </li>
+
+
+<!--                    <li>-->
+<!--                        <a th:href="@{/fpt-dorm/employee/notifications}">-->
+<!--                            <span class="icon folder" aria-hidden="true"></span>-->
+<!--                            Notifications-->
+<!--                        </a>-->
+<!--                    </li>-->
+                </ul>
+            </div>
+        </div>
+<!--        <div class="sidebar-footer">-->
+<!--            <a href="##" class="sidebar-user">-->
+<!--            <span class="sidebar-user-img">-->
+<!--                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img-->
+<!--                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>-->
+<!--            </span>-->
+<!--                <div class="sidebar-user-info">-->
+<!--                    <span class="sidebar-user__title">AI</span>-->
+<!--                    <span class="sidebar-user__subtitle">Support manager</span>-->
+<!--                </div>-->
+<!--            </a>-->
+<!--        </div>-->
+    </aside>
+    <div class="main-wrapper">
+        <!-- ! Main nav -->
+        <nav class="main-nav--bg">
+            <div class="container main-nav">
+                <div class="main-nav-start">
+
+                </div>
+                <div class="main-nav-end">
+                    <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
+                        <span class="sr-only">Toggle menu</span>
+                        <span class="icon menu-toggle--gray" aria-hidden="true"></span>
+                    </button>
+                    <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
+                        <span class="sr-only">Switch theme</span>
+                        <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
+                        <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
+                    </button>
+<!--                    <div class="notification-wrapper">-->
+<!--                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">-->
+<!--                            <span class="sr-only">To messages</span>-->
+<!--                            <span class="icon notification active" aria-hidden="true"></span>-->
+<!--                        </button>-->
+<!--                        <ul class="users-item-dropdown notification-dropdown dropdown">-->
+<!--                            <li>-->
+<!--                                <a href="##">-->
+<!--                                    <div class="notification-dropdown-icon info">-->
+<!--                                        <i data-feather="check"></i>-->
+<!--                                    </div>-->
+<!--                                    <div class="notification-dropdown-text">-->
+<!--                                        <span class="notification-dropdown__title">System just updated</span>-->
+<!--                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more-->
+<!--                  here.</span>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="##">-->
+<!--                                    <div class="notification-dropdown-icon danger">-->
+<!--                                        <i data-feather="info" aria-hidden="true"></i>-->
+<!--                                    </div>-->
+<!--                                    <div class="notification-dropdown-text">-->
+<!--                                        <span class="notification-dropdown__title">The cache is full!</span>-->
+<!--                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and-->
+<!--                  interfere ...</span>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a href="##">-->
+<!--                                    <div class="notification-dropdown-icon info">-->
+<!--                                        <i data-feather="check" aria-hidden="true"></i>-->
+<!--                                    </div>-->
+<!--                                    <div class="notification-dropdown-text">-->
+<!--                                        <span class="notification-dropdown__title">New Subscriber here!</span>-->
+<!--                                        <span class="notification-dropdown__subtitle">A new subscriber has subscribed.</span>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+<!--                            </li>-->
+<!--                            <li>-->
+<!--                                <a class="link-to-page" href="##">Go to Notifications page</a>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+                    <div class="nav-user-wrapper">
+                        <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                            <span class="sr-only">My profile</span>
+                            <span class="nav-user-img">
+            <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp"
+                             type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png"
+                                                    alt="User name"></picture>
+          </span>
+                        </button>
+                        <ul class="users-item-dropdown nav-user-dropdown dropdown">
+                            <li><a th:href="@{/fpt-dorm/employee/profile}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
+                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+                            <li><a class="danger" th:href="@{/fpt-dorm/logout}">
+                                <i data-feather="log-out" aria-hidden="true"></i>
+                                <span>Log out</span>
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+
+        <!-- ! Main -->
+        <main class="main users chart-page" id="skip-target">
+            <div class="container">
+                <h2>Add room in Floor <span th:text="${floor.floorNumber}"></span> of Dorm <span
+                        th:text="${dormName}"></span></h2>
+                <h2 th:if="${error}" style="color: red; margin-top: 30px;">
+                    <p th:text="${error}"></p>
+                </h2>
+                <div style="padding-top: 20px; height: 330px; width: 500px; margin-top: 30px;"
+                     class="users-table table-wrapper posts-table">
+                    <form th:action="@{'/fpt-dorm/employee/add-room/' + ${dormId} + '/' + ${floorId}}" th:object="${room}"
+                          method="post" onsubmit="return validateForm()">
+                        <div>
+                            <label>Room Number:</label>
+                            <input type="text" th:field="*{roomNumber}" required/>
+                        </div>
+                        <div th:if="${#fields.hasErrors('roomNumber')}">
+                            <p th:errors="*{roomNumber}">Room Number Error</p>
+                        </div>
+
+                        <script>
+                            function validateForm() {
+                                var roomNumberField = document.querySelector('[name="roomNumber"]');
+                                var roomNumberValue = roomNumberField.value;
+
+                                // Replace multiple spaces with a single space
+                                roomNumberValue = roomNumberValue.replace(/\s+/g, ' ').trim();
+
+                                // Check if the room number is only spaces
+                                if (roomNumberValue.length === 0) {
+                                    alert("Room Number cannot be empty or just spaces.");
+                                    return false;
+                                }
+
+                                roomNumberField.value = roomNumberValue;
+                                return true;
+                            }
+                        </script>
+                        <div style="margin-top: 30px;">
+                            <label>Capacity:</label>
+                            <div style="display: flex; align-items: center; margin-top: 30px;">
+                                <input type="radio" id="capacity4" name="capacity" value="4" th:field="*{capacity}" onchange="updatePrice()" required checked/>
+                                <label for="capacity4" style="margin-left: 8px; margin-right: 20px;">4 beds</label>
+                                <input type="radio" id="capacity6" name="capacity" value="6" th:field="*{capacity}" onchange="updatePrice()" required />
+                                <label for="capacity6" style="margin-left: 8px;">6 beds</label>
+                            </div>
+
+                        </div>
+                        <div style="margin-top: 30px;">
+                            <label>Price per Bed:</label>
+                            <input type="number" th:field="*{pricePerBed}" step="1" id="pricePerBed" readonly required />
+                        </div>
+                        <div style="margin-top: 30px;">
+                            <button type="submit" class="btn btn-primary"
+                                    style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
+                                Add Room
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <script>
+                    function updatePrice() {
+                        var pricePerBedInput = document.getElementById("pricePerBed");
+                        var capacity4 = document.getElementById("capacity4");
+                        var capacity6 = document.getElementById("capacity6");
+
+                        if (capacity4.checked) {
+                            pricePerBedInput.value = 1000000;
+                        } else if (capacity6.checked) {
+                            pricePerBedInput.value = 1200000;
+                        }
+                    }
+                </script>
+                <h2>List room in Floor <span th:text="${floor.floorNumber}"></span> of Dorm <span
+                        th:text="${dormName}"></span></h2>
+                <div class="row" style="margin-top: 30px;">
+                    <div class="col-lg-11">
+                        <div class="users-table table-wrapper">
+                            <table class="posts-table">
+                                <thead>
+                                <tr>
+                                    <th>Room Number</th>
+                                    <th>Capacity</th>
+                                    <th>Price Per Bed</th>
+                                    <th>Action</th>
+                                </tr>
+                                <tbody>
+                                <tr th:each="room : ${rooms}">
+                                    <td th:text="${room.roomNumber}"></td>
+                                    <td th:text="${room.capacity}"></td>
+                                    <td th:text="${room.pricePerBed}"></td>
+                                    <td>
+    <span class="p-relative">
+        <button class="dropdown-btn transparent-btn" type="button" title="More info">
+            <div class="sr-only">More info</div>
+            <i data-feather="more-horizontal" aria-hidden="true"></i>
+        </button>
+        <ul class="users-item-dropdown dropdown">
+<a class="dropdown-item" th:href="@{/fpt-dorm/employee/list-beds/{roomId}(roomId=${room.roomId})}">List beds</a>
+            <a class="dropdown-item"
+               th:href="@{/fpt-dorm/employee/edit-room/{dormId}/{floorId}/{roomId}(dormId=${dormId},floorId=${floorId},roomId=${room.roomId})}">Quick edit</a>
+            <a class="dropdown-item"
+               th:href="@{/fpt-dorm/employee/delete-room/{dormId}/{floorId}/{roomId}(dormId=${dormId},floorId=${floorId},roomId=${room.roomId})}">Delete</a>
+        </ul>
+    </span>
+                                    </td>
+
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                            <a th:href="@{/fpt-dorm/employee/view-floor-list/{dormId}(dormId=${dormId})}"
+                               class="btn btn-primary"
+                               style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;">
+                                Back
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
+
+        <!-- ! Footer -->
+        <footer class="footer">
+            <div class="container footer--flex">
+            </div>
+        </footer>
+    </div>
+</div>
+<!-- Chart library -->
+<script src="/static/admin_homepage/plugins/chart.min.js"></script>
+<!-- Icons library -->
+<script src="/static/admin_homepage/plugins/feather.min.js"></script>
+<!-- Custom scripts -->
+<script src="/static/admin_homepage/js/script.js"></script>
+<script th:if="${error != null}">
+    setTimeout(function () {
+        window.history.back();
+    }, 3000); // Redirect after 3 seconds if no error
+</script>
+</body>
+
+</html>

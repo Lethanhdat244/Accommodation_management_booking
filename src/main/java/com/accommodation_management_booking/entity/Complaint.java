@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
@@ -23,9 +24,10 @@ public class Complaint {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    private int roomId;
+    @Column(nullable = false, length = 255)
+    private String title;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false, length = 255)
     private String description;
 
     @Enumerated(EnumType.STRING)
@@ -38,8 +40,33 @@ public class Complaint {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
+    @Column(nullable = false, length = 255)
+    private String reply;
 
     public enum Status {
-        Open, InProgress, Closed
+        WAITING("Waiting"),
+        INPROGRESS("In Progress"),
+        DONE("Done"),
+        REJECT("Reject");
+        private final String displayName;
+
+        Status(String displayName) {
+            this.displayName = displayName;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+    }
+
+    public String getFormattedCreatedAt() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm ");
+        return createdAt != null ? createdAt.format(formatter) : "";
+    }
+
+    // Custom getter for formatted updatedAt
+    public String getFormattedUpdatedAt() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm ");
+        return updatedAt != null ? updatedAt.format(formatter) : "";
     }
 }

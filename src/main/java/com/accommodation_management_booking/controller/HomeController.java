@@ -1,6 +1,11 @@
 package com.accommodation_management_booking.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -16,9 +21,9 @@ public class HomeController {
         return "homepage";
     }
 
-    @GetMapping("fpt-dorm/home-user")
-    public String booking(){
-        return "home_user";
+    @GetMapping("fpt-dorm/home/room")
+    public String room(){
+        return "room";
     }
 
     @GetMapping("fpt-dorm/home/about")
@@ -31,22 +36,13 @@ public class HomeController {
         return "gallery";
     }
 
-    @GetMapping("fpt-dorm/home/dinning")
-    public String dinning(){
-        return "dinning";
-    }
-
-    @GetMapping("fpt-dorm/home/new")
-    public String news(){
-        return "new";
-    }
 
     @GetMapping("fpt-dorm/home/contact")
     public String contact(){
         return "contact";
     }
 
-    @GetMapping("fpt-dorm/home-user/rule")
+    @GetMapping("fpt-dorm/user/rule")
     public String rule(){
         return "rule";
     }
