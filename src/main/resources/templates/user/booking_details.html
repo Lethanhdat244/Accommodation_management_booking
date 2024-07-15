@@ -219,7 +219,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="dorm">Dorm:</label>
-                                <select class="form-control" id="dorm" name="dorm" onchange="updateFloors()">
+                                <select class="form-control" id="dorm" name="dorm" onchange="updateFloors()" required>
                                     <option value="" disabled selected>-- Select Dorm --</option>
                                     <option th:each="dorm : ${dorms}" th:value="${dorm.dormId}"
                                             th:text="${dorm.dormName}"></option>
@@ -230,7 +230,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="floor">Floor:</label>
-                                <select class="form-control" id="floor" name="floor" onchange="updateRooms()">
+                                <select class="form-control" id="floor" name="floor" onchange="updateRooms()" required>
                                     <option value="" disabled selected>-- Select Floor --</option>
                                 </select>
                                 <span id="floorError" class="text-danger"></span>
@@ -242,7 +242,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="room">Room:</label>
-                                <select class="form-control" id="room" name="room" onchange="updateBeds()">
+                                <select class="form-control" id="room" name="room" onchange="updateBeds()" required>
                                     <option value="" disabled selected>-- Select Room --</option>
                                 </select>
                                 <span id="roomError" class="text-danger"></span>
@@ -251,7 +251,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="bed">Bed:</label>
-                                <select class="form-control" id="bed" name="bed">
+                                <select class="form-control" id="bed" name="bed" required>
                                     <option value="" disabled selected>-- Select Bed --</option>
                                 </select>
                                 <span id="bedError" class="text-danger"></span>
@@ -264,7 +264,7 @@
                             <div class="form-group">
                                 <label for="checkin">Check-in Date:</label>
                                 <input type="date" class="form-control" id="checkin" name="checkin"
-                                       onchange="calculateTotalPrice()">
+                                       onchange="calculateTotalPrice()" required>
                                 <span id="checkinError" class="text-danger"></span>
                             </div>
                         </div>
@@ -272,7 +272,7 @@
                             <div class="form-group">
                                 <label for="checkout">Check-out Date:</label>
                                 <input type="date" class="form-control" id="checkout" name="checkout"
-                                       onchange="calculateTotalPrice()">
+                                       onchange="calculateTotalPrice()" required>
                                 <span id="checkoutError" class="text-danger"></span>
                             </div>
                         </div>
@@ -294,7 +294,7 @@
 
                     <div class="form-group">
                         <label for="paymentMethod">Payment Method:</label>
-                        <select class="form-control" id="paymentMethod" name="paymentMethod">
+                        <select class="form-control" id="paymentMethod" name="paymentMethod" required>
                             <option value="PayPal">PayPal</option>
                             <option value="VNPay">VNPay</option>
                         </select>

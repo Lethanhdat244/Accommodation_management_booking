@@ -123,7 +123,7 @@
                                     <li><a data-hover="Payment"
                                            th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a></li>
                                     <li><a data-hover="Resident History"
-                                           th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a>
+                                           th:href="@{/fpt-dorm/user/resident-history/list}"><span>Resident History</span></a>
                                     </li>
                                     <li><a data-hover="Request"
                                            th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a></li>
@@ -241,9 +241,11 @@
                                       th:text="${#numbers.formatDecimal(usageService.others + usageService.water + usageService.electricity, 1, 'COMMA', 2, 'POINT')} + ' VND'"></span>
                             </p>
                         </li>
-                        <li>
-                            <p>Total in USD: <span id="total-usd"></span></p>
-                        </li>
+
+                        <li><p class="alert-danger"><strong>Please go to the payment counter on the 1st Floor of your dormitory building to pay. Payment deadline: 1 week before check-out-date</strong></p></li>
+<!--                        <li>-->
+<!--                            <p>Total in USD: <span id="total-usd"></span></p>-->
+<!--                        </li>-->
                     </ul>
                     <ul class="formList" th:if="${usageService == null}">
                         <li>
