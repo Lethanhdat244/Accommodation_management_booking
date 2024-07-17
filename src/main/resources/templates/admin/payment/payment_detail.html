@@ -410,6 +410,13 @@
                     </div>
                 </div>
             </div>
+            <div class="container" th:if="${contract != null}">
+                <div class="row">
+                    <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
+                        <embed th:src="${contract.contractLink}" type="application/pdf" width="100%" height="600px"/>
+                    </div>
+                </div>
+            </div>
         </main>
         <!-- ! Footer -->
         <footer class="footer">

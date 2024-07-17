@@ -1,8 +1,12 @@
 package com.accommodation_management_booking.service;
 
-
+import com.accommodation_management_booking.config.CloudinaryConfiguration;
 import com.accommodation_management_booking.entity.Booking;
+import com.accommodation_management_booking.entity.Contract;
 import com.accommodation_management_booking.repository.BookingRepository;
+import com.accommodation_management_booking.repository.ContractRepository;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.itextpdf.html2pdf.ConverterProperties;
 import com.itextpdf.html2pdf.HtmlConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +16,12 @@ import org.thymeleaf.context.Context;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,12 +30,18 @@ public class PdfService {
     private final TemplateEngine templateEngine;
     @Autowired
     private BookingRepository bookingRepository;
+    @Autowired
+    private ContractRepository contractRepository;
 
-    public PdfService(TemplateEngine templateEngine) {
+    private final Cloudinary cloudinary;
+
+    @Autowired
+    public PdfService(TemplateEngine templateEngine, CloudinaryConfiguration cloudinaryConfig) {
         this.templateEngine = templateEngine;
+        this.cloudinary = cloudinaryConfig.cloudinaryConfigPDF();  // Sử dụng Cloudinary config đã tạo
     }
 
-    public ByteArrayInputStream createPdf(int id) throws IOException {
+    public String createPdfAndUpload(int id) throws IOException {
         Optional<Booking> optionalBooking = bookingRepository.findById(id);
         if (optionalBooking.isEmpty()) {
             throw new IllegalArgumentException("Invalid booking ID");
@@ -61,10 +74,10 @@ public class PdfService {
         context.setVariable("rentalStart", booking.getStartDate());
         context.setVariable("rentalEnd", booking.getEndDate());
         context.setVariable("consumptionLimit", ""); // Replace with actual consumption limit
-        context.setVariable("representedBy", "booking.getUser().getRepresentedBy()");
-        context.setVariable("workUnit", "booking.getUser().getWorkUnit()");
-        context.setVariable("position", "booking.getUser().getPosition()");
-        context.setVariable("phoneNumberA", "booking.getUser().getPhoneNumberA()");
+        context.setVariable("representedBy", "");
+        context.setVariable("workUnit", "");
+        context.setVariable("position", "");
+        context.setVariable("phoneNumberA", "");
 
         // Render HTML từ template
         String html = templateEngine.process("contract_template", context);
@@ -73,7 +86,28 @@ public class PdfService {
         ByteArrayOutputStream target = new ByteArrayOutputStream();
         ConverterProperties converterProperties = new ConverterProperties();
         HtmlConverter.convertToPdf(html, target, converterProperties);
+        String filename = "contract_" + booking.getUser().getUserId() + "_" + booking.getBookingId();
 
-        return new ByteArrayInputStream(target.toByteArray());
+        // Lưu PDF tạm thời
+        File tempFile = File.createTempFile(filename, ".pdf");
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            fos.write(target.toByteArray());
+        }
+
+        // Upload PDF lên Cloudinary
+        Map uploadResult = cloudinary.uploader().upload(tempFile, ObjectUtils.asMap(
+                "resource_type", "raw",
+                "folder", "PDF Contracts/"  // Thư mục trên Cloudinary bạn muốn lưu trữ
+        ));
+
+        Contract newContract = new Contract();
+        newContract.setBooking(booking);
+        newContract.setContractLink((String) uploadResult.get("url"));
+        contractRepository.save(newContract);
+
+        // Xóa file tạm
+        tempFile.delete();
+
+        return (String) uploadResult.get("url");
     }
 }

@@ -662,6 +662,26 @@
                 alert('An error occurred while confirming payment');
             });
 
+        fetch('/generate-pdf/' + data.bookingId, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    setTimeout(function () {
+                        alert('PDF generated successfully');
+                    }, 70);
+                } else {
+                    alert('Failed to generate PDF');
+                }
+            })
+            .catch(error => {
+                console.error('Error generating PDF:', error);
+                alert('An error occurred while generating PDF');
+            });
+
         closeConfirmConfirmModal(); // Close the modal after the action
     }
 
