@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update News | Admin</title>
-    <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
+    <link rel="" href="/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
-    <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
+    <link rel="stylesheet" href="/admin_homepage/css/style.min.css">
     <style>
         .news-card {
             margin-bottom: 20px;
@@ -75,6 +75,22 @@
             color: green;
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const A = document.getElementById('menu-news');
+            const B = document.getElementById('menu-view-news');
+
+            A.addEventListener('click', function () {
+                if (A.classList.contains('active')) {
+                    A.classList.remove('active');
+                    B.classList.add('active');
+                } else {
+                    A.classList.add('active');
+                    B.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="layer"></div>
@@ -99,7 +115,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}" class="active"><span class="icon home"
+                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home"
                                                                                   aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
@@ -138,7 +154,7 @@
                     </li>
 
                     <li>
-                        <a class="show-cat-btn active">
+                        <a id="menu-news" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -147,12 +163,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-news}">View News</a>
+                                <a id="menu-view-news" th:href="@{/fpt-dorm/admin/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/add-news}">Add news</a>
+                                <a id="menu-add-news" th:href="@{/fpt-dorm/admin/add-news}">Add news</a>
                             </li>
-
                         </ul>
                     </li>
 
@@ -194,7 +209,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                        <a th:href="@{/fpt-dorm/admin/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Usage Service
                         </a>
@@ -204,13 +219,6 @@
                         <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
                         </a>
                     </li>
 
@@ -231,16 +239,6 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
-                <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">AI</span>
-                    <span class="sidebar-user__subtitle">Support manager</span>
-                </div>
-            </a>
         </div>
     </aside>
 
@@ -265,10 +263,6 @@
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
                     <div class="notification-wrapper">
-                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
-                            <span class="sr-only">To messages</span>
-                            <span class="icon notification active" aria-hidden="true"></span>
-                        </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
                                 <a href="##">
@@ -310,7 +304,7 @@
                         <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
                             <span class="nav-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-02.webp" type="image/webp"><img src="/admin_homepage/img/avatar/avatar-illustrated-02.png" alt="User name"></picture>
               </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
@@ -374,10 +368,10 @@
     </div>
 </div>
 <!-- Chart library -->
-<script src="/static/admin_homepage/plugins/chart.min.js"></script>
+<script src="/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
-<script src="/static/admin_homepage/plugins/feather.min.js"></script>
+<script src="/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
-<script src="/static/admin_homepage/js/script.js"></script>
+<script src="/admin_homepage/js/script.js"></script>
 </body>
 </html>

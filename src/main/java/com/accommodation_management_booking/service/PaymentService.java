@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface PaymentService {
     Page<User> getPayments(Pageable pageable);
@@ -35,11 +36,15 @@ public interface PaymentService {
 
     Page<PaymentTransactionDTO> findPaymentsByUserEmail(String email, Pageable pageable);
 
-    Page<PaymentTransactionDTO> findByPaymentIdWithPage(int paymentId, Pageable pageable);
+    Page<PaymentTransactionDTO> findByPaymentIdWithPagePaymentSort(int paymentId, Pageable pageable);
 
-    Page<PaymentTransactionDTO> findByPaymentDateWithPage(LocalDate paymentDate, int userId, Pageable pageable);
+    Page<PaymentTransactionDTO> findByPaymentDateWithPagePaymentSort(LocalDate paymentDate, int userId, Pageable pageable);
 
-    Page<PaymentTransactionDTO> findPaymentRequestByPaymentId(int paymentId, Pageable pageable);
+    Page<PaymentTransactionDTO> searchByPaymentIdWithPaymentSort(int paymentId, Pageable pageable);
 
-    Page<PaymentTransactionDTO> findPaymentRequestByPaymentDate(LocalDate paymentDate, Pageable pageable);
+    Page<PaymentTransactionDTO> searchByPaymentDateWithPaymentSort(LocalDate paymentDate, Pageable pageable);
+
+    Page<PaymentTransactionDTO> searchAllPayment(int userId, String keyword, String category, List<String> bookingSortFields, Pageable pageable);
+
+    Page<PaymentTransactionDTO> searchPaymentRequest(String keyword, String category, List<String> bookingSortFields, Pageable pageable);
 }

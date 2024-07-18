@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Student Payment List</title>
+    <title>Payment Request List</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -393,17 +393,30 @@
                 <h2 class="main-title">Payment Request List</h2>
                 <div class="row">
                     <div class="col-lg-6">
+                        <script>
+                            function toggleButton() {
+                                var searchElement = document.getElementById('searchBox');
+                                var selectElement = document.getElementById('categorySelect');
+                                var buttonElement = document.getElementById('searchButton');
+                                if (selectElement.value === "" || searchElement.value === "" ) {
+                                    buttonElement.disabled = true;
+                                } else {
+                                    buttonElement.disabled = false;
+                                }
+                            }
+                            document.addEventListener('DOMContentLoaded', toggleButton);
+                        </script>
                         <form th:action="@{/fpt-dorm/employee/payment-request/search}" method="get" class="search-form">
-                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
+                            <input id="searchBox" oninput="toggleButton()" type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
                                    class="search-box"/>
-                            <select name="category" class="search-dropdown">
+                            <select id="categorySelect" onchange="toggleButton()" name="category" class="search-dropdown">
                                 <option value="" th:text="'--Select--'"
                                         th:selected="${selectedCategory == null}"></option>
                                 <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
                                 <option value="Date" th:text="'Date'"
                                         th:selected="${selectedCategory == 'Date'}"></option>
                             </select>
-                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
+                            <button id="searchButton" class="btn btn-lg search-btn center-block" type="submit">Search</button>
                         </form>
                     </div>
                     <div class="col-lg-2"></div>

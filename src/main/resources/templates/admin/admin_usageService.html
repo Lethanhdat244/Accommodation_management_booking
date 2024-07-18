@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update News | Admin</title>
+    <title>Usage Service | Admin</title>
     <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
@@ -293,13 +293,6 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
-                        </a>
-                    </li>
-
-                    <li>
                         <a th:href="@{admin/admin_list_feedback}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Feedback
@@ -316,16 +309,6 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
-                <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">AI</span>
-                    <span class="sidebar-user__subtitle">Support manager</span>
-                </div>
-            </a>
         </div>
     </aside>
     <div class="main-wrapper">
@@ -333,9 +316,6 @@
         <nav class="main-nav--bg">
             <div class="container main-nav">
                 <div class="main-nav-start">
-                    <div class="search-wrapper">
-                        <i data-feather="search" aria-hidden="true"></i>
-                    </div>
                 </div>
                 <div class="main-nav-end">
                     <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
@@ -348,10 +328,6 @@
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
                     <div class="notification-wrapper">
-                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
-                            <span class="sr-only">To messages</span>
-                            <span class="icon notification active" aria-hidden="true"></span>
-                        </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
                                 <a href="#">
@@ -406,7 +382,7 @@
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+                            <!--                            <li><a th:href="@{/fpt-dorm/admin/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -452,7 +428,7 @@
                                     <!--                                        <td th:text="${room.floorId}"></td>-->
                                     <!--                                        <td th:text="${room.roomNumber}"></td>-->
                                     <!--                                        <td style="width: 700px">-->
-                                    <!--                                            <form th:action="@{/fpt-dorm/employee/usage-service/{id}(id=${room.roomId})}"-->
+                                    <!--                                            <form th:action="@{/fpt-dorm/admin/usage-service/{id}(id=${room.roomId})}"-->
                                     <!--                                                  method="post">-->
                                     <!--                                                <input type="number" placeholder="Electricity" name="electric">-->
                                     <!--                                                <input type="number" placeholder="Water" name="water">-->

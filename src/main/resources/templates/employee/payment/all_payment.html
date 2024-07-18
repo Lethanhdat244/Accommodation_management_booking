@@ -370,8 +370,20 @@
                 <h2 class="main-title">Payment List</h2>
                 <div class="row">
                     <div class="col-lg-6">
+                        <script>
+                            function toggleButton() {
+                                var searchElement = document.getElementById('searchBox');
+                                var buttonElement = document.getElementById('searchButton');
+                                if (searchElement.value === "") {
+                                    buttonElement.disabled = true;
+                                } else {
+                                    buttonElement.disabled = false;
+                                }
+                            }
+                            document.addEventListener('DOMContentLoaded', toggleButton);
+                        </script>
                         <form th:action="@{/fpt-dorm/employee/all-payment/search}" method="get" class="search-form">
-                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
+                            <input id="searchBox" oninput="toggleButton()" type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
                                    class="search-box"/>
                             <select name="category" class="search-dropdown">
                                 <option value="" th:text="'All Categories'"
@@ -384,7 +396,7 @@
                                 <option value="Phone" th:text="'Phone'"
                                         th:selected="${selectedCategory == 'Phone'}"></option>
                             </select>
-                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
+                            <button id="searchButton" class="btn btn-lg search-btn center-block" type="submit">Search</button>
                         </form>
                     </div>
                     <div class="col-lg-2"></div>

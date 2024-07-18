@@ -370,19 +370,32 @@
                 <h2 class="main-title">Student Payment List</h2>
                 <div class="row">
                     <div class="col-lg-6">
+                        <script>
+                            function toggleButton() {
+                                var searchElement = document.getElementById('searchBox');
+                                var selectElement = document.getElementById('categorySelect');
+                                var buttonElement = document.getElementById('searchButton');
+                                if (selectElement.value === "" || searchElement.value === "" ) {
+                                    buttonElement.disabled = true;
+                                } else {
+                                    buttonElement.disabled = false;
+                                }
+                            }
+                            document.addEventListener('DOMContentLoaded', toggleButton);
+                        </script>
                         <form th:action="@{/fpt-dorm/employee/all-payment/student/search}" method="get"
                               class="search-form">
                             <input type="hidden" name="userId" th:value="${userId}">
-                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
+                            <input id="searchBox" oninput="toggleButton()" type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
                                    class="search-box"/>
-                            <select name="category" class="search-dropdown">
+                            <select id="categorySelect" onchange="toggleButton()" name="category" class="search-dropdown">
                                 <option value="" th:text="'--Select--'"
                                         th:selected="${selectedCategory == null}"></option>
                                 <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
                                 <option value="Date" th:text="'Date'"
                                         th:selected="${selectedCategory == 'Date'}"></option>
                             </select>
-                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
+                            <button id="searchButton" class="btn btn-lg search-btn center-block" type="submit">Search</button>
                         </form>
                     </div>
                     <div class="col-lg-2"></div>
@@ -448,7 +461,7 @@
                                     <ul class="pagination">
                                         <li class="page-item" th:classappend="${paymentPage.hasPrevious()} ? '' : 'disabled'">
                                             <a class="page-link"
-                                               th:href="@{|?page=${paymentPage.number - 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
+                                               th:href="@{|?page=${paymentPage.number - 1}&userId=${userId}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
@@ -457,12 +470,12 @@
                                             th:each="i : ${paymentPage.totalPages > 0 ? #numbers.sequence(0, paymentPage.totalPages - 1) : {0}}"
                                             th:classappend="${paymentPage.number == i} ? 'active'">
                                             <a class="page-link"
-                                               th:href="@{|?page=${i}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
+                                               th:href="@{|?page=${i}&userId=${userId}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                th:text="${i + 1}">1</a>
                                         </li>
                                         <li class="page-item" th:classappend="${paymentPage.hasNext()} ? '' : 'disabled'">
                                             <a class="page-link"
-                                               th:href="@{|?page=${paymentPage.number + 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
+                                               th:href="@{|?page=${paymentPage.number + 1}&userId=${userId}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>
