@@ -96,4 +96,9 @@ public class BedServiceImpl  implements BedService {
     public Bed getBedByName(String bedName) {
         return bedRepository.findByBedName(bedName); // Implement findByBedName in your repository
     }
+
+    @Override
+    public long countUsedBeds() {
+        return bedRepository.countUsedBeds();
+    }
 }

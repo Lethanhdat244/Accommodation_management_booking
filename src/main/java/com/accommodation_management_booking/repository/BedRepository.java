@@ -5,6 +5,7 @@ import com.accommodation_management_booking.entity.Room;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -23,4 +24,7 @@ public interface BedRepository extends JpaRepository<Bed, Integer> {
     boolean existsByRoomRoomIdAndBedName(int roomId, String bedName);
 
     Bed findByBedName(String bedName);
+
+    @Query("SELECT COUNT(b) FROM Bed b WHERE b.isAvailable = false AND b.maintenanceStatus = 'Available'")
+    long countUsedBeds();
 }

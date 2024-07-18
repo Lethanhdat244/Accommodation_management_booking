@@ -17,10 +17,8 @@ import java.util.List;
 public class PaypalService {
     @Autowired
     private APIContext apiContext;
-
     @Autowired
     private PaymentRepository paymentRepository;
-
     public Payment createPayment(
         float total,
         String currency,
@@ -89,5 +87,4 @@ public class PaypalService {
     public List<com.accommodation_management_booking.entity.Payment> getPaymentsByMethod(com.accommodation_management_booking.entity.Payment.PaymentMethod method) {
         return paymentRepository.findByPaymentMethod(method);
     }
-
 }

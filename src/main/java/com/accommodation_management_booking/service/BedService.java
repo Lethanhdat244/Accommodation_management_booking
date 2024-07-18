@@ -15,4 +15,6 @@ public interface BedService {
     public boolean bedNameExistsInRoom(int roomId, String bedName);
 
     Bed getBedByName(String bedName);
+
+    long countUsedBeds();
 }

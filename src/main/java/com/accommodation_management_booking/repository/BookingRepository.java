@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
@@ -33,6 +34,15 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT b FROM Booking b JOIN b.room r JOIN b.user u WHERE r.roomNumber LIKE %:roomNumber% AND u.roleUser = 'USER'")
     Page<Booking> findByRoomNumberContainingAndRoleUser(@Param("roomNumber") String roomNumber, Pageable pageable);
+    @Query("SELECT DISTINCT MONTH(b.startDate), YEAR(b.startDate) FROM Booking b ORDER BY YEAR(b.startDate) DESC, MONTH(b.startDate) DESC")
+    List<Object[]> findDistinctMonths();
 
+    @Query("SELECT b FROM Booking b WHERE YEAR(b.startDate) = :year AND MONTH(b.startDate) = :month")
+    List<Booking> findBookingsByMonth(int year, int month);
 
+    @Query("SELECT b.status, COUNT(b) FROM Booking b WHERE YEAR(b.startDate) = :year AND MONTH(b.startDate) = :month GROUP BY b.status")
+    List<Object[]> countBookingsByStatus(int year, int month);
+
+    @Query("SELECT COUNT(b) FROM Booking b WHERE MONTH(b.bookingDate) = MONTH(:now) AND YEAR(b.bookingDate) = YEAR(:now)")
+    int countBookingsInCurrentMonth(LocalDateTime now);
 }

@@ -17,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UsageServiceController {
@@ -61,4 +63,26 @@ public class UsageServiceController {
         model.addAttribute("usageServiceList", usageServiceList);
         return "student_usage_services";
     }
+
+//    @GetMapping("/abc")
+//    public String getServiceUsage(@RequestParam(name = "year", required = false, defaultValue = "0") int year,
+//                                  @RequestParam(name = "month", required = false, defaultValue = "0") int month,
+//                                  Model model) {
+//
+//        // Get years for dropdown
+//        List<Integer> years = usageServiceRepository.findDistinctYears();
+//        model.addAttribute("years", years);
+//
+//        // Get service usage counts for the selected month and year
+//        Map<String, Long> serviceUsageCounts = new HashMap<>();
+//        if (year > 0 && month > 0) {
+//            serviceUsageCounts = usageServiceRepository.findServiceUsageCountsByMonth(year, month);
+//        }
+//
+//        model.addAttribute("selectedYear", year);
+//        model.addAttribute("selectedMonth", month);
+//        model.addAttribute("serviceUsageCounts", serviceUsageCounts);
+//
+//        return "abc";  // Ensure this matches the name of your template file without .html
+//    }
 }

@@ -7,11 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 public class ComplainService {
     @Autowired
     ComplainRepository complainRepository;
+
+
     public void saveComplain(Complaint complaint) {
         try {
             complainRepository.save(complaint);
@@ -24,5 +29,9 @@ public class ComplainService {
 
     public Page<Complaint> getAllComplainByPage(int page, int size) {
         return complainRepository.findAll(PageRequest.of(page, size));
+    }
+    public int countComplaintsInCurrentMonth() {
+        LocalDateTime now = LocalDateTime.now();
+        return complainRepository.countComplaintsInCurrentMonth(now);
     }
 }

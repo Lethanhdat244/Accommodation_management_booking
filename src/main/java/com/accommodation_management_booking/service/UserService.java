@@ -5,6 +5,7 @@ import com.accommodation_management_booking.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
+import com.accommodation_management_booking.entity.User.Role;
 
 public interface UserService {
     void saveUser(UserDTO userDTO, MultipartFile[] avatars, MultipartFile[] frontCccdImages, MultipartFile[] backCccdImages);
@@ -37,4 +38,9 @@ public interface UserService {
 
     public void updateUser1(String email, UserDTO userDTO, MultipartFile[] avatarFile, MultipartFile[] frontImageFile, MultipartFile[] backImageFile);
 
+    public int countNewEmployeesInCurrentMonth();
+
+    public int countNewUsersInCurrentMonth(Role role);
+
+    public long getActiveUserCount();
 }

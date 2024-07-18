@@ -80,7 +80,6 @@ CREATE TABLE `bed` (
                        `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
                        `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                        `bed_name` varchar(255) NOT NULL,
-                       `bed_number` int NOT NULL,
                        PRIMARY KEY (`bed_id`),
                        KEY `room_id` (`room_id`),
                        CONSTRAINT `bed_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`)
