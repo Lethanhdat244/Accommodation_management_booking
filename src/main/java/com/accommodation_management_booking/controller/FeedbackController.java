@@ -196,13 +196,10 @@ public ResponseEntity<String> updateFeedbackStatus(@PathVariable("feedbackId") i
         Feedback.Status currentStatus = feedback.getStatus();
         switch (currentStatus) {
             case Pending:
-                feedback.setStatus(Feedback.Status.InProgress);
+                feedback.setStatus(Feedback.Status.Replied);
                 break;
-            case InProgress:
-                feedback.setStatus(Feedback.Status.Completed);
-                break;
-            case Completed:
-                return ResponseEntity.ok("Feedback has already been processed.");
+            case Replied:
+                return ResponseEntity.ok("Feedback has already been Replied.");
         }
         feedbackRepository.save(feedback);
         return ResponseEntity.ok("Status updated successfully");

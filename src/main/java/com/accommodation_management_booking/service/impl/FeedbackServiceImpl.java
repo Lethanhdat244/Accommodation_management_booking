@@ -55,25 +55,5 @@ public class FeedbackServiceImpl implements FeedbackService {
         return feedbackRepository.findFeedbackAndUserByFeedbackId(feedbackId);
     }
 
-    public String updateFeedbackStatus(int feedbackId) {
-        Optional<Feedback> feedbackOpt = feedbackRepository.findByFeedbackId(feedbackId);
 
-        if (feedbackOpt.isPresent()) {
-            Feedback feedback = feedbackOpt.get();
-            Feedback.Status currentStatus = feedback.getStatus();
-            switch (currentStatus) {
-                case Pending:
-                    feedback.setStatus(Feedback.Status.InProgress);
-                    break;
-                case InProgress:
-                    feedback.setStatus(Feedback.Status.Completed);
-                    break;
-                case Completed:
-                    return "Feedback has already been processed.";
-            }
-            feedbackRepository.save(feedback);
-            return "Update status successfully.";
-        }
-        return "Feedback not found.";
-}
 }

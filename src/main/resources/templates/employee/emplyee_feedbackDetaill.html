@@ -403,10 +403,9 @@
                                         <td>
                                         <span th:if="${#strings.equalsIgnoreCase(feedback.status, 'Pending')}"
                                               class="badge badge-pending" th:text="${feedback.status}"></span>
-                                            <span th:if="${#strings.equalsIgnoreCase(feedback.status, 'InProgress')}"
+                                            <span th:if="${#strings.equalsIgnoreCase(feedback.status, 'Replied')}"
                                                   class="badge badge-success" th:text="${feedback.status}"></span>
-                                            <span th:if="${#strings.equalsIgnoreCase(feedback.status, 'Completed')}"
-                                                  class="badge badge-completed" th:text="${feedback.status}"></span>
+
                                         </td>
                                         <td>
                                             <a class="btn btn-primary"
@@ -481,14 +480,7 @@
 
 
 <!-- Chart library -->
-<script th:inline="javascript">
-    function updateStatus(feedbackId) {
-        if (confirm('Are you sure you want to update the status of this feedback?')) {
-            var form = document.getElementById('update-status-form-' + feedbackId);
-            form.submit();
-        }
-    }
-</script>
+
 
 <script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->

@@ -407,17 +407,16 @@
                             <div id="updateFeedbackStatusModal" class="modal">
                                 <div class="modal-content">
                                     <span class="close" onclick="closeUpdateFeedbackStatusModal()">&times;</span>
-                                    <p>Are you sure you want to update this feedback status?</p><br>
+                                    <p>Are you sure you want to reply this feedback status?</p><br>
                                     <div class="modal-actions">
-                                        <button id="updateBtn" class="btn primary-default-btn" onclick="updateFeedbackStatus()">Update Status</button>
+                                        <button id="updateBtn" class="btn primary-default-btn" onclick="updateFeedbackStatus()">Sure</button>
                                         <button class="btn secondary-default-btn" onclick="closeUpdateFeedbackStatusModal()">Cancel</button>
                                     </div>
                                 </div>
                             </div>
 
-<!--                            <button onclick="openUpdateFeedbackStatusModal()">Update Feedback Status</button>-->
                             <div class="col-sm-4 d-grid">
-                                <button onclick="openUpdateFeedbackStatusModal()" class="btn primary-default-btn" role="button">Update  Status</button>
+                                <button onclick="openUpdateFeedbackStatusModal()" class="btn primary-default-btn" role="button">Reply</button>
                             </div>
 
 
@@ -492,7 +491,7 @@
                 alert(message);
                 if (message === "Status updated successfully") {
                     location.reload();
-                } else if (message === "Feedback has already been processed.") {
+                } else if (message === "Feedback has already been Replied.") {
                     alert(message);
                 }
             })

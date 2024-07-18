@@ -7,5 +7,4 @@ public interface FeedbackService {
     void saveFeedback(Feedback feedback);
     Integer findLatestBookingIdByRoomNumber(String roomNumber);
     FeedbackDTO findFeedbackAndUserByFeedbackId(int feedbackId);
-    String updateFeedbackStatus(int feedbackId);
 }

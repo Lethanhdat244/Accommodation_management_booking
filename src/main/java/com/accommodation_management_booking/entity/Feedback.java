@@ -44,7 +44,7 @@ public class Feedback {
     private Status status;
 
     public enum Status {
-        Pending, InProgress, Completed
+        Pending, Replied
     }
 
 
