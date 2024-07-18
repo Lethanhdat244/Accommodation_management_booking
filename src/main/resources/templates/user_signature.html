@@ -1,196 +1,35 @@
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
->
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Signature</title>
-  <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
-  <link href="/static/homepage_user/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-  <link href="/static/homepage_user/css/style.css" rel="stylesheet">
-  <link href="/static/homepage_user/fonts/antonio-exotic/stylesheet.css" rel="stylesheet">
-  <link rel="stylesheet" href="/static/homepage_user/css/lightbox.min.css">
-  <link href="/static/homepage_user/css/responsive.css" rel="stylesheet">
-  <script src="/static/homepage_user/js/jquery.min.js" type="text/javascript"></script>
-  <script src="/static/homepage_user/js/bootstrap.min.js" type="text/javascript"></script>
-  <script src="/static/homepage_user/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
-  <script src="/static/homepage_user/js/instafeed.min.js" type="text/javascript"></script>
-  <script src="/static/homepage_user/js/custom.js" type="text/javascript"></script>
-  <style>
-    canvas {
-      border: 1px solid #000;
-      width: 100%;
-      height: 200px;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature</title>
+    <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        canvas {
+            border: 1px solid #000;
+            width: 100%;
+            height: 200px;
     }
   </style>
 </head>
 <body>
-<div class="top-header">
-  <div class="container">
+<div class="container" style="margin-top: 30px">
     <div class="row">
-      <div class="col-md-6">
-
-      </div>
-      <div class="col-md-6">
-        <div class="social-grid">
-          <ul class="list-unstyled text-right">
-            <li><a><i class="fa fa-facebook"></i></a></li>
-            <li><a><i class="fa fa-twitter"></i></a></li>
-            <li><a><i class="fa fa-linkedin"></i></a></li>
-            <li><a><i class="fa fa-instagram"></i></a></li>
-          </ul>
+        <div class="col-lg-5">
+            <canvas id="signature-pad" width="600" height="200"></canvas>
+            <div class="container" style="width: 200px; margin-top: 20px">
+                <button class="btn btn-danger" id="clear"><strong>Clear</strong></button>
+                <button class="btn btn-success" id="save"><strong>Save</strong></button>
+            </div>
         </div>
-      </div>
+        <div class="col-lg-5" style="padding-left: 40px; font-size:18px">
+            <ul>
+                <li>Sign in left side pad to confirm your contract</li>
+            </ul>
+        </div>
     </div>
-  </div>
 </div>
-<!--header--->
-<header class="header-container">
-  <div class="container">
-    <div class="top-row">
-      <div class="row">
-        <div class="col-md-2 col-sm-6 col-xs-6">
-          <div id="logo">
-            <a th:href="@{/fpt-dorm/home}"><span>FPT</span>Dorm</a>
-          </div>
-        </div>
-        <div class="col-sm-6 visible-sm">
-          <div class="text-right">
-            <div class="dropdown">
-              <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                 aria-expanded="false">
-                <USER></USER>
-                <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
-                <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>
-                <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
-                <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-8 col-sm-12 col-xs-12 remove-padd">
-          <nav class="navbar navbar-default">
-            <div class="navbar-header page-scroll">
-              <button data-target=".navbar-ex1-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-            </div>
-            <div class="collapse navigation navbar-collapse navbar-ex1-collapse remove-space">
-
-            </div>
-          </nav>
-        </div>
-        <div class="col-md-2 col-sm-4 col-xs-12 hidden-sm">
-          <div class="text-right">
-            <div class="dropdown">
-              <div href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button"
-                   aria-haspopup="true" aria-expanded="false"><span>Signature Pad</span></div>
-              <!--              <ul class="dropdown-menu">-->
-              <!--                <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>-->
-              <!--                <li><a th:href="@{/fpt-dorm/my-purchases}">My Purchases</a></li>-->
-              <!--                <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>-->
-              <!--                <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>-->
-              <!--              </ul>-->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
-<div>
-
-  <div class="container" style="margin-top: 30px">
-    <div class="row">
-      <div class="col-lg-7">
-        <canvas id="signature-pad" width="600" height="200"></canvas>
-        <div class="container" style="width: 200px; margin-top: 20px">
-          <button class="btn btn-danger" id="clear"><strong>Clear</strong></button>
-          <button class="btn btn-success" id="save"><strong>Save</strong></button>
-        </div>
-      </div>
-      <div class="col-lg-5" style="padding-left: 40px; font-size:18px">
-        <ul>
-          <li>Sign in left side pad to confirm your contract</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-</div>
-<footer>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3 col-sm-6 col-xs-12 width-set-50">
-        <div class="footer-details">
-          <h4>Get in touch</h4>
-          <ul class="list-unstyled footer-contact-list">
-            <li>
-              <i class="fa fa-map-marker fa-lg"></i>
-              <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch Thất, TP. HN</p>
-            </li>
-            <li>
-              <i class="fa fa-phone fa-lg"></i>
-              <p><a href="tel:+84-24-7300-1866"> +84-24-7300-1866</a></p>
-            </li>
-            <li>
-              <i class="fa fa-envelope-o fa-lg"></i>
-              <p><a href="mailto:dormbooking@fpt.edu.vn"> dormbooking@fpt.edu.vn</a></p>
-            </li>
-          </ul>
-          <div class="footer-social-icon">
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-instagram"></i></a>
-            <a href="#"><i class="fa fa-google-plus"></i></a>
-            <a href="#"><i class="fa fa-youtube-play"></i></a>
-          </div>
-          <div class="input-group" id="subscribe">
-            <input type="text" class="form-control subscribe-box" value="" name="subscribe" placeholder="EMAIL ID">
-            <span class="input-group-btn">
-                                <button type="button" class="btn subscribe-button"><i
-                                        class="fa fa-paper-plane fa-lg"></i></button>
-                            </span>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6 col-xs-12 width-50 width-set-50">
-        <div class="footer-details">
-          <h4>Explore</h4>
-          <ul class="list-unstyled footer-links">
-            <li><a th:href="@{/fpt-dorm/home}">Home</a></li>
-            <li><a th:href="@{/fpt-dorm/home/about}">About</a></li>
-            <li><a th:href="@{/fpt-dorm/home/room}">Rooms</a></li>
-            <li><a th:href="@{/fpt-dorm/home/gallery}">Gallery</a></li>
-            <li><a th:href="@{/fpt-dorm/home/dinning}">Dining</a></li>
-            <li><a th:href="@{/fpt-dorm/home/contact}">Contact</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-6 col-sm-12 col-xs-12">
-        <div class="footer-details">
-          <h4>Now On Instagram</h4>
-          <div class="row">
-            <div class="instagram-images">
-              <div id="instafeed"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="copyright">
-      &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home"
-                                                      target="_blank">SWP391</a>.
-    </div>
-
-  </div>
-</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 <script>
@@ -205,26 +44,26 @@
     if (signaturePad.isEmpty()) {
       alert('Please provide a signature first.');
     } else {
-      const dataURL = signaturePad.toDataURL();
+        const dataURL = signaturePad.toDataURL();
+        const bookingId = new URLSearchParams(window.location.search).get('bookingId');
 
-      // Gửi chữ ký lên máy chủ
-      fetch('/fpt-dorm/get-signature', {
-        method: 'POST',
-        body: JSON.stringify({
-          bookingId: new URLSearchParams(window.location.search).get('bookingId'),
-          signature: dataURL
-        }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
+        fetch('/api/add-signature', {
+            method: 'POST',
+            body: JSON.stringify({
+                bookingId: bookingId,
+                signatureDataUrl: dataURL
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
               .then(response => response.json())
               .then(data => {
-                if (data.success) {
-                  alert('Signature saved successfully!');
-                } else {
-                  alert('Failed to save signature.');
-                }
+                  if (data.url) {
+                      alert('Signature saved and uploaded successfully! View PDF: ' + data.url);
+                  } else {
+                      alert('Failed to save and upload signature.');
+                  }
               })
               .catch(error => console.error('Error:', error));
     }

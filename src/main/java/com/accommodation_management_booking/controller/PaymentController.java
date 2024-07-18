@@ -4,7 +4,10 @@ import com.accommodation_management_booking.config.PaypalPaymentIntent;
 import com.accommodation_management_booking.config.PaypalPaymentMethod;
 import com.accommodation_management_booking.config.VNPayConfig;
 import com.accommodation_management_booking.dto.PaymentTransactionDTO;
-import com.accommodation_management_booking.entity.*;
+import com.accommodation_management_booking.entity.Bed;
+import com.accommodation_management_booking.entity.Booking;
+import com.accommodation_management_booking.entity.Room;
+import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.*;
 import com.accommodation_management_booking.service.EmailService;
 import com.accommodation_management_booking.service.PaymentService;
@@ -43,10 +46,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-//import org.apache.pdfbox.pdmodel.PDDocument;
-//import org.apache.pdfbox.pdmodel.PDPage;
-//import org.apache.pdfbox.pdmodel.PDPageContentStream;
-//import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -70,8 +69,6 @@ public class PaymentController {
     private final BookingRepository bookingRepository;
     private final PaymentService paymentService;
     private final PaymentRepository paymentRepository;
-    @Autowired
-    private final ContractRepository contractRepository;
 
     @GetMapping("/fpt-dorm/employee/all-payment")
     public String showPaymentList(Model model,
@@ -239,12 +236,6 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
-                try {
-                    Contract contract = contractRepository.getContractByBookingId(paymentTransactionDTO.getBookingId());
-                    model.addAttribute("contract", contract);
-                } catch (Exception exception) {
-                    throw new Exception("Contract not found");
-                }
             } else {
                 throw new Exception("Payment not found");
             }
@@ -631,12 +622,6 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
-                try {
-                    Contract contract = contractRepository.getContractByBookingId(paymentTransactionDTO.getBookingId());
-                    model.addAttribute("contract", contract);
-                } catch (Exception exception) {
-                    throw new Exception("Contract not found");
-                }
             } else {
                 throw new Exception("Payment not found");
             }
@@ -772,7 +757,7 @@ public class PaymentController {
 
             if (booking.getAmountPaid() > 0) {
                 Optional<com.accommodation_management_booking.entity.Payment> optionalPayment = paymentRepository.findByBooking(booking);
-                if(optionalPayment.isPresent()) {
+                if (optionalPayment.isPresent()) {
                     if (optionalPayment.get().getPaymentMethod() == com.accommodation_management_booking.entity.Payment.PaymentMethod.PayPal) {
                         System.out.println("Paypal");
                         com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
@@ -1109,7 +1094,6 @@ public class PaymentController {
                 booking.setAmountPaid(payment1.getBooking().getTotalPrice());
                 bookingRepository.save(booking);
 
-                Contract contract = contractRepository.getContractByBookingId(booking.getBookingId());
 
                 // Send email
                 String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
@@ -1119,7 +1103,7 @@ public class PaymentController {
                         "\nTotal Price: " + booking.getTotalPrice() +
                         "\nAmount Paid: " + booking.getAmountPaid() +
                         "\nDate: " + payment1.getPaymentDate() +
-                        "\nPlease download your contract here: " + contract.getContractLink() +
+                        "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?bookingId=" + booking.getBookingId() +
                         "\n\nThank you for your booking.";
                 emailService.sendBill(toEmail, subject, body);
 
@@ -1131,35 +1115,6 @@ public class PaymentController {
         bookingRepository.delete(bookingRepository.findById((Integer) request.getSession().getAttribute("bookingId")).get());
         return "redirect:/";
     }
-
-//    public void generateContract(String fullName, String identityID, String fileName) throws IOException {
-//        // Create a new document
-//        PDDocument document = new PDDocument();
-//        PDPage page = new PDPage();
-//        document.addPage(page);
-//
-//        // Start a new content stream
-//        PDPageContentStream contentStream = new PDPageContentStream(document, page);
-//
-//        // Set font and draw text
-//        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 12);
-//        contentStream.beginText();
-//        contentStream.newLineAtOffset(50, 700);
-//        contentStream.showText("Contract Details:");
-//        contentStream.newLineAtOffset(0, -20);
-//        contentStream.setFont(PDType1Font.HELVETICA, 12);
-//        contentStream.showText("Full Name: " + fullName);
-//        contentStream.newLineAtOffset(0, -20);
-//        contentStream.showText("Identity ID: " + identityID);
-//        contentStream.endText();
-//
-//        // Close content stream
-//        contentStream.close();
-//
-//        // Save document to file
-//        document.save(fileName);
-//        document.close();
-//    }
 
 
     @GetMapping("/fpt-dorm/employee/payment-request/cancel/id={id}")
@@ -1174,7 +1129,7 @@ public class PaymentController {
 
             if (booking.getAmountPaid() > 0) {
                 Optional<com.accommodation_management_booking.entity.Payment> optionalPayment = paymentRepository.findByBooking(booking);
-                if(optionalPayment.isPresent()) {
+                if (optionalPayment.isPresent()) {
                     if (optionalPayment.get().getPaymentMethod() == com.accommodation_management_booking.entity.Payment.PaymentMethod.PayPal) {
                         System.out.println("Paypal");
                         com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
