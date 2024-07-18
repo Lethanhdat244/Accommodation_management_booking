@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -16,10 +17,11 @@ public class ResidentHistoryDTO {
     private String username;
     private String roomNumber;
     private String bedName;
-    private LocalDate startDate;
     private String phoneNumber;
 
-    private LocalDate endDate;
     private Float totalPrice;
     private Integer capacity;
+    private LocalDateTime checkInDate;
+
+    private LocalDateTime checkOutDate;
 }

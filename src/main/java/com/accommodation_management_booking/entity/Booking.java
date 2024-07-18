@@ -68,4 +68,7 @@ public class Booking {
     public enum Status {
         Pending, Confirmed, Canceled
     }
+    private LocalDateTime checkInDate;
+
+    private LocalDateTime checkOutDate;
 }

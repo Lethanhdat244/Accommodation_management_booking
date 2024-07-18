@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Room Detail | Admin</title>
+    <title>User Feedback List | Employee</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -95,7 +95,7 @@
             let storedSort = params.get('sort');
 
             if (!storedSort) {
-                const defaultSort = 'userId,asc';
+                const defaultSort = 'paymentId,asc';
                 storedSort = defaultSort;
                 params.set('sort', defaultSort);
                 window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
@@ -110,8 +110,8 @@
             });
         });
         document.addEventListener('DOMContentLoaded', function () {
-            const A = document.getElementById('menu-student');
-            const B = document.getElementById('menu-all-students');
+            const A = document.getElementById('menu-payment');
+            const B = document.getElementById('menu-all-payments');
 
             A.addEventListener('click', function () {
                 if (A.classList.contains('active')) {
@@ -134,12 +134,12 @@
     <aside class="sidebar">
         <div class="sidebar-start">
             <div class="sidebar-head">
-                <a th:href="@{/fpt-dorm/admin/home}" class="logo-wrapper" title="Home">
+                <a th:href="@{/fpt-dorm/employee/home}" class="logo-wrapper" title="Home">
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">FPT Dorm</span>
-                        <span class="logo-subtitle">ADMIN</span>
+                        <span class="logo-title">Dormitory</span>
+                        <span class="logo-subtitle">EMPLOYEE</span>
                     </div>
 
                 </a>
@@ -151,11 +151,10 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}" ><span class="icon home"
-                                                                                  aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
+                        <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -164,33 +163,35 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
+                                    Students</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
+                                    student</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a id="menu-room" class="show-cat-btn active">
+                        <a class="show-cat-btn">
                             <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
-                                <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                            </span>
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-room" class="" th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
-                                <a>Add new room</a>
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
                         </ul>
                     </li>
 
                     <li>
-                        <a class="show-cat-btn">
+                        <a class="show-cat-btn" >
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -199,30 +200,12 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-news}">View News</a>
+                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/add-news}">Add news</a>
+                                <a th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
                             </li>
 
-                        </ul>
-                    </li>
-
-                    <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Employee
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
-                        </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
-                            </li>
                         </ul>
                     </li>
 
@@ -236,11 +219,12 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/admin_payment_list}">All
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/employee/all-payment}">All
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/employee/payment-request}">Payment
+                                    Request</a>
                             </li>
                         </ul>
                     </li>
@@ -253,32 +237,38 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
+                        <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_chart}">
+                        <a class="active"  th:href="@{/employee/all-feedback}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Chart
+                            Feedback
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{/fpt-dorm/employee/complain}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Complaint
                         </a>
                     </li>
 
 
-
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
+                        <a th:href="@{/fpt-dorm/employee/notifications}">
                             <span class="icon folder" aria-hidden="true"></span>
-                            Complaint
+                            Notifications
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
+            <a href="##" class="sidebar-user">
             <span class="sidebar-user-img">
                 <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
                         src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
@@ -360,7 +350,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/employee/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
@@ -372,56 +362,108 @@
                 </div>
             </div>
         </nav>
-        <!-- ! Main -->
+            <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Room Detail</h2>
+                <h2 class="main-title"> Feedback List</h2>
+
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div th:if="${message}">
+                            <div th:class="${message.contains('successfully') ? 'alert alert-success' : 'alert alert-danger'}">
+                                <p th:text="${message}"></p>
+                            </div>
+                        </div>
+
+                        <form th:action="@{/fpt-dorm/employee/all_feedback/search_detail}" method="get" class="search-form" onsubmit="trimWhitespace()">
+                            <input type="hidden" name="userId" th:value="${userId}">
+                            <input required type="text" name="keyword" th:value="${keyword}" placeholder="Search By Title" class="search-box"/>
+                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
+                        </form>
+                    </div>
+                </div>
                 <br>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="canvas-wrapper">
                             <div class="users-table table-wrapper">
-                                <div th:if="${message}">
-                                    <p th:text="${message}" class="alert alert-warning"></p>
-                                </div>
-                                <table class="posts-table" th:if="${not #lists.isEmpty(beds)}">
+                                <table class="posts-table">
                                     <thead>
                                     <tr class="users-table-info">
-                                        <th style="width: 33.33%;">Bed Name</th>
-                                        <th style="width: 33.33%;">Is Available</th>
-                                        <th style="width: 33.33%;">Maintenance Status</th>
+                                        <th>Feedback ID</th>
+                                        <th>Title</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="bed : ${beds}">
-                                        <td th:text="${bed.bedName}"></td>
+                                    <tr th:each="feedback : ${feedbackdetail.content}">
+                                        <td th:text="${feedback.feedbackId}"></td>
+                                        <td th:text="${feedback.title}"></td>
                                         <td>
-                                            <span th:class="${bed.isAvailable ? 'badge-success' : 'badge-trashed'}"
-                                                  th:text="${bed.isAvailable ? 'Available' : 'Unavailable'}"></span>
+                                        <span th:if="${#strings.equalsIgnoreCase(feedback.status, 'Pending')}"
+                                              class="badge badge-pending" th:text="${feedback.status}"></span>
+                                            <span th:if="${#strings.equalsIgnoreCase(feedback.status, 'InProgress')}"
+                                                  class="badge badge-success" th:text="${feedback.status}"></span>
+                                            <span th:if="${#strings.equalsIgnoreCase(feedback.status, 'Completed')}"
+                                                  class="badge badge-completed" th:text="${feedback.status}"></span>
                                         </td>
                                         <td>
-    <span th:class="${bed.maintenanceStatus.name() == 'Available' ? 'badge badge-success' : 'badge badge-trashed'}"
-          th:text="${bed.maintenanceStatus.name() == 'Available' ? 'Available' : 'Under Maintenance'}"></span>
+                                            <a class="btn btn-primary"
+                                               th:href="@{/fpt-dorm/employee/view_detail_feedback/id={feedbackId}(feedbackId=${feedback.feedbackId})}"
+                                               role="button" style="color: #0061f7;">View More</a>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div th:if="${#lists.isEmpty(beds)}">
-                                    <p class="alert alert-info">No beds available for this room.</p>
-                                </div>
+                            </div>
+                            <div>
+                                <h3 th:if="${feedbackdetail.totalElements == 0}">
+                                    No data recorded
+                                </h3>
+                            </div>
+                            <div class="pagination-wrapper">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <li class="page-item" th:classappend="${feedbackdetail.hasPrevious()} ? '' : 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{|?page=${feedbackdetail.number - 1}&keyword=${keyword}|}"
+                                               aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item"
+                                            th:each="i : ${feedbackdetail.totalPages > 0 ? #numbers.sequence(0, feedbackdetail.totalPages - 1) : {0}}"
+                                            th:classappend="${feedbackdetail.number == i} ? 'active'">
+                                            <a class="page-link"
+                                               th:href="@{|?page=${i}&keyword=${keyword}|}"
+                                               th:text="${i + 1}">1</a>
+                                        </li>
+                                        <li class="page-item" th:classappend="${feedbackdetail.hasNext()} ? '' : 'disabled'">
+                                            <a class="page-link"
+                                               th:href="@{|?page=${feedbackdetail.number + 1}&keyword=${keyword}|}"
+                                               aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="offset-sm-2 col-sm-2 d-grid">
-                        <a class="btn secondary-default-btn" href="/fpt-dorm/admin/all-room" role="button">Back</a>
+                <div class="row" style="margin-top: 50px;">
+                    <div class="col-sm-4 d-grid"></div>
+                    <div class="col-sm-4 d-grid">
+                        <a class="btn secondary-default-btn" onclick="window.history.back()" role="button">Back</a>
                     </div>
+                    <div class="col-sm-4 d-grid"></div>
                 </div>
             </div>
         </main>
-
-
         <!-- ! Footer -->
+
         <footer class="footer">
             <div class="container footer--flex">
                 <div class="footer-start">
@@ -437,28 +479,31 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const A = document.getElementById('menu-room');
-        const B = document.getElementById('menu-all-room');
 
-        A.addEventListener('click', function () {
-            if (A.classList.contains('active')) {
-                A.classList.remove('active');
-                B.classList.add('active');
-            } else {
-                A.classList.add('active');
-                B.classList.remove('active');
-            }
-        });
-    });
-</script>
 <!-- Chart library -->
+<script th:inline="javascript">
+    function updateStatus(feedbackId) {
+        if (confirm('Are you sure you want to update the status of this feedback?')) {
+            var form = document.getElementById('update-status-form-' + feedbackId);
+            form.submit();
+        }
+    }
+</script>
+
 <script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
 <script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="/static/admin_homepage/js/script.js"></script>
+<script>
+    function trimWhitespace() {
+        var inputs = document.querySelectorAll('.search-box');
+        inputs.forEach(input => {
+            input.value = input.value.replace(/\s+/g, ' ').trim();
+        });
+    }
+</script>
+
 </body>
 
 </html>

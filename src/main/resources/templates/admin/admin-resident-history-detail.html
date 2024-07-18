@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-  <title>Resident History</title>
+  <title>Resident History Detail | Admin</title>
   <!-- Favicon -->
   <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
   <!-- Custom styles -->
@@ -151,7 +151,8 @@
       <div class="sidebar-body">
         <ul class="sidebar-body-menu">
           <li>
-            <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+            <a th:href="@{/fpt-dorm/admin/home}" ><span class="icon home"
+                                                        aria-hidden="true"></span>Dashboard</a>
           </li>
           <li>
             <a class="show-cat-btn">
@@ -170,7 +171,6 @@
               </li>
             </ul>
           </li>
-
           <li>
             <a class="show-cat-btn">
               <span class="icon folder" aria-hidden="true"></span>Dorm Manage
@@ -188,6 +188,7 @@
               </li>
             </ul>
           </li>
+
 
           <li>
             <a class="show-cat-btn">
@@ -226,7 +227,6 @@
             </ul>
           </li>
 
-
           <li>
             <a class="show-cat-btn" href="#">
               <span class="icon folder" aria-hidden="true"></span>Payment
@@ -247,14 +247,14 @@
           </li>
 
           <li>
-            <a th:href="@{/fpt-dorm/employee/usage-service}">
+            <a th:href="@{/fpt-dorm/admin/usage-service}">
               <span class="icon folder" aria-hidden="true"></span>
               Usage Service
             </a>
           </li>
 
           <li>
-            <a class="show-cat-btn active" th:href="@{/fpt-dorm/admin/admin_Resident_History}">
+            <a class="active" th:href="@{/fpt-dorm/admin/admin_Resident_History}">
               <span class="icon folder" aria-hidden="true"></span>
               Resident History
             </a>
@@ -267,12 +267,7 @@
             </a>
           </li>
 
-          <li>
-            <a th:href="@{admin/admin_list_feedback}">
-              <span class="icon folder" aria-hidden="true"></span>
-              Feedback
-            </a>
-          </li>
+
 
           <li>
             <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
@@ -382,7 +377,7 @@
     <main class="main users chart-page" id="skip-target">
       <div class="container">
         <h2  class="main-title" th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${userId}}">Admin Resident History Detail</h2>
-   <div class="row">
+        <div class="row">
           <div class="col-lg-4"></div>
         </div>
         <br>
@@ -408,8 +403,8 @@
                   <tr th:each="residentHistory : ${residentDetail.content}">
                     <td th:text="${residentHistory.roomNumber}"></td>
                     <td th:text="${residentHistory.bedName}"></td>
-                    <td th:text="${residentHistory.startDate}"></td>
-                    <td th:text="${residentHistory.endDate}"></td>
+                    <td th:text="${residentHistory.checkInDate}"></td>
+                    <td th:text="${residentHistory.checkOutDate}"></td>
                     <td th:text="${residentHistory.capacity}"></td>
                     <td th:text="${residentHistory.totalPrice}"></td>
                   </tr>
@@ -454,6 +449,7 @@
         </div>
       </div>
     </main>
+
 
     <!-- ! Footer -->
     <footer class="footer">

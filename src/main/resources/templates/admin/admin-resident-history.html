@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Resident History</title>
+    <title>Resident History | Admin</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -156,8 +156,8 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home"
-                                                                   aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}" ><span class="icon home"
+                                                                                  aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn">
@@ -178,7 +178,7 @@
                     </li>
                     <li>
                         <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm manage
+                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -186,13 +186,14 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
+                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
                             </li>
                             <li>
                                 <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
                             </li>
                         </ul>
                     </li>
+
 
                     <li>
                         <a class="show-cat-btn">
@@ -245,21 +246,20 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class=""
-                                   th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                        <a th:href="@{/fpt-dorm/admin/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a class="show-cat-btn active" th:href="@{/fpt-dorm/admin/admin_Resident_History}">
+                        <a class="active" th:href="@{/fpt-dorm/admin/admin_Resident_History}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
                         </a>
@@ -272,12 +272,7 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
+
 
                     <li>
                         <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
