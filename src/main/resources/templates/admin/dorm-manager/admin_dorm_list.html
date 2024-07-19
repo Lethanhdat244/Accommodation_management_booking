@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Dorm | Admin </title>
+    <title>Dorm List | Admin</title>
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
 </head>
 
@@ -122,10 +122,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="dorm-list" class=""  th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
+                                <a id="dorm-list" class="" th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
                             </li>
                         </ul>
                     </li>
@@ -188,7 +188,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                        <a th:href="@{/fpt-dorm/admi/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Usage Service
                         </a>
@@ -201,12 +201,7 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
-                        </a>
-                    </li>
+
 
                     <li>
                         <a th:href="@{admin/admin_list_feedback}">
@@ -225,16 +220,6 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
-                <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">AI</span>
-                    <span class="sidebar-user__subtitle">Support manager</span>
-                </div>
-            </a>
         </div>
     </aside>
 
@@ -311,7 +296,7 @@
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!-- <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li> -->
+                            <!-- <li><a th:href="@{/fpt-dorm/admi/home}">Home admi</a></li> -->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>

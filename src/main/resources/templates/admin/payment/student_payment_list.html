@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Student Payment List</title>
+    <title>Student Payment List | Admin</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -263,13 +263,6 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
-                        </a>
-                    </li>
-
-                    <li>
                         <a th:href="@{admin/admin_list_feedback}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Feedback
@@ -286,17 +279,6 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
-                <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">AI</span>
-                    <span class="sidebar-user__subtitle">Support manager</span>
-                </div>
-            </a>
         </div>
     </aside>
     <div class="main-wrapper">
@@ -316,10 +298,6 @@
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
                     <div class="notification-wrapper">
-                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
-                            <span class="sr-only">To messages</span>
-                            <span class="icon notification active" aria-hidden="true"></span>
-                        </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
                                 <a href="#">
@@ -371,7 +349,7 @@
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+                            <!--                            <li><a th:href="@{/fpt-dorm/admin/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -387,19 +365,36 @@
                 <h2 class="main-title">Student Payment List</h2>
                 <div class="row">
                     <div class="col-lg-6">
+                        <script>
+                            function toggleButton() {
+                                var searchElement = document.getElementById('searchBox');
+                                var selectElement = document.getElementById('categorySelect');
+                                var buttonElement = document.getElementById('searchButton');
+                                if (selectElement.value === "" || searchElement.value === "") {
+                                    buttonElement.disabled = true;
+                                } else {
+                                    buttonElement.disabled = false;
+                                }
+                            }
+
+                            document.addEventListener('DOMContentLoaded', toggleButton);
+                        </script>
                         <form th:action="@{/fpt-dorm/admin/all-payment/student/search}" method="get"
                               class="search-form">
                             <input type="hidden" name="userId" th:value="${userId}">
-                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
+                            <input id="searchBox" oninput="toggleButton()" type="text" name="keyword"
+                                   th:value="${keyword}" placeholder="Search..."
                                    class="search-box"/>
-                            <select name="category" class="search-dropdown">
+                            <select id="categorySelect" name="category" class="search-dropdown"
+                                    onchange="toggleButton()">
                                 <option value="" th:text="'--Select--'"
                                         th:selected="${selectedCategory == null}"></option>
                                 <option value="ID" th:text="'ID'" th:selected="${selectedCategory == 'ID'}"></option>
                                 <option value="Date" th:text="'Date'"
                                         th:selected="${selectedCategory == 'Date'}"></option>
                             </select>
-                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
+                            <button id="searchButton" class="btn btn-lg search-btn center-block" type="submit">Search
+                            </button>
                         </form>
                     </div>
                     <div class="col-lg-2"></div>
@@ -465,7 +460,7 @@
                                     <ul class="pagination">
                                         <li class="page-item" th:classappend="${paymentPage.hasPrevious()} ? '' : 'disabled'">
                                             <a class="page-link"
-                                               th:href="@{|?page=${paymentPage.number - 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
+                                               th:href="@{|?page=${paymentPage.number - 1}&userId=${userId}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                aria-label="Previous">
                                                 <span aria-hidden="true">&laquo;</span>
                                             </a>
@@ -474,12 +469,12 @@
                                             th:each="i : ${paymentPage.totalPages > 0 ? #numbers.sequence(0, paymentPage.totalPages - 1) : {0}}"
                                             th:classappend="${paymentPage.number == i} ? 'active'">
                                             <a class="page-link"
-                                               th:href="@{|?page=${i}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
+                                               th:href="@{|?page=${i}&userId=${userId}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                th:text="${i + 1}">1</a>
                                         </li>
                                         <li class="page-item" th:classappend="${paymentPage.hasNext()} ? '' : 'disabled'">
                                             <a class="page-link"
-                                               th:href="@{|?page=${paymentPage.number + 1}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
+                                               th:href="@{|?page=${paymentPage.number + 1}&userId=${userId}&keyword=${keyword}&category=${selectedCategory}&sort=${sort}|}"
                                                aria-label="Next">
                                                 <span aria-hidden="true">&raquo;</span>
                                             </a>

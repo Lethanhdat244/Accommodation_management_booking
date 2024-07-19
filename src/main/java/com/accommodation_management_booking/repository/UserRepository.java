@@ -3,12 +3,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import com.accommodation_management_booking.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.time.LocalDateTime;
 import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import com.accommodation_management_booking.entity.User.Role;
+
 public interface UserRepository extends JpaRepository<User, Integer> {
     User findByEmail(String username);
+
     boolean existsByEmail(String email);
 
     @Query("SELECT u FROM User u WHERE (u.email LIKE %:keyword%)")
@@ -49,4 +55,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             Pageable pageable);
 
     User findByUserId(Integer userId);
+
+
+    int countByCreatedAtBetween(LocalDateTime localDateTime, LocalDateTime localDateTime1);
+
+    int countByCreatedAtBetweenAndRoleUser(LocalDateTime startDate, LocalDateTime endDate, Role roleUser);
+
+    @Query("SELECT COUNT(u) FROM User u WHERE u.isActive = true")
+    long countActiveUsers();
 }

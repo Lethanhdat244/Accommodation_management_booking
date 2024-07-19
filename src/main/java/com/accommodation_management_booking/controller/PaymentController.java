@@ -69,6 +69,7 @@ public class PaymentController {
     private final BookingRepository bookingRepository;
     private final PaymentService paymentService;
     private final PaymentRepository paymentRepository;
+    private final ContractRepository contractRepository;
 
     @GetMapping("/fpt-dorm/employee/all-payment")
     public String showPaymentList(Model model,
@@ -531,13 +532,11 @@ public class PaymentController {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Page<PaymentTransactionDTO> paymentPage;
-        Pageable pageable;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
         List<String> bookingSortFields = List.of("totalPrice");
         if (bookingSortFields.contains(sortParams[0])) {
-            pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
             paymentPage = paymentService.searchByUserWithBookingSort(id, pageable);
         } else {
-            pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
             paymentPage = paymentService.searchByUserWithPaymentSort(id, pageable);
         }
         model.addAttribute("userId", id);
@@ -622,6 +621,7 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+                model.addAttribute("contract", contractRepository.getContractByBookingId(paymentTransactionDTO.getBookingId()));
             } else {
                 throw new Exception("Payment not found");
             }
@@ -954,6 +954,19 @@ public class PaymentController {
             booking.setRefundDate(refundDate);
             booking.setStatus(Booking.Status.Confirmed);
             bookingRepository.save(booking);
+
+            // Send email
+            String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
+            String subject = "Payment Successful - Booking Confirmation";
+            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was successful." +
+//                    "\n Payment code: " + payment1.getPaymentDetail() +
+                    "\nTotal Price: " + booking.getTotalPrice() +
+                    "\nAmount Paid: " + booking.getAmountPaid() +
+//                    "\nDate: " + payment1.getPaymentDate() +
+                    "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?bookingId=" + booking.getBookingId() +
+                    "\n\nThank you for your booking.";
+            emailService.sendBill(toEmail, subject, body);
+
             return ResponseEntity.ok("Payment confirmed successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
@@ -1103,7 +1116,7 @@ public class PaymentController {
                         "\nTotal Price: " + booking.getTotalPrice() +
                         "\nAmount Paid: " + booking.getAmountPaid() +
                         "\nDate: " + payment1.getPaymentDate() +
-                        "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?bookingId=" + booking.getBookingId() +
+//                        "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?bookingId=" + booking.getBookingId() +
                         "\n\nThank you for your booking.";
                 emailService.sendBill(toEmail, subject, body);
 

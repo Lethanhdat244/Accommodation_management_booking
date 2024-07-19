@@ -18,11 +18,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.accommodation_management_booking.entity.User.Role;
 
 @Service
 @AllArgsConstructor
@@ -310,6 +312,26 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public int countNewEmployeesInCurrentMonth() {
+        LocalDate now = LocalDate.now();
+        LocalDate firstDayOfMonth = now.withDayOfMonth(1);
+        LocalDate lastDayOfMonth = now.withDayOfMonth(now.lengthOfMonth());
+
+        return userRepository.countByCreatedAtBetween(firstDayOfMonth.atStartOfDay(), lastDayOfMonth.atTime(23, 59, 59));
+    }
+
+    @Override
+    public int countNewUsersInCurrentMonth(Role role) {
+        LocalDateTime startOfMonth = LocalDate.now().withDayOfMonth(1).atStartOfDay();
+        LocalDateTime endOfMonth = LocalDate.now().withDayOfMonth(LocalDate.now().lengthOfMonth()).atTime(23, 59, 59);
+        return userRepository.countByCreatedAtBetweenAndRoleUser(startOfMonth, endOfMonth, role);
+    }
+
+    @Override
+    public long getActiveUserCount() {
+        return userRepository.countActiveUsers();
+    }
 
 
 }
