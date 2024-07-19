@@ -533,8 +533,7 @@
 
                                 <div style="width: 100%; background-color: white; padding: 20px;">
                                     <h3 style="text-align: center;">Usage Service Chart</h3>
-                                    <div>Total Revenue of Usage Service: <span
-                                            th:text="${totalElectricity + totalWater + totalOthers}"></span> VND
+                                    <div>Total Revenue of Usage Service: <span th:text="${#numbers.formatInteger(totalElectricity + totalWater + totalOthers, 0)}">0</span> VND
                                     </div>
                                     <div class="chart-container"
                                          style="max-width: 100%; height: auto;">
