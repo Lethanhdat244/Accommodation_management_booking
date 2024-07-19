@@ -17,10 +17,8 @@ import java.util.List;
 public class PaypalService {
     @Autowired
     private APIContext apiContext;
-
     @Autowired
     private PaymentRepository paymentRepository;
-
     public Payment createPayment(
             float total,
             String currency,
@@ -40,15 +38,15 @@ public class PaypalService {
         List<Transaction> transactions = new ArrayList<>();
         transactions.add(transaction);
 
-            Payer payer = new Payer();
-            payer.setPaymentMethod(method.toString());
+        Payer payer = new Payer();
+        payer.setPaymentMethod(method.toString());
 
-            Payment payment = new Payment();
-            payment.setIntent(intent.toString());
-            payment.setPayer(payer);
-            payment.setTransactions(transactions);
+        Payment payment = new Payment();
+        payment.setIntent(intent.toString());
+        payment.setPayer(payer);
+        payment.setTransactions(transactions);
 
-            RedirectUrls redirectUrls = new RedirectUrls();
+        RedirectUrls redirectUrls = new RedirectUrls();
             redirectUrls.setCancelUrl(cancelUrl);
             redirectUrls.setReturnUrl(successUrl);
             payment.setRedirectUrls(redirectUrls);
@@ -89,5 +87,4 @@ public class PaypalService {
     public List<com.accommodation_management_booking.entity.Payment> getPaymentsByMethod(com.accommodation_management_booking.entity.Payment.PaymentMethod method) {
         return paymentRepository.findByPaymentMethod(method);
     }
-
 }

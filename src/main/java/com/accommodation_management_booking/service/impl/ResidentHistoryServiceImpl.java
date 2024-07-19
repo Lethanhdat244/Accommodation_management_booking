@@ -65,7 +65,6 @@ public class ResidentHistoryServiceImpl implements ResidentHistoryService {
     }
 
 
-
     @Override
     public ResidentHistoryDTO findResidentHistoryById(int residentHistoryId) {
         Booking booking = bookingRepo.findById(residentHistoryId).orElseThrow(() ->
@@ -82,9 +81,18 @@ public class ResidentHistoryServiceImpl implements ResidentHistoryService {
         return convertToResidentHistoryDTO(booking);
     }
 
+//    @Override
+//    public Page<ResidentHistoryDTO> searchByRoomNumber(String roomNumber, Pageable pageable) {
+//        Page<Booking> bookings = bookingRepo.findByRoomNumberContainingAndRoleUser(roomNumber, pageable);
+//        List<ResidentHistoryDTO> residentHistoryList = bookings.getContent().stream()
+//                .map(this::convertToResidentHistoryDTO)
+//                .collect(Collectors.toList());
+//        return new PageImpl<>(residentHistoryList, pageable, bookings.getTotalElements());
+//    }
+
     @Override
-    public Page<ResidentHistoryDTO> searchByRoomNumber(String roomNumber, Pageable pageable) {
-        Page<Booking> bookings = bookingRepo.findByRoomNumberContainingAndRoleUser(roomNumber, pageable);
+    public Page<ResidentHistoryDTO> searchByRoomNumber(String roomNumber, int userId, Pageable pageable) {
+        Page<Booking> bookings = bookingRepo.findByRoomNumberContainingAndUserId(roomNumber, userId, pageable);
         List<ResidentHistoryDTO> residentHistoryList = bookings.getContent().stream()
                 .map(this::convertToResidentHistoryDTO)
                 .collect(Collectors.toList());
@@ -92,15 +100,9 @@ public class ResidentHistoryServiceImpl implements ResidentHistoryService {
     }
 
 
-
-
-
-
-
-
     @Override
-    public Page<ResidentHistoryDTO> findAllByUserIdOrderByEndDateDesc(int userId, Pageable pageable) {
-        Page<Booking> bookings = bookingRepo.findByUserIdOrderByEndDateDescWithBedInfo(userId, pageable);
+    public Page<ResidentHistoryDTO> findAllByUserIdOrderByCheckOutDateDesc(int userId, Pageable pageable) {
+        Page<Booking> bookings = bookingRepo.findByUserIdOrderByCheckOutDateDescWithBedInfo(userId, pageable);
         List<ResidentHistoryDTO> residentHistoryList = bookings.getContent().stream()
                 .map(this::convertToResidentHistoryDTO)
                 .collect(Collectors.toList());
@@ -115,7 +117,6 @@ public class ResidentHistoryServiceImpl implements ResidentHistoryService {
 
         if (user != null) {
             dto.setUserId(user.getUserId());
-
         }
 
         if (room != null) {
@@ -126,11 +127,9 @@ public class ResidentHistoryServiceImpl implements ResidentHistoryService {
         if (bed != null) {
             dto.setBedName(bed.getBedName());
         }
-
-        dto.setStartDate(booking.getStartDate());
-        dto.setEndDate(booking.getEndDate());
+        dto.setCheckInDate(booking.getCheckInDate());
+        dto.setCheckOutDate(booking.getCheckOutDate());
         dto.setTotalPrice(booking.getTotalPrice());
-
         return dto;
     }
 

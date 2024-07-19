@@ -323,7 +323,7 @@
                                     <li><a data-hover="Payment"
                                            th:href="@{/fpt-dorm/user/payment}"><span>Payment</span></a></li>
                                     <li><a data-hover="Resident History"
-                                           th:href="@{/fpt-dorm/user/resident}"><span>Resident History</span></a>
+                                           th:href="@{/fpt-dorm/user/resident-history/list}"><span>Resident History</span></a>
                                     </li>
                                     <li><a data-hover="Request"
                                            th:href="@{/fpt-dorm/user/my-request}"><span>Request</span></a>
@@ -348,7 +348,7 @@
                 <div class="row">
 
                     <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
-                        <h2 class="main-title text-center">Edit Student</h2>
+                        <h2 class="main-title text-center">Update Profile</h2>
                         <form th:action="@{/fpt-dorm/user/update-user-profile}" method="post"
                               enctype="multipart/form-data" th:object="${user}" onsubmit="return validateForm()">
                             <input type="hidden" name="userId" th:value="${user.userId}">
@@ -370,7 +370,7 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="idcard" class="col-sm-4 col-form-label">CCCD</label>
+                                <label for="idcard" class="col-sm-4 col-form-label">Citizen identification card</label>
                                 <div class="col-sm-8">
                                     <input id="idcard" name="cccdNumber" class="form-control border " readonly
                                            th:field="*{cccdNumber}">

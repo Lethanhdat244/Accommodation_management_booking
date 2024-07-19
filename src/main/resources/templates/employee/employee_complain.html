@@ -7,7 +7,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Complaint | Employee</title>
+    <link rel="icon" href="/homepage_user/images/icons/favicon.png"/>
+    <title>Complain | Employee</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <link rel="" href="/homepage_user/images/icons/favicon.png"/>
@@ -138,7 +139,7 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a class=""><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn" href="#">
@@ -231,41 +232,41 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_feedback}">
+                        <a th:href="@{/employee/all-feedback}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Feedback
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/complain}">
+                        <a class="active" th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
                     </li>
 
 
-                    <li>
-                        <a th:href="@{/fpt-dorm/employee/notifications}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Notifications
-                        </a>
-                    </li>
+                    <!--                    <li>-->
+                    <!--                        <a th:href="@{/fpt-dorm/employee/notifications}">-->
+                    <!--                            <span class="icon folder" aria-hidden="true"></span>-->
+                    <!--                            Notifications-->
+                    <!--                        </a>-->
+                    <!--                    </li>-->
                 </ul>
             </div>
         </div>
-        <div class="sidebar-footer">
-            <a href="##" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
-                <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">AI</span>
-                    <span class="sidebar-user__subtitle">Support manager</span>
-                </div>
-            </a>
-        </div>
+        <!--        <div class="sidebar-footer">-->
+        <!--            <a href="##" class="sidebar-user">-->
+        <!--            <span class="sidebar-user-img">-->
+        <!--                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img-->
+        <!--                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>-->
+        <!--            </span>-->
+        <!--                <div class="sidebar-user-info">-->
+        <!--                    <span class="sidebar-user__title">AI</span>-->
+        <!--                    <span class="sidebar-user__subtitle">Support manager</span>-->
+        <!--                </div>-->
+        <!--            </a>-->
+        <!--        </div>-->
     </aside>
     <div class="main-wrapper">
         <!-- ! Main nav -->
@@ -283,50 +284,50 @@
                         <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
-                    <div class="notification-wrapper">
-                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
-                            <span class="sr-only">To messages</span>
-                            <span class="icon notification active" aria-hidden="true"></span>
-                        </button>
-                        <ul class="users-item-dropdown notification-dropdown dropdown">
-                            <li>
-                                <a href="##">
-                                    <div class="notification-dropdown-icon info">
-                                        <i data-feather="check"></i>
-                                    </div>
-                                    <div class="notification-dropdown-text">
-                                        <span class="notification-dropdown__title">System just updated</span>
-                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="##">
-                                    <div class="notification-dropdown-icon danger">
-                                        <i data-feather="info" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="notification-dropdown-text">
-                                        <span class="notification-dropdown__title">The cache is full!</span>
-                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="##">
-                                    <div class="notification-dropdown-icon info">
-                                        <i data-feather="check" aria-hidden="true"></i>
-                                    </div>
-                                    <div class="notification-dropdown-text">
-                                        <span class="notification-dropdown__title">New Subscriber here!</span>
-                                        <span class="notification-dropdown__subtitle">A new subscriber has subscribed.</span>
-                                    </div>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="link-to-page" href="##">Go to Notifications page</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <!--                    <div class="notification-wrapper">-->
+                    <!--                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">-->
+                    <!--                            <span class="sr-only">To messages</span>-->
+                    <!--                            <span class="icon notification active" aria-hidden="true"></span>-->
+                    <!--                        </button>-->
+                    <!--                        <ul class="users-item-dropdown notification-dropdown dropdown">-->
+                    <!--                            <li>-->
+                    <!--                                <a href="##">-->
+                    <!--                                    <div class="notification-dropdown-icon info">-->
+                    <!--                                        <i data-feather="check"></i>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="notification-dropdown-text">-->
+                    <!--                                        <span class="notification-dropdown__title">System just updated</span>-->
+                    <!--                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </a>-->
+                    <!--                            </li>-->
+                    <!--                            <li>-->
+                    <!--                                <a href="##">-->
+                    <!--                                    <div class="notification-dropdown-icon danger">-->
+                    <!--                                        <i data-feather="info" aria-hidden="true"></i>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="notification-dropdown-text">-->
+                    <!--                                        <span class="notification-dropdown__title">The cache is full!</span>-->
+                    <!--                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </a>-->
+                    <!--                            </li>-->
+                    <!--                            <li>-->
+                    <!--                                <a href="##">-->
+                    <!--                                    <div class="notification-dropdown-icon info">-->
+                    <!--                                        <i data-feather="check" aria-hidden="true"></i>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="notification-dropdown-text">-->
+                    <!--                                        <span class="notification-dropdown__title">New Subscriber here!</span>-->
+                    <!--                                        <span class="notification-dropdown__subtitle">A new subscriber has subscribed.</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </a>-->
+                    <!--                            </li>-->
+                    <!--                            <li>-->
+                    <!--                                <a class="link-to-page" href="##">Go to Notifications page</a>-->
+                    <!--                            </li>-->
+                    <!--                        </ul>-->
+                    <!--                    </div>-->
                     <div class="nav-user-wrapper">
                         <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
@@ -351,7 +352,7 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Complaint List</h2>
+                <h2 class="main-title">Complain List</h2>
                 <div class="canvas-wrapper" style="margin-bottom: 20px">
                     <form th:action="@{/fpt-dorm/employee/complain}" th:method="get">
                         <select class="" id="status" name="status">
@@ -415,38 +416,26 @@
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div th:if="${complaintDTOList != null}" class="pagination-wrapper">
-                                    <nav aria-label="Page navigation">
-                                        <ul class="pagination">
-                                            <li class="page-item"
-                                                th:classappend="${complaintDTOList.hasPrevious()} ? '' : 'disabled'">
-                                                <a class="page-link" th:if="${complaintDTOList.hasPrevious()}"
-                                                   th:href="@{/fpt-dorm/employee/complain(page=${complaintDTOList.number - 1})}"
-                                                   aria-label="Previous">
-                                                    <span aria-hidden="true">&laquo;</span>
-                                                </a>
-                                                <span class="page-link" th:unless="${complaintDTOList.hasPrevious()}">&laquo;</span>
-                                            </li>
-                                            <li class="page-item"
-                                                th:each="i : ${#numbers.sequence(0, complaintDTOList.totalPages - 1)}"
-                                                th:classappend="${complaintDTOList.number == i} ? 'active'">
-                                                <a class="page-link"
-                                                   th:href="@{/fpt-dorm/employee/complain(page=${i})}"
-                                                   th:text="${i + 1}">1</a>
-                                            </li>
-                                            <li class="page-item"
-                                                th:classappend="${complaintDTOList.hasNext()} ? 'enabled'">
-                                                <a class="page-link" th:if="${complaintDTOList.hasNext()}"
-                                                   th:href="@{/fpt-dorm/employee/complain(page=${complaintDTOList.number + 1})}"
-                                                   aria-label="Next">
-                                                    <span aria-hidden="true">&raquo;</span>
-                                                </a>
-                                                <span class="page-link" th:unless="${complaintDTOList.hasNext()}">&raquo;</span>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                </div>
                             </div>
+                        </div>
+                        <div class="pagination-wrapper">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination">
+                                    <!--                                    <li class="page-item" th:classappend="${newsPage.hasPrevious()} ? 'enabled'">-->
+                                    <!--                                        <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${newsPage.number - 1}, size=${newsPage.size}, keyword=${keyword})}" aria-label="Previous">-->
+                                    <!--                                            <span aria-hidden="true">&laquo;</span>-->
+                                    <!--                                        </a>-->
+                                    <!--                                    </li>-->
+                                    <!--                                    <li class="page-item" th:each="i : ${#numbers.sequence(0, newsPage.totalPages - 1)}" th:classappend="${newsPage.number == i} ? 'active'">-->
+                                    <!--                                        <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${i}, size=${newsPage.size}, keyword=${keyword})}" th:text="${i + 1}">1</a>-->
+                                    <!--                                    </li>-->
+                                    <!--                                    <li class="page-item" th:classappend="${newsPage.hasNext()} ? 'enabled'">-->
+                                    <!--                                        <a class="page-link" th:href="@{/fpt-dorm/employee/view-news(page=${newsPage.number + 1}, size=${newsPage.size}, keyword=${keyword})}" aria-label="Next">-->
+                                    <!--                                            <span aria-hidden="true">&raquo;</span>-->
+                                    <!--                                        </a>-->
+                                    <!--                                    </li>-->
+                                </ul>
+                            </nav>
                         </div>
                     </div>
                 </div>

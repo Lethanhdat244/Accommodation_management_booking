@@ -289,12 +289,6 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
 
                     <li>
                         <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
@@ -403,7 +397,6 @@
                                     buttonElement.disabled = false;
                                 }
                             }
-
                             document.addEventListener('DOMContentLoaded', toggleButton);
                         </script>
                         <form th:action="@{/fpt-dorm/admin/payment-request/search}" method="get" class="search-form">

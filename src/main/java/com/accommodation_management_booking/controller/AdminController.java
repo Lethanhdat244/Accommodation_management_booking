@@ -1,20 +1,19 @@
 package com.accommodation_management_booking.controller;
 
 import com.accommodation_management_booking.dto.UserBookingDTO;
-import com.accommodation_management_booking.entity.Complaint;
-import com.accommodation_management_booking.entity.Dorm;
-import com.accommodation_management_booking.entity.Notification;
-import com.accommodation_management_booking.entity.UsageService;
-import com.accommodation_management_booking.repository.ComplainRepository;
-import com.accommodation_management_booking.repository.DormRepository;
-import com.accommodation_management_booking.repository.UserBookingRepository;
-import com.accommodation_management_booking.repository.UserRepository;
+import com.accommodation_management_booking.entity.*;
+import com.accommodation_management_booking.repository.*;
+import com.accommodation_management_booking.service.BedService;
+import com.accommodation_management_booking.service.BookingService;
+import com.accommodation_management_booking.service.ChartService;
+import com.accommodation_management_booking.service.UserService;
 import com.accommodation_management_booking.service.impl.ComplainService;
 import com.accommodation_management_booking.service.impl.UsageServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -26,7 +25,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import com.accommodation_management_booking.entity.User.Role;
 
 @Controller
 public class AdminController {
@@ -44,8 +49,28 @@ public class AdminController {
     @Autowired
     UserRepository userRepository;
 
+    private final ChartService chartService;
+
+    private final UserService userService;
+
+    private final BookingService bookingService;
+    private final BedService bedService;
+    private final ComplainRepository complaintRepository;
+    @Autowired
+    private BedRepository bedRepository;
+
+    public AdminController(ChartService chartService, UserService userService, BookingService bookingService, BedService bedService, ComplainRepository complaintRepository) {
+        this.chartService = chartService;
+        this.userService = userService;
+        this.bookingService = bookingService;
+        this.bedService = bedService;
+        this.complaintRepository = complaintRepository;
+    }
+
     @GetMapping("fpt-dorm/admin/home")
-    public String admin_homepage(Model model, Authentication authentication) {
+    public String admin_homepage(Model model, Authentication authentication,
+                                 @RequestParam(required = false, defaultValue = "0") int year,
+                                 @RequestParam(required = false, defaultValue = "0") int month) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
             OAuth2User oauth2User = oauth2Token.getPrincipal();
@@ -58,7 +83,99 @@ public class AdminController {
             // Handle cases where the authentication is not OAuth2
             model.addAttribute("email", "Unknown");
         }
+        List<Object[]> months = chartService.findDistinctMonths();
+        model.addAttribute("months", months);
+
+        // Lấy các năm duy nhất
+        Set<Integer> uniqueYears = months.stream()
+                .map(monthArr -> (Integer) monthArr[1])
+                .collect(Collectors.toSet());
+        model.addAttribute("years", uniqueYears);
+
+        // Lấy tháng và năm hiện tại
+        LocalDate currentDate = LocalDate.now();
+        int currentMonth = currentDate.getMonthValue();
+        int currentYear = currentDate.getYear();
+
+        // Nếu không có giá trị year và month từ request, sử dụng tháng và năm hiện tại
+        if (year == 0) {
+            year = currentYear;
+        }
+        if (month == 0) {
+            month = currentMonth;
+        }
+
+        model.addAttribute("selectedMonth", month);
+        model.addAttribute("selectedYear", year);
+        List<UsageService> usageServices = usageServiceService.getUsageServicesByMonthAndYear(month, year);
+        if (year > 0 && month > 0) {
+            List<Booking> bookings = chartService.findBookingsByMonth(year, month);
+            Map<String, Long> statusCounts = chartService.getBookingStatusCountsForMonth(year, month);
+            model.addAttribute("bookings", bookings);
+            model.addAttribute("statusCounts", statusCounts);
+        }
+        Float totalElectricity = usageServices.stream()
+                .map(UsageService::getElectricity)
+                .reduce(Float::sum)
+                .orElse(0.0f);
+        Float totalWater = usageServices.stream()
+                .map(UsageService::getWater)
+                .reduce(Float::sum)
+                .orElse(0.0f);
+        Float totalOthers = usageServices.stream()
+                .map(UsageService::getOthers)
+                .reduce(Float::sum)
+                .orElse(0.0f);
+        model.addAttribute("totalElectricity", totalElectricity);
+        model.addAttribute("totalWater", totalWater);
+        model.addAttribute("totalOthers", totalOthers);
+
+
+        List<Map<String, Long>> statusComCounts = complaintRepository.countByStatusForMonth(year, month);
+
+        // Add data to model for view rendering
+        model.addAttribute("statusComCounts", statusComCounts);
+        model.addAttribute("selectedYear", year);
+        model.addAttribute("selectedMonth", month);
+
         return "admin/admin_homepage";
+    }
+
+    @GetMapping("/active-users")
+    public ResponseEntity<Long> getActiveUserCount() {
+        long count = userService.getActiveUserCount();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/count-used-beds")
+    public ResponseEntity<Long> countUsedBeds() {
+        long usedBedsCount = bedService.countUsedBeds();
+        return ResponseEntity.ok(usedBedsCount);
+    }
+
+    @GetMapping("/count-new-users")
+    public ResponseEntity<Integer> countNewUsers() {
+        Role role = Role.USER; // Assuming USER role
+        int count = userService.countNewUsersInCurrentMonth(role);
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/count-complaints")
+    public ResponseEntity<Integer> countComplaints() {
+        int count = complainService.countComplaintsInCurrentMonth();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/count-employees")
+    public ResponseEntity<Integer> countNewEmployees() {
+        int count = userService.countNewEmployeesInCurrentMonth();
+        return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/count-bookings")
+    public ResponseEntity<Integer> countBookings() {
+        int count = bookingService.countBookingsInCurrentMonth();
+        return ResponseEntity.ok(count);
     }
 
     @GetMapping("fpt-dorm/admin/admin_list_student")
@@ -136,7 +253,7 @@ public class AdminController {
                 complainList = complainRepository.findDoneComplaints(status, pageable);
             } else {
                 // If no status is selected, get all complaints
-                complainList = complainRepository.getAllRequest(pageable);
+                complainList = complainRepository.findAll(pageable);
             }
             if (complainList.isEmpty()) {
                 // Handle case where complainList is empty
@@ -210,7 +327,9 @@ public class AdminController {
         List<UserBookingDTO> usageServiceDTOs = userBookingRepository.findCurrentBookingsByRoomId(id);
         if (usageServiceDTOs.isEmpty()) {
             model.addAttribute("error", "This room is currently unoccupied.");
-            return "redirect:/fpt-dorm/admin/admin_usageService";
+            List<Dorm> dorms = dormRepository.findAll();
+            model.addAttribute("dorms", dorms);
+            return "admin/admin_usageService";
         }
 
         float e = (electric * 4000f) / usageServiceDTOs.size();

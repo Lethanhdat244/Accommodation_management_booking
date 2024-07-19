@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Employee List</title>
+    <title>Employee List | Admin</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -58,7 +58,7 @@
     <script>
         function deleteUser(id) {
             if (confirm('Are you sure you want to delete this user item?')) {
-                fetch(`/fpt-dorm/admin/employee/delete/id=${id}`, {
+                fetch(`/fpt-dorm/admin/admin/delete/id=${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'
@@ -263,19 +263,6 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
 
                     <li>
                         <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
@@ -287,17 +274,6 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
-                <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">AI</span>
-                    <span class="sidebar-user__subtitle">Support manager</span>
-                </div>
-            </a>
         </div>
     </aside>
     <div class="main-wrapper">
@@ -317,10 +293,6 @@
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
                     <div class="notification-wrapper">
-                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
-                            <span class="sr-only">To messages</span>
-                            <span class="icon notification active" aria-hidden="true"></span>
-                        </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
                                 <a href="#">
@@ -372,7 +344,7 @@
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+                            <!--                            <li><a th:href="@{/fpt-dorm/admin/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -388,7 +360,7 @@
                 <h2 class="main-title">Employee List</h2>
                 <div class="row">
                     <div class="col-lg-6">
-                        <form th:action="@{/fpt-dorm/admin/employee/search}" method="get" class="search-form">
+                        <form th:action="@{/fpt-dorm/admin/admin/search}" method="get" class="search-form">
                             <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
                                    class="search-box"/>
                             <select name="category" class="search-dropdown">

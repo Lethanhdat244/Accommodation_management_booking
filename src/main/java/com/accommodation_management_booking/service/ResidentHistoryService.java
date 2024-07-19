@@ -6,12 +6,16 @@ import org.springframework.data.domain.Pageable;
 
 public interface ResidentHistoryService {
     Page<ResidentHistoryDTO> getUsersResidentHistory(Pageable pageable);
+
     Page<ResidentHistoryDTO> searchByUserName(String keyword, Pageable pageable);
+
     ResidentHistoryDTO findResidentHistoryById(int residentHistoryId);
+
     ResidentHistoryDTO getResidentHistoryByUsername(String username);
-    Page<ResidentHistoryDTO> findAllByUserIdOrderByEndDateDesc(int userId, Pageable pageable);
-    Page<ResidentHistoryDTO> searchByRoomNumber(String roomNumber, Pageable pageable);
 
+    Page<ResidentHistoryDTO> findAllByUserIdOrderByCheckOutDateDesc(int userId, Pageable pageable);
 
-
+    //    Page<ResidentHistoryDTO> searchByRoomNumber(String roomNumber, Pageable pageable);
+    Page<ResidentHistoryDTO> searchByRoomNumber(String roomNumber, int userId, Pageable pageable); // Thêm phương thức này
 }
+

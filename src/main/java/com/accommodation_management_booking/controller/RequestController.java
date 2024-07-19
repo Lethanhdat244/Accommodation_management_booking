@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import java.util.List;
 
 @Controller
@@ -109,13 +110,7 @@ public class RequestController {
         try {
             List<User> Emp = userRepository.searchAllEmployees();
             complainService.saveComplain(complaint);
-//            for (User user : Emp) {
-//                Notification notification = new Notification();
-//                notification.setUser(user);
-//                notification.setContent("New request from your tenant");
-//                notification.setRead(false);
-//                notificationService.saveNotification(notification);
-//            }
+//
             try {
                 Page<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId(), pageable);
                 model.addAttribute("complaintDTOList", complainList);

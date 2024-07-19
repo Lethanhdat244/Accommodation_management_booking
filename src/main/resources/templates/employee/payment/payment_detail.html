@@ -392,6 +392,10 @@
                                 <a class="btn secondary-default-btn" onclick="window.history.back()"
                                    role="button">Back</a>
                             </div>
+                            <div th:if="${contract != null}" class="offset-sm-4 col-sm-4 d-grid">
+                                <a class="btn secondary-default-btn" th:href="${contract.contractLink}"
+                                   role="button">Contract</a>
+                            </div>
                         </div>
                     </div>
                 </div>

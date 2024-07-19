@@ -34,25 +34,6 @@ public class ResidentHistoryController {
         this.userService = userService;
     }
 
-    @GetMapping("/fpt-dorm/user/resident-history/list")
-    public String getResidentHistoryByUserId(Model model, Authentication authentication, @RequestParam(value = "page", defaultValue = "0") int page) {
-        try {
-            User user = getUserFromAuthentication(authentication);
-            model.addAttribute("email", user.getEmail());
-
-            Pageable pageable = PageRequest.of(page, 2);
-            Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.findAllByUserIdOrderByEndDateDesc(user.getUserId(), pageable);
-
-            model.addAttribute("residentHistoryPage", residentHistoryPage);
-
-            return "/user/resident_history";
-        } catch (Exception e) {
-            e.printStackTrace();
-            // Xử lý ngoại lệ và trả về trang lỗi hoặc thông báo lỗi
-            model.addAttribute("errorMessage", "An error occurred while retrieving the user's residential history data.");
-            return "error-page"; // Cần có file error-page.html để hiển thị thông báo lỗi
-        }
-    }
     private User getUserFromAuthentication(Authentication authentication) {
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2User oauth2User = ((OAuth2AuthenticationToken) authentication).getPrincipal();
@@ -66,26 +47,64 @@ public class ResidentHistoryController {
         }
     }
 
+    @GetMapping("/fpt-dorm/user/resident-history/list")
+    public String getResidentHistoryByUserId(Model model, Authentication authentication, @RequestParam(value = "page", defaultValue = "0") int page) {
+        try {
+            User user = getUserFromAuthentication(authentication);
+            model.addAttribute("email", user.getEmail());
+
+            Pageable pageable = PageRequest.of(page, 2);
+            Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.findAllByUserIdOrderByCheckOutDateDesc(user.getUserId(), pageable);
+
+            model.addAttribute("residentHistoryPage", residentHistoryPage);
+
+            return "/user/resident_history";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "An error occurred while retrieving the user's residential history data.");
+            return "error-page";
+        }
+    }
+
+    //
+//    @GetMapping("/fpt-dorm/user/search-by-room")
+//    public String searchByRoomNumber(@RequestParam("roomNumber") String roomNumber,
+//                                     @RequestParam(value = "page", defaultValue = "0") int page,
+//                                     @RequestParam(value = "size", defaultValue = "2") int size,
+//                                     Model model, Authentication authentication) {
+//        User user = getUserFromAuthentication(authentication);
+//        Pageable pageable = PageRequest.of(page, size);
+//        Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.searchByRoomNumber(roomNumber, pageable);
+//
+//        model.addAttribute("residentHistoryPage", residentHistoryPage);
+//
+//
+//        if (residentHistoryPage.isEmpty()) {
+//            model.addAttribute("message", "No room information found " + roomNumber);
+//        }
+//        return "/user/search_residentHistory";
+//    }
     @GetMapping("/fpt-dorm/user/search-by-room")
     public String searchByRoomNumber(@RequestParam("roomNumber") String roomNumber,
                                      @RequestParam(value = "page", defaultValue = "0") int page,
                                      @RequestParam(value = "size", defaultValue = "2") int size,
-                                     Model model) {
+                                     Model model, Authentication authentication) {
+        User user = getUserFromAuthentication(authentication);
+        if (user == null) {
+            model.addAttribute("message", "User not found.");
+            return "/user/search_residentHistory";
+        }
+        int userId = user.getUserId();
         Pageable pageable = PageRequest.of(page, size);
-        Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.searchByRoomNumber(roomNumber, pageable);
+        Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.searchByRoomNumber(roomNumber, userId, pageable);
 
         model.addAttribute("residentHistoryPage", residentHistoryPage);
-        model.addAttribute("roomNumber", roomNumber);
 
         if (residentHistoryPage.isEmpty()) {
-            model.addAttribute("message", "No room information found " + roomNumber);
+            model.addAttribute("message", "No room information found for " + roomNumber);
         }
-
-        return "/user/resident_history";
+        return "/user/search_residentHistory";
     }
-
-
-
 
 
     //----------------------------------------------
@@ -108,7 +127,7 @@ public class ResidentHistoryController {
         } else if ("employee".equals(role)) {
             return "employee/employee_Resident_History";
         } else {
-            return "error/404"; // or some error page
+            return "error/404";
         }
     }
 
@@ -117,8 +136,10 @@ public class ResidentHistoryController {
     public String searchByUserName(
             @PathVariable("role") String role,
             @RequestParam("keyword") String keyword,
-            Pageable pageable,
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
             Model model) {
+        Pageable pageable = PageRequest.of(page, size);
         Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.searchByUserName(keyword, pageable);
 
         model.addAttribute("residentHistoryPage", residentHistoryPage);
@@ -126,15 +147,15 @@ public class ResidentHistoryController {
         model.addAttribute("role", role);
 
         if (residentHistoryPage.isEmpty()) {
-            model.addAttribute("message", "User name không có trong hệ thống");
+            model.addAttribute("message", "User name is not in the system");
         }
 
         if ("admin".equals(role)) {
-            return "admin/admin-resident-history";
+            return "admin/admin_residentHistoryS";
         } else if ("employee".equals(role)) {
-            return "employee/employee_Resident_History";
+            return "employee/employee_resident_historysearch";
         } else {
-            return "error/404"; // or some error page
+            return "error/404";
         }
     }
 
@@ -145,8 +166,8 @@ public class ResidentHistoryController {
             @PathVariable("userId") int userId,
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
-        Pageable pageable = PageRequest.of(page, 5); // Example pageable configuration
-        Page<ResidentHistoryDTO> residentDetail = residentHistoryService.findAllByUserIdOrderByEndDateDesc(userId, pageable);
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<ResidentHistoryDTO> residentDetail = residentHistoryService.findAllByUserIdOrderByCheckOutDateDesc(userId, pageable);
         model.addAttribute("residentDetail", residentDetail);
         model.addAttribute("userId", userId);
         model.addAttribute("role", role);
@@ -156,7 +177,7 @@ public class ResidentHistoryController {
         } else if ("employee".equals(role)) {
             return "employee/employee-resident-history-detail";
         } else {
-            return "error/404"; // or some error page
+            return "error/404";
         }
     }
 
