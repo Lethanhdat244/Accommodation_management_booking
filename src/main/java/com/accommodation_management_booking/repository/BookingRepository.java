@@ -1,6 +1,5 @@
 package com.accommodation_management_booking.repository;
 
-import com.accommodation_management_booking.dto.ResidentHistoryDTO;
 import com.accommodation_management_booking.entity.Booking;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,9 +13,12 @@ import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
+    @Query("SELECT DISTINCT b.room.roomNumber FROM Booking b WHERE b.user.userId = :userId")
+    List<String> findRoomNumbersByUserId(@Param("userId") int userId);
 
     @Query("SELECT b FROM Booking b JOIN b.user u WHERE u.roleUser = 'USER'")
     Page<Booking> findAllByRoleUser(Pageable pageable);
+
     @Query("SELECT b FROM Booking b JOIN b.user u WHERE u.username = :username AND u.roleUser = 'USER'")
     Booking findByUsernameAndRoleUser(@Param("username") String username);
 
@@ -29,11 +31,18 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query("SELECT b FROM Booking b JOIN b.user u WHERE u.username LIKE %:keyword% OR b.bookingId = :id")
     List<Booking> searchAllBy(@Param("keyword") String keyword, @Param("id") int id);
 
-    @Query("SELECT b FROM Booking b JOIN Bed bd ON b.bed.bedId = bd.bedId WHERE b.user.userId = :userId ORDER BY b.endDate DESC")
-    Page<Booking> findByUserIdOrderByEndDateDescWithBedInfo(@Param("userId") int userId, Pageable pageable);
+    @Query("SELECT b FROM Booking b JOIN Bed bd ON b.bed.bedId = bd.bedId WHERE b.user.userId = :userId ORDER BY b.checkOutDate DESC")
+    Page<Booking> findByUserIdOrderByCheckOutDateDescWithBedInfo(@Param("userId") int userId, Pageable pageable);
+
+    @Query("SELECT b FROM Booking b JOIN b.room r JOIN b.user u WHERE r.roomNumber LIKE %:roomNumber% AND u.userId = :userId AND u.roleUser = 'USER' ORDER BY b.checkOutDate DESC")
+    Page<Booking> findByRoomNumberContainingAndUserId(@Param("roomNumber") String roomNumber, @Param("userId") int userId, Pageable pageable);
+
+    @Query("SELECT MAX(b.bookingId) FROM Booking b WHERE b.room.roomNumber = :roomNumber")
+    Integer findLatestBookingIdByRoomNumber(@Param("roomNumber") String roomNumber);
 
     @Query("SELECT b FROM Booking b JOIN b.room r JOIN b.user u WHERE r.roomNumber LIKE %:roomNumber% AND u.roleUser = 'USER'")
     Page<Booking> findByRoomNumberContainingAndRoleUser(@Param("roomNumber") String roomNumber, Pageable pageable);
+
     @Query("SELECT DISTINCT MONTH(b.startDate), YEAR(b.startDate) FROM Booking b ORDER BY YEAR(b.startDate) DESC, MONTH(b.startDate) DESC")
     List<Object[]> findDistinctMonths();
 
@@ -45,4 +54,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT COUNT(b) FROM Booking b WHERE MONTH(b.bookingDate) = MONTH(:now) AND YEAR(b.bookingDate) = YEAR(:now)")
     int countBookingsInCurrentMonth(LocalDateTime now);
+
+
 }

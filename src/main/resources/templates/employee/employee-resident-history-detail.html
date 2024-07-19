@@ -8,7 +8,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-  <title>Resident History</title>
+  <title>Resident History Detail | Employee</title>
   <!-- Favicon -->
   <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
   <!-- Custom styles -->
@@ -151,7 +151,7 @@
       <div class="sidebar-body">
         <ul class="sidebar-body-menu">
           <li>
-            <a  ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+            <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
           </li>
           <li>
             <a class="show-cat-btn" href="#">
@@ -246,7 +246,7 @@
           </li>
 
           <li>
-            <a th:href="@{employee/employee_list_feedback}">
+            <a th:href="@{/employee/all-feedback}">
               <span class="icon folder" aria-hidden="true"></span>
               Feedback
             </a>
@@ -394,8 +394,8 @@
                   <tr th:each="residentHistory : ${residentDetail.content}">
                     <td th:text="${residentHistory.roomNumber}"></td>
                     <td th:text="${residentHistory.bedName}"></td>
-                    <td th:text="${residentHistory.startDate}"></td>
-                    <td th:text="${residentHistory.endDate}"></td>
+                    <td th:text="${residentHistory.checkInDate}"></td>
+                    <td th:text="${residentHistory.checkOutDate}"></td>
                     <td th:text="${residentHistory.capacity}"></td>
                     <td th:text="${residentHistory.totalPrice}"></td>
                   </tr>

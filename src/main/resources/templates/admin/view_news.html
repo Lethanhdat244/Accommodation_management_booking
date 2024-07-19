@@ -8,8 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> View News | Admin</title>
-    <link rel="" href="/homepage_user/images/icons/favicon.png"/>
-    <link rel="stylesheet" href="/admin_homepage/css/style.min.css">
+    <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
+    <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
         <style>
         .pagination-wrapper {
             text-align: left;
@@ -196,12 +196,6 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
 
                     <li>
                         <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
@@ -387,11 +381,11 @@
     </div>
 </div>
 <!-- Chart library -->
-<script src="/admin_homepage/plugins/chart.min.js"></script>
+<script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->
-<script src="/admin_homepage/plugins/feather.min.js"></script>
+<script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
-<script src="/admin_homepage/js/script.js"></script>
+<script src="/static/admin_homepage/js/script.js"></script>
 
 <script>
     function deleteNews(newsId) {

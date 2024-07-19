@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Complete Booking Form | User</title>
+    <title>Resident History</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
@@ -53,6 +53,22 @@
             margin-bottom: 30px;
             margin-right: auto;
             margin-left: 40px;
+        }
+        .rule {
+            width: 60%;
+            padding: 20px 5px;
+            font-size: 20px;
+            background-color: #ff4157;
+            color: #fff;
+            margin: 10px;
+            font-weight: 12 ;
+            border-radius: 60px;
+            text-align: center;
+        }
+        .rule:hover{
+            background-color: #162541;
+            color: #ff4157;
+            transition: 0.5s ease;
         }
     </style>
 
@@ -169,6 +185,7 @@
                     </div>
                 </form>
 
+
                 <table class="table table-responsive table-bordered">
                     <thead>
                     <tr>
@@ -184,8 +201,8 @@
                     <tr th:each="history : ${residentHistoryPage.content}">
                         <td th:text="${history.roomNumber}"></td>
                         <td th:text="${history.bedName}"></td>
-                        <td th:text="${#temporals.format(history.startDate, 'dd/MM/yyyy HH:mm')}"></td>
-                        <td th:text="${#temporals.format(history.endDate, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${#temporals.format(history.checkInDate, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${#temporals.format(history.checkOutDate, 'dd/MM/yyyy HH:mm')}"></td>
                         <td th:text="${history.capacity}"></td>
                         <td th:text="${history.totalPrice}"></td>
                     </tr>
@@ -208,6 +225,8 @@
                         <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=${residentHistoryPage.totalPages - 1})}">Last</a>
                     </li>
                 </ul>
+
+
             </div>
             <div class="col-lg-4 col-sm-12 request_list">
                 <h2>General Policies</h2>
@@ -226,6 +245,10 @@
                     <li>Respect for residents, staff, property.</li>
                     <li>Keep shared areas clean.</li>
                 </ul>
+                <div class="row">
+                    <p class="rule" id="parent1" onclick="redirectToFeedbackPage()">Feedback</p>
+                </div>
+
             </div>
         </div>
     </div>
@@ -406,6 +429,11 @@
             return false;
         }
         return true;
+    }
+</script>
+<script>
+    function redirectToFeedbackPage() {
+        window.location.href = '/fpt-dorm/user/feedbackform';
     }
 </script>
 

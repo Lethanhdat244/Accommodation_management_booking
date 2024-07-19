@@ -166,6 +166,8 @@ CREATE TABLE `feedback` (
                             `rating` int DEFAULT NULL,
                             `comment` text,
                             `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+                            `title` text,
+                            status ENUM('Pending', 'Replied') DEFAULT 'Pending',
                             PRIMARY KEY (`feedback_id`),
                             KEY `user_id` (`user_id`),
                             KEY `booking_id` (`booking_id`),

@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Student List</title>
+    <title>Room Detail | Employee</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -151,8 +151,9 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a  ><span class="icon home" aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
                     </li>
+
                     <li>
                         <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Student
@@ -173,19 +174,19 @@
                         </ul>
                     </li>
                     <li>
-                        <a id="menu-room" class="show-cat-btn active">
-                            <span class="icon folder" aria-hidden="true"></span>Room
+                        <a class="show-cat-btn  active ">
+                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
                             <span class="category__btn transparent-btn" title="Open list">
-                                <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                            </span>
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
-                        <ul class="cat-sub-menu">
+                        <ul class="cat-sub-menu ">
                             <li>
-                                <a id="menu-all-room" class="" th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
+                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
                             </li>
-                            <li>
-                                <a>Add new room</a>
+                            <li >
+                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
                             </li>
                         </ul>
                     </li>
@@ -244,7 +245,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_feedback}">
+                        <a th:href="@{/employee/all-feedback}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Feedback
                         </a>

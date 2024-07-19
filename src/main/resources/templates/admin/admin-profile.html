@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/homepage_user/images/icons/favicon.png"/>
-    <title> Profile | ADMIN</title>
+    <title> Profile | Admin</title>
     <link rel="stylesheet" href="/admin_homepage/css/style.min.css">
     <style>
         body {
@@ -139,8 +139,8 @@
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">Dormitory</span>
-                        <span class="logo-subtitle">Admin</span>
+                        <span class="logo-title">FPT Dorm</span>
+                        <span class="logo-subtitle">ADMIN</span>
                     </div>
 
                 </a>
@@ -211,6 +211,24 @@
                     </li>
 
                     <li>
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>Employee
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_employees}">All Employees</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_employee}">Add new employee</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li>
                         <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Payment
                             <span class="category__btn transparent-btn" title="Open list">
@@ -220,11 +238,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/all-payment}">All
+                                <a id="menu-all-payments" class="" th:href="@{/fpt-dorm/admin/admin_payment_list}">All
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/payment-request}">Payment
+                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment
                                     Request</a>
                             </li>
                         </ul>
@@ -238,33 +256,20 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/Resident_History/list}">
+                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
                         </a>
                     </li>
 
-                    <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
+
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/complain}">
+                        <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
                     </li>
-
-
-                    <!--                    <li>-->
-                    <!--                        <a th:href="@{/fpt-dorm/admin/notifications}">-->
-                    <!--                            <span class="icon folder" aria-hidden="true"></span>-->
-                    <!--                            Notifications-->
-                    <!--                        </a>-->
-                    <!--                    </li>-->
                 </ul>
             </div>
         </div>
