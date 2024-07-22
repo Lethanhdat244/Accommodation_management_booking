@@ -203,14 +203,23 @@ CREATE TABLE `complaint` (
 );
 
 
-CREATE TABLE `comment`(
-                           `comment_id` int NOT NULL AUTO_INCREMENT,
-                           `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-                           `email` varchar(255) NOT NULL,
-                           `message` text NOT NULL,
-                           `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-                           `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                           PRIMARY KEY (`comment_id`)
+CREATE TABLE `comment`
+(
+    `comment_id` int          NOT NULL AUTO_INCREMENT,
+    `name`       varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+    `email`      varchar(255) NOT NULL,
+    `message`    text         NOT NULL,
+    `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`comment_id`)
+);
+
+CREATE TABLE contract
+(
+    contract_id   INT AUTO_INCREMENT PRIMARY KEY,
+    booking_id    INT          Not null,
+    contract_link VARCHAR(255) not null,
+    FOREIGN KEY (booking_id) REFERENCES booking (booking_id)
 );
 
 
