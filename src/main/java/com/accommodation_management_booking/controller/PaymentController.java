@@ -730,11 +730,13 @@ public class PaymentController {
             booking.setStatus(Booking.Status.Confirmed);
             bookingRepository.save(booking);
 
+            String encodedBookingId = encode(booking.getBookingId());
+
             // Send email
             String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
             String subject = "Payment-Confirmed";
             String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was confirmed." +
-                    "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?bookingId=" + booking.getBookingId() +
+                    "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?token=" + encodedBookingId +
                     "\n\nThank you for your booking.";
             emailService.sendBill(toEmail, subject, body);
 
@@ -742,6 +744,11 @@ public class PaymentController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
         }
+    }
+
+    public static String encode(int bookingId) {
+        String idAsString = String.valueOf(bookingId);
+        return Base64.getUrlEncoder().encodeToString(idAsString.getBytes());
     }
 
     public static final String URL_PAYPAL_SUCCESS = "pay/success";

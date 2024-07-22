@@ -137,8 +137,9 @@
             </div>
             <div class="col-lg-7" style="padding-left: 40px; font-size:18px">
                 <ul>
+                    <span style="display:none;" id="bookingId" th:text="${bookingId}"></span>
                     <li>Sign in left side pad to confirm your contract</li>
-                    <li>After click "Save", please wait until see success notification faded</li>
+                    <li>After click "Save", please wait until you are directed to PDF link</li>
                 </ul>
             </div>
         </div>
@@ -227,7 +228,8 @@
       alert('Please provide a signature first.');
     } else {
         const dataURL = signaturePad.toDataURL();
-        const bookingId = new URLSearchParams(window.location.search).get('bookingId');
+        var bookingId = document.getElementById('bookingId').textContent.trim();
+        // const bookingId = new URLSearchParams(window.location.search).get('bookingId');
 
         fetch('/api/add-signature', {
             method: 'POST',
@@ -242,7 +244,8 @@
               .then(response => response.json())
               .then(data => {
                   if (data.url) {
-                      alert('Signature saved and uploaded successfully! View PDF: ' + data.url);
+                      // Chuyển hướng đến URL
+                      window.location.href = data.url;
                   } else {
                       alert('Failed to save and upload signature.');
                   }
