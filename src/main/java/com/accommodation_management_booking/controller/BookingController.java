@@ -6,6 +6,8 @@ import com.accommodation_management_booking.repository.*;
 import com.accommodation_management_booking.service.PaypalService;
 import com.paypal.base.rest.APIContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +17,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class BookingController {
@@ -80,6 +84,12 @@ public class BookingController {
         return "user/booking_details";
     }
 
+    @PostMapping("fpt-dorm/user/booking/import")
+    public String importRoomType(@RequestParam("roomType") String roomType, Model model) {
+        model.addAttribute("roomType", roomType);
+        return "user/import";
+    }
+
     @GetMapping("fpt-dorm/user/booking/floors")
     @ResponseBody
     public List<Floor> getFloors(@RequestParam("dormId") Integer dormId) {
@@ -132,4 +142,51 @@ public class BookingController {
         return "user/booking_confirmation";
     }
 
+    @GetMapping("fpt-dorm/user/booking/assignRoomAndBed")
+    @ResponseBody
+    public ResponseEntity<?> assignRoomAndBed(@RequestParam("floorId") Integer floorId, @RequestParam("capacity") Integer capacity) {
+        List<Room> rooms = roomRepository.findByFloorFloorId(floorId);
+        Room assignedRoom = null;
+        Bed assignedBed = null;
+
+        // Tìm phòng đã có người và còn giường trống
+        for (Room room : rooms) {
+            long bookedBedsCount = bookingRepository.countByRoomRoomId(room.getRoomId());
+            if (bookedBedsCount > 0 && room.getCapacity() - bookedBedsCount >= capacity) {
+                assignedRoom = room;
+                assignedBed = bedRepository.findFirstByRoomRoomIdAndIsAvailableTrueAndMaintenanceStatus(room.getRoomId(), Bed.MaintenanceStatus.Available);
+                if (assignedBed != null) {
+                    break;
+                }
+            }
+        }
+
+        // Nếu không tìm thấy, tìm phòng trống
+        if (assignedRoom == null || assignedBed == null) {
+            for (Room room : rooms) {
+                long bookedBedsCount = bookingRepository.countByRoomRoomId(room.getRoomId());
+                if (bookedBedsCount == 0 && room.getCapacity() >= capacity) {
+                    assignedRoom = room;
+                    assignedBed = bedRepository.findFirstByRoomRoomIdAndIsAvailableTrueAndMaintenanceStatus(room.getRoomId(), Bed.MaintenanceStatus.Available);
+                    if (assignedBed != null) {
+                        break;
+                    }
+                }
+            }
+        }
+
+        // Nếu không tìm thấy phòng và giường phù hợp
+        if (assignedRoom == null || assignedBed == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No available room or bed found.");
+        }
+
+        // Trả về thông tin phòng và giường đã được xếp
+        Map<String, Object> response = new HashMap<>();
+        response.put("roomId", assignedRoom.getRoomId());
+        response.put("roomNumber", assignedRoom.getRoomNumber());
+        response.put("bedId", assignedBed.getBedId());
+        response.put("bedName", assignedBed.getBedName());
+
+        return ResponseEntity.ok(response);
+    }
 }

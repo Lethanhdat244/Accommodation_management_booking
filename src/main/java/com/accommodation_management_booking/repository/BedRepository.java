@@ -31,4 +31,6 @@ public interface BedRepository extends JpaRepository<Bed, Integer> {
 
     @Query("SELECT COUNT(b) FROM Bed b WHERE b.isAvailable = false AND b.maintenanceStatus = 'Available'")
     long countUsedBeds();
+
+    Bed findFirstByRoomRoomIdAndIsAvailableTrueAndMaintenanceStatus(Integer roomId, Bed.MaintenanceStatus status);
 }

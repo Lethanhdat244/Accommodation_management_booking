@@ -77,7 +77,7 @@ public class User {
         Male, Female, Other
     }
     public enum Role {
-        ADMIN, MANAGER, EMPLOYEE, USER
+        ADMIN, EMPLOYEE, USER
     }
 
 }

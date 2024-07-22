@@ -56,5 +56,11 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query("SELECT COUNT(b) FROM Booking b WHERE MONTH(b.bookingDate) = MONTH(:now) AND YEAR(b.bookingDate) = YEAR(:now)")
     int countBookingsInCurrentMonth(LocalDateTime now);
 
+    @Query("SELECT b FROM Booking b WHERE b.room.floor.floorId = :floorId")
+    List<Booking> findByRoomFloorFloorId(@Param("floorId") int floorId);
 
+    @Query("SELECT b FROM Booking b WHERE b.room.roomId = :roomId")
+    List<Booking> findByRoomRoomId(@Param("roomId") int roomId);
+
+    long countByRoomRoomId(Integer roomId);
 }
