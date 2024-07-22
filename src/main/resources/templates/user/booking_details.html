@@ -60,6 +60,10 @@
             margin-right: auto;
             margin-left: 40px;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 
     <script>
@@ -205,24 +209,18 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <div class="form-group">
-                                    <label>Room Type</label>
-                                    <input type="text" class="form-control" name="roomType" th:value="${roomType}"
-                                           readonly>
-                                </div>
+                                <label>Room Type</label>
+                                <input type="text" class="form-control" name="roomType" th:value="${roomType}" readonly>
                             </div>
                         </div>
-
                     </div>
-
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="dorm">Dorm:</label>
                                 <select class="form-control" id="dorm" name="dorm" onchange="updateFloors()" required>
                                     <option value="" disabled selected>-- Select Dorm --</option>
-                                    <option th:each="dorm : ${dorms}" th:value="${dorm.dormId}"
-                                            th:text="${dorm.dormName}"></option>
+                                    <option th:each="dorm : ${dorms}" th:value="${dorm.dormId}" th:text="${dorm.dormName}"></option>
                                 </select>
                                 <span id="dormError" class="text-danger"></span>
                             </div>
@@ -230,19 +228,20 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="floor">Floor:</label>
-                                <select class="form-control" id="floor" name="floor" onchange="updateRooms()" required>
+                                <select class="form-control" id="floor" name="floor" onchange="assignRoomAndBed()" required>
                                     <option value="" disabled selected>-- Select Floor --</option>
                                 </select>
                                 <span id="floorError" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
+<!--                    <input type="text" id="room" name="room"/>-->
+<!--                    <input type="text" id="bed" name="bed"/>-->
+                    <div class="row hidden">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="room">Room:</label>
-                                <select class="form-control" id="room" name="room" onchange="updateBeds()" required>
+                                <select class="form-control" id="room" name="room" type="hidden">
                                     <option value="" disabled selected>-- Select Room --</option>
                                 </select>
                                 <span id="roomError" class="text-danger"></span>
@@ -251,7 +250,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="bed">Bed:</label>
-                                <select class="form-control" id="bed" name="bed" required>
+                                <select class="form-control" id="bed" name="bed" type="hidden">
                                     <option value="" disabled selected>-- Select Bed --</option>
                                 </select>
                                 <span id="bedError" class="text-danger"></span>
@@ -260,60 +259,67 @@
                     </div>
 
                     <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="semester">Semester:</label>
+                                <select class="form-control" id="semester" name="semester" onchange="setSemesterDates()" required>
+                                    <option value="" disabled selected>-- Select Semester --</option>
+                                </select>
+                                <span id="semesterError" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="totalPrice">Total Price (VND):</label>
+                                <input type="text" class="form-control" id="totalPrice" name="totalPrice" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="totalPriceUSD">Total Price (USD):</label>
+                                <input type="text" class="form-control" id="totalPriceUSD" name="totalPriceUSD" readonly>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row hidden">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="checkin">Check-in Date:</label>
-                                <input type="date" class="form-control" id="checkin" name="checkin"
-                                       onchange="calculateTotalPrice()" required>
+                                <input type="date" class="form-control" id="checkin" name="checkin" onchange="calculateTotalPrice()" required>
                                 <span id="checkinError" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="checkout">Check-out Date:</label>
-                                <input type="date" class="form-control" id="checkout" name="checkout"
-                                       onchange="calculateTotalPrice()" required>
+                                <input type="date" class="form-control" id="checkout" name="checkout" onchange="calculateTotalPrice()" required>
                                 <span id="checkoutError" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="totalPrice">Total Price (VND):</label>
-                            <input type="text" class="form-control" id="totalPrice" name="totalPrice" readonly>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="paymentMethod">Payment Method:</label>
+                                <select class="form-control" id="paymentMethod" name="paymentMethod" required>
+                                    <option value="PayPal">PayPal</option>
+                                    <option value="VNPay">VNPay</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="totalPriceUSD">Total Price (USD):</label>
-                            <input type="text" class="form-control" id="totalPriceUSD" name="totalPriceUSD" readonly>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="paymentMethod">Payment Method:</label>
-                        <select class="form-control" id="paymentMethod" name="paymentMethod" required>
-                            <option value="PayPal">PayPal</option>
-                            <option value="VNPay">VNPay</option>
-                        </select>
-                    </div>
-<!--                    <div class="form-group">-->
-<!--                        <label for="amountPaid">Amount Paid:</label>-->
-<!--                        <input type="number" class="form-control" id="amountPaid" name="amountPaid" required>-->
-<!--                        <span id="amountPaidError" class="text-danger"></span>-->
-<!--                    </div>-->
 
                     <button type="submit" class="btn btn-primary">Book Now</button>
-
                 </form>
             </div>
             <div class="col-lg-4 col-sm-12 request_list">
                 <h2>Booking Instructions</h2>
-                <p>Please make sure to fill in all the required fields. The room type and check-in date can be changed.
-                    The price will be updated accordingly. If you have any questions, feel free to contact our support
-                    team.</p>
+                <p>Please make sure to fill in all the required fields. The room type and check-in date can be changed. The price will be updated accordingly. If you have any questions, feel free to contact our support team.</p>
                 <br/><br/>
                 <h3>Important Notes:</h3>
                 <ul>
@@ -535,29 +541,91 @@
         });
     }
 
-    function updateRooms() {
+    // function updateRooms() {
+    //     const floorId = document.getElementById("floor").value;
+    //     const roomType = document.querySelector('input[name="roomType"]').value;
+    //     const capacity = roomType === '4-bed' ? 4 : 6;
+    //     $.get('/fpt-dorm/user/booking/rooms', {floorId: floorId, capacity: capacity}, function (data) {
+    //         let roomSelect = $('#room');
+    //         roomSelect.empty();
+    //         roomSelect.append('<option value="" disabled selected>-- Select Room --</option>');
+    //         $.each(data, function (i, room) {
+    //             roomSelect.append('<option value="' + room.roomId + '">' + room.roomNumber + '</option>');
+    //         });
+    //     });
+    // }
+    //
+    // function updateBeds() {
+    //     const roomId = document.getElementById("room").value;
+    //     $.get('/fpt-dorm/user/booking/beds', {roomId: roomId}, function (data) {
+    //         let bedSelect = $('#bed');
+    //         bedSelect.empty();
+    //         bedSelect.append('<option value="" disabled selected>-- Select Bed --</option>');
+    //         $.each(data, function (i, bed) {
+    //             bedSelect.append('<option value="' + bed.bedId + '">' + bed.bedName + '</option>');
+    //         });
+    //     });
+    // }
+
+    $(document).ready(function() {
+        // Load semesters
+        $.get('/fpt-dorm/user/booking/semesters', function(data) {
+            let semesterSelect = $('#semester');
+            $.each(data, function(i, semester) {
+                semesterSelect.append('<option value="' + semester.semesterId + '" data-start="' + semester.startDate + '" data-end="' + semester.endDate + '">' + semester.semesterName + '</option>');
+            });
+        });
+
+        // Update min checkout date when checkin date is changed
+        document.getElementById("checkin").addEventListener("change", function () {
+            updateMinCheckoutDate();
+            calculateTotalPrice();
+        });
+
+        // Calculate total price when checkout date is changed
+        document.getElementById("checkout").addEventListener("change", function () {
+            calculateTotalPrice();
+        });
+    });
+
+    function setSemesterDates() {
+        const selectedSemester = $('#semester option:selected');
+        const startDate = selectedSemester.data('start');
+        const endDate = selectedSemester.data('end');
+
+        $('#checkin').val(startDate);
+        $('#checkout').val(endDate);
+        // Trigger change events to update the price
+        $('#checkin').trigger('change');
+        $('#checkout').trigger('change');
+    }
+
+    function updateMinCheckoutDate() {
+        const checkinDate = new Date(document.getElementById("checkin").value);
+        const checkoutInput = document.getElementById("checkout");
+        if (checkinDate) {
+            const minCheckoutDate = new Date(checkinDate);
+            minCheckoutDate.setMonth(minCheckoutDate.getMonth() + 1);
+            checkoutInput.setAttribute('min', minCheckoutDate.toISOString().split('T')[0]);
+        }
+    }
+
+
+
+    function assignRoomAndBed() {
         const floorId = document.getElementById("floor").value;
         const roomType = document.querySelector('input[name="roomType"]').value;
         const capacity = roomType === '4-bed' ? 4 : 6;
-        $.get('/fpt-dorm/user/booking/rooms', {floorId: floorId, capacity: capacity}, function (data) {
-            let roomSelect = $('#room');
-            roomSelect.empty();
-            roomSelect.append('<option value="" disabled selected>-- Select Room --</option>');
-            $.each(data, function (i, room) {
-                roomSelect.append('<option value="' + room.roomId + '">' + room.roomNumber + '</option>');
-            });
-        });
-    }
-
-    function updateBeds() {
-        const roomId = document.getElementById("room").value;
-        $.get('/fpt-dorm/user/booking/beds', {roomId: roomId}, function (data) {
-            let bedSelect = $('#bed');
-            bedSelect.empty();
-            bedSelect.append('<option value="" disabled selected>-- Select Bed --</option>');
-            $.each(data, function (i, bed) {
-                bedSelect.append('<option value="' + bed.bedId + '">' + bed.bedName + '</option>');
-            });
+        $.get('/fpt-dorm/user/booking/assignRoomAndBed', {floorId: floorId, capacity: capacity}, function (data) {
+            if (data.roomId && data.bedId) {
+                $('#room').empty().append('<option value="' + data.roomId + '" selected>' + data.roomNumber + '</option>');
+                $('#bed').empty().append('<option value="' + data.bedId + '" selected>' + data.bedName + '</option>');
+                alert("Room and bed assigned successfully.");
+            } else {
+                alert("No available room or bed found.");
+            }
+        }).fail(function() {
+            alert("Error in assigning room and bed.");
         });
     }
 

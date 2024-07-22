@@ -178,7 +178,7 @@
                                 <label for="roomType">Room Type:</label>
                                 <select class="form-control" id="roomType" name="roomType" onchange="updatePrice()"
                                         required>
-                                    <option value="" disabled selected>-- Choose an option --</option>
+                                    <option value="" disabled selected required>-- Choose an option --</option>
                                     <option value="4-bed">4-bed Room</option>
                                     <option value="6-bed">6-bed Room</option>
                                 </select>
@@ -191,9 +191,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-primary btn-block">Next</button>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Next</button>
+                            </div>
+                        </div>
                     </div>
+
+<!--                    <div class="text-center col-md-3">-->
+<!--                        <button type="submit" class="btn btn-primary btn-block">Next</button>-->
+<!--                    </div>-->
                 </form>
             </div>
         </div>
@@ -373,5 +381,16 @@
         <span>Top</span>
     </a>
 </div>
+
+<script>
+
+    function submitForm(action) {
+        const form = document.querySelector('form');
+        form.action = action;
+        form.submit();
+    }
+
+</script>
+
 </body>
 </html>
