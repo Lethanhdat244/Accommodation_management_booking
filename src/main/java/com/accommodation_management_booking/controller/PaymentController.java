@@ -716,8 +716,7 @@ public class PaymentController {
         float refundAmount = request.getRefundAmount();
         LocalDate refundDate = request.getRefundDate();
 
-        // Simulate processing (replace with actual logic)
-        // Example: Update database, send notifications, etc.
+        // In thông tin (Thay thế bằng logic thực tế)
         System.out.println("Booking ID: " + bookingId);
         System.out.println("Refund Amount: " + refundAmount);
         System.out.println("Refund Date: " + refundDate);
@@ -732,12 +731,14 @@ public class PaymentController {
 
             String encodedBookingId = encode(booking.getBookingId());
 
-            // Send email
-            String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
-            String subject = "Payment-Confirmed";
-            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was confirmed." +
+            // Gửi email
+            String toEmail = booking.getUser().getEmail(); // Email người dùng
+            String subject = "Payment-Confirmed"; // Tiêu đề email
+            String body = "Dear " + booking.getUser().getUsername() + ",\n\n" +
+                    "Your payment was confirmed." +
                     "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?token=" + encodedBookingId +
-                    "\n\nThank you for your booking.";
+                    "\n\nThank you for your booking."; // Nội dung email
+
             emailService.sendBill(toEmail, subject, body);
 
             return ResponseEntity.ok("Payment confirmed successfully");
@@ -745,6 +746,7 @@ public class PaymentController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
         }
     }
+
 
     public static String encode(int bookingId) {
         String idAsString = String.valueOf(bookingId);
