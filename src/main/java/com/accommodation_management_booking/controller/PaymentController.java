@@ -171,6 +171,7 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+                model.addAttribute("contract", contractRepository.getContractByBookingId(paymentTransactionDTO.getBookingId()));
             } else {
                 throw new Exception("Payment not found");
             }
@@ -731,12 +732,8 @@ public class PaymentController {
 
             // Send email
             String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
-            String subject = "Payment Successful - Booking Confirmation";
-            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was successful." +
-//                    "\n Payment code: " + payment1.getPaymentDetail() +
-                    "\nTotal Price: " + booking.getTotalPrice() +
-                    "\nAmount Paid: " + booking.getAmountPaid() +
-//                    "\nDate: " + payment1.getPaymentDate() +
+            String subject = "Payment-Confirmed";
+            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was confirmed." +
                     "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?bookingId=" + booking.getBookingId() +
                     "\n\nThank you for your booking.";
             emailService.sendBill(toEmail, subject, body);

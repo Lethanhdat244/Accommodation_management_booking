@@ -388,22 +388,14 @@
                         </div>
 
                         <div class="row" style="margin-top: 20px;">
-                            <div class="offset-sm-4 col-sm-4 d-grid">
-                                <a class="btn secondary-default-btn" onclick="window.history.back()"
-                                   role="button">Back</a>
-                            </div>
-                            <div th:if="${contract != null}" class="offset-sm-4 col-sm-4 d-grid">
-                                <a class="btn secondary-default-btn" th:href="${contract.contractLink}"
-                                   role="button">Contract</a>
+                            <div style="margin-top: 20px; display: flex; justify-content: center;">
+                                <div class="button-group" style="display: flex; gap: 10px;">
+                                    <a class="btn secondary-default-btn" onclick="window.history.back()" role="button">Back</a>
+                                    <a th:if="${contract != null}" class="btn secondary-default-btn"
+                                       th:href="${contract.contractLink}" role="button">Contract</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container" th:if="${contract != null}">
-                <div class="row">
-                    <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
-                        <embed th:src="${contract.contractLink}" type="application/pdf" width="100%" height="600px"/>
                     </div>
                 </div>
             </div>
