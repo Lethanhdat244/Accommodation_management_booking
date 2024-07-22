@@ -6,6 +6,7 @@ import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.ResidentHistoryService;
 import com.accommodation_management_booking.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,7 +49,8 @@ public class ResidentHistoryController {
     }
 
     @GetMapping("/fpt-dorm/user/resident-history/list")
-    public String getResidentHistoryByUserId(Model model, Authentication authentication, @RequestParam(value = "page", defaultValue = "0") int page) {
+    public String getResidentHistoryByUserId(Model model, Authentication authentication, HttpSession session, @RequestParam(value = "page", defaultValue = "0") int page) {
+        model.addAttribute("role", session.getAttribute("role"));
         try {
             User user = getUserFromAuthentication(authentication);
             model.addAttribute("email", user.getEmail());
@@ -67,7 +69,7 @@ public class ResidentHistoryController {
     }
 
     //
-//    @GetMapping("/fpt-dorm/user/search-by-room")
+//    @GetMapping("/fpt-dorm/user/resident-history/search-by-room")
 //    public String searchByRoomNumber(@RequestParam("roomNumber") String roomNumber,
 //                                     @RequestParam(value = "page", defaultValue = "0") int page,
 //                                     @RequestParam(value = "size", defaultValue = "2") int size,
@@ -84,11 +86,12 @@ public class ResidentHistoryController {
 //        }
 //        return "/user/search_residentHistory";
 //    }
-    @GetMapping("/fpt-dorm/user/search-by-room")
+    @GetMapping("/fpt-dorm/user/resident-history/search-by-room")
     public String searchByRoomNumber(@RequestParam("roomNumber") String roomNumber,
                                      @RequestParam(value = "page", defaultValue = "0") int page,
                                      @RequestParam(value = "size", defaultValue = "2") int size,
-                                     Model model, Authentication authentication) {
+                                     Model model, Authentication authentication, HttpSession session) {
+        model.addAttribute("role", session.getAttribute("role"));
         User user = getUserFromAuthentication(authentication);
         if (user == null) {
             model.addAttribute("message", "User not found.");

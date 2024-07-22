@@ -131,7 +131,9 @@
                                     <USER></USER>
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
-                                    <li><a th:href="@{/fpt-dorm/user/profile(email=${email})}">Profile</a></li>
+                                    <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/fpt-dorm/admin/home}">Admin Dashboard</a></li>
+                                    <li th:if="${role == 'EMPLOYEE'}"><a th:href="@{/fpt-dorm/employee/home}">Employee Dashboard</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -178,6 +180,8 @@
                                    aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/fpt-dorm/admin/home}">Admin Dashboard</a></li>
+                                    <li th:if="${role == 'EMPLOYEE'}"><a th:href="@{/fpt-dorm/employee/home}">Employee Dashboard</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -596,7 +600,6 @@
             if (data.roomId && data.bedId) {
                 $('#room').empty().append('<option value="' + data.roomId + '" selected>' + data.roomNumber + '</option>');
                 $('#bed').empty().append('<option value="' + data.bedId + '" selected>' + data.bedName + '</option>');
-                alert("Room and bed assigned successfully.");
             } else {
                 alert("No available room or bed found.");
             }

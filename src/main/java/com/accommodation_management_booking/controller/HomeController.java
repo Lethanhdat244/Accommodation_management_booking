@@ -1,5 +1,6 @@
 package com.accommodation_management_booking.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -43,7 +44,8 @@ public class HomeController {
     }
 
     @GetMapping("fpt-dorm/user/rule")
-    public String rule(){
+    public String rule(Model model, HttpSession session){
+        model.addAttribute("role", session.getAttribute("role"));
         return "rule";
     }
 }

@@ -4,6 +4,7 @@ import com.accommodation_management_booking.entity.UsageService;
 import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.UsageServiceRepository;
 import com.accommodation_management_booking.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +36,8 @@ public class UsageServiceController {
     public String fptDormUsedServices(Model model,
                                       @RequestParam(defaultValue = "0") int page,
                                       @RequestParam(defaultValue = "3") int size,
-                                      Authentication authentication) {
+                                      Authentication authentication,
+                                      HttpSession session) {
         Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
@@ -61,6 +63,7 @@ public class UsageServiceController {
         }
         model.addAttribute("emptyMessage", null);
         model.addAttribute("usageServiceList", usageServiceList);
+        model.addAttribute("role", session.getAttribute("role"));
         return "student_usage_services";
     }
 

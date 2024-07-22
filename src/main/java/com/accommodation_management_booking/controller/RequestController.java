@@ -9,6 +9,7 @@ import com.accommodation_management_booking.repository.ComplainRepository;
 import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.impl.ComplainService;
 import com.accommodation_management_booking.service.impl.NotificationService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -46,7 +47,8 @@ public class RequestController {
     public String studentRequest(Model model,
                                  @RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "3") int size,
-                                 Authentication authentication) {
+                                 Authentication authentication, HttpSession session) {
+        model.addAttribute("role", session.getAttribute("role"));
         Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;

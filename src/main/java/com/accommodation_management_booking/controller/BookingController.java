@@ -5,6 +5,7 @@ import com.accommodation_management_booking.entity.*;
 import com.accommodation_management_booking.repository.*;
 import com.accommodation_management_booking.service.PaypalService;
 import com.paypal.base.rest.APIContext;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -66,12 +67,13 @@ public class BookingController {
     }
 
     @GetMapping("fpt-dorm/user/booking")
-    public String booking() {
+    public String booking(Model model, HttpSession session) {
+        model.addAttribute("role", session.getAttribute("role"));
         return "user/booking_type_room";
     }
 
     @PostMapping("fpt-dorm/user/booking/select")
-    public String selectRoomType(@RequestParam("roomType") String roomType, Model model) {
+    public String selectRoomType(@RequestParam("roomType") String roomType, Model model, HttpSession session) {
         Integer userId = getLoggedInUserId();
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
 
@@ -81,6 +83,7 @@ public class BookingController {
         model.addAttribute("roomType", roomType);
         model.addAttribute("dorms", dorms);
         model.addAttribute("userId", userId);
+        model.addAttribute("role", session.getAttribute("role"));
         return "user/booking_details";
     }
 

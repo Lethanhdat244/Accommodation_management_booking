@@ -103,6 +103,8 @@
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/fpt-dorm/admin/home}">Admin Dashboard</a></li>
+                                    <li th:if="${role == 'EMPLOYEE'}"><a th:href="@{/fpt-dorm/employee/home}">Employee Dashboard</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -147,6 +149,8 @@
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/fpt-dorm/admin/home}">Admin Dashboard</a></li>
+                                    <li th:if="${role == 'EMPLOYEE'}"><a th:href="@{/fpt-dorm/employee/home}">Employee Dashboard</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -164,7 +168,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-7 col-sm-12 request_box">
                 <h1>Resident History</h1>
-                <form th:action="@{/fpt-dorm/user/search-by-room}" method="get" onsubmit="return validateForm()">
+                <form th:action="@{/fpt-dorm/user/resident-history/search-by-room}" method="get" onsubmit="return validateForm()">
                     <div class="form-group col-lg-4">
                         <label for="roomNumber">Search By Room Name</label>
                         <input type="text" class="form-control" id="roomNumber" name="roomNumber"
@@ -204,17 +208,17 @@
                 <ul class="pagination justify-content-center" th:if="${residentHistoryPage.totalPages > 1}">
                     <li th:class="${residentHistoryPage.first} ? 'page-item disabled' : 'page-item'">
                         <a class="page-link"
-                           th:href="@{/fpt-dorm/user/search-by-room(page=0, size=${residentHistoryPage.size}, roomNumber=${param.roomNumber})}">First</a>
+                           th:href="@{/fpt-dorm/user/resident-history/search-by-room(page=0, size=${residentHistoryPage.size}, roomNumber=${param.roomNumber})}">First</a>
                     </li>
                     <li th:each="i : ${#numbers.sequence(0, residentHistoryPage.totalPages - 1)}"
                         th:class="${residentHistoryPage.number == i} ? 'page-item active' : 'page-item'">
                         <a class="page-link"
-                           th:href="@{/fpt-dorm/user/search-by-room(page=${i}, size=${residentHistoryPage.size}, roomNumber=${param.roomNumber})}"
+                           th:href="@{/fpt-dorm/user/resident-history/search-by-room(page=${i}, size=${residentHistoryPage.size}, roomNumber=${param.roomNumber})}"
                            th:text="${i + 1}"></a>
                     </li>
                     <li th:class="${residentHistoryPage.last} ? 'page-item disabled' : 'page-item'">
                         <a class="page-link"
-                           th:href="@{/fpt-dorm/user/search-by-room(page=${residentHistoryPage.totalPages - 1}, size=${residentHistoryPage.size}, roomNumber=${param.roomNumber})}">Last</a>
+                           th:href="@{/fpt-dorm/user/resident-history/search-by-room(page=${residentHistoryPage.totalPages - 1}, size=${residentHistoryPage.size}, roomNumber=${param.roomNumber})}">Last</a>
                     </li>
                 </ul>
 
