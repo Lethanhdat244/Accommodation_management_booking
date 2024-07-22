@@ -10,8 +10,8 @@ public interface ResidentHistoryService {
     ResidentHistoryDTO findResidentHistoryById(int residentHistoryId);
     ResidentHistoryDTO getResidentHistoryByUsername(String username);
     Page<ResidentHistoryDTO> findAllByUserIdOrderByEndDateDesc(int userId, Pageable pageable);
-    Page<ResidentHistoryDTO> searchByRoomNumber(String roomNumber, Pageable pageable);
 
+    Page<ResidentHistoryDTO> searchByRoomNumber(String roomNumber, int userId, Pageable pageable); // Thêm phương thức này
 
 
 }

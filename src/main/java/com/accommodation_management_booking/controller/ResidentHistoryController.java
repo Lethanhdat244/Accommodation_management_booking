@@ -66,23 +66,29 @@ public class ResidentHistoryController {
         }
     }
 
+
     @GetMapping("/fpt-dorm/user/search-by-room")
     public String searchByRoomNumber(@RequestParam("roomNumber") String roomNumber,
                                      @RequestParam(value = "page", defaultValue = "0") int page,
-                                     @RequestParam(value = "size", defaultValue = "2") int size,
-                                     Model model) {
+                                     @RequestParam(value = "size", defaultValue = "1") int size,
+                                     Model model, Authentication authentication) {
+        User user = getUserFromAuthentication(authentication);
+        if (user == null) {
+            model.addAttribute("message", "User not found.");
+            return "/user/resident_history";
+        }
+        int userId = user.getUserId();
         Pageable pageable = PageRequest.of(page, size);
-        Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.searchByRoomNumber(roomNumber, pageable);
+        Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.searchByRoomNumber(roomNumber, userId, pageable);
 
         model.addAttribute("residentHistoryPage", residentHistoryPage);
-        model.addAttribute("roomNumber", roomNumber);
 
         if (residentHistoryPage.isEmpty()) {
-            model.addAttribute("message", "No room information found " + roomNumber);
+            model.addAttribute("message", "No room information found for " + roomNumber);
         }
-
-        return "/user/resident_history";
+        return "/user/search_residentHistory";
     }
+
 
 
 
@@ -119,7 +125,8 @@ public class ResidentHistoryController {
             @RequestParam("keyword") String keyword,
             Pageable pageable,
             Model model) {
-        Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.searchByUserName(keyword, pageable);
+        Pageable pageableRequest = PageRequest.of(pageable.getPageNumber(), 2);
+        Page<ResidentHistoryDTO> residentHistoryPage = residentHistoryService.searchByUserName(keyword, pageableRequest);
 
         model.addAttribute("residentHistoryPage", residentHistoryPage);
         model.addAttribute("keyword", keyword);
@@ -130,9 +137,9 @@ public class ResidentHistoryController {
         }
 
         if ("admin".equals(role)) {
-            return "admin/admin-resident-history";
+            return "admin/admin_resident_historys";
         } else if ("employee".equals(role)) {
-            return "employee/employee_Resident_History";
+            return "employee/employee_resident_historys";
         } else {
             return "error/404"; // or some error page
         }
@@ -145,7 +152,7 @@ public class ResidentHistoryController {
             @PathVariable("userId") int userId,
             @RequestParam(value = "page", defaultValue = "0") int page,
             Model model) {
-        Pageable pageable = PageRequest.of(page, 5); // Example pageable configuration
+        Pageable pageable = PageRequest.of(page, 3); // Example pageable configuration
         Page<ResidentHistoryDTO> residentDetail = residentHistoryService.findAllByUserIdOrderByEndDateDesc(userId, pageable);
         model.addAttribute("residentDetail", residentDetail);
         model.addAttribute("userId", userId);

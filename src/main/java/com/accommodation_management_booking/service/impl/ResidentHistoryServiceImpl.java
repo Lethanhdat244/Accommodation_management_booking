@@ -83,14 +83,13 @@ public class ResidentHistoryServiceImpl implements ResidentHistoryService {
     }
 
     @Override
-    public Page<ResidentHistoryDTO> searchByRoomNumber(String roomNumber, Pageable pageable) {
-        Page<Booking> bookings = bookingRepo.findByRoomNumberContainingAndRoleUser(roomNumber, pageable);
+    public Page<ResidentHistoryDTO> searchByRoomNumber(String roomNumber, int userId, Pageable pageable) {
+        Page<Booking> bookings = bookingRepo.findByRoomNumberContainingAndUserId(roomNumber, userId, pageable);
         List<ResidentHistoryDTO> residentHistoryList = bookings.getContent().stream()
                 .map(this::convertToResidentHistoryDTO)
                 .collect(Collectors.toList());
         return new PageImpl<>(residentHistoryList, pageable, bookings.getTotalElements());
     }
-
 
 
 
