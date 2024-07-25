@@ -7,6 +7,7 @@ import com.accommodation_management_booking.repository.BookingRepository;
 import com.accommodation_management_booking.repository.FeedbackRepository;
 import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.impl.FeedbackServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -41,10 +42,11 @@ public class FeedbackController {
     private FeedbackServiceImpl feedbackService;
 
     @GetMapping("/fpt-dorm/user/feedbackform")
-    public String feedback(Model model, Authentication authentication) {
+    public String feedback(Model model, Authentication authentication, HttpSession session) {
         User user = getUserFromAuthentication(authentication);
         List<String> roomNumbers = bookingRepository.findRoomNumbersByUserId(user.getUserId());
         model.addAttribute("room", roomNumbers);
+        model.addAttribute("role", session.getAttribute("role"));
         return "/user/feedback";
     }
 

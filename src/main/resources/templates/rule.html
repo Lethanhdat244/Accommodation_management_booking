@@ -85,6 +85,8 @@
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/fpt-dorm/admin/home}">Admin Dashboard</a></li>
+                                    <li th:if="${role == 'EMPLOYEE'}"><a th:href="@{/fpt-dorm/employee/home}">Employee Dashboard</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -132,6 +134,8 @@
                                    aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/fpt-dorm/admin/home}">Admin Dashboard</a></li>
+                                    <li th:if="${role == 'EMPLOYEE'}"><a th:href="@{/fpt-dorm/employee/home}">Employee Dashboard</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>

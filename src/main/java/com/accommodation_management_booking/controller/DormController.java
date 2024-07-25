@@ -9,10 +9,16 @@ import com.accommodation_management_booking.entity.Floor;
 import com.accommodation_management_booking.entity.Room;
 import com.accommodation_management_booking.repository.BedRepository;
 import com.accommodation_management_booking.repository.FloorRepository;
+import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.BedService;
 import com.accommodation_management_booking.service.DormService;
 import com.accommodation_management_booking.service.FloorService;
 import com.accommodation_management_booking.service.RoomService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -41,6 +47,9 @@ public class DormController {
     private final FloorRepository floorRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BedRepository bedRepository;
 
     @Autowired
@@ -53,24 +62,28 @@ public class DormController {
     }
 
     @GetMapping("/fpt-dorm/user/detail-dorm")
-    public String getAllDormBedInfo(Model model) {
+    public String getAllDormBedInfo(Model model, HttpSession session) {
         List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo();
         model.addAttribute("dormBedInfoList", dormBedInfoList);
-        return "user/available_bed"; // Thymeleaf view name
+        model.addAttribute("role", session.getAttribute("role"));
+
+        return "user/available_bed";
     }
 
     @GetMapping("/fpt-dorm/user/floor-list/{dormId}")
-    public String dormDetail(@PathVariable("dormId") int dormId, Model model) {
+    public String dormDetail(@PathVariable("dormId") int dormId, Model model, HttpSession session) {
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
         model.addAttribute("floorBedUsageList", floorBedUsageList);
+        model.addAttribute("role", session.getAttribute("role"));
         return "user/floor_list";
     }
 
 
     @GetMapping("/fpt-dorm/user/room-list-used/{floorId}")
-    public String floorDetail(@PathVariable("floorId") int floorId, Model model) {
+    public String floorDetail(@PathVariable("floorId") int floorId, Model model, HttpSession session) {
         List<RoomBedUsage> roomBedUsageList = roomService.getRoomBedUsageByFloorId(floorId);
         model.addAttribute("roomBedUsageList", roomBedUsageList);
+        model.addAttribute("role", session.getAttribute("role"));
         return "user/used_room_list";
     }
 

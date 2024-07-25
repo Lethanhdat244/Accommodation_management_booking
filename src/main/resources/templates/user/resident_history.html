@@ -118,6 +118,8 @@
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/fpt-dorm/admin/home}">Admin Dashboard</a></li>
+                                    <li th:if="${role == 'EMPLOYEE'}"><a th:href="@{/fpt-dorm/employee/home}">Employee Dashboard</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -155,6 +157,8 @@
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/fpt-dorm/admin/home}">Admin Dashboard</a></li>
+                                    <li th:if="${role == 'EMPLOYEE'}"><a th:href="@{/fpt-dorm/employee/home}">Employee Dashboard</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -172,7 +176,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-7 col-sm-12 request_box">
                 <h1>Resident History</h1>
-                <form th:action="@{/fpt-dorm/user/search-by-room}" method="get" onsubmit="return validateForm()">
+                <form th:action="@{/fpt-dorm/user/resident-history/search-by-room}" method="get" onsubmit="return validateForm()">
                     <div class="form-group col-lg-4">
                         <label for="roomNumber">Search By Room Name</label>
                         <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Enter Room Name">

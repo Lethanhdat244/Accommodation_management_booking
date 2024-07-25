@@ -21,6 +21,7 @@ import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -281,7 +282,7 @@ public class PaymentController {
 
     //User
     @GetMapping("/fpt-dorm/user/payment")
-    public String showPaymentUser(Model model, Authentication authentication,
+    public String showPaymentUser(Model model, Authentication authentication, HttpSession session,
                                   @RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "3") int size,
                                   @RequestParam(defaultValue = "paymentDate,desc") String sort) {
@@ -309,12 +310,13 @@ public class PaymentController {
             model.addAttribute("sort", sort);
             model.addAttribute("email", email);
         }
-
+        model.addAttribute("role", session.getAttribute("role"));
         return "user/payment";
     }
 
     @GetMapping("/fpt-dorm/user/payment/id={id}")
-    public String showPaymentDetailUser(Model model, Authentication authentication, @PathVariable("id") int id) {
+    public String showPaymentDetailUser(Model model, Authentication authentication, HttpSession session, @PathVariable("id") int id) {
+        model.addAttribute("role", session.getAttribute("role"));
         String email;
         if (authentication instanceof OAuth2AuthenticationToken oauth2Token) {
             OAuth2User oauth2User = oauth2Token.getPrincipal();

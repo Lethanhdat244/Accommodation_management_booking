@@ -4,6 +4,7 @@ import com.accommodation_management_booking.dto.UserDTO;
 import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +29,8 @@ public class ProfileController {
     private UserService userService;
 
     @GetMapping("fpt-dorm/user/profile")
-    public String profile(Model model) {
+    public String profile(Model model, HttpSession session) {
+        model.addAttribute("role", session.getAttribute("role"));
         // Get the current authentication
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = null;
