@@ -367,8 +367,11 @@
                 <h2 class="main-title">Resident History</h2>
                 <div class="row">
                     <div class="col-lg-6">
-                        <form th:action="@{'/fpt-dorm/' + ${role} + '/Resident_History/search'}" method="get" class="search-form">
-                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search By User Name">
+
+                        <form th:action="@{'/fpt-dorm/' + ${role} + '/Resident_History/search'}" method="get"
+                              class="search-form" onsubmit="return validateForm()">
+                            <input type="text" id="keyword" name="keyword" th:value="${keyword}"
+                                   placeholder="Search By User Name">
                             <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
                         </form>
                     </div>
@@ -462,6 +465,20 @@
 <script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="/static/admin_homepage/js/script.js"></script>
+<script type="text/javascript">
+    function validateForm() {
+        var keyword = document.getElementById("keyword").value.trim();
+
+        document.getElementById("keyword").value = keyword;
+
+        if (keyword === "") {
+            alert("Please enter a User Name to search.");
+            return false;
+        }
+        return true;
+    }
+</script>
+
 </body>
 
 </html>

@@ -1,5 +1,6 @@
 package com.accommodation_management_booking.dto;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,9 @@ public class ResidentHistoryDTO {
 
     private Float totalPrice;
     private Integer capacity;
-    private LocalDateTime checkInDate;
+    @Column(nullable = false)
+    private LocalDate startDate;
 
-    private LocalDateTime checkOutDate;
+    @Column(nullable = false)
+    private LocalDate endDate;
 }

@@ -50,8 +50,7 @@ public class EmployeeController {
     @Autowired
     private ComplainService complainService;
 
-    @Autowired
-    private RoomsRepository roomsRepository;
+
 
     @Autowired
     private UserBookingRepository userBookingRepository;

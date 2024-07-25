@@ -127,8 +127,8 @@ public class ResidentHistoryServiceImpl implements ResidentHistoryService {
         if (bed != null) {
             dto.setBedName(bed.getBedName());
         }
-        dto.setCheckInDate(booking.getCheckInDate());
-        dto.setCheckOutDate(booking.getCheckOutDate());
+        dto .setStartDate(booking.getStartDate());
+        dto.setEndDate(booking.getEndDate());
         dto.setTotalPrice(booking.getTotalPrice());
         return dto;
     }
