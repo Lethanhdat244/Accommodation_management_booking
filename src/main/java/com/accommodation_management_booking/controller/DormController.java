@@ -116,7 +116,7 @@ public class DormController {
             dormService.deleteDorm(dormId);
             return "redirect:/fpt-dorm/admin/view-dorm-list";
         } catch (Exception e) {
-            model.addAttribute("error", "Trong dorm đang có phòng đang sử dụng, bạn không thể xóa nó");
+            model.addAttribute("error", "In a dorm room that is in use, you cannot delete it.");
             // Trả về lại view admin_dorm_list để hiển thị lỗi
             List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo();
             model.addAttribute("dormBedInfoList", dormBedInfoList);
@@ -383,7 +383,7 @@ public class DormController {
             roomService.deleteRoom(roomId);
             return "redirect:/fpt-dorm/admin/view-rooms/" + dormId + "/" + floorId;
         } catch (RuntimeException e) {
-            model.addAttribute("error", "Trong phòng đang có giường đang sử dụng, bạn không thể xóa nó");
+            model.addAttribute("error", "In a room with a bed in use, you cannot delete it.");
             Floor floor = floorService.getFloorById(floorId);
             List<Room> rooms = roomService.getRoomsByFloorId(floorId);
             model.addAttribute("floor", floor);
@@ -522,7 +522,7 @@ public class DormController {
             dormService.deleteDorm(dormId);
             return "redirect:/fpt-dorm/employee/view-dorm-list";
         } catch (Exception e) {
-            model.addAttribute("error", "Trong dorm đang có phòng đang sử dụng, bạn không thể xóa nó");
+            model.addAttribute("error", "In a dorm room that is in use, you cannot delete it.");
             // Trả về lại view admin_dorm_list để hiển thị lỗi
             List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo();
             model.addAttribute("dormBedInfoList", dormBedInfoList);
@@ -802,7 +802,7 @@ public class DormController {
             roomService.deleteRoom(roomId);
             return "redirect:/fpt-dorm/employee/view-rooms/" + dormId + "/" + floorId;
         } catch (RuntimeException e) {
-            model.addAttribute("error", "Trong phòng đang có giường đang sử dụng, bạn không thể xóa nó");
+            model.addAttribute("error", "In a room with a bed in use, you cannot delete it.");
             Floor floor = floorService.getFloorById(floorId);
             List<Room> rooms = roomService.getRoomsByFloorId(floorId);
             model.addAttribute("floor", floor);
