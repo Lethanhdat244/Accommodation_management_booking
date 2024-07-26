@@ -191,7 +191,7 @@
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">Dormitory</span>
+                        <span class="logo-title">FPT Dorm</span>
                         <span class="logo-subtitle">EMPLOYEE</span>
                     </div>
 
@@ -203,9 +203,6 @@
             </div>
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
-                    <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
-                    </li>
                     <li>
                         <a class="show-cat-btn" href="#">
                             <span class="icon folder" aria-hidden="true"></span>Student
@@ -226,27 +223,12 @@
                         </ul>
                     </li>
 
-
-
                     <li>
-                        <a id="menu-room" class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                                <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                            </span>
+                        <a th:href="@{/fpt-dorm/employee/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
-                            </li>
-                            <li>
-                                <a id="menu-all-room" class="active" th:href="@{/fpt-dorm/employee/all-room}">All
-                                    Rooms</a>
-                            </li>
-                        </ul>
                     </li>
-
 
                     <li>
                         <a class="show-cat-btn" >
@@ -298,13 +280,6 @@
                         <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/employee/all-feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
                         </a>
                     </li>
 
@@ -408,7 +383,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/employee/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/employee/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>

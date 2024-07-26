@@ -4,11 +4,9 @@ import com.accommodation_management_booking.config.PaypalPaymentIntent;
 import com.accommodation_management_booking.config.PaypalPaymentMethod;
 import com.accommodation_management_booking.config.VNPayConfig;
 import com.accommodation_management_booking.dto.PaymentTransactionDTO;
-import com.accommodation_management_booking.entity.Bed;
-import com.accommodation_management_booking.entity.Booking;
-import com.accommodation_management_booking.entity.Room;
-import com.accommodation_management_booking.entity.User;
+import com.accommodation_management_booking.entity.*;
 import com.accommodation_management_booking.repository.*;
+import com.accommodation_management_booking.service.BedService;
 import com.accommodation_management_booking.service.EmailService;
 import com.accommodation_management_booking.service.PaymentService;
 import com.accommodation_management_booking.service.PaypalService;
@@ -55,6 +53,7 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final PaymentRepository paymentRepository;
     private final ContractRepository contractRepository;
+    private final BedService bedService;
 
     @GetMapping("/fpt-dorm/employee/all-payment")
     public String showPaymentList(Model model,
@@ -172,6 +171,9 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+                model.addAttribute("contract", contractRepository.getContractByBookingId(paymentTransactionDTO.getBookingId()));
+                Bed b = bedService.getBedById(paymentTransactionDTO.getBedId());
+                model.addAttribute("bedName", b.getBedName());
             } else {
                 throw new Exception("Payment not found");
             }
@@ -230,6 +232,8 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+                Bed b = bedService.getBedById(paymentTransactionDTO.getBedId());
+                model.addAttribute("bedName", b.getBedName());
             } else {
                 throw new Exception("Payment not found");
             }
@@ -330,6 +334,8 @@ public class PaymentController {
             PaymentTransactionDTO paymentTransactionDTO = paymentService.findByPaymentId(id);
             if (paymentTransactionDTO != null && paymentTransactionDTO.getEmail().equals(email)) {
                 model.addAttribute("payment", paymentTransactionDTO);
+                Bed b = bedService.getBedById(paymentTransactionDTO.getBedId());
+                model.addAttribute("bedName", b.getBedName());
             } else {
                 throw new Exception("Payment not found");
             }
@@ -456,6 +462,8 @@ public class PaymentController {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
                 model.addAttribute("contract", contractRepository.getContractByBookingId(paymentTransactionDTO.getBookingId()));
+                Bed b = bedService.getBedById(paymentTransactionDTO.getBedId());
+                model.addAttribute("bedName", b.getBedName());
             } else {
                 throw new Exception("Payment not found");
             }
@@ -512,6 +520,8 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+                Bed b = bedService.getBedById(paymentTransactionDTO.getBedId());
+                model.addAttribute("bedName", b.getBedName());
             } else {
                 throw new Exception("Payment not found");
             }

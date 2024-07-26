@@ -282,9 +282,6 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
-                    </li>
-                    <li>
                         <a id="menu-student" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>Student
                             <span class="category__btn transparent-btn" title="Open list">
@@ -305,21 +302,10 @@
                     </li>
 
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                        <a th:href="@{/fpt-dorm/employee/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
-                            </li>
-                        </ul>
                     </li>
 
                     <li>
@@ -372,13 +358,6 @@
                         <a th:href="@{/fpt-dorm/employee/Resident_History/list}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{/employee/all-feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
                         </a>
                     </li>
 

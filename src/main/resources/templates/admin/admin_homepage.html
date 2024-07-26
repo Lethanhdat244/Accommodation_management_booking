@@ -122,21 +122,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                        <a th:href="@{/fpt-dorm/admin/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
-                            </li>
-                        </ul>
                     </li>
 
 
@@ -517,7 +506,7 @@
                     <h2 style="text-align: center; margin-top: 10px;">Dashboard in
                         [[${selectedMonth}]]/[[${selectedYear}]]</h2>
                     <div class="row">
-                        <div class="col-lg-12" style="background-color: white;">
+                        <div class="col-lg-12" style="background-color: white; border-radius: 10px;">
 
                             <div style="display: flex; justify-content: center; ">
                                 <div style="width: 65%; background-color: white; display: flex; flex-direction: column; align-items: center;">
@@ -587,12 +576,6 @@
     </div>
 </div>
 
-<!-- Chart library -->
-<script src="/static/admin_homepage/plugins/chart.min.js"></script>
-<!-- Icons library -->
-<script src="/static/admin_homepage/plugins/feather.min.js"></script>
-<!-- Custom scripts -->
-<script src="/static/admin_homepage/js/script.js"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
     document.addEventListener('DOMContentLoaded', function () {
@@ -819,6 +802,11 @@
         updateChart();
     });
 </script>
+<!-- Chart library -->
+<script src="/static/admin_homepage/plugins/chart.min.js"></script>
+<!-- Icons library -->
+<script src="/static/admin_homepage/plugins/feather.min.js"></script>
+<!-- Custom scripts -->
+<script src="/static/admin_homepage/js/script.js"></script>
 </body>
-
 </html>
