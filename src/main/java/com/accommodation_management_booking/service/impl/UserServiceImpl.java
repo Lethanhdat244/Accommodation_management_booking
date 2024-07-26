@@ -84,6 +84,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void saveUsers(UserDTO userDTO) {
+        if (userRepository.existsByEmail(userDTO.getEmail())) {
+            throw new IllegalArgumentException("Email already exists in the system.");
+        }
+
+        User user = new User();
+        user.setUsername(userDTO.getUsername());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        user.setRoleUser(userDTO.getRoleUser() != null ? userDTO.getRoleUser() : User.Role.USER);
+        user.setProfileComplete(false);
+        userRepository.save(user);
+    }
+
+    @Override
     public void processForgotPassword(String email) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
@@ -332,6 +347,8 @@ public class UserServiceImpl implements UserService {
     public long getActiveUserCount() {
         return userRepository.countActiveUsers();
     }
+
+
 
 
 }

@@ -65,6 +65,11 @@ public class RequestController {
             model.addAttribute("email", "Unknown");
         }
         try {
+            Integer userId = user.getUserId();
+            User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+            if(!user.isProfileComplete()){
+                return "redirect:/fpt-dorm/profile/complete";
+            }
             Page<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId(), pageable);
             if (complainList.isEmpty()) {
                 model.addAttribute("emptyMessage", "No data");
