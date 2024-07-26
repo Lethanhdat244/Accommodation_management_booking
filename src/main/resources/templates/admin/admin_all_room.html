@@ -224,23 +224,11 @@
                         </ul>
                     </li>
                     <li>
-                        <a id="menu-room" class="show-cat-btn active">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                                <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                            </span>
+                        <a th:href="@{/fpt-dorm/admin/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
-                            </li>
-                            <li>
-                                <a id="menu-all-room" class="" th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
-                            </li>
-                        </ul>
                     </li>
-
 
                     <li>
                         <a class="show-cat-btn">
@@ -392,7 +380,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/admin/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
