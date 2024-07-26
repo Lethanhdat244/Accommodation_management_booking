@@ -177,21 +177,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                        <a th:href="@{/fpt-dorm/admin/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
-                            </li>
-                        </ul>
                     </li>
 
 
@@ -461,16 +450,7 @@
                     </div>
                 </div>
             </div>
-            <script type="text/javascript">
-                function validateForm() {
-                    var keyword = document.getElementById("keyword").value;
-                    if (keyword.trim() === "") {
-                        alert("Please enter a User Name to search.");
-                        return false; // Ngăn chặn form không được gửi đi
-                    }
-                    return true; // Cho phép form được gửi đi nếu đầu vào hợp lệ
-                }
-            </script>
+
         </main>
 
 
@@ -495,6 +475,19 @@
 <script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="/static/admin_homepage/js/script.js"></script>
+<script type="text/javascript">
+    function validateForm() {
+        var keyword = document.getElementById("keyword").value.trim();
+
+        document.getElementById("keyword").value = keyword;
+
+        if (keyword === "") {
+            alert("Please enter a User Name to search.");
+            return false;
+        }
+        return true;
+    }
+</script>
 </body>
 
 </html>

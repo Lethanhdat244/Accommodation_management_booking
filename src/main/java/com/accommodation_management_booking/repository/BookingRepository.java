@@ -32,10 +32,10 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query("SELECT b FROM Booking b JOIN b.user u WHERE u.username LIKE %:keyword% OR b.bookingId = :id")
     List<Booking> searchAllBy(@Param("keyword") String keyword, @Param("id") int id);
 
-    @Query("SELECT b FROM Booking b JOIN Bed bd ON b.bed.bedId = bd.bedId WHERE b.user.userId = :userId ORDER BY b.checkOutDate DESC")
+    @Query("SELECT b FROM Booking b JOIN Bed bd ON b.bed.bedId = bd.bedId WHERE b.user.userId = :userId  AND b.status = 'Confirmed' ORDER BY b.endDate DESC")
     Page<Booking> findByUserIdOrderByCheckOutDateDescWithBedInfo(@Param("userId") int userId, Pageable pageable);
 
-    @Query("SELECT b FROM Booking b JOIN b.room r JOIN b.user u WHERE r.roomNumber LIKE %:roomNumber% AND u.userId = :userId AND u.roleUser = 'USER' ORDER BY b.checkOutDate DESC")
+    @Query("SELECT b FROM Booking b JOIN b.room r JOIN b.user u WHERE r.roomNumber LIKE %:roomNumber% AND u.userId = :userId AND u.roleUser = 'USER'  AND b.status = 'Confirmed' ORDER BY b.endDate DESC")
     Page<Booking> findByRoomNumberContainingAndUserId(@Param("roomNumber") String roomNumber, @Param("userId") int userId, Pageable pageable);
 
     @Query("SELECT MAX(b.bookingId) FROM Booking b WHERE b.room.roomNumber = :roomNumber")
@@ -50,7 +50,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query("SELECT b FROM Booking b WHERE YEAR(b.startDate) = :year AND MONTH(b.startDate) = :month")
     List<Booking> findBookingsByMonth(int year, int month);
 
-    @Query("SELECT b.status, COUNT(b) FROM Booking b WHERE YEAR(b.startDate) = :year AND MONTH(b.startDate) = :month GROUP BY b.status")
+    @Query("SELECT b.status, COUNT(b) FROM Booking b WHERE YEAR(b.bookingDate) = :year AND MONTH(b.bookingDate) = :month GROUP BY b.status")
     List<Object[]> countBookingsByStatus(int year, int month);
 
     @Query("SELECT COUNT(b) FROM Booking b WHERE MONTH(b.bookingDate) = MONTH(:now) AND YEAR(b.bookingDate) = YEAR(:now)")
@@ -63,4 +63,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findByRoomRoomId(@Param("roomId") int roomId);
 
     long countByRoomRoomId(Integer roomId);
+
+    Booking findByUserUserIdAndStatus(Integer userId, Booking.Status status);
 }

@@ -169,23 +169,11 @@
             </ul>
           </li>
           <li>
-            <a class="show-cat-btn">
-              <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-              <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+            <a th:href="@{/fpt-dorm/admin/view-dorm-list}">
+              <span class="icon folder" aria-hidden="true"></span>
+              Dorm
             </a>
-            <ul class="cat-sub-menu">
-              <li>
-                <a th:href="@{/fpt-dorm/admin/view-dorm-list}" class="active">Dorm List</a>
-              </li>
-              <li>
-                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
-              </li>
-            </ul>
           </li>
-
 
           <li>
             <a class="show-cat-btn">
@@ -375,12 +363,12 @@
                     <td colspan="6" style="text-align:center" th:text="${message}"></td>
                   </tr>
                   <tr th:each="residentHistory : ${residentDetail.content}">
-                      <td th:text="${residentHistory.roomNumber}"></td>
-                      <td th:text="${residentHistory.bedName}"></td>
-                      <td th:text="${residentHistory.checkInDate}"></td>
-                      <td th:text="${residentHistory.checkOutDate}"></td>
-                      <td th:text="${residentHistory.capacity}"></td>
-                      <td th:text="${residentHistory.totalPrice}"></td>
+                    <td th:text="${residentHistory.roomNumber}"></td>
+                    <td th:text="${residentHistory.bedName}"></td>
+                    <td th:text="${residentHistory.startDate}"></td>
+                    <td th:text="${residentHistory.endDate}"></td>
+                    <td th:text="${residentHistory.capacity}"></td>
+                    <td th:text="${residentHistory.totalPrice}"></td>
                   </tr>
                   </tbody>
                 </table>

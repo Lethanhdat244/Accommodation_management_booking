@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Room Detail | Admin</title>
+    <title>Resident History</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -20,15 +20,18 @@
             text-align: left;
             margin-top: 20px;
         }
+
         .pagination {
             display: inline-flex;
             padding-left: 0;
             list-style: none;
             border-radius: 0.25rem;
         }
+
         .pagination .page-item {
             display: inline;
         }
+
         .pagination .page-link {
             position: relative;
             display: block;
@@ -39,6 +42,7 @@
             background-color: #fff;
             border: 1px solid #dee2e6;
         }
+
         .pagination .page-item.disabled .page-link {
             color: #6c757d;
             pointer-events: none;
@@ -46,6 +50,7 @@
             background-color: #fff;
             border-color: #dee2e6;
         }
+
         .pagination .page-item.active .page-link {
             z-index: 1;
             color: #fff;
@@ -151,8 +156,8 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/home}" ><span class="icon home"
-                                                                                  aria-hidden="true"></span>Dashboard</a>
+                        <a th:href="@{/fpt-dorm/admin/home}"><span class="icon home"
+                                                                   aria-hidden="true"></span>Dashboard</a>
                     </li>
                     <li>
                         <a class="show-cat-btn">
@@ -172,10 +177,21 @@
                         </ul>
                     </li>
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/view-dorm-list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Dorm
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>Dorm manage
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li>
@@ -229,22 +245,30 @@
                                     Payments</a>
                             </li>
                             <li>
-                                <a id="menu-payment-request" class="" th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
+                                <a id="menu-payment-request" class=""
+                                   th:href="@{/fpt-dorm/admin/admin_payment_request}">Payment Request</a>
                             </li>
                         </ul>
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/usage-service}">
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/admin_Resident_History}">
+                        <a class="show-cat-btn active" th:href="@{/fpt-dorm/admin/admin_Resident_History}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
+                        </a>
+                    </li>
+
+                    <li>
+                        <a th:href="@{admin/admin_chart}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Chart
                         </a>
                     </li>
 
@@ -260,6 +284,16 @@
             </div>
         </div>
         <div class="sidebar-footer">
+            <a href="#" class="sidebar-user">
+            <span class="sidebar-user-img">
+                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+            </span>
+                <div class="sidebar-user-info">
+                    <span class="sidebar-user__title">AI</span>
+                    <span class="sidebar-user__subtitle">Support manager</span>
+                </div>
+            </a>
         </div>
     </aside>
     <div class="main-wrapper">
@@ -278,6 +312,50 @@
                         <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
+                    <div class="notification-wrapper">
+                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
+                            <span class="sr-only">To messages</span>
+                            <span class="icon notification active" aria-hidden="true"></span>
+                        </button>
+                        <ul class="users-item-dropdown notification-dropdown dropdown">
+                            <li>
+                                <a href="#">
+                                    <div class="notification-dropdown-icon info">
+                                        <i data-feather="check"></i>
+                                    </div>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">System just updated</span>
+                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="notification-dropdown-icon danger">
+                                        <i data-feather="info" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">The cache is full!</span>
+                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="notification-dropdown-icon info">
+                                        <i data-feather="check" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">New Subscriber here!</span>
+                                        <span class="notification-dropdown__subtitle">A new subscriber has subscribed.</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link-to-page" href="#">Go to Notifications page</a>
+                            </li>
+                        </ul>
+                    </div>
                     <div class="nav-user-wrapper">
                         <button href="#" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
@@ -290,7 +368,6 @@
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/admin/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -303,49 +380,97 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Room Detail</h2>
+                <h2 class="main-title">Resident History</h2>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form th:action="@{'/fpt-dorm/' + ${role} + '/Resident_History/search'}" method="get"
+                              class="search-form" onsubmit="return validateForm()">
+                            <input type="text" id="keyword" name="keyword" th:value="${keyword}"
+                                   placeholder="Search By User Name">
+                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <div class="col-lg-4"></div>
+                </div>
                 <br>
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="canvas-wrapper">
                             <div class="users-table table-wrapper">
-                                <div th:if="${message}">
-                                    <p th:text="${message}" class="alert alert-warning"></p>
-                                </div>
-                                <table class="posts-table" th:if="${not #lists.isEmpty(beds)}">
+                                <table class="posts-table">
                                     <thead>
                                     <tr class="users-table-info">
-                                        <th style="width: 33.33%;">Bed Name</th>
-                                        <th style="width: 33.33%;">Is Available</th>
-                                        <th style="width: 33.33%;">Maintenance Status</th>
+                                        <th>User Name</th>
+                                        <th>Email</th>
+                                        <th>Action</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="bed : ${beds}">
-                                        <td th:text="${bed.bedName}"></td>
+                                    <tr th:if="${#lists.isEmpty(residentHistoryPage.content)}">
+                                        <td colspan="5" style="text-align:center" th:text="${message}"></td>
+                                    </tr>
+                                    <tr th:each="residentHistory : ${residentHistoryPage.content}">
+                                        <td th:text="${residentHistory.username}"></td>
+                                        <td th:text="${residentHistory.email}"></td>
                                         <td>
-                                            <span th:class="${bed.isAvailable ? 'badge-success' : 'badge-trashed'}"
-                                                  th:text="${bed.isAvailable ? 'Available' : 'Unavailable'}"></span>
-                                        </td>
-                                        <td>
-    <span th:class="${bed.maintenanceStatus.name() == 'Available' ? 'badge badge-success' : 'badge badge-trashed'}"
-          th:text="${bed.maintenanceStatus.name() == 'Available' ? 'Available' : 'Under Maintenance'}"></span>
+                                            <a th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/detail/' + ${residentHistory.userId}}">Detail</a>
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
-                                <div th:if="${#lists.isEmpty(beds)}">
-                                    <p class="alert alert-info">No beds available for this room.</p>
-                                </div>
+                            </div>
+                            <div th:if="${not #lists.isEmpty(residentHistoryPage.content)}" class="pagination-wrapper">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination">
+                                        <li class="page-item"
+                                            th:classappend="${residentHistoryPage.hasPrevious()} ? 'enabled'">
+                                            <a class="page-link" th:if="${residentHistoryPage.hasPrevious()}"
+                                               th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/search?page=0&keyword=' + ${keyword}}"
+                                               aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                            <span class="page-link" th:unless="${residentHistoryPage.hasPrevious()}">&laquo;</span>
+                                        </li>
+                                        <li class="page-item"
+                                            th:each="i : ${#numbers.sequence(0, residentHistoryPage.totalPages - 1)}"
+                                            th:classappend="${residentHistoryPage.number == i} ? 'active'">
+                                            <a class="page-link"
+                                               th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/search?page=' + ${i} + '&keyword=' + ${keyword}}"
+                                               th:text="${i + 1}"></a>
+                                        </li>
+                                        <li class="page-item"
+                                            th:classappend="${residentHistoryPage.hasNext()} ? 'enabled'">
+                                            <a class="page-link" th:if="${residentHistoryPage.hasNext()}"
+                                               th:href="@{'/fpt-dorm/' + ${role} + '/Resident_History/search?page=' + ${residentHistoryPage.totalPages - 1} + '&keyword=' + ${keyword}}"
+                                               aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                            <span class="page-link"
+                                                  th:unless="${residentHistoryPage.hasNext()}">&raquo;</span>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 50px;">
+                            <div class="offset-sm-2 col-sm-2 d-grid">
+                                <a class="btn secondary-default-btn" onclick="window.history.back()"
+                                   role="button">Back</a>
                             </div>
                         </div>
                     </div>
-
-                    <div class="offset-sm-2 col-sm-2 d-grid">
-                        <a class="btn secondary-default-btn" href="/fpt-dorm/admin/all-room" role="button">Back</a>
-                    </div>
                 </div>
             </div>
+            <script type="text/javascript">
+                function validateForm() {
+                    var keyword = document.getElementById("keyword").value;
+                    if (keyword.trim() === "") {
+                        alert("Please enter a User Name to search.");
+                        return false; // Ngăn chặn form không được gửi đi
+                    }
+                    return true; // Cho phép form được gửi đi nếu đầu vào hợp lệ
+                }
+            </script>
         </main>
 
 
@@ -364,23 +489,6 @@
         </footer>
     </div>
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const A = document.getElementById('menu-room');
-        const B = document.getElementById('menu-all-room');
-
-        A.addEventListener('click', function () {
-            if (A.classList.contains('active')) {
-                A.classList.remove('active');
-                B.classList.add('active');
-            } else {
-                A.classList.add('active');
-                B.classList.remove('active');
-            }
-        });
-    });
-</script>
 <!-- Chart library -->
 <script src="/static/admin_homepage/plugins/chart.min.js"></script>
 <!-- Icons library -->

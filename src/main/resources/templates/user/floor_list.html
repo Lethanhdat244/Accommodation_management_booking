@@ -169,7 +169,7 @@
         <div class="news-section1">
             <button onclick="window.history.back();" class="btn btn-primary">Back</button>
 
-            <h2 style="text-align: left">View by Dorm</h2>
+            <h2 style="text-align: left">View By Dorm <span th:text="${dormName}"></span></h2>
             <div>
                 <table th:if="${floorBedUsageList != null && !floorBedUsageList.isEmpty()}">
                     <thead>
@@ -186,7 +186,7 @@
                         <td th:text="${floorUsage.usedBeds}"></td>
                         <td th:text="${floorUsage.freeBeds}"></td>
                         <td style="font-weight: bold; color: blue;">
-                            <a th:href="@{/fpt-dorm/user/room-list-used/{floorId}(floorId=${floorUsage.floor.floorId})}">
+                            <a th:href="@{/fpt-dorm/user/room-list-used/{dormId}/{floorId}(dormId=${dormId}, floorId=${floorUsage.floor.floorId})}">
                                 Detail
                             </a>
                         </td>

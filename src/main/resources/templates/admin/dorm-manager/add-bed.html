@@ -189,21 +189,10 @@
                     </li>
 
                     <li>
-                        <a id="menu-dorm" class="show-cat-btn active">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                        <a class="active" th:href="@{/fpt-dorm/admin/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a id="dorm-list" class=""  th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
-                            </li>
-                        </ul>
                     </li>
 
                     <li>
@@ -377,17 +366,9 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <button class="btn btn-primary"
-                        style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;"
-                        onclick="goBack()">Back
-                </button>
 
-                <script>
-                    function goBack() {
-                        window.history.back();
-                    }
-                </script>
-                <h2 style="margin-top: 30px;">Add Bed</h2>
+                <h2>Add Bed to <span th:text="${roomNumber}"></span></h2>
+
 
                 <!-- Success or error messages -->
                 <div style="color: green; margin-top: 30px;" th:if="${successMessage}" class="alert alert-success"
@@ -519,6 +500,16 @@
                     </div>
                 </div>
             </div>
+            <button class="btn btn-primary"
+                    style="margin-left: 30px; background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;"
+                    onclick="goBack()">Back
+            </button>
+
+            <script>
+                function goBack() {
+                    window.history.back();
+                }
+            </script>
         </main>
 
 

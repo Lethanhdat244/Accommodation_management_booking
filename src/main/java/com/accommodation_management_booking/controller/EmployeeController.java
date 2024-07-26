@@ -50,8 +50,7 @@ public class EmployeeController {
     @Autowired
     private ComplainService complainService;
 
-    @Autowired
-    private RoomsRepository roomsRepository;
+
 
     @Autowired
     private UserBookingRepository userBookingRepository;
@@ -88,7 +87,8 @@ public class EmployeeController {
             // Handle cases where the authentication is not OAuth2
             model.addAttribute("email", "Unknown");
         }
-        return "employee/employee_homepage";
+//        return "employee/employee_homepage";
+        return "redirect:/fpt-dorm/employee/student/all-student";
     }
 
     @GetMapping("fpt-dorm/employee/complain")

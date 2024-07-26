@@ -44,19 +44,16 @@
             border-radius: 10px;
             margin: 20px 0;
         }
-
         h1 {
             font-weight: 700;
             margin-bottom: 20px;
         }
-
         .request_list {
             padding: 20px;
             margin-bottom: 30px;
             margin-right: auto;
             margin-left: 40px;
         }
-
         .rule {
             width: 60%;
             padding: 20px 5px;
@@ -176,10 +173,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-7 col-sm-12 request_box">
                 <h1>Resident History</h1>
-                <form th:action="@{/fpt-dorm/user/resident-history/search-by-room}" method="get" onsubmit="return validateForm()">
+                <form th:action="@{/fpt-dorm/user/resident-history/list}" method="get" onsubmit="return validateForm()">
                     <div class="form-group col-lg-4">
                         <label for="roomNumber">Search By Room Name</label>
-                        <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Enter Room Name">
+                        <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Enter Room Name" th:value="${roomNumber}">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </form>
@@ -200,8 +197,8 @@
                     <tr th:each="history : ${residentHistoryPage.content}">
                         <td th:text="${history.roomNumber}"></td>
                         <td th:text="${history.bedName}"></td>
-                        <td th:text="${#temporals.format(history.checkInDate, 'dd/MM/yyyy HH:mm')}"></td>
-                        <td th:text="${#temporals.format(history.checkOutDate, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${#temporals.format(history.startDate, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${#temporals.format(history.endDate, 'dd/MM/yyyy HH:mm')}"></td>
                         <td th:text="${history.capacity}"></td>
                         <td th:text="${history.totalPrice}"></td>
                     </tr>
@@ -214,14 +211,14 @@
 
                 <ul class="pagination justify-content-center" th:if="${residentHistoryPage.totalPages > 1}">
                     <li th:class="${residentHistoryPage.first} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=0)}">First</a>
+                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=0, size=${size}, roomNumber=${roomNumber})}">First</a>
                     </li>
                     <li th:each="i : ${#numbers.sequence(0, residentHistoryPage.totalPages - 1)}"
                         th:class="${residentHistoryPage.number == i} ? 'page-item active' : 'page-item'">
-                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=${i})}" th:text="${i + 1}"></a>
+                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=${i}, size=${size}, roomNumber=${roomNumber})}" th:text="${i + 1}"></a>
                     </li>
                     <li th:class="${residentHistoryPage.last} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=${residentHistoryPage.totalPages - 1})}">Last</a>
+                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=${residentHistoryPage.totalPages - 1}, size=${size}, roomNumber=${roomNumber})}">Last</a>
                     </li>
                 </ul>
 
@@ -414,10 +411,18 @@
 </div>
 
 <script type="text/javascript">
+    function normalizeRoomNumber(roomNumber) {
+        return roomNumber.replace(/\s+/g, '').toUpperCase();
+    }
+
     function validateForm() {
-        var roomNumber = document.getElementById("roomNumber").value;
-        if (roomNumber.trim() === "") {
-            alert("Room Name can not null");
+        var roomNumberInput = document.getElementById("roomNumber");
+        var roomNumber = roomNumberInput.value;
+
+        roomNumberInput.value = normalizeRoomNumber(roomNumber);
+
+        if (roomNumberInput.value.trim() === "") {
+            alert("Room Name can not be null");
             return false;
         }
         return true;
@@ -428,6 +433,7 @@
         window.location.href = '/fpt-dorm/user/feedbackform';
     }
 </script>
+
 
 </body>
 </html>
