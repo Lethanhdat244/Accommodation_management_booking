@@ -282,6 +282,19 @@ public class PaymentController {
             booking.setRefundDate(refundDate);
             booking.setStatus(Booking.Status.Confirmed);
             bookingRepository.save(booking);
+
+            String encodedBookingId = encode(booking.getBookingId());
+
+            // Gửi email
+            String toEmail = booking.getUser().getEmail(); // Email người dùng
+            String subject = "Payment-Confirmed"; // Tiêu đề email
+            String body = "Dear " + booking.getUser().getUsername() + ",\n\n" +
+                    "Your payment was confirmed." +
+                    "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?token=" + encodedBookingId +
+                    "\n\nThank you for your booking."; // Nội dung email
+
+            emailService.sendBill(toEmail, subject, body);
+
             return ResponseEntity.ok("Payment confirmed successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
@@ -762,6 +775,11 @@ public class PaymentController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
         }
+    }
+
+    public static String encode(int bookingId) {
+        String idAsString = String.valueOf(bookingId);
+        return Base64.getUrlEncoder().encodeToString(idAsString.getBytes());
     }
 
 
