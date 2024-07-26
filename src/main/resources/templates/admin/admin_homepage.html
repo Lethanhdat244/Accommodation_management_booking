@@ -601,11 +601,9 @@
         var labels = Object.keys(statusCounts);
         var data = Object.values(statusCounts);
 
-        // Check if statusCounts is empty or pending = 0
         if (labels.length === 0 || (labels.length === 1 && labels[0] === 'pending' && statusCounts['pending'] === 0)) {
-            // If no data or only pending = 0, show a default chart with a single value
             labels = ['No Data'];
-            data = [100]; // Displaying 100% as yellow
+            data = [100];
         }
 
         new Chart(ctx, {
