@@ -100,7 +100,7 @@ public class VNPayController {
         String vnp_Command = "pay";
         String orderType = "other";
         //long amount = 10000*100;
-        String bankCode = "NCB";
+        String bankCode = "";
 
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
         String vnp_IpAddr = "127.0.0.1";

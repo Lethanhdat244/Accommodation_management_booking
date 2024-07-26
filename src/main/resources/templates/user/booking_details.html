@@ -521,38 +521,15 @@
         });
     }
 
-    // function updateRooms() {
-    //     const floorId = document.getElementById("floor").value;
-    //     const roomType = document.querySelector('input[name="roomType"]').value;
-    //     const capacity = roomType === '4-bed' ? 4 : 6;
-    //     $.get('/fpt-dorm/user/booking/rooms', {floorId: floorId, capacity: capacity}, function (data) {
-    //         let roomSelect = $('#room');
-    //         roomSelect.empty();
-    //         roomSelect.append('<option value="" disabled selected>-- Select Room --</option>');
-    //         $.each(data, function (i, room) {
-    //             roomSelect.append('<option value="' + room.roomId + '">' + room.roomNumber + '</option>');
-    //         });
-    //     });
-    // }
-    //
-    // function updateBeds() {
-    //     const roomId = document.getElementById("room").value;
-    //     $.get('/fpt-dorm/user/booking/beds', {roomId: roomId}, function (data) {
-    //         let bedSelect = $('#bed');
-    //         bedSelect.empty();
-    //         bedSelect.append('<option value="" disabled selected>-- Select Bed --</option>');
-    //         $.each(data, function (i, bed) {
-    //             bedSelect.append('<option value="' + bed.bedId + '">' + bed.bedName + '</option>');
-    //         });
-    //     });
-    // }
-
     $(document).ready(function() {
+        let today = new Date().toISOString().split('T')[0];
         // Load semesters
         $.get('/fpt-dorm/user/booking/semesters', function(data) {
             let semesterSelect = $('#semester');
             $.each(data, function(i, semester) {
-                semesterSelect.append('<option value="' + semester.semesterId + '" data-start="' + semester.startDate + '" data-end="' + semester.endDate + '">' + semester.semesterName + '</option>');
+                if (semester.startDate>today){
+                    semesterSelect.append('<option value="' + semester.semesterId + '" data-start="' + semester.startDate + '" data-end="' + semester.endDate + '">' + semester.semesterName + '</option>');
+                }
             });
         });
 

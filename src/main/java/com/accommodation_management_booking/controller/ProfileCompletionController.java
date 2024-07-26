@@ -7,14 +7,17 @@ import com.accommodation_management_booking.service.EmailService;
 import com.accommodation_management_booking.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 @Controller
 @AllArgsConstructor
@@ -25,16 +28,29 @@ public class ProfileCompletionController {
     private EmailService emailService;
 
     @GetMapping("/fpt-dorm/profile/complete")
-    public String showCompleteProfileForm(Model model, @AuthenticationPrincipal OAuth2User oAuth2User) {
-        String email = oAuth2User.getAttribute("email");
-        User user = userRepository.findByEmail(email);
-        if (user != null && !user.isProfileComplete()) {
-            UserDTO userDTO = new UserDTO();
-            userDTO.setEmail(user.getEmail());
-            model.addAttribute("user", userDTO);
-            return "completeProfile";
+    public String showCompleteProfileForm(Model model, @AuthenticationPrincipal Object principal) {
+        String email = null;
+
+        if (principal instanceof OAuth2User) {
+            OAuth2User oAuth2User = (OAuth2User) principal;
+            email = oAuth2User.getAttribute("email");
+        } else if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            email = userDetails.getUsername();
         }
-        return redirectToRoleBasedHome(user);
+
+        if (email != null) {
+            User user = userRepository.findByEmail(email);
+            if (user != null && !user.isProfileComplete()) {
+                UserDTO userDTO = new UserDTO();
+                userDTO.setEmail(user.getEmail());
+                model.addAttribute("user", userDTO);
+                return "completeProfile";
+            }
+            return redirectToRoleBasedHome(user);
+        }
+
+        return "redirect:/fpt-dorm/login";
     }
 
     @PostMapping("/fpt-dorm/profile/complete")
@@ -42,25 +58,52 @@ public class ProfileCompletionController {
                                   @RequestParam("avatar") MultipartFile avatar,
                                   @RequestParam("frontCccdImage") MultipartFile frontCccdImage,
                                   @RequestParam("backCccdImage") MultipartFile backCccdImage,
-                                  @AuthenticationPrincipal OAuth2User oAuth2User,
+                                  @AuthenticationPrincipal Object principal,
                                   Model model) {
         try {
-            String email = oAuth2User.getAttribute("email");
-            User user = userRepository.findByEmail(email);
-            if (user != null) {
-                userService.completeUserProfile(userDTO, avatar, frontCccdImage, backCccdImage);
-                String emailContent = String.format(
-                        "<p>Thank you for completing your profile. Please enjoy our services.</p>" +
-                                "<p><a href=\"http://localhost:8080/fpt-dorm/home\">Go to Home</a></p>"
-                );
+            String email = null;
 
-                emailService.sendCompleteRegistrationEmail(userDTO.getEmail(), emailContent);
-                return redirectToRoleBasedHome(user);
+            if (principal instanceof OAuth2User) {
+                OAuth2User oAuth2User = (OAuth2User) principal;
+                email = oAuth2User.getAttribute("email");
+            } else if (principal instanceof UserDetails) {
+                UserDetails userDetails = (UserDetails) principal;
+                email = userDetails.getUsername();
+            }
+
+            if (email != null) {
+                User user = userRepository.findByEmail(email);
+                if (user != null) {
+                    ExecutorService executor = Executors.newCachedThreadPool();
+
+                    CompletableFuture<Void> profileCompletionTask = CompletableFuture.runAsync(() -> {
+                        try {
+                            userService.completeUserProfile(userDTO, avatar, frontCccdImage, backCccdImage);
+                        } catch (Exception e) {
+                            throw new RuntimeException("Error completing user profile", e);
+                        }
+                    }, executor);
+
+                    CompletableFuture<Void> emailTask = CompletableFuture.runAsync(() -> {
+                        String emailContent = String.format(
+                                "<p>Thank you for completing your profile. Please enjoy our services.</p>" +
+                                        "<p><a href=\"http://localhost:8080/fpt-dorm/home\">Go to Home</a></p>"
+                        );
+                        emailService.sendCompleteRegistrationEmail(userDTO.getEmail(), emailContent);
+                    }, executor);
+
+                    CompletableFuture<Void> combinedFuture = CompletableFuture.allOf(profileCompletionTask, emailTask);
+                    combinedFuture.join();
+
+                    executor.shutdown();
+                    return redirectToRoleBasedHome(user);
+                }
             }
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "Please enter information about your profile");
+            model.addAttribute("errorMessage", "An error occurred while completing your profile. Please try again.");
             return "completeProfile";
         }
+
         return "redirect:/fpt-dorm/user/news";
     }
 

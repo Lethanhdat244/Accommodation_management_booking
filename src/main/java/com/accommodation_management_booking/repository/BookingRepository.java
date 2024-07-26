@@ -63,4 +63,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findByRoomRoomId(@Param("roomId") int roomId);
 
     long countByRoomRoomId(Integer roomId);
+
+    Booking findByUserUserIdAndStatus(Integer userId, Booking.Status status);
 }

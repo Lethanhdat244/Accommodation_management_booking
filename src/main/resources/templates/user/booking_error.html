@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Error</title>
+    <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/homepage_user/css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <div class="alert alert-danger mt-5" role="alert">
+        <h4 class="alert-heading">Booking Error</h4>
+        <p th:text="${errorMessage}">You already have a confirmed booking.</p>
+        <hr>
+        <a href="/fpt-dorm/user/news" class="btn btn-primary">Return to website</a>
+    </div>
+</div>
+<script src="/static/homepage_user/js/jquery.min.js"></script>
+<script src="/static/homepage_user/js/bootstrap.min.js"></script>
+</body>
+</html>
