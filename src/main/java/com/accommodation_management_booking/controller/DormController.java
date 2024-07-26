@@ -9,6 +9,7 @@ import com.accommodation_management_booking.entity.Floor;
 import com.accommodation_management_booking.entity.Room;
 import com.accommodation_management_booking.repository.BedRepository;
 import com.accommodation_management_booking.repository.FloorRepository;
+import com.accommodation_management_booking.repository.RoomRepository;
 import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.BedService;
 import com.accommodation_management_booking.service.DormService;
@@ -63,7 +64,7 @@ public class DormController {
 
     @GetMapping("/fpt-dorm/user/detail-dorm")
     public String getAllDormBedInfo(Model model, HttpSession session) {
-        List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo();
+        List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo1();
         model.addAttribute("dormBedInfoList", dormBedInfoList);
         model.addAttribute("role", session.getAttribute("role"));
 
@@ -74,13 +75,15 @@ public class DormController {
     public String dormDetail(@PathVariable("dormId") int dormId, Model model, HttpSession session) {
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
         model.addAttribute("floorBedUsageList", floorBedUsageList);
+        String dormName = dormService.getDormNameById(dormId);
+        model.addAttribute("dormName" , dormName);
         model.addAttribute("role", session.getAttribute("role"));
         return "user/floor_list";
     }
 
 
-    @GetMapping("/fpt-dorm/user/room-list-used/{floorId}")
-    public String floorDetail(@PathVariable("floorId") int floorId, Model model, HttpSession session) {
+    @GetMapping("/fpt-dorm/user/room-list-used/{dormId}/{floorId}")
+    public String floorDetail(@PathVariable("dormId") int dormId, @PathVariable("floorId") int floorId, Model model, HttpSession session) {
         List<RoomBedUsage> roomBedUsageList = roomService.getRoomBedUsageByFloorId(floorId);
         model.addAttribute("roomBedUsageList", roomBedUsageList);
         model.addAttribute("role", session.getAttribute("role"));
@@ -189,6 +192,8 @@ public class DormController {
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
         model.addAttribute("dormId", dormId);
         model.addAttribute("floorBedUsageList", floorBedUsageList);
+        String dormName = dormService.getDormNameById(dormId);
+        model.addAttribute("dormName", dormName);
         if (floor != null) {
             model.addAttribute("floor", floor);
             return "admin/dorm-manager/admin_edit_floor_form";
@@ -406,7 +411,8 @@ public class DormController {
 
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
-        model.addAttribute("roomId", roomId);
+        Room room = roomService.getRoomById(roomId);
+        model.addAttribute("roomNumber", room.getRoomNumber());
         model.addAttribute("roomId", roomId);
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
@@ -423,6 +429,8 @@ public class DormController {
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
         model.addAttribute("roomId", roomId);
+        Room room = roomService.getRoomById(roomId);
+        model.addAttribute("roomNumber", room.getRoomNumber());
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
         model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
@@ -451,6 +459,8 @@ public class DormController {
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
         model.addAttribute("roomId", roomId);
+        Room room = roomService.getRoomById(roomId);
+        model.addAttribute("roomNumber", room.getRoomNumber());
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
         model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
@@ -595,6 +605,8 @@ public class DormController {
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
         model.addAttribute("dormId", dormId);
         model.addAttribute("floorBedUsageList", floorBedUsageList);
+        String dormName = dormService.getDormNameById(dormId);
+        model.addAttribute("dormName", dormName);
         if (floor != null) {
             model.addAttribute("floor", floor);
             return "employee/dorm-manager/edit_floor";
@@ -825,6 +837,8 @@ public class DormController {
 
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
+        Room room = roomService.getRoomById(roomId);
+        model.addAttribute("roomNumber", room.getRoomNumber());
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
         model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
@@ -840,6 +854,8 @@ public class DormController {
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
         model.addAttribute("roomId", roomId);
+        Room room = roomService.getRoomById(roomId);
+        model.addAttribute("roomNumber", room.getRoomNumber());
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
         model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages

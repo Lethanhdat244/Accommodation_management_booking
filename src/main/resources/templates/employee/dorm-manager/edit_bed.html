@@ -371,7 +371,7 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2>Add Bed</h2>
+                <h2 style="margin-top: 30px;">Edit Bed <span th:text="${bed.getBedName()}"></span> of Room <span th:text="${roomNumber}"></span></h2>
 
                 <!-- Success or error messages -->
                 <div style="color: green; margin-top: 30px;" th:if="${successMessage}" class="alert alert-success"
@@ -463,16 +463,6 @@
                                 </tr>
                                 </tbody>
                             </table>
-                            <button class="btn btn-primary"
-                                    style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;"
-                                    onclick="goBack()">Back
-                            </button>
-
-                            <script>
-                                function goBack() {
-                                    window.history.back();
-                                }
-                            </script>
                             <div class="pagination-wrapper" th:if="${not beds.empty}">
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination">
@@ -503,6 +493,16 @@
                         </div>
                     </div>
                 </div>
+                <button class="btn btn-primary"
+                        style="background-color: blue; color: white; text-decoration: none; padding: 10px 20px; border-radius: 5px; display: inline-block;"
+                        onclick="goBack()">Back
+                </button>
+
+                <script>
+                    function goBack() {
+                        window.history.back();
+                    }
+                </script>
             </div>
         </main>
 
