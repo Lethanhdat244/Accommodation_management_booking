@@ -527,14 +527,17 @@
                 e.preventDefault(); // Prevent the form from submitting the default way
                 const formData = $(this).serialize();
 
-                $.post('/fpt-dorm/admin/usage-service/' + $('#roomId').val(), formData, function (response) {
-                    // Hide the row after successful submission
-                    alert("Enter data for room " + roomNumber + " succeed")
-                    $('button[data-room-id="' + $('#roomId').val() + '"]').closest('tr').hide();
-                    $('#popupForm').hide(); // Hide the popup form
-                }).fail(function () {
-                    alert('Failed to submit data');
-                });
+                $.post('/fpt-dorm/admin/usage-service/' + $('#roomId').val(), formData)
+                    .done(function (response) {
+                        // Success callback
+                        alert("Enter data for room " + roomNumber + " succeeded");
+                        $('button[data-room-id="' + $('#roomId').val() + '"]').closest('tr').hide();
+                        $('#popupForm').hide(); // Hide the popup form
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        // Failure callback
+                        alert('Failed to submit data: ' + jqXHR.responseText);
+                    });
             });
         }).fail(function () {
             alert("Failed to retrieve room data. Please try again later.");

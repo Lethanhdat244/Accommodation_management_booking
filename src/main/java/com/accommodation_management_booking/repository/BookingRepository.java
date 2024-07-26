@@ -32,10 +32,10 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query("SELECT b FROM Booking b JOIN b.user u WHERE u.username LIKE %:keyword% OR b.bookingId = :id")
     List<Booking> searchAllBy(@Param("keyword") String keyword, @Param("id") int id);
 
-    @Query("SELECT b FROM Booking b JOIN Bed bd ON b.bed.bedId = bd.bedId WHERE b.user.userId = :userId ORDER BY b.checkOutDate DESC")
+    @Query("SELECT b FROM Booking b JOIN Bed bd ON b.bed.bedId = bd.bedId WHERE b.user.userId = :userId  AND b.status = 'Confirmed' ORDER BY b.endDate DESC")
     Page<Booking> findByUserIdOrderByCheckOutDateDescWithBedInfo(@Param("userId") int userId, Pageable pageable);
 
-    @Query("SELECT b FROM Booking b JOIN b.room r JOIN b.user u WHERE r.roomNumber LIKE %:roomNumber% AND u.userId = :userId AND u.roleUser = 'USER' ORDER BY b.checkOutDate DESC")
+    @Query("SELECT b FROM Booking b JOIN b.room r JOIN b.user u WHERE r.roomNumber LIKE %:roomNumber% AND u.userId = :userId AND u.roleUser = 'USER'  AND b.status = 'Confirmed' ORDER BY b.endDate DESC")
     Page<Booking> findByRoomNumberContainingAndUserId(@Param("roomNumber") String roomNumber, @Param("userId") int userId, Pageable pageable);
 
     @Query("SELECT MAX(b.bookingId) FROM Booking b WHERE b.room.roomNumber = :roomNumber")

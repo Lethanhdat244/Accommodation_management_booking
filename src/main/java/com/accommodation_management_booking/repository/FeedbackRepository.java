@@ -37,4 +37,10 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
 
     @Query("SELECT f FROM Feedback f WHERE f.feedbackId = :feedbackId")
     Optional findByFeedbackId(@Param("feedbackId") int feedbackId);
+
+    @Query("SELECT f FROM Feedback f " +
+            "JOIN f.booking b " +
+            "JOIN b.room r " +
+            "WHERE r.roomNumber IS NOT NULL")
+    Page<Feedback> findFeedbackDetails(Pageable pageable);
 }

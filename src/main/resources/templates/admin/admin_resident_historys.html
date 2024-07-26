@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Resident History | Admin</title>
+    <title>Resident History</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -177,12 +177,22 @@
                         </ul>
                     </li>
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/view-dorm-list}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Dorm
+                        <a class="show-cat-btn">
+                            <span class="icon folder" aria-hidden="true"></span>Dorm manage
+                            <span class="category__btn transparent-btn" title="Open list">
+                            <span class="sr-only">Open list</span>
+                            <span class="icon arrow-down" aria-hidden="true"></span>
+                        </span>
                         </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
+                            </li>
+                            <li>
+                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
+                            </li>
+                        </ul>
                     </li>
-
 
                     <li>
                         <a class="show-cat-btn">
@@ -242,14 +252,14 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/admin/usage-service}">
+                        <a th:href="@{/fpt-dorm/employee/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Usage Service
                         </a>
                     </li>
 
                     <li>
-                        <a class="active" th:href="@{/fpt-dorm/admin/admin_Resident_History}">
+                        <a class="show-cat-btn active" th:href="@{/fpt-dorm/admin/admin_Resident_History}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Resident History
                         </a>
@@ -261,6 +271,7 @@
                             Chart
                         </a>
                     </li>
+
 
 
                     <li>
@@ -450,7 +461,16 @@
                     </div>
                 </div>
             </div>
-
+            <script type="text/javascript">
+                function validateForm() {
+                    var keyword = document.getElementById("keyword").value;
+                    if (keyword.trim() === "") {
+                        alert("Please enter a User Name to search.");
+                        return false; // Ngăn chặn form không được gửi đi
+                    }
+                    return true; // Cho phép form được gửi đi nếu đầu vào hợp lệ
+                }
+            </script>
         </main>
 
 
@@ -475,19 +495,6 @@
 <script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="/static/admin_homepage/js/script.js"></script>
-<script type="text/javascript">
-    function validateForm() {
-        var keyword = document.getElementById("keyword").value.trim();
-
-        document.getElementById("keyword").value = keyword;
-
-        if (keyword === "") {
-            alert("Please enter a User Name to search.");
-            return false;
-        }
-        return true;
-    }
-</script>
 </body>
 
 </html>

@@ -63,14 +63,41 @@ public class FeedbackController {
         }
     }
 
-    @PostMapping("/fpt-dorm/user/feedback")
-    public String submitFeedback(Model model,
-                                 @RequestParam("title") String title,
-                                 @RequestParam("rating") int rating,
-                                 @RequestParam("content") String content,
-                                 @RequestParam("selectedRoom") String roomNumber,
-                                 Authentication authentication) {
-
+//    @PostMapping("/fpt-dorm/user/feedback")
+//    public String submitFeedback(Model model,
+//                                 @RequestParam("title") String title,
+//                                 @RequestParam("rating") int rating,
+//                                 @RequestParam("content") String content,
+//                                 @RequestParam("selectedRoom") String roomNumber,
+//                                 Authentication authentication) {
+//
+//        User user = getUserFromAuthentication(authentication);
+//        Integer bookingId = feedbackService.findLatestBookingIdByRoomNumber(roomNumber);
+//
+//        Feedback feedback = new Feedback();
+//        feedback.setUser(user);
+//        feedback.setTitle(title);
+//        feedback.setRating(rating);
+//        feedback.setComment(content);
+//        feedback.setStatus(Feedback.Status.Pending);
+//        feedback.setCreatedAt(LocalDateTime.now());
+//
+//        if (bookingId != null) {
+//            feedback.setBooking(bookingRepository.findById(bookingId).orElse(null));
+//        }
+//
+//        feedbackService.saveFeedback(feedback);
+//
+//
+//        return "/homepage";
+//    }
+@PostMapping("/fpt-dorm/user/feedbackForm")
+public ResponseEntity<String> submitFeedback(@RequestParam("title") String title,
+                                             @RequestParam("rating") int rating,
+                                             @RequestParam("content") String content,
+                                             @RequestParam("selectedRoom") String roomNumber,
+                                             Authentication authentication) {
+    try {
         User user = getUserFromAuthentication(authentication);
         Integer bookingId = feedbackService.findLatestBookingIdByRoomNumber(roomNumber);
 
@@ -88,9 +115,12 @@ public class FeedbackController {
 
         feedbackService.saveFeedback(feedback);
 
-
-        return "/homepage";
+        return ResponseEntity.ok("Feedback submitted successfully");
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while submitting feedback");
     }
+}
+
 
     @GetMapping("/employee/all-feedback")
     public String FeedbackList(Model model,

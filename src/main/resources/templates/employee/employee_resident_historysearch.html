@@ -467,13 +467,20 @@
 <script src="/static/admin_homepage/plugins/feather.min.js"></script>
 <!-- Custom scripts -->
 <script src="/static/admin_homepage/js/script.js"></script>
-<script>
+<script type="text/javascript">
     function validateForm() {
-        var input = document.getElementById('keyword');
-        input.value = input.value.replace(/\s+/g, ' ').trim();
+        var keyword = document.getElementById("keyword").value.trim();
+
+        document.getElementById("keyword").value = keyword;
+
+        if (keyword === "") {
+            alert("Please enter a User Name to search.");
+            return false;
+        }
         return true;
     }
 </script>
+
 
 </body>
 

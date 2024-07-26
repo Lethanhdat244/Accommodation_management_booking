@@ -363,12 +363,12 @@
                     <td colspan="6" style="text-align:center" th:text="${message}"></td>
                   </tr>
                   <tr th:each="residentHistory : ${residentDetail.content}">
-                      <td th:text="${residentHistory.roomNumber}"></td>
-                      <td th:text="${residentHistory.bedName}"></td>
-                      <td th:text="${residentHistory.checkInDate}"></td>
-                      <td th:text="${residentHistory.checkOutDate}"></td>
-                      <td th:text="${residentHistory.capacity}"></td>
-                      <td th:text="${residentHistory.totalPrice}"></td>
+                    <td th:text="${residentHistory.roomNumber}"></td>
+                    <td th:text="${residentHistory.bedName}"></td>
+                    <td th:text="${residentHistory.startDate}"></td>
+                    <td th:text="${residentHistory.endDate}"></td>
+                    <td th:text="${residentHistory.capacity}"></td>
+                    <td th:text="${residentHistory.totalPrice}"></td>
                   </tr>
                   </tbody>
                 </table>
