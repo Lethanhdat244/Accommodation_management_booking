@@ -371,8 +371,13 @@
                                             <input type="radio" th:field="*{user.gender}" value="Female"
                                                    th:checked="${user.gender == 'Female'}" disabled> Female
                                         </label>
+                                        <label>
+                                            <input type="radio" th:field="*{user.gender}" value="Other"
+                                                   th:checked="${user.gender == 'Other'}" disabled> Other
+                                        </label>
                                     </div>
                                 </div>
+
 
                                 <div class="info-item">
                                     <div class="info-label" style="font-weight: 600">Email:</div>
