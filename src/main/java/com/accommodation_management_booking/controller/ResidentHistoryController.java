@@ -5,6 +5,7 @@ import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.ResidentHistoryService;
 import com.accommodation_management_booking.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,8 +49,8 @@ public class ResidentHistoryController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "5") int size,
             @RequestParam(value = "roomNumber", required = false) String roomNumber,
-            Model model, Authentication authentication) {
-
+            Model model, Authentication authentication, HttpSession session) {
+        model.addAttribute("role", session.getAttribute("role"));
         try {
             User user = getUserFromAuthentication(authentication);
             model.addAttribute("email", user.getEmail());

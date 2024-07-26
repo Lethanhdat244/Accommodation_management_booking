@@ -67,7 +67,6 @@ public class DormController {
         List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo1();
         model.addAttribute("dormBedInfoList", dormBedInfoList);
         model.addAttribute("role", session.getAttribute("role"));
-
         return "user/available_bed";
     }
 

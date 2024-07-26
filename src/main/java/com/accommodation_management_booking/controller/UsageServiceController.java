@@ -38,6 +38,7 @@ public class UsageServiceController {
                                       @RequestParam(defaultValue = "3") int size,
                                       Authentication authentication,
                                       HttpSession session) {
+        model.addAttribute("role", session.getAttribute("role"));
         Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
@@ -63,7 +64,7 @@ public class UsageServiceController {
         }
         model.addAttribute("emptyMessage", null);
         model.addAttribute("usageServiceList", usageServiceList);
-        model.addAttribute("role", session.getAttribute("role"));
+
         return "student_usage_services";
     }
 
