@@ -702,17 +702,19 @@
             }
             const data = await response.json();
             console.log(`Fetched data for ${method}:`, data);
-            // Lọc dữ liệu theo tháng, sử dụng trường createdAt
+            // Lọc dữ liệu theo tháng và trạng thái Confirmed
             return data.filter(transaction => {
                 const createdAtDate = new Date(transaction.booking.createdAt);
                 const createdAtMonth = createdAtDate.toISOString().slice(0, 7); // YYYY-MM
-                return createdAtMonth === month;
+                const status = transaction.booking.status;
+                return createdAtMonth === month && status === 'Confirmed';
             });
         } catch (error) {
             console.error(`Error fetching data for ${method}:`, error);
             return [];
         }
     }
+
 
     async function updateChart() {
         const selectedMonth = document.getElementById('month').value;
