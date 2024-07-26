@@ -50,7 +50,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     @Query("SELECT b FROM Booking b WHERE YEAR(b.startDate) = :year AND MONTH(b.startDate) = :month")
     List<Booking> findBookingsByMonth(int year, int month);
 
-    @Query("SELECT b.status, COUNT(b) FROM Booking b WHERE YEAR(b.startDate) = :year AND MONTH(b.startDate) = :month GROUP BY b.status")
+    @Query("SELECT b.status, COUNT(b) FROM Booking b WHERE YEAR(b.bookingDate) = :year AND MONTH(b.bookingDate) = :month GROUP BY b.status")
     List<Object[]> countBookingsByStatus(int year, int month);
 
     @Query("SELECT COUNT(b) FROM Booking b WHERE MONTH(b.bookingDate) = MONTH(:now) AND YEAR(b.bookingDate) = YEAR(:now)")
@@ -63,4 +63,6 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
     List<Booking> findByRoomRoomId(@Param("roomId") int roomId);
 
     long countByRoomRoomId(Integer roomId);
+
+    Booking findByUserUserIdAndStatus(Integer userId, Booking.Status status);
 }

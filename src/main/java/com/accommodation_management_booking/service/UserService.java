@@ -47,4 +47,6 @@ public interface UserService {
     public int countNewUsersInCurrentMonth(Role role);
 
     public long getActiveUserCount();
+
+    void saveUsers(UserDTO userDTO);
 }

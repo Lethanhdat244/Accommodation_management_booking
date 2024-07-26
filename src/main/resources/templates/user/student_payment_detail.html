@@ -221,6 +221,12 @@
                                th:field="${payment.status}">
                     </div>
 
+                    <div class="col-md-12 mb-3">
+                        <label for="bedName" class=" col-form-label">Bed</label>
+                        <input readonly id="bedName" name="bedName" class="form-control border"
+                               th:value="${bedName}">
+                    </div>
+
                     <div class="row" style="text-align: center;">
                         <a class="btn read-more-btn" onclick="window.history.back()"
                            role="button">Back</a>

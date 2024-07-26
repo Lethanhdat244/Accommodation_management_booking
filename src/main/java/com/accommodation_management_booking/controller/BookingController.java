@@ -16,6 +16,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -67,9 +68,26 @@ public class BookingController {
     }
 
     @GetMapping("fpt-dorm/user/booking")
-    public String booking(Model model, HttpSession session) {
+    public String booking(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+        Integer userId = getLoggedInUserId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        if(!user.isProfileComplete()){
+            return "redirect:/fpt-dorm/profile/complete";
+        }
+
+        Booking existingBooking = bookingRepository.findByUserUserIdAndStatus(userId, Booking.Status.Confirmed);
+        if (existingBooking != null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "You already have a confirmed booking.");
+            return "redirect:/fpt-dorm/user/booking-error";
+        }
+
         model.addAttribute("role", session.getAttribute("role"));
         return "user/booking_type_room";
+    }
+
+    @GetMapping("fpt-dorm/user/booking-error")
+    public String bookingError(Model model) {
+        return "user/booking_error";
     }
 
     @PostMapping("fpt-dorm/user/booking/select")
