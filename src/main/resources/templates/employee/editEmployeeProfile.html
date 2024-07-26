@@ -36,231 +36,6 @@
             color: green;
         }
     </style>
-    <script>
-        function validateEmail(email) {
-            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailPattern.test(email);
-        }
-
-        function validatePassword(password) {
-            var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
-            return passwordPattern.test(password);
-        }
-
-        function validateFullName() {
-            var fullname = document.getElementById("fullname").value.trim(); // Loại bỏ các khoảng trắng ở đầu và cuối chuỗi
-            var fullnameError = document.getElementById("fullnameError");
-            var containsNumber = /[0-9]/.test(fullname); // Kiểm tra xem chuỗi có chứa số không
-            var containsOnlySpaces = /^\s*$/.test(fullname); // Kiểm tra xem chuỗi chỉ chứa khoảng trắng không
-            var containsConsecutiveSpaces = /\s\s+/.test(fullname); // Kiểm tra xem chuỗi có chứa khoảng trắng liên tiếp không
-
-            if (!fullname || containsNumber || containsOnlySpaces || containsConsecutiveSpaces) {
-                if (!fullname) {
-                    fullnameError.textContent = "Full Name is required.";
-                } else if (containsNumber) {
-                    fullnameError.textContent = "Full Name cannot contain numbers.";
-                } else if (containsOnlySpaces) {
-                    fullnameError.textContent = "Full Name cannot be only spaces.";
-                } else {
-                    fullnameError.textContent = "Full Name cannot contain consecutive spaces.";
-                }
-                return false;
-            } else {
-                fullnameError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateEmailField() {
-            var email = document.getElementById("email").value;
-            var emailError = document.getElementById("emailError");
-            if (!email) {
-                emailError.textContent = "Email is required.";
-                return false;
-            } else if (!validateEmail(email)) {
-                emailError.textContent = "Please enter a valid email address.";
-                return false;
-            } else {
-                emailError.textContent = "";
-                return true;
-            }
-        }
-
-        function validatePasswordField() {
-            var password = document.getElementById("password").value;
-            var passwordError = document.getElementById("passwordError");
-            if (!password) {
-                passwordError.textContent = "Password is required.";
-                return false;
-            } else if (!validatePassword(password)) {
-                passwordError.textContent = "Password must be at least 10 characters long and include uppercase letters, lowercase letters, numbers, and special characters.";
-                return false;
-            } else {
-                passwordError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateGender() {
-            var genderMale = document.querySelector("input[name='gender'][value='Male']").checked;
-            var genderFemale = document.querySelector("input[name='gender'][value='Female']").checked;
-            var genderOther = document.querySelector("input[name='gender'][value='Other']").checked;
-            var genderError = document.getElementById("genderError");
-            if (!genderMale && !genderFemale && !genderOther) {
-                genderError.textContent = "Gender is required.";
-                return false;
-            } else {
-                genderError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateBirthdate() {
-            var birthdate = document.getElementById("birthdate").value;
-            var birthdateError = document.getElementById("birthdateError");
-            if (!birthdate) {
-                birthdateError.textContent = "Birth Date is required.";
-                return false;
-            } else {
-                birthdateError.textContent = "";
-                return true;
-            }
-        }
-
-        function validatePhone() {
-            var phone = document.getElementById("phone").value;
-            var phoneError = document.getElementById("phoneError");
-            var phoneRegex = /^[0-9]+$/;
-
-            if (!phone) {
-                phoneError.textContent = "Phone number is required.";
-                return false;
-            } else if (phone.includes(" ")) {
-                phoneError.textContent = "Phone number must not contain spaces.";
-                return false;
-            } else if (!phoneRegex.test(phone)) {
-                phoneError.textContent = "Phone number must contain only numbers.";
-                return false;
-            } else {
-                phoneError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateAddress() {
-            var address = document.getElementById("address").value;
-            var addressError = document.getElementById("addressError");
-            if (!address) {
-                addressError.textContent = "Address is required.";
-                return false;
-            } else {
-                addressError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateIDCard() {
-            var idcard = document.getElementById("idcard").value;
-            var idcardError = document.getElementById("idcardError");
-            if (!idcard) {
-                idcardError.textContent = "Vietnamese Citizen ID Card is required.";
-                return false;
-            } else {
-                idcardError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateAvatar() {
-            var avatar = document.getElementById("avatar").files.length;
-            var avatarError = document.getElementById("avatarError");
-            if (avatar === 0) {
-                avatarError.textContent = "Avatar is required.";
-                return false;
-            } else {
-                avatarError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateFrontFace() {
-            var frontface = document.getElementById("frontface").files.length;
-            var frontfaceError = document.getElementById("frontfaceError");
-            if (frontface === 0) {
-                frontfaceError.textContent = "Front face ID card is required.";
-                return false;
-            } else {
-                frontfaceError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateBackFace() {
-            var backface = document.getElementById("backface").files.length;
-            var backfaceError = document.getElementById("backfaceError");
-            if (backface === 0) {
-                backfaceError.textContent = "Back face ID card is required.";
-                return false;
-            } else {
-                backfaceError.textContent = "";
-                return true;
-            }
-        }
-
-        function addValidationListeners() {
-            document.getElementById("fullname").addEventListener("blur", validateFullName);
-            document.getElementById("email").addEventListener("blur", validateEmailField);
-            document.getElementById("password").addEventListener("blur", validatePasswordField);
-            document.querySelectorAll("input[name='gender']").forEach(input => input.addEventListener("blur", validateGender));
-            document.getElementById("birthdate").addEventListener("blur", validateBirthdate);
-            document.getElementById("phone").addEventListener("blur", validatePhone);
-            document.getElementById("address").addEventListener("blur", validateAddress);
-            document.getElementById("avatar").addEventListener("change", validateAvatar);
-            document.getElementById("idcard").addEventListener("blur", validateIDCard);
-            document.getElementById("frontface").addEventListener("change", validateFrontFace);
-            document.getElementById("backface").addEventListener("change", validateBackFace);
-        }
-
-        document.addEventListener("DOMContentLoaded", addValidationListeners);
-
-        function validateForm() {
-            var isValid = true;
-
-            if (!validateFullName()) isValid = false;
-            if (!validateEmailField()) isValid = false;
-            if (!validatePasswordField()) isValid = false;
-            if (!validateGender()) isValid = false;
-            if (!validateBirthdate()) isValid = false;
-            if (!validatePhone()) isValid = false;
-            if (!validateAddress()) isValid = false;
-            if (!validateIDCard()) isValid = false;
-            if (!validateAvatar()) isValid = false;
-            if (!validateFrontFace()) isValid = false;
-            if (!validateBackFace()) isValid = false;
-
-            return isValid;
-        }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            flatpickr('.flatpickr-input', {
-                dateFormat: "Y-m-d",
-            });
-        });
-        document.addEventListener('DOMContentLoaded', function () {
-            const A = document.getElementById('menu-student');
-            const B = document.getElementById('menu-all-students');
-
-            A.addEventListener('click', function () {
-                if (A.classList.contains('active')) {
-                    A.classList.remove('active');
-                    B.classList.add('active');
-                } else {
-                    A.classList.add('active');
-                    B.classList.remove('active');
-                }
-            });
-        });
-    </script>
 </head>
 
 <body>
@@ -479,13 +254,22 @@
 
                         <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
                             <h2 class="main-title text-center">Edit Employee Profile</h2>
-                            <form th:action="@{/fpt-dorm/employee/update-user-profile}" method="post"
-                                  enctype="multipart/form-data" th:object="${user}" onsubmit="return validateForm()">
+                            <form
+                                    th:action="@{/fpt-dorm/employee/update-user-profile}"
+                                    method="post"
+                                    enctype="multipart/form-data"
+                                    th:object="${user}"
+                                    onsubmit="return validateForm()"
+                            >
                                 <div class="row mb-3">
                                     <label for="fullname" class="col-sm-4 col-form-label">Name</label>
                                     <div class="col-sm-8">
-                                        <input id="fullname" name="username" class="form-control border"
-                                               th:field="*{username}">
+                                        <input
+                                                id="fullname"
+                                                name="username"
+                                                class="form-control border"
+                                                th:field="*{username}"
+                                        />
                                         <div id="fullnameError" class="error"></div>
                                     </div>
                                 </div>
@@ -493,8 +277,14 @@
                                 <div class="row mb-3">
                                     <label for="email" class="col-sm-4 col-form-label">Email</label>
                                     <div class="col-sm-8">
-                                        <input style="background-color: whitesmoke" id="email"
-                                               class="form-control border" th:field="*{email}" type="email" readonly>
+                                        <input
+                                                style="background-color: whitesmoke"
+                                                id="email"
+                                                class="form-control border"
+                                                th:field="*{email}"
+                                                type="email"
+                                                readonly
+                                        />
                                         <div id="emailError" class="error"></div>
                                     </div>
                                 </div>
@@ -502,23 +292,37 @@
                                 <div class="row mb-3">
                                     <label for="phone" class="col-sm-4 col-form-label">Phone Number</label>
                                     <div class="col-sm-8">
-                                        <input type="number" id="phone" class="form-control border"
-                                               th:field="*{phoneNumber}">
+                                        <input
+                                                type="number"
+                                                id="phone"
+                                                class="form-control border"
+                                                th:field="*{phoneNumber}"
+                                        />
                                         <div id="phoneError" class="error"></div>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="offset-sm-4 col-sm-8">
-                                        <img th:src="${user.avatar}" th:alt="*{avatar}" width="150">
+                                        <img
+                                                th:src="${user.avatar}"
+                                                th:alt="*{avatar}"
+                                                width="150"
+                                        />
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <label for="avatar" class="col-sm-4 col-form-label">Avatar Upload</label>
                                     <div class="col-sm-8">
-                                        <input id="avatar" name="avatar" class="form-control border" type="file"
-                                               multiple th:field="*{avatar}">
+                                        <input
+                                                id="avatar"
+                                                name="avatar"
+                                                class="form-control border"
+                                                type="file"
+                                                multiple
+                                                th:field="*{avatar}"
+                                        />
                                         <div id="avatarError" class="error"></div>
                                     </div>
                                 </div>
@@ -527,18 +331,36 @@
                                     <label class="col-sm-4 col-form-label">Gender</label>
                                     <div class="col-sm-8">
                                         <div class="form-check form-check-inline">
-                                            <input id="genderMale" name="gender" class="form-check-input border"
-                                                   type="radio" th:field="*{gender}" value="Male"/>
+                                            <input
+                                                    id="genderMale"
+                                                    name="gender"
+                                                    class="form-check-input border"
+                                                    type="radio"
+                                                    th:field="*{gender}"
+                                                    value="Male"
+                                            />
                                             <label for="genderMale" class="form-check-label">Male</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input id="genderFemale" name="gender" class="form-check-input border"
-                                                   type="radio" th:field="*{gender}" value="Female"/>
+                                            <input
+                                                    id="genderFemale"
+                                                    name="gender"
+                                                    class="form-check-input border"
+                                                    type="radio"
+                                                    th:field="*{gender}"
+                                                    value="Female"
+                                            />
                                             <label for="genderFemale" class="form-check-label">Female</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input id="genderOther" name="gender" class="form-check-input border"
-                                                   type="radio" th:field="*{gender}" value="Other"/>
+                                            <input
+                                                    id="genderOther"
+                                                    name="gender"
+                                                    class="form-check-input border"
+                                                    type="radio"
+                                                    th:field="*{gender}"
+                                                    value="Other"
+                                            />
                                             <label for="genderOther" class="form-check-label">Other</label>
                                         </div>
                                         <div id="genderError" class="error"></div>
@@ -548,9 +370,13 @@
                                 <div class="row mb-3">
                                     <label for="birthdate" class="col-sm-4 col-form-label">Birth Date</label>
                                     <div class="col-sm-8">
-                                        <input id="birthdate" name="birthdate"
-                                               class="form-control border flatpickr-input" type="date"
-                                               th:value="*{birthdate}">
+                                        <input
+                                                id="birthdate"
+                                                name="birthdate"
+                                                class="form-control border flatpickr-input"
+                                                type="date"
+                                                th:value="*{birthdate}"
+                                        />
                                         <div id="birthdateError" class="error"></div>
                                     </div>
                                 </div>
@@ -558,8 +384,12 @@
                                 <div class="row mb-3">
                                     <label for="address" class="col-sm-4 col-form-label">Address</label>
                                     <div class="col-sm-8">
-                                        <textarea id="address" name="address" class="form-control"
-                                                  th:field="*{address}"></textarea>
+                                        <input
+                                                id="address"
+                                                name="username"
+                                                class="form-control border"
+                                                th:field="*{address}"
+                                        />
                                         <div id="addressError" class="error"></div>
                                     </div>
                                 </div>
@@ -567,15 +397,24 @@
                                 <div class="row mb-3">
                                     <label for="idcard" class="col-sm-4 col-form-label">CCCD</label>
                                     <div class="col-sm-8">
-                                        <input id="idcard" name="cccdNumber" class="form-control border"
-                                               th:field="*{cccdNumber}" readonly>
+                                        <input
+                                                id="idcard"
+                                                name="cccdNumber"
+                                                class="form-control border"
+                                                th:field="*{cccdNumber}"
+                                                readonly
+                                        />
                                         <div id="idcardError" class="error"></div>
                                     </div>
                                 </div>
 
                                 <div class="row mb-3">
                                     <div class="offset-sm-4 col-sm-8">
-                                        <img th:src="${user.frontCccdImage}" th:alt="*{frontCccdImage}" width="150">
+                                        <img
+                                                th:src="${user.frontCccdImage}"
+                                                th:alt="*{frontCccdImage}"
+                                                width="150"
+                                        />
                                     </div>
                                 </div>
                                 <div class="row mb-3">
@@ -601,11 +440,16 @@
 
                                 <div class="row" style="margin-top: 50px;">
                                     <div class="offset-sm-4 col-sm-4 d-grid">
-                                        <a class="btn secondary-default-btn" th:href="@{/fpt-dorm/employee/home}"
-                                           role="button">Back</a>
+                                        <a
+                                                class="btn secondary-default-btn"
+                                                th:href="@{/fpt-dorm/employee/profile}"
+                                                role="button"
+                                        >Back</a
+                                        >
                                     </div>
                                     <div class="col-sm-4 d-grid">
-                                        <button type="submit" class="btn primary-default-btn" role="button">Save
+                                        <button type="submit" class="btn primary-default-btn" role="button">
+                                            Save
                                         </button>
                                     </div>
                                 </div>
@@ -616,6 +460,96 @@
                                     <p>Save successfully!</p>
                                 </div>
                             </form>
+
+                            <script>
+                                document.getElementById("fullname").addEventListener("blur", validateFullName);
+                                document.getElementById("email").addEventListener("blur", validateEmailField);
+                                document.getElementById("phone").addEventListener("blur", validatePhoneField);
+                                document.getElementById("birthdate").addEventListener("blur", validateBirthdateField);
+                                document.getElementById("address").addEventListener("blur", validateAddressField);
+
+                                function validateFullName() {
+                                    var fullName = document.getElementById("fullname").value;
+                                    var fullNameError = document.getElementById("fullnameError");
+                                    var regex = /^[a-zA-Z\s]+$/; // Regex chỉ cho phép chữ cái và dấu cách
+                                    if (fullName.trim() === "") {
+                                        fullNameError.textContent = "Name is required.";
+                                        return false;
+                                    } else if (!regex.test(fullName)) {
+                                        fullNameError.textContent = "Name can only contain letters and spaces.";
+                                        return false;
+                                    } else {
+                                        fullNameError.textContent = ""; // Xóa thông báo lỗi
+                                        return true;
+                                    }
+                                }
+                                function validateAddressField() {
+                                    var address = document.getElementById("address").value;
+                                    var addressError = document.getElementById("addressError");
+                                    if (address.trim() === "") {
+                                        addressError.textContent = "Address is required.";
+                                        return false;
+                                    } else {
+                                        addressError.textContent = ""; // Xóa thông báo lỗi
+                                        return true;
+                                    }
+                                }
+
+                                function validateEmailField() {
+                                    var email = document.getElementById("email").value;
+                                    var emailError = document.getElementById("emailError");
+                                    var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Regex cho định dạng email
+                                    if (email.trim() === "") {
+                                        emailError.textContent = "Email is required.";
+                                        return false;
+                                    } else if (!regex.test(email)) {
+                                        emailError.textContent = "Invalid email format.";
+                                        return false;
+                                    } else {
+                                        emailError.textContent = ""; // Xóa thông báo lỗi
+                                        return true;
+                                    }
+                                }
+
+                                function validatePhoneField() {
+                                    var phone = document.getElementById("phone").value;
+                                    var phoneError = document.getElementById("phoneError");
+                                    var regex = /^\d{10}$/; // Regex cho 10 chữ số
+                                    if (phone.trim() === "") {
+                                        phoneError.textContent = "Phone number is required.";
+                                        return false;
+                                    } else if (!regex.test(phone)) {
+                                        phoneError.textContent = "Phone number must be 10 digits.";
+                                        return false;
+                                    } else {
+                                        phoneError.textContent = ""; // Xóa thông báo lỗi
+                                        return true;
+                                    }
+                                }
+
+                                function validateBirthdateField() {
+                                    var birthdate = document.getElementById("birthdate").value;
+                                    var birthdateError = document.getElementById("birthdateError");
+                                    if (birthdate.trim() === "") {
+                                        birthdateError.textContent = "Birth date is required.";
+                                        return false;
+                                    } else {
+                                        birthdateError.textContent = ""; // Xóa thông báo lỗi
+                                        return true;
+                                    }
+                                }
+
+                                function validateForm() {
+                                    var isValid = true;
+                                    isValid &= validateFullName();
+                                    isValid &= validateEmailField();
+                                    isValid &= validatePhoneField();
+                                    isValid &= validateBirthdateField();
+                                    isValid &= validateAddressField();
+                                    return isValid;
+                                }
+                            </script>
+
                         </div>
                     </div>
                 </div>
