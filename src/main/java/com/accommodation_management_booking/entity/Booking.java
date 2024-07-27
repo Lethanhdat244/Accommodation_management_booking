@@ -69,7 +69,4 @@ public class Booking {
         Pending, Confirmed, Canceled
     }
 
-    private LocalDateTime checkInDate;
-
-    private LocalDateTime checkOutDate;
 }
