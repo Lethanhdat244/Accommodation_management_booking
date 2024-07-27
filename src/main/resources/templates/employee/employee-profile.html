@@ -153,7 +153,7 @@
                 <ul class="sidebar-body-menu">
                     <li>
                         <a class="show-cat-btn" href="#">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -162,11 +162,11 @@
                         <ul class="cat-sub-menu">
                             <li>
                                 <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
-                                    Students</a>
+                                    Users</a>
                             </li>
                             <li>
                                 <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
-                                    student</a>
+                                    user</a>
                             </li>
                         </ul>
                     </li>
@@ -371,8 +371,13 @@
                                             <input type="radio" th:field="*{user.gender}" value="Female"
                                                    th:checked="${user.gender == 'Female'}" disabled> Female
                                         </label>
+                                        <label>
+                                            <input type="radio" th:field="*{user.gender}" value="Other"
+                                                   th:checked="${user.gender == 'Other'}" disabled> Other
+                                        </label>
                                     </div>
                                 </div>
+
 
                                 <div class="info-item">
                                     <div class="info-label" style="font-weight: 600">Email:</div>

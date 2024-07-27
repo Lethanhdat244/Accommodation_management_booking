@@ -124,7 +124,7 @@
                 <ul class="sidebar-body-menu">
                     <li>
                         <a class="show-cat-btn" href="#">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -133,11 +133,11 @@
                         <ul class="cat-sub-menu">
                             <li>
                                 <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
-                                    Students</a>
+                                    Users</a>
                             </li>
                             <li>
                                 <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
-                                    student</a>
+                                    user</a>
                             </li>
                         </ul>
                     </li>
@@ -331,7 +331,7 @@
 
                         <div class="row mb-2">
                             <div class="col-sm-7">
-                                <label for="studentName" class="col-form-label">Student Name</label>
+                                <label for="studentName" class="col-form-label">User Name</label>
                                 <input id="studentName" readonly class="form-control border"
                                        th:field="${payment.username}">
                             </div>
