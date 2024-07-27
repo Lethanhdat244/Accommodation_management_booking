@@ -8,5 +8,5 @@ public interface FeedbackService {
 
     Integer findLatestBookingIdByRoomNumber(String roomNumber);
 
-    FeedbackDTO findFeedbackAndUserByFeedbackId(int feedbackId);
+//    FeedbackDTO findFeedbackAndUserByFeedbackId(int feedbackId);
 }

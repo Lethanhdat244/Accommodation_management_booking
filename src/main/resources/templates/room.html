@@ -23,69 +23,56 @@
   <script src="/static/homepage_user/js/instafeed.min.js" type="text/javascript"></script>
   <script src="/static/homepage_user/js/custom.js" type="text/javascript"></script>
   <style>
-
-    .more-content {
-      display: none;
-    }
-    .star {
-      font-size: 20px; /
-      color: #ffd700; /
-    }
-
-    .filled-star {
-      color: #ffd700; /* Màu vàng cho sao đầy */
+    .avatar1 {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+        margin-left: 55%;
     }
 
-    .empty-star {
-      color: #d3d3d3; /* Màu xám cho sao rỗng */
-    }
-
-    .comment-section {
-      background: #f9f9f9;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .comment-form h3 {
-      margin-bottom: 20px;
-      font-size: 24px;
-    }
-
-    .comment-form .form-control {
-      margin-bottom: 15px;
-      border-radius: 5px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    }
-
-    .comment-form .submit-btn {
-      background: #28a745;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .comment-form .submit-btn:hover {
-      background: #218838;
-    }
     .comment {
-      margin-bottom: 20px;
-      padding: 15px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
     }
-    .comment p {
-      margin: 0;
+
+    .comment-header {
+      display: block;
     }
-    .comment strong {
+
+    .comment-user, .rating, .comment-meta {
       display: block;
       margin-bottom: 5px;
     }
+
+    .comment-user {
+      font-weight: bold;
+    }
+
+    .rating {
+      display: inline-block;
+    }
+
+    .star {
+      color: #ccc;
+    }
+
+    .filled-star {
+      color: #ffcc00;
+    }
+
+    .comment-meta {
+      color: #888;
+      font-size: 12px;
+    }
+
+    .comment-body {
+      margin-top: 10px;
+    }
+
+
+
     .comment time {
       font-size: 0.9em;
       color: #777;
@@ -226,68 +213,73 @@
         </div>
       </div>
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-9 col-sm-8 col-xs-12">
-          <div class="clearfix"></div>
-          <br/><br/><br/><br/>
-          <div class="comments">
-            <h3>All Feedback</h3><br/>
-            <div class="container mt-4">
+      <div class="container">
+          <div class="row">
+              <div class="col-md-9 col-sm-8 col-xs-12">
+                  <div class="clearfix"></div>
+                  <br/><br/><br/><br/>
 
-            <div class="comment" th:each="comment : ${comments}">
-              <p><strong>Rating:</strong>
-                <span>
-                <span th:each="i : ${#numbers.sequence(1, 5)}"
-                      th:classappend="${i <= comment.rating} ? 'filled-star' : 'empty-star'"
-                      class="star">&#9733;</span>
-            </span>
-              </p>
-              <p><strong>Title:</strong> <span th:text="${comment.title}"></span></p>
+                  <div class="comments">
+                      <h3>All Feedback</h3><br/>
+                      <div class="container mt-4">
+                          <div th:each="comment : ${comments}">
+                              <div class="row comment-header">
+                                  <div class="col-md-1">
+                                      <div class="comment-container">
+                                          <img th:src="${comment.avatar}" class="avatar1" alt="Avatar">
+                                      </div>
+                                  </div>
+                                  <div class="col-md-11">
+                                      <div><span class="comment-user" th:text="${comment.email}"></span></div>
+                                      <div class="rating">
+                                    <span th:each="i : ${#numbers.sequence(1, 5)}"
+                                          th:classappend="${i <= comment.rating} ? 'filled-star' : 'empty-star'"
+                                          class="star">&#9733;</span>
+                                      </div>
+                                      <div class="comment-meta">
+                                          <span th:text="${comment.createdAt}"></span> | <span th:text="${comment.roomNumber}"></span>
+                                      </div>
+                                      <div>
+                                          <strong th:text="${comment.title}"></strong>
+                                      </div>
+                                      <div class="comment-body">
+                                          <p th:text="${comment.comment}"></p>
+                                      </div>
+                                  </div>
+                              </div>
+                              <hr/>
+                          </div>
+                      </div>
+                  </div>
 
-              <div class="more-content">
-                <p><strong>Comment:</strong> <span th:text="${comment.comment}"></span></p>
-                <p><strong>Room Name:</strong> <span th:text="${comment.roomNumber}"></span></p>
-                <p><strong>Created At:</strong> <span th:text="${comment.createdAt}"></span></p>
+                  <div class="pagination-wrapper col-lg-12">
+                      <ul class="pagination">
+                          <!-- Previous Page Link -->
+                          <li th:if="${currentPage > 0}">
+                              <a th:href="@{/fpt-dorm/home/room(page=0)}" aria-label="First">
+                                  <span aria-hidden="true">&laquo;&laquo;</span>
+                              </a>
+                          </li>
+
+                          <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                              th:if="${i == 0 or i == totalPages - 1 or (i >= currentPage - 2 and i <= currentPage + 2)}"
+                              th:classappend="${i == currentPage} ? 'active'">
+                              <a th:href="@{/fpt-dorm/home/room(page=${i})}" th:text="${i + 1}"></a>
+                          </li>
+
+                          <li th:if="${currentPage < totalPages - 1}">
+                              <a th:href="@{/fpt-dorm/home/room(page=${totalPages - 1})}" aria-label="Last">
+                                  <span aria-hidden="true">&raquo;&raquo;</span>
+                              </a>
+                          </li>
+                      </ul>
+                  </div>
+
               </div>
-
-              <button type="button" class="btn btn-primary" onclick="toggleContent(this)">View More</button>
-            </div>
-
           </div>
-            <div class="pagination-wrapper  col-lg-12">
-              <ul class="pagination">
-                <!-- Previous Page Link -->
-                <li th:if="${currentPage > 0}">
-                  <a th:href="@{/fpt-dorm/home/room(page=0)}" aria-label="First">
-                    <span aria-hidden="true">&laquo;&laquo;</span>
-                  </a>
-                </li>
-
-
-
-
-                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
-                    th:if="${i == 0 or i == totalPages - 1 or (i >= currentPage - 2 and i <= currentPage + 2)}"
-                    th:classappend="${i == currentPage} ? 'active'">
-                  <a th:href="@{/fpt-dorm/home/room(page=${i})}" th:text="${i + 1}"></a>
-                </li>
-
-
-                <li th:if="${currentPage < totalPages - 1}">
-                  <a th:href="@{/fpt-dorm/home/room(page=${totalPages - 1})}" aria-label="Last">
-                    <span aria-hidden="true">&raquo;&raquo;</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-
-          </div>
-
-        </div>
       </div>
-    </div>
+
+
   </section>
 
   <!--service block--->
@@ -400,18 +392,6 @@
   </a>
 
 </div>
-<script>
-  function toggleContent(button) {
-    const moreContent = button.previousElementSibling; // Get the more-content div
-    if (moreContent.style.display === 'none' || moreContent.style.display === '') {
-      moreContent.style.display = 'block'; // Show content
-      button.textContent = 'View Less'; // Change button text
-    } else {
-      moreContent.style.display = 'none'; // Hide content
-      button.textContent = 'View More'; // Change button text
-    }
-  }
-</script>
 
 </body>
 </html>

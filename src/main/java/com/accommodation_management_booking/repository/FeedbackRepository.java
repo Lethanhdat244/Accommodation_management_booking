@@ -31,9 +31,9 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
             "WHERE LOWER(p.title) LIKE LOWER(CONCAT('%', :title, '%'))")
     Page<Feedback> searchByTitle(@Param("title") String title, Pageable pageable);
 
-    @Query("SELECT new com.accommodation_management_booking.dto.FeedbackDTO(f.feedbackId, u.username, u.email, u.phoneNumber, f.status, u.userId, b.bookingId, f.rating, f.comment, f.createdAt, f.title, r.roomId, r.roomNumber) " +
-            "FROM Feedback f JOIN f.user u JOIN f.booking b JOIN b.room r WHERE f.feedbackId = :feedbackId")
-    FeedbackDTO findFeedbackAndUserByFeedbackId(@Param("feedbackId") int feedbackId);
+//    @Query("SELECT new com.accommodation_management_booking.dto.FeedbackDTO(f.feedbackId, u.username, u.email, u.phoneNumber, f.status, u.userId, b.bookingId, f.rating, f.comment, f.createdAt, f.title, r.roomId, r.roomNumber) " +
+//            "FROM Feedback f JOIN f.user u JOIN f.booking b JOIN b.room r WHERE f.feedbackId = :feedbackId")
+//    FeedbackDTO findFeedbackAndUserByFeedbackId(@Param("feedbackId") int feedbackId);
 
     @Query("SELECT f FROM Feedback f WHERE f.feedbackId = :feedbackId")
     Optional findByFeedbackId(@Param("feedbackId") int feedbackId);

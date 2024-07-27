@@ -35,31 +35,13 @@ public class FeedbackServiceImpl implements FeedbackService {
         return bookingRepository.findLatestBookingIdByRoomNumber(roomNumber);
     }
 
-    public Page<User> getallfeeback(Pageable pageable) {
-        return feedbackRepository.findUsersWithBooking(pageable);
-    }
 
-
-    public Page<User> searchfeebackByMail(String keyword, Pageable pageable) {
-        return feedbackRepository.searchByEmail(keyword, pageable);
-    }
-
-
-    public Page<Feedback> searchFeedbackByUser(int userId, Pageable pageable) {
-        return feedbackRepository.findByUserId(userId, pageable);
-    }
-
-    public Page<Feedback> searchFeedbackBytilte(String keyword, Pageable pageable) {
-        return feedbackRepository.searchByTitle(keyword, pageable);
-    }
-
-    public FeedbackDTO findFeedbackAndUserByFeedbackId(int feedbackId) {
-        return feedbackRepository.findFeedbackAndUserByFeedbackId(feedbackId);
-    }
+//    public FeedbackDTO findFeedbackAndUserByFeedbackId(int feedbackId) {
+//        return feedbackRepository.findFeedbackAndUserByFeedbackId(feedbackId);
+//    }
     public Page<FeedbackUserDTO> getAllFeedbackDetails(Pageable pageable) {
         Page<Feedback> feedbackPage = feedbackRepository.findFeedbackDetails(pageable);
 
-        // Chuyển đổi từ Feedback sang testDTO
         List<FeedbackUserDTO> feedbackUserDTOList = feedbackPage.getContent().stream()
                 .map(feedback -> new FeedbackUserDTO(
                         feedback.getFeedbackId(),
@@ -67,10 +49,16 @@ public class FeedbackServiceImpl implements FeedbackService {
                         feedback.getRating(),
                         feedback.getTitle(),
                         feedback.getComment(),
-                        feedback.getCreatedAt()
+                        feedback.getCreatedAt(),
+                        feedback.getUser().getEmail(),
+                        feedback.getUser().getAvatar()
                 ))
                 .collect(Collectors.toList());
 
         return new PageImpl<>(feedbackUserDTOList, pageable, feedbackPage.getTotalElements());
     }
+
+
+
+
 }

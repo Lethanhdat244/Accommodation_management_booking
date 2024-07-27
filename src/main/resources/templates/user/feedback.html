@@ -353,6 +353,8 @@
             <div class="col-lg-7 col-sm-12 request_box">
                 <h1>Feedback</h1>
                 <form id="feedbackForm" action="/fpt-dorm/user/feedbackForm" method="post">
+                    <input type="hidden" id="userId" value="room.userId">
+
                     <ul class="formList">
                         <li class="form-row">
                             <div class="row">
@@ -389,29 +391,32 @@
                             <textarea name="content" class="form-control" cols="100" rows="10" required
                                       maxlength="50"></textarea>
                         </li>
+
                         <li>
                             <div class="row" style="margin-top: 50px;">
-                                <div id="feedbackSuccessModal" class="modal">
+                                <!-- Feedback Success Modal -->
+                                <div id="feedbackSuccessModal" class="modal" style="display: none;">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title">Feedback</h5>
                                             </div>
-                                            <div class="modal-body">
+                                            <div class="modal-body" id="modalMessage">
                                                 <p>Feedback submitted successfully!</p>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-primary" onclick="location.href='news'">OK</button>
-
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <!-- Feedback Form -->
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-lg book-now-btn center-block">Send Feedback</button>
                                 </div>
                             </div>
                         </li>
+
                     </ul>
                 </form>
 
@@ -505,6 +510,7 @@
         <span>Top</span>
     </a>
 </div>
+
 <script>
     document.getElementById('feedbackForm').addEventListener('submit', function(event) {
         event.preventDefault();
@@ -531,6 +537,7 @@
             .then(message => {
                 if (message === "Feedback submitted successfully") {
                     openFeedbackSuccessModal();
+                    setupCountdownTimer();
                 } else {
                     alert('An error occurred: ' + message);
                 }
@@ -545,7 +552,63 @@
         document.getElementById('feedbackSuccessModal').style.display = 'block';
     }
 
+    function setupCountdownTimer() {
+        const userId = document.getElementById('userId').value;
+        const feedbackDisabledUntilKey = `feedbackDisabledUntil_${userId}`;
+        const feedbackDisabledUntil = localStorage.getItem(feedbackDisabledUntilKey);
+
+        const modalMessage = document.getElementById('modalMessage');
+        const feedbackButton = document.querySelector('button[type="submit"]');
+
+        if (feedbackDisabledUntil) {
+            const endDate = new Date(feedbackDisabledUntil);
+            const now = new Date();
+
+            if (now < endDate) {
+                const timeRemaining = endDate - now;
+                // const minutesRemaining = Math.ceil(timeRemaining / (1000 * 60));
+                const daysRemaining = Math.ceil(timeRemaining / (1000 * 60 * 60 * 24));
+                modalMessage.innerHTML = `
+                <p>You will be able to submit feedback again on ${endDate.toLocaleDateString()}.</p>
+                <p>Day remaining: ${daysRemaining} Day.</p>
+            `;
+
+                feedbackButton.textContent = `Feedback not available. Next Feedback on ${endDate.toLocaleDateString()}`;
+                feedbackButton.disabled = true;
+            } else {
+                console.log('Clearing localStorage for key:', feedbackDisabledUntilKey);
+                localStorage.removeItem(feedbackDisabledUntilKey);
+
+                modalMessage.innerHTML = `
+                <p>You can now submit feedback.</p>
+            `;
+
+                feedbackButton.textContent = 'Submit Feedback';
+                feedbackButton.disabled = false;
+            }
+        } else {
+
+            const endDate = new Date();
+            // endDate.setMinutes(endDate.getMinutes() + 1);
+            endDate.setMonth(endDate.getMonth() + 2);
+
+            localStorage.setItem(feedbackDisabledUntilKey, endDate.toISOString());
+
+            modalMessage.innerHTML = `
+            <p>You will be able to submit feedback again on ${endDate.toLocaleDateString()}.</p>
+            <p>Day remaining: 60 Day.</p>
+        `;
+
+            feedbackButton.textContent = `Feedback not available. Next Feedback on ${endDate.toLocaleDateString()}`;
+            feedbackButton.disabled = true;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', setupCountdownTimer);
 
 </script>
+
+
+
 </body>
 </html>

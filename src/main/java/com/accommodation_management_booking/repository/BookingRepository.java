@@ -1,5 +1,6 @@
 package com.accommodation_management_booking.repository;
 
+import com.accommodation_management_booking.dto.FeedbackDTO;
 import com.accommodation_management_booking.dto.ResidentHistoryDTO;
 import com.accommodation_management_booking.entity.Booking;
 import org.springframework.data.domain.Page;
@@ -8,17 +9,23 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
-    @Query("SELECT DISTINCT b.room.roomNumber FROM Booking b WHERE b.user.userId = :userId")
+    @Query("SELECT DISTINCT b.room.roomNumber FROM Booking b WHERE b.user.userId = :userId  AND b.status = 'Confirmed' ")
     List<String> findRoomNumbersByUserId(@Param("userId") int userId);
+@Query("SELECT DISTINCT b.room.roomNumber, b.startDate, b.endDate FROM Booking b WHERE b.user.userId = :userId AND b.status = 'Confirmed' ")
+List<FeedbackDTO> findRoomDetailsByUserId(@Param("userId") int userId);
+
+
 
     @Query("SELECT b FROM Booking b JOIN b.user u WHERE u.roleUser = 'USER'")
     Page<Booking> findAllByRoleUser(Pageable pageable);
+
+
 
     @Query("SELECT b FROM Booking b JOIN b.user u WHERE u.username = :username AND u.roleUser = 'USER'")
     Booking findByUsernameAndRoleUser(@Param("username") String username);

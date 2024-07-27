@@ -1,10 +1,12 @@
 package com.accommodation_management_booking.dto;
 
 import com.accommodation_management_booking.entity.Feedback;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -25,4 +27,9 @@ public class FeedbackDTO {
     private String title;
     private int roomId;
     private String roomNumber;
+    @Column(nullable = false)
+    private LocalDate startDate;
+
+    @Column(nullable = false)
+    private LocalDate endDate;
 }
