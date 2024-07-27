@@ -1,21 +1,25 @@
 package com.accommodation_management_booking.controller;
 
 import com.accommodation_management_booking.dto.ResidentHistoryDTO;
+
 import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.ResidentHistoryService;
 import com.accommodation_management_booking.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 @Controller
 public class ResidentHistoryController {

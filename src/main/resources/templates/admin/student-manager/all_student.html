@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Student List | Admin</title>
+    <title>User List | Admin</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -155,7 +155,7 @@
                     </li>
                     <li>
                         <a id="menu-student" class="show-cat-btn active">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                                 <span class="sr-only">Open list</span>
                                 <span class="icon arrow-down" aria-hidden="true"></span>
@@ -164,11 +164,11 @@
                         <ul class="cat-sub-menu">
                             <li>
                                 <a id="menu-all-students" class="" th:href="@{/fpt-dorm/admin/admin_list_student}">All
-                                    Students</a>
+                                    Users</a>
                             </li>
                             <li>
                                 <a id="menu-add-student" class="" th:href="@{/fpt-dorm/admin/admin_add_student}">Add new
-                                    student</a>
+                                    user</a>
                             </li>
                         </ul>
                     </li>
@@ -345,7 +345,7 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Student List</h2>
+                <h2 class="main-title">User List</h2>
                 <div class="row">
                     <div class="col-lg-6">
                         <form th:action="@{/fpt-dorm/admin/student/search}" method="get" class="search-form">

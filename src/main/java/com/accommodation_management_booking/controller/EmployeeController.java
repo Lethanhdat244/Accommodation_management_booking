@@ -10,6 +10,7 @@ import com.accommodation_management_booking.service.impl.NotificationService;
 import com.accommodation_management_booking.service.impl.UsageServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -352,24 +353,24 @@ public class EmployeeController {
     }
 
     @PostMapping("/fpt-dorm/employee/usage-service/{id}")
-    public String executeUsageServiceData(@PathVariable(name = "id") int id,
-                                          @RequestParam("electric") int electric,
-                                          @RequestParam("water") int water,
-                                          @RequestParam("others") int others,
-                                          Model model,
-                                          Authentication authentication) {
+    public ResponseEntity<String> executeUsageServiceData(@PathVariable(name = "id") int id,
+                                                          @RequestParam("electric") int electric,
+                                                          @RequestParam("water") int water,
+                                                          @RequestParam("others") int others,
+                                                          Authentication authentication) {
         List<UserBookingDTO> usageServiceDTOs = userBookingRepository.findCurrentBookingsByRoomId(id);
+
         if (usageServiceDTOs.isEmpty()) {
-            model.addAttribute("error", "This room is currently unoccupied.");
-            List<Dorm> dorms = dormRepository.findAll();
-            model.addAttribute("dorms", dorms);
-            return "employee/employee_usageService";
+            // Return a 400 Bad Request status with an error message
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("This room is currently unoccupied.");
         }
 
+        // Calculate usage costs
         float e = (electric * 4000f) / usageServiceDTOs.size();
         float w = (water * 5000f) / usageServiceDTOs.size();
         float o = (others * 1000f) / usageServiceDTOs.size();
 
+        // Save usage services for each booking
         for (UserBookingDTO user : usageServiceDTOs) {
             UsageService usageService = new UsageService();
             usageService.setUser(userRepository.searchUserById(user.getUserId()));
@@ -380,6 +381,7 @@ public class EmployeeController {
             usageServiceService.saveUsageService(usageService);
         }
 
+        // Retrieve the email from authentication
         String email = null;
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
@@ -389,10 +391,12 @@ public class EmployeeController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             email = userDetails.getUsername();
         }
-        model.addAttribute("email", email != null ? email : "Unknown");
-        List<Dorm> dorms = dormRepository.findAll();
-        model.addAttribute("dorms", dorms);
-        return "employee/employee_usageService";
+
+        // Log the email for debugging purposes
+        System.out.println("Processed by: " + (email != null ? email : "Unknown"));
+
+        // Return success response
+        return ResponseEntity.ok("Data submitted successfully.");
     }
 
     @GetMapping("/fpt-dorm/employee/notifications")

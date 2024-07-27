@@ -67,7 +67,6 @@ public class DormController {
         List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo1();
         model.addAttribute("dormBedInfoList", dormBedInfoList);
         model.addAttribute("role", session.getAttribute("role"));
-
         return "user/available_bed";
     }
 
@@ -171,17 +170,37 @@ public class DormController {
 
     @GetMapping("/fpt-dorm/admin/delete-floor/{floorId}")
     public String deleteFloor(@PathVariable("floorId") int floorId, RedirectAttributes redirectAttributes) {
+        // Lấy thông tin tầng cần xóa
         Floor floor = floorService.getFloorById(floorId);
+        if (floor == null) {
+            // Tầng không tồn tại
+            redirectAttributes.addFlashAttribute("error", "Floor not found.");
+            return "redirect:/fpt-dorm/admin/view-floor-list";
+        }
+
+        // Lấy tầng cao nhất trong cùng một ký túc xá
         Floor highestFloor = floorService.getHighestFloorByDormId(floor.getDorm().getDormId());
 
+        // Kiểm tra nếu tầng cần xóa có phải là tầng cao nhất không
         if (floor.getFloorNumber().equals(highestFloor.getFloorNumber())) {
-            floorService.deleteFloor(floorId);
+            // Kiểm tra nếu tầng có phòng nào không
+            List<Room> rooms = roomService.getRoomsByFloorId(floorId);
+            if (rooms != null && !rooms.isEmpty()) {
+                // Tầng có chứa phòng, không cho phép xóa
+                redirectAttributes.addFlashAttribute("error", "The floor cannot be deleted because it contains rooms.");
+            } else {
+                // Xóa tầng nếu không có phòng
+                floorService.deleteFloor(floorId);
+            }
         } else {
+            // Tầng không phải là tầng cao nhất, không cho phép xóa
             redirectAttributes.addFlashAttribute("error", "Only the highest floor can be deleted.");
         }
 
+        // Chuyển hướng về danh sách tầng
         return "redirect:/fpt-dorm/admin/view-floor-list/" + floor.getDorm().getDormId();
     }
+
 
 
     @GetMapping("/fpt-dorm/admin/edit-floor-form/{dormId}/{floorId}")
@@ -583,18 +602,38 @@ public class DormController {
 
 
     @GetMapping("/fpt-dorm/employee/delete-floor/{floorId}")
-    public String employeeDeleteFloor(@PathVariable("floorId") int floorId, RedirectAttributes redirectAttributes) {
+    public String DeleteFloor(@PathVariable("floorId") int floorId, RedirectAttributes redirectAttributes) {
+        // Lấy thông tin tầng cần xóa
         Floor floor = floorService.getFloorById(floorId);
+        if (floor == null) {
+            // Tầng không tồn tại
+            redirectAttributes.addFlashAttribute("error", "Floor not found.");
+            return "redirect:/fpt-dorm/admin/view-floor-list";
+        }
+
+        // Lấy tầng cao nhất trong cùng một ký túc xá
         Floor highestFloor = floorService.getHighestFloorByDormId(floor.getDorm().getDormId());
 
+        // Kiểm tra nếu tầng cần xóa có phải là tầng cao nhất không
         if (floor.getFloorNumber().equals(highestFloor.getFloorNumber())) {
-            floorService.deleteFloor(floorId);
+            // Kiểm tra nếu tầng có phòng nào không
+            List<Room> rooms = roomService.getRoomsByFloorId(floorId);
+            if (rooms != null && !rooms.isEmpty()) {
+                // Tầng có chứa phòng, không cho phép xóa
+                redirectAttributes.addFlashAttribute("error", "The floor cannot be deleted because it contains rooms.");
+            } else {
+                // Xóa tầng nếu không có phòng
+                floorService.deleteFloor(floorId);
+            }
         } else {
+            // Tầng không phải là tầng cao nhất, không cho phép xóa
             redirectAttributes.addFlashAttribute("error", "Only the highest floor can be deleted.");
         }
 
-        return "redirect:/fpt-dorm/employee/view-floor-list/" + floor.getDorm().getDormId();
+        // Chuyển hướng về danh sách tầng
+        return "redirect:/fpt-dorm/admin/view-floor-list/" + floor.getDorm().getDormId();
     }
+
 
 
     @GetMapping("/fpt-dorm/employee/edit-floor-form/{dormId}/{floorId}")

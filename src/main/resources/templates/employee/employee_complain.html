@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/homepage_user/images/icons/favicon.png"/>
-    <title>Complain | Employee</title>
+    <title>Complaint | Employee</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <link rel="" href="/homepage_user/images/icons/favicon.png"/>
@@ -140,7 +140,7 @@
                 <ul class="sidebar-body-menu">
                     <li>
                         <a class="show-cat-btn" href="#">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -149,11 +149,11 @@
                         <ul class="cat-sub-menu">
                             <li>
                                 <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
-                                    Students</a>
+                                    Users</a>
                             </li>
                             <li>
                                 <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
-                                    student</a>
+                                    user</a>
                             </li>
                         </ul>
                     </li>
@@ -331,7 +331,7 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Complain List</h2>
+                <h2 class="main-title">Complaint List</h2>
                 <div class="canvas-wrapper" style="margin-bottom: 20px">
                     <form th:action="@{/fpt-dorm/employee/complain}" th:method="get">
                         <select class="" id="status" name="status">

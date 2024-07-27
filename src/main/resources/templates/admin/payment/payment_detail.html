@@ -80,7 +80,7 @@
                     </li>
                     <li>
                         <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -88,10 +88,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Users</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new user</a>
                             </li>
                         </ul>
                     </li>
@@ -286,7 +286,7 @@
 
                         <div class="row mb-2">
                             <div class="col-sm-7">
-                                <label for="studentName" class="col-form-label">Student Name</label>
+                                <label for="studentName" class="col-form-label">User Name</label>
                                 <input id="studentName" readonly class="form-control border"
                                        th:field="${payment.username}">
                             </div>
@@ -377,14 +377,12 @@
                             </div>
                         </div>
 
-                        <div class="row" style="margin-top: 20px;">
-                            <div class="offset-sm-4 col-sm-4 d-grid">
+                        <div style="margin-top: 20px; display: flex; justify-content: center;">
+                            <div class="button-group" style="display: flex; gap: 10px;">
                                 <a class="btn secondary-default-btn" onclick="window.history.back()"
                                    role="button">Back</a>
-                            </div>
-                            <div th:if="${contract != null}" class="offset-sm-4 col-sm-4 d-grid">
-                                <a class="btn secondary-default-btn" th:href="${contract.contractLink}"
-                                   role="button">Contract</a>
+                                <a th:if="${contract != null}" class="btn secondary-default-btn"
+                                   th:href="${contract.contractLink}" role="button">Contract</a>
                             </div>
                         </div>
                     </div>

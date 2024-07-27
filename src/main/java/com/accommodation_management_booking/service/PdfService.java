@@ -126,8 +126,6 @@ public class PdfService {
         // Xóa file tạm
         tempFile.delete();
 
-        sendEmailWithPdfLink(booking, (String) uploadResult.get("url"));
-
         return (String) uploadResult.get("url");
     }
 

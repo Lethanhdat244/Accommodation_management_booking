@@ -188,7 +188,7 @@
                     </li>
                     <li>
                         <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -196,10 +196,10 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Users</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new user</a>
                             </li>
                         </ul>
                     </li>
@@ -494,7 +494,7 @@
     var roomNumber;
     function updateRooms() {
         const floorId = document.getElementById("floor").value;
-        $.get('/fpt-dorm/user/booking/roomsByFloor', {floorId: floorId}, function (data) {
+        $.get('/fpt-dorm/user/roominused', {floorId: floorId}, function (data) {
             let roomTable = $('#roomTable tbody');
             roomTable.empty(); // Clear existing rows
             $.each(data, function (i, room) {
@@ -527,14 +527,17 @@
                 e.preventDefault(); // Prevent the form from submitting the default way
                 const formData = $(this).serialize();
 
-                $.post('/fpt-dorm/admin/usage-service/' + $('#roomId').val(), formData, function (response) {
-                    // Hide the row after successful submission
-                    alert("Enter data for room " + roomNumber + " succeed")
-                    $('button[data-room-id="' + $('#roomId').val() + '"]').closest('tr').hide();
-                    $('#popupForm').hide(); // Hide the popup form
-                }).fail(function () {
-                    alert('Failed to submit data');
-                });
+                $.post('/fpt-dorm/admin/usage-service/' + $('#roomId').val(), formData)
+                    .done(function (response) {
+                        // Success callback
+                        alert("Enter data for room " + roomNumber + " succeeded");
+                        $('button[data-room-id="' + $('#roomId').val() + '"]').closest('tr').hide();
+                        $('#popupForm').hide(); // Hide the popup form
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        // Failure callback
+                        alert('Failed to submit data: ' + jqXHR.responseText);
+                    });
             });
         }).fail(function () {
             alert("Failed to retrieve room data. Please try again later.");

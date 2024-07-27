@@ -185,7 +185,7 @@
                 <ul class="sidebar-body-menu">
                     <li>
                         <a class="show-cat-btn" href="#">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -194,11 +194,11 @@
                         <ul class="cat-sub-menu">
                             <li>
                                 <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
-                                    Students</a>
+                                    Users</a>
                             </li>
                             <li>
                                 <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
-                                    student</a>
+                                    user</a>
                             </li>
                         </ul>
                     </li>
@@ -434,23 +434,25 @@
                         <div class="form-group">
                             <label>Electricity:</label>
                             <div class="row">
-                                <input class="col-11" min="0" type="number" placeholder="Electricity" name="electric"
-                                       required>
-                                <span class="col-1">KW</span>
+                                <input class="col-8" min="0" type="number" placeholder="Electricity" name="electric"
+                                       id="electric" required>
+                                <span class="col-4" style="align-content: center">KW</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Water:</label>
                             <div class="row">
-                                <input class="col-11" min="0" type="number" placeholder="Water" name="water" required>
-                                <span class="col-1">&#13221;</span>
+                                <input class="col-8" min="0" type="number" placeholder="Water" name="water"
+                                       id="water" required>
+                                <span class="col-4" style="align-content: center">&#13221;</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Others:</label>
-                            <div class="row">
-                                <input class="col-11" min="0" type="number" placeholder="Others" name="others" required>
-                                <span class="col-1">000 VND</span>
+                            <div class="row" style="align-content: center">
+                                <input class="col-8" min="0" type="number" placeholder="Others" name="others"
+                                       id="others" required>
+                                <span class="col-4" style="align-content: center">000 VND</span>
                             </div>
                         </div>
                         <button class="btn primary" type="submit">Send</button>
@@ -486,7 +488,7 @@
 
     function updateRooms() {
         const floorId = document.getElementById("floor").value;
-        $.get('/fpt-dorm/user/booking/roomsByFloor', {floorId: floorId}, function (data) {
+        $.get('/fpt-dorm/user/roominused', {floorId: floorId}, function (data) {
             let roomTable = $('#roomTable tbody');
             roomTable.empty(); // Clear existing rows
             $.each(data, function (i, room) {
@@ -500,7 +502,10 @@
             });
             $(document).on('click', '.popupBtn', function () {
                 const roomId = $(this).data('room-id');
-                const roomNumber = $(this).data('room-number');
+                roomNumber = $(this).data('room-number');
+                $('#others').val('');
+                $('#water').val('');
+                $('#electric').val('');
                 $('#roomId').val(roomId);
                 $('#roomNumber').text(roomNumber);
                 $('#popupForm').show();
@@ -516,13 +521,17 @@
                 e.preventDefault(); // Prevent the form from submitting the default way
                 const formData = $(this).serialize();
 
-                $.post('/fpt-dorm/employee/usage-service/' + $('#roomId').val(), formData, function (response) {
-                    // Hide the row after successful submission
-                    $('button[data-room-id="' + $('#roomId').val() + '"]').closest('tr').hide();
-                    $('#popupForm').hide(); // Hide the popup form
-                }).fail(function () {
-                    alert('Failed to submit data');
-                });
+                $.post('fpt-dorm/employee/usage-service/' + $('#roomId').val(), formData)
+                    .done(function (response) {
+                        // Success callback
+                        alert("Enter data for room " + roomNumber + " succeeded");
+                        $('button[data-room-id="' + $('#roomId').val() + '"]').closest('tr').hide();
+                        $('#popupForm').hide(); // Hide the popup form
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        // Failure callback
+                        alert('Failed to submit data: ' + jqXHR.responseText);
+                    });
             });
         }).fail(function () {
             alert("Failed to retrieve room data. Please try again later.");

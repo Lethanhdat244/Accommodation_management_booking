@@ -282,6 +282,19 @@ public class PaymentController {
             booking.setRefundDate(refundDate);
             booking.setStatus(Booking.Status.Confirmed);
             bookingRepository.save(booking);
+
+            String encodedBookingId = encode(booking.getBookingId());
+
+            // Gửi email
+            String toEmail = booking.getUser().getEmail(); // Email người dùng
+            String subject = "Payment-Confirmed"; // Tiêu đề email
+            String body = "Dear " + booking.getUser().getUsername() + ",\n\n" +
+                    "Your payment was confirmed." +
+                    "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?token=" + encodedBookingId +
+                    "\n\nThank you for your booking."; // Nội dung email
+
+            emailService.sendBill(toEmail, subject, body);
+
             return ResponseEntity.ok("Payment confirmed successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
@@ -746,22 +759,27 @@ public class PaymentController {
             booking.setStatus(Booking.Status.Confirmed);
             bookingRepository.save(booking);
 
-            // Send email
-            String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
-            String subject = "Payment Successful - Booking Confirmation";
-            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was successful." +
-//                    "\n Payment code: " + payment1.getPaymentDetail() +
-                    "\nTotal Price: " + booking.getTotalPrice() +
-                    "\nAmount Paid: " + booking.getAmountPaid() +
-//                    "\nDate: " + payment1.getPaymentDate() +
-                    "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?bookingId=" + booking.getBookingId() +
-                    "\n\nThank you for your booking.";
+            String encodedBookingId = encode(booking.getBookingId());
+
+            // Gửi email
+            String toEmail = booking.getUser().getEmail(); // Email người dùng
+            String subject = "Payment-Confirmed"; // Tiêu đề email
+            String body = "Dear " + booking.getUser().getUsername() + ",\n\n" +
+                    "Your payment was confirmed." +
+                    "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?token=" + encodedBookingId +
+                    "\n\nThank you for your booking."; // Nội dung email
+
             emailService.sendBill(toEmail, subject, body);
 
             return ResponseEntity.ok("Payment confirmed successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
         }
+    }
+
+    public static String encode(int bookingId) {
+        String idAsString = String.valueOf(bookingId);
+        return Base64.getUrlEncoder().encodeToString(idAsString.getBytes());
     }
 
 
