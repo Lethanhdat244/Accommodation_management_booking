@@ -113,13 +113,29 @@
         function validateBirthdate() {
             var birthdate = document.getElementById("birthdate").value;
             var birthdateError = document.getElementById("birthdateError");
+
             if (!birthdate) {
                 birthdateError.textContent = "Birth Date is required.";
                 return false;
-            } else {
-                birthdateError.textContent = "";
-                return true;
             }
+
+            var birthdateDate = new Date(birthdate);
+            var today = new Date();
+            var age = today.getFullYear() - birthdateDate.getFullYear();
+            var monthDifference = today.getMonth() - birthdateDate.getMonth();
+
+            // Check if the birthdate has not yet occurred this year
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdateDate.getDate())) {
+                age--;
+            }
+
+            if (age < 18) {
+                birthdateError.textContent = "You must be at least 18 years old.";
+                return false;
+            }
+
+            birthdateError.textContent = "";
+            return true;
         }
 
         function validatePhone() {
@@ -478,7 +494,7 @@
 
                     <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
                         <h2 class="main-title text-center">Add Employee</h2>
-                        <form th:action="@{/fpt-dorm/admin/admin/add/submit}" method="post"
+                        <form th:action="@{/fpt-dorm/admin/employee/add/submit}" method="post"
                               enctype="multipart/form-data" th:object="${userDTO}" onsubmit="return validateForm()">
                             <div class="row mb-3">
                                 <label for="fullname" class="col-sm-4 col-form-label">Name</label>

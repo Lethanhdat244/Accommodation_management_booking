@@ -481,7 +481,7 @@
 
                     <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
                         <h2 class="main-title text-center">Edit Employee</h2>
-                        <form th:action="@{/fpt-dorm/admin/admin/edit/save}" method="post"
+                        <form th:action="@{/fpt-dorm/admin/employee/edit/save}" method="post"
                               enctype="multipart/form-data" th:object="${userDTO}" onsubmit="return validateForm()">
                             <input type="hidden" name="userId" th:value="${user.userId}">
                             <div class="row mb-3">

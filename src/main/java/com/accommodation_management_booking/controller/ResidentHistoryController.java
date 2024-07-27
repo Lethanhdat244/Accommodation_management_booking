@@ -52,8 +52,8 @@ public class ResidentHistoryController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "5") int size,
             @RequestParam(value = "roomNumber", required = false) String roomNumber,
-            Model model, Authentication authentication) {
-
+            Model model, Authentication authentication, HttpSession session) {
+        model.addAttribute("role", session.getAttribute("role"));
         try {
             User user = getUserFromAuthentication(authentication);
             model.addAttribute("email", user.getEmail());

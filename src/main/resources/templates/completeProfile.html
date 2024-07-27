@@ -34,14 +34,31 @@
         function validateBirthdate() {
             var birthdate = document.getElementById("birthdate").value;
             var birthdateError = document.getElementById("birthdateError");
+
             if (!birthdate) {
                 birthdateError.textContent = "Birth Date is required.";
                 return false;
-            } else {
-                birthdateError.textContent = "";
-                return true;
             }
+
+            var birthdateDate = new Date(birthdate);
+            var today = new Date();
+            var age = today.getFullYear() - birthdateDate.getFullYear();
+            var monthDifference = today.getMonth() - birthdateDate.getMonth();
+
+            // Check if the birthdate has not yet occurred this year
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdateDate.getDate())) {
+                age--;
+            }
+
+            if (age < 18) {
+                birthdateError.textContent = "You must be at least 18 years old.";
+                return false;
+            }
+
+            birthdateError.textContent = "";
+            return true;
         }
+
 
         function validatePhone() {
             var phone = document.getElementById("phone").value;
@@ -102,7 +119,7 @@
         }
 
         function validateFrontFace() {
-            var frontface = document.getElementById("frontface").files.length;
+            var frontface = document.getElementById("frontCccdImage").files.length;
             var frontfaceError = document.getElementById("frontfaceError");
             if (frontface === 0) {
                 frontfaceError.textContent = "Front face ID card is required.";
@@ -114,7 +131,7 @@
         }
 
         function validateBackFace() {
-            var backface = document.getElementById("backface").files.length;
+            var backface = document.getElementById("backCccdImage").files.length;
             var backfaceError = document.getElementById("backfaceError");
             if (backface === 0) {
                 backfaceError.textContent = "Back face ID card is required.";
