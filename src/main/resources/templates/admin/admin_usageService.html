@@ -494,7 +494,7 @@
     var roomNumber;
     function updateRooms() {
         const floorId = document.getElementById("floor").value;
-        $.get('/fpt-dorm/user/booking/roomsByFloor', {floorId: floorId}, function (data) {
+        $.get('/fpt-dorm/user/roominused', {floorId: floorId}, function (data) {
             let roomTable = $('#roomTable tbody');
             roomTable.empty(); // Clear existing rows
             $.each(data, function (i, room) {

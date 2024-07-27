@@ -129,6 +129,13 @@ public class BookingController {
         return roomRepository.findByFloorFloorId(floorId);
     }
 
+    @GetMapping("/fpt-dorm/user/roominused")
+    @ResponseBody
+    public List<Room> getRoomOccurpied(@RequestParam("floorId") Integer floorId) {
+        return roomRepository.getRoomInUsed(floorId);
+
+    }
+
     @GetMapping("fpt-dorm/user/booking/beds")
     @ResponseBody
     public List<Bed> getBeds(@RequestParam("roomId") Integer roomId) {
