@@ -575,7 +575,7 @@ public class PaymentController {
                             }
 
                             // Convert the amount paid from VND to USD
-                            float amountPaidInUSD = booking.getAmountPaid() * exchangeRate;
+                            float amountPaidInUSD = booking.getAmountPaid() * exchangeRate - 3;
                             float refundAmount = amountPaidInUSD / exchangeRate;
                             // Logging for debugging
                             System.out.println("Amount paid in VND: " + booking.getAmountPaid());
@@ -808,7 +808,7 @@ public class PaymentController {
                             }
 
                             // Convert the amount paid from VND to USD
-                            float amountPaidInUSD = booking.getAmountPaid() * exchangeRate;
+                            float amountPaidInUSD = booking.getAmountPaid() * exchangeRate-3;
                             float refundAmount = amountPaidInUSD / exchangeRate;
                             // Logging for debugging
                             System.out.println("Amount paid in VND: " + booking.getAmountPaid());
