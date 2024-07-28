@@ -3,7 +3,9 @@ package com.accommodation_management_booking.controller;
 import com.accommodation_management_booking.dto.NewDTO;
 import com.accommodation_management_booking.entity.New;
 import com.accommodation_management_booking.repository.NewRepository;
+import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.NewService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,8 @@ public class NewController {
     @Autowired
     private NewService newService;
 
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/fpt-dorm/employee/add-news")
     public String showAddForm(Model model) {
@@ -54,7 +58,7 @@ public class NewController {
 
 
     @GetMapping("fpt-dorm/user/news")
-    public String newfeed(Model model, Authentication authentication) {
+    public String newfeed(Model model, Authentication authentication, HttpSession session) {
         List<New> newList=newRepository.findTop10ByOrderByNewsIdDesc();
         model.addAttribute("newDTOList",newList);
         if (authentication instanceof OAuth2AuthenticationToken) {
@@ -69,6 +73,9 @@ public class NewController {
             // Handle cases where the authentication is not OAuth2
             model.addAttribute("email", "Unknown");
         }
+        String role = userRepository.findByEmail((String) model.getAttribute("email")).getRoleUser().toString();
+        session.setAttribute("role", role);
+        model.addAttribute("role", role);
         return "new";
     }
 

@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Payment List</title>
+    <title>Payment List | Admin</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -160,7 +160,7 @@
                     </li>
                     <li>
                         <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -168,30 +168,19 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Users</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new user</a>
                             </li>
                         </ul>
                     </li>
 
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                        <a th:href="@{/fpt-dorm/admin/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
-                            </li>
-                        </ul>
                     </li>
 
                     <li>
@@ -252,7 +241,7 @@
                     </li>
 
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/usage-service}">
+                        <a th:href="@{/fpt-dorm/admin/usage-service}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Usage Service
                         </a>
@@ -265,19 +254,8 @@
                         </a>
                     </li>
 
-                    <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
-                        </a>
-                    </li>
 
-                    <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
+
 
                     <li>
                         <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
@@ -289,17 +267,6 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"
-                                 type="image/webp"><img
-                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
-                <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">AI</span>
-                    <span class="sidebar-user__subtitle">Support manager</span>
-                </div>
-            </a>
         </div>
     </aside>
     <div class="main-wrapper">
@@ -319,10 +286,6 @@
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
                     <div class="notification-wrapper">
-                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
-                            <span class="sr-only">To messages</span>
-                            <span class="icon notification active" aria-hidden="true"></span>
-                        </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
                                 <a href="#">
@@ -374,7 +337,7 @@
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+                            <!--                            <li><a th:href="@{/fpt-dorm/admin/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -390,8 +353,21 @@
                 <h2 class="main-title">Payment List</h2>
                 <div class="row">
                     <div class="col-lg-6">
+                        <script>
+                            function toggleButton() {
+                                var searchElement = document.getElementById('searchBox');
+                                var buttonElement = document.getElementById('searchButton');
+                                if (searchElement.value === "") {
+                                    buttonElement.disabled = true;
+                                } else {
+                                    buttonElement.disabled = false;
+                                }
+                            }
+                            document.addEventListener('DOMContentLoaded', toggleButton);
+                        </script>
                         <form th:action="@{/fpt-dorm/admin/all-payment/search}" method="get" class="search-form">
-                            <input type="text" name="keyword" th:value="${keyword}" placeholder="Search..."
+                            <input id="searchBox" oninput="toggleButton()" type="text" name="keyword"
+                                   th:value="${keyword}" placeholder="Search..."
                                    class="search-box"/>
                             <select name="category" class="search-dropdown">
                                 <option value="" th:text="'All Categories'"
@@ -404,7 +380,8 @@
                                 <option value="Phone" th:text="'Phone'"
                                         th:selected="${selectedCategory == 'Phone'}"></option>
                             </select>
-                            <button class="btn btn-lg search-btn center-block" type="submit">Search</button>
+                            <button id="searchButton" class="btn btn-lg search-btn center-block" type="submit">Search
+                            </button>
                         </form>
                     </div>
                     <div class="col-lg-2"></div>
@@ -432,7 +409,7 @@
                                 <table class="posts-table">
                                     <thead>
                                     <tr class="users-table-info">
-                                        <th>Student ID</th>
+                                        <th>User ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Phone</th>

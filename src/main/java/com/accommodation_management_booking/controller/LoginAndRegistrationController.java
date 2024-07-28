@@ -26,36 +26,21 @@ public class LoginAndRegistrationController {
 
     @PostMapping("fpt-dorm/register/save")
     public String registration(@ModelAttribute("user") UserDTO userDTO,
-                               BindingResult result,
-                               Model model,
-                               @RequestParam("avatar") MultipartFile[] avatars,
-                               @RequestParam("frontface") MultipartFile[] frontCccdImages,
-                               @RequestParam("backface") MultipartFile[] backCccdImages) {
+                               Model model) {
 
         try {
-            userService.saveUser(userDTO, avatars, frontCccdImages, backCccdImages);
-            String emailContent = String.format(
-                    "<p>Dear %s,</p>" +
-                            "<p>Thank you for registering at Booking Dorm.</p>" +
-                            "<table>" +
-                            "<tr><td>Username:</td><td>%s</td></tr>" +
-                            "<tr><td>Address:</td><td>%s</td></tr>" +
-                            "<tr><td>Phone:</td><td>%s</td></tr>" +
-                            "<tr><td>CCCD Number:</td><td>%s</td></tr>" +
-                            "</table>" +
-                            "<p>Thank you for using our service.</p>" +
-                            "<p><a href=\"http://localhost:8080/fpt-dorm/home\">Go to Home</a></p>",
-                    userDTO.getUsername(), userDTO.getUsername(), userDTO.getAddress(),
-                    userDTO.getPhoneNumber(), userDTO.getCccdNumber()
-            );
-
-            emailService.sendRegistrationEmail(userDTO.getEmail(), emailContent);
+            userService.saveUsers(userDTO);
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "register";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "There was an error registering the user. Please try again.");
             return "register";
+        }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
         return "redirect:/fpt-dorm/register?success";
     }

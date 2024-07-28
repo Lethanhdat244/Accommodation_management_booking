@@ -14,4 +14,5 @@ public interface DormService {
     void deleteDorm(Integer dormId);
     public void updateDorm(Dorm dorm);
     public String getDormNameById(int dormId) ;
+    public List<DormBedInfoDTO> getAllDormBedInfo1();
 }

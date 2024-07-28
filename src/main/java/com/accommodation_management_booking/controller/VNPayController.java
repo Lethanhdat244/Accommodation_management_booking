@@ -100,7 +100,7 @@ public class VNPayController {
         String vnp_Command = "pay";
         String orderType = "other";
         //long amount = 10000*100;
-        String bankCode = "NCB";
+        String bankCode = "";
 
         String vnp_TxnRef = VNPayConfig.getRandomNumber(8);
         String vnp_IpAddr = "127.0.0.1";
@@ -179,18 +179,13 @@ public class VNPayController {
     @GetMapping("/vnpay/success")
     public String successPay(HttpServletRequest request,
                              @RequestParam Map<String, String> params) {
-        System.out.println("Tham số nhận được: " + params);
         String responseCode = params.get("vnp_ResponseCode");
-        System.out.println("Mã phản hồi: " + responseCode);
         if ("00".equals(responseCode)) {
             Integer bookingId = (Integer) request.getSession().getAttribute("bookingId");
             String vnp_TxnRef = (String) request.getSession().getAttribute("vnp_TxnRef");
-            System.out.println("ID Đặt chỗ: " + bookingId);
-            System.out.println("Mã giao dịch: " + vnp_TxnRef);
             if (bookingId == null) {
                 return "redirect:/";
             }
-            System.out.println(responseCode);
 
             Booking booking = bookingRepository.findById(bookingId)
                     .orElseThrow(() -> new IllegalArgumentException("Invalid booking ID"));

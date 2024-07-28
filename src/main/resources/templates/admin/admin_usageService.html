@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update News | Admin</title>
+    <title>Usage Service | Admin</title>
     <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
@@ -188,7 +188,7 @@
                     </li>
                     <li>
                         <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -196,29 +196,18 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Users</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new user</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                                <span class="sr-only">Open list</span>
-                                <span class="icon arrow-down" aria-hidden="true"></span>
-                            </span>
+                        <a th:href="@{/fpt-dorm/admin/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a id="menu-all-room" class="" th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
-                            </li>
-                        </ul>
                     </li>
 
                     <li>
@@ -293,20 +282,6 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
-                        </a>
-                    </li>
-
-                    <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
-
-                    <li>
                         <a th:href="@{/fpt-dorm/admin/admin_list_complaint}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
@@ -316,16 +291,6 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
-                <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">AI</span>
-                    <span class="sidebar-user__subtitle">Support manager</span>
-                </div>
-            </a>
         </div>
     </aside>
     <div class="main-wrapper">
@@ -333,9 +298,6 @@
         <nav class="main-nav--bg">
             <div class="container main-nav">
                 <div class="main-nav-start">
-                    <div class="search-wrapper">
-                        <i data-feather="search" aria-hidden="true"></i>
-                    </div>
                 </div>
                 <div class="main-nav-end">
                     <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
@@ -348,10 +310,6 @@
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
                     <div class="notification-wrapper">
-                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
-                            <span class="sr-only">To messages</span>
-                            <span class="icon notification active" aria-hidden="true"></span>
-                        </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
                                 <a href="#">
@@ -404,9 +362,9 @@
                               </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/admin/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+                            <!--                            <li><a th:href="@{/fpt-dorm/admin/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -452,7 +410,7 @@
                                     <!--                                        <td th:text="${room.floorId}"></td>-->
                                     <!--                                        <td th:text="${room.roomNumber}"></td>-->
                                     <!--                                        <td style="width: 700px">-->
-                                    <!--                                            <form th:action="@{/fpt-dorm/employee/usage-service/{id}(id=${room.roomId})}"-->
+                                    <!--                                            <form th:action="@{/fpt-dorm/admin/usage-service/{id}(id=${room.roomId})}"-->
                                     <!--                                                  method="post">-->
                                     <!--                                                <input type="number" placeholder="Electricity" name="electric">-->
                                     <!--                                                <input type="number" placeholder="Water" name="water">-->
@@ -467,37 +425,43 @@
                         </div>
                     </div>
                 </div>
-                <div id="popupForm" class="popup" style="width: 700px; height: 500px; border-radius:10px">
+                <div id="popupForm" class="popup"
+                     style="width: 700px; height: 470px; border-radius:10px; padding: 30px 20px">
                     <div class="popup-header" style="margin-bottom: 20px">
                         <h1>Usage service for <span id="roomNumber"></span></h1>
                         <span class="close">&times;</span>
                     </div>
-                    <form id="usageServiceForm" method="post">
-                        <input type="hidden" id="roomId" name="roomId">
-                        <div class="form-group">
-                            <label>Electricity:</label>
-                            <div class="row">
-                                <input class="col-11" min="0" type="number" placeholder="Electricity" name="electric"
-                                       required>
-                                <span class="col-1">KW</span>
+                    <div class="container">
+                        <form id="usageServiceForm" method="post">
+                            <input type="hidden" id="roomId" name="roomId">
+                            <div class="form-group">
+                                <label>Electricity:</label>
+                                <div class="row">
+                                    <input class="col-8" min="0" type="number" placeholder="Electricity" name="electric"
+                                           id="electric" required>
+                                    <span class="col-4" style="align-content: center">KW</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Water:</label>
-                            <div class="row">
-                                <input class="col-11" min="0" type="number" placeholder="Water" name="water" required>
-                                <span class="col-1">&#13221;</span>
+                            <div class="form-group">
+                                <label>Water:</label>
+                                <div class="row">
+                                    <input class="col-8" min="0" type="number" placeholder="Water" name="water"
+                                           id="water" required>
+                                    <span class="col-4" style="align-content: center">&#13221;</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Others:</label>
-                            <div class="row">
-                                <input class="col-11" min="0" type="number" placeholder="Others" name="others" required>
-                                <span class="col-1">000 VND</span>
+                            <div class="form-group">
+                                <label>Others:</label>
+                                <div class="row" style="align-content: center">
+                                    <input class="col-8" min="0" type="number" placeholder="Others" name="others"
+                                           id="others" required>
+                                    <span class="col-4" style="align-content: center">000 VND</span>
+                                </div>
                             </div>
-                        </div>
-                        <button class="btn primary" type="submit">Send</button>
-                    </form>
+                            <button class="btn primary" type="submit">Send</button>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </main>
@@ -527,9 +491,10 @@
         });
     }
 
+    var roomNumber;
     function updateRooms() {
         const floorId = document.getElementById("floor").value;
-        $.get('/fpt-dorm/user/booking/roomsByFloor', {floorId: floorId}, function (data) {
+        $.get('/fpt-dorm/user/roominused', {floorId: floorId}, function (data) {
             let roomTable = $('#roomTable tbody');
             roomTable.empty(); // Clear existing rows
             $.each(data, function (i, room) {
@@ -543,7 +508,10 @@
             });
             $(document).on('click', '.popupBtn', function () {
                 const roomId = $(this).data('room-id');
-                const roomNumber = $(this).data('room-number');
+                roomNumber = $(this).data('room-number');
+                $('#others').val('');
+                $('#water').val('');
+                $('#electric').val('');
                 $('#roomId').val(roomId);
                 $('#roomNumber').text(roomNumber);
                 $('#popupForm').show();
@@ -559,13 +527,17 @@
                 e.preventDefault(); // Prevent the form from submitting the default way
                 const formData = $(this).serialize();
 
-                $.post('/fpt-dorm/admin/usage-service/' + $('#roomId').val(), formData, function (response) {
-                    // Hide the row after successful submission
-                    $('button[data-room-id="' + $('#roomId').val() + '"]').closest('tr').hide();
-                    $('#popupForm').hide(); // Hide the popup form
-                }).fail(function () {
-                    alert('Failed to submit data');
-                });
+                $.post('/fpt-dorm/admin/usage-service/' + $('#roomId').val(), formData)
+                    .done(function (response) {
+                        // Success callback
+                        alert("Enter data for room " + roomNumber + " succeeded");
+                        $('button[data-room-id="' + $('#roomId').val() + '"]').closest('tr').hide();
+                        $('#popupForm').hide(); // Hide the popup form
+                    })
+                    .fail(function (jqXHR, textStatus, errorThrown) {
+                        // Failure callback
+                        alert('Failed to submit data: ' + jqXHR.responseText);
+                    });
             });
         }).fail(function () {
             alert("Failed to retrieve room data. Please try again later.");

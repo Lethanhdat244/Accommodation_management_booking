@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Student List</title>
+    <title>User List | Employee</title>
     <!-- Favicon -->
     <!--    <link rel="shortcut icon" href="/static/admin_homepage/img/svg/Logo.svg" type="image/x-icon">-->
     <!-- Custom styles -->
@@ -151,11 +151,8 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
-                    </li>
-                    <li>
                         <a id="menu-student" class="show-cat-btn active">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                                 <span class="sr-only">Open list</span>
                                 <span class="icon arrow-down" aria-hidden="true"></span>
@@ -164,31 +161,20 @@
                         <ul class="cat-sub-menu">
                             <li>
                                 <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
-                                    Students</a>
+                                    Users</a>
                             </li>
                             <li>
                                 <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
-                                    student</a>
+                                    user</a>
                             </li>
                         </ul>
                     </li>
 
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                        <a th:href="@{/fpt-dorm/employee/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
-                            </li>
-                        </ul>
                     </li>
 
                     <li>
@@ -245,13 +231,6 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
-
-                    <li>
                         <a th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
@@ -259,28 +238,28 @@
                     </li>
 
 
-<!--                    <li>-->
-<!--                        <a th:href="@{/fpt-dorm/employee/notifications}">-->
-<!--                            <span class="icon folder" aria-hidden="true"></span>-->
-<!--                            Notifications-->
-<!--                        </a>-->
-<!--                    </li>-->
+                    <!--                    <li>-->
+                    <!--                        <a th:href="@{/fpt-dorm/employee/notifications}">-->
+                    <!--                            <span class="icon folder" aria-hidden="true"></span>-->
+                    <!--                            Notifications-->
+                    <!--                        </a>-->
+                    <!--                    </li>-->
                 </ul>
             </div>
         </div>
-<!--        <div class="sidebar-footer">-->
-<!--            <a href="#" class="sidebar-user">-->
-<!--            <span class="sidebar-user-img">-->
-<!--                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"-->
-<!--                                 type="image/webp"><img-->
-<!--                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>-->
-<!--            </span>-->
-<!--                <div class="sidebar-user-info">-->
-<!--                    <span class="sidebar-user__title">AI</span>-->
-<!--                    <span class="sidebar-user__subtitle">Support manager</span>-->
-<!--                </div>-->
-<!--            </a>-->
-<!--        </div>-->
+        <!--        <div class="sidebar-footer">-->
+        <!--            <a href="#" class="sidebar-user">-->
+        <!--            <span class="sidebar-user-img">-->
+        <!--                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp"-->
+        <!--                                 type="image/webp"><img-->
+        <!--                        src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>-->
+        <!--            </span>-->
+        <!--                <div class="sidebar-user-info">-->
+        <!--                    <span class="sidebar-user__title">AI</span>-->
+        <!--                    <span class="sidebar-user__subtitle">Support manager</span>-->
+        <!--                </div>-->
+        <!--            </a>-->
+        <!--        </div>-->
     </aside>
     <div class="main-wrapper">
         <!-- ! Main nav -->
@@ -298,50 +277,50 @@
                         <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
-<!--                    <div class="notification-wrapper">-->
-<!--                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">-->
-<!--                            <span class="sr-only">To messages</span>-->
-<!--                            <span class="icon notification active" aria-hidden="true"></span>-->
-<!--                        </button>-->
-<!--                        <ul class="users-item-dropdown notification-dropdown dropdown">-->
-<!--                            <li>-->
-<!--                                <a href="#">-->
-<!--                                    <div class="notification-dropdown-icon info">-->
-<!--                                        <i data-feather="check"></i>-->
-<!--                                    </div>-->
-<!--                                    <div class="notification-dropdown-text">-->
-<!--                                        <span class="notification-dropdown__title">System just updated</span>-->
-<!--                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="#">-->
-<!--                                    <div class="notification-dropdown-icon danger">-->
-<!--                                        <i data-feather="info" aria-hidden="true"></i>-->
-<!--                                    </div>-->
-<!--                                    <div class="notification-dropdown-text">-->
-<!--                                        <span class="notification-dropdown__title">The cache is full!</span>-->
-<!--                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="#">-->
-<!--                                    <div class="notification-dropdown-icon info">-->
-<!--                                        <i data-feather="check" aria-hidden="true"></i>-->
-<!--                                    </div>-->
-<!--                                    <div class="notification-dropdown-text">-->
-<!--                                        <span class="notification-dropdown__title">New Subscriber here!</span>-->
-<!--                                        <span class="notification-dropdown__subtitle">A new subscriber has subscribed.</span>-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a class="link-to-page" href="#">Go to Notifications page</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
+                    <!--                    <div class="notification-wrapper">-->
+                    <!--                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">-->
+                    <!--                            <span class="sr-only">To messages</span>-->
+                    <!--                            <span class="icon notification active" aria-hidden="true"></span>-->
+                    <!--                        </button>-->
+                    <!--                        <ul class="users-item-dropdown notification-dropdown dropdown">-->
+                    <!--                            <li>-->
+                    <!--                                <a href="#">-->
+                    <!--                                    <div class="notification-dropdown-icon info">-->
+                    <!--                                        <i data-feather="check"></i>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="notification-dropdown-text">-->
+                    <!--                                        <span class="notification-dropdown__title">System just updated</span>-->
+                    <!--                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </a>-->
+                    <!--                            </li>-->
+                    <!--                            <li>-->
+                    <!--                                <a href="#">-->
+                    <!--                                    <div class="notification-dropdown-icon danger">-->
+                    <!--                                        <i data-feather="info" aria-hidden="true"></i>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="notification-dropdown-text">-->
+                    <!--                                        <span class="notification-dropdown__title">The cache is full!</span>-->
+                    <!--                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </a>-->
+                    <!--                            </li>-->
+                    <!--                            <li>-->
+                    <!--                                <a href="#">-->
+                    <!--                                    <div class="notification-dropdown-icon info">-->
+                    <!--                                        <i data-feather="check" aria-hidden="true"></i>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="notification-dropdown-text">-->
+                    <!--                                        <span class="notification-dropdown__title">New Subscriber here!</span>-->
+                    <!--                                        <span class="notification-dropdown__subtitle">A new subscriber has subscribed.</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </a>-->
+                    <!--                            </li>-->
+                    <!--                            <li>-->
+                    <!--                                <a class="link-to-page" href="#">Go to Notifications page</a>-->
+                    <!--                            </li>-->
+                    <!--                        </ul>-->
+                    <!--                    </div>-->
                     <div class="nav-user-wrapper">
                         <button href="#" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>
@@ -352,7 +331,7 @@
           </span>
                         </button>
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
-                            <li><a th:href="@{/fpt-dorm/admin/profile(email=${email})}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/employee/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
                             <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
@@ -367,7 +346,154 @@
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Student List</h2>
+                <div class="row stat-cards">
+                    <div class="col-md-6 col-xl-3">
+                        <article class="stat-cards-item">
+                            <div class="stat-cards-icon primary">
+                                <i data-feather="user" aria-hidden="true"></i>
+                            </div>
+                            <div class="stat-cards-info">
+                                <div class="stat-cards-info__title">New User</div>
+                                <p class="stat-cards-info__num">
+                                    <span id="newUserCount" class="bold">+0</span>
+                                    <span> users</span>
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+
+
+                    <script>
+                        async function fetchNewUserCount() {
+                            try {
+                                const response = await fetch('/count-new-users');
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                const newUserCount = await response.json();
+                                document.getElementById('newUserCount').innerText = `+${newUserCount}`;
+                            } catch (error) {
+                                console.error('There was a problem with the fetch operation:', error);
+                            }
+                        }
+
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            fetchNewUserCount();
+                        });
+                    </script>
+                    <div class="col-md-6 col-xl-3">
+                        <article class="stat-cards-item">
+                            <div class="stat-cards-icon warning">
+                                <i data-feather="alert-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="stat-cards-info">
+                                <div class="stat-cards-info__title">New Complaints</div>
+                                <p class="stat-cards-info__num">
+                                    <span id="newComplaintCount" class="bold">+0</span>
+                                    <span> complaints</span>
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+
+
+                    <script>
+                        async function fetchNewComplaintCount() {
+                            try {
+                                const response = await fetch('/count-complaints');
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                const newComplaintCount = await response.json();
+                                document.getElementById('newComplaintCount').innerText = `+${newComplaintCount}`;
+                            } catch (error) {
+                                console.error('There was a problem with the fetch operation:', error);
+                            }
+                        }
+
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            fetchNewComplaintCount();
+                        });
+                    </script>
+                    <div class="col-md-6 col-xl-3">
+                        <article class="stat-cards-item">
+                            <div class="stat-cards-icon purple">
+                                <i data-feather="calendar" aria-hidden="true"></i>
+                            </div>
+                            <div class="stat-cards-info">
+                                <div class="stat-cards-info__title">New Booking</div>
+                                <p class="stat-cards-info__num">
+                                    <span id="newBookingCount" class="bold">+0</span>
+                                    <span> bookings</span>
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <script>
+                        async function fetchNewBookingCount() {
+                            try {
+                                const response = await fetch('/count-bookings');
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                const newBookingCount = await response.json();
+                                document.getElementById('newBookingCount').textContent = `+${newBookingCount}`;
+                            } catch (error) {
+                                console.error('There was a problem with the fetch operation:', error);
+                            }
+                        }
+
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            fetchNewBookingCount();
+                        });
+                    </script>
+                    <div class="col-md-6 col-xl-3">
+                        <article class="stat-cards-item">
+                            <div class="stat-cards-icon success">
+                                <i data-feather="check-circle" aria-hidden="true"></i>
+                            </div>
+                            <div class="stat-cards-info">
+                                <div class="stat-cards-info__title">Used Beds</div>
+                                <p class="stat-cards-info__num">
+                                    <span id="usedBedsCount" class="bold">0</span>
+                                    <span> beds in use</span>
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+
+                    <script>
+                        async function fetchUsedBedsCount() {
+                            try {
+                                const response = await fetch('/count-used-beds');
+                                if (!response.ok) {
+                                    throw new Error('Network response was not ok');
+                                }
+                                const usedBedsCount = await response.json();
+                                document.getElementById('usedBedsCount').textContent = `${usedBedsCount}`;
+                            } catch (error) {
+                                console.error('There was a problem with the fetch operation:', error);
+                            }
+                        }
+
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            fetchUsedBedsCount();
+                        });
+                    </script>
+
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            fetch('/active-users')
+                                .then(response => response.json())
+                                .then(data => {
+                                    document.getElementById('activeUsersCount').textContent = data;
+                                })
+                                .catch(error => console.error('Error fetching active users count:', error));
+                        });
+                    </script>
+                </div>
+                <h2 class="main-title">User List</h2>
                 <div class="row">
                     <div class="col-lg-6">
                         <form th:action="@{/fpt-dorm/employee/student/search}" method="get" class="search-form">

@@ -80,7 +80,7 @@
                     </li>
                     <li>
                         <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -88,29 +88,18 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Students</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_list_student}">All Users</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new student</a>
+                                <a th:href="@{/fpt-dorm/admin/admin_add_student}">Add new user</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                        <a th:href="@{/fpt-dorm/admin/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/view-dorm-list}">Dorm List</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/admin/all-room}">All Rooms</a>
-                            </li>
-                        </ul>
                     </li>
 
                     <li>
@@ -185,13 +174,6 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_chart}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Chart
-                        </a>
-                    </li>
-
-                    <li>
                         <a th:href="@{admin/admin_list_feedback}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Feedback
@@ -208,18 +190,6 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="#" class="sidebar-user">
-                <span class="sidebar-user-img">
-                    <picture>
-                        <source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp">
-                        <img src="/static/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name">
-                    </picture>
-                </span>
-                <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">AI</span>
-                    <span class="sidebar-user__subtitle">Support manager</span>
-                </div>
-            </a>
         </div>
     </aside>
     <div class="main-wrapper">
@@ -239,10 +209,6 @@
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
                     <div class="notification-wrapper">
-                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
-                            <span class="sr-only">To messages</span>
-                            <span class="icon notification active" aria-hidden="true"></span>
-                        </button>
                         <ul class="users-item-dropdown notification-dropdown dropdown">
                             <li>
                                 <a href="#">
@@ -294,7 +260,7 @@
                         <ul class="users-item-dropdown nav-user-dropdown dropdown">
                             <li><a th:href="@{/fpt-dorm/admin/profile}">Profile</a></li>
                             <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
-                            <!--                            <li><a th:href="@{/fpt-dorm/employee/home}">Home Employee</a></li>-->
+                            <!--                            <li><a th:href="@{/fpt-dorm/admin/home}">Home Employee</a></li>-->
                             <li><a class="danger" th:href="@{/fpt-dorm/logout}">
                                 <i data-feather="log-out" aria-hidden="true"></i>
                                 <span>Log out</span>
@@ -320,7 +286,7 @@
 
                         <div class="row mb-2">
                             <div class="col-sm-7">
-                                <label for="studentName" class="col-form-label">Student Name</label>
+                                <label for="studentName" class="col-form-label">User Name</label>
                                 <input id="studentName" readonly class="form-control border"
                                        th:field="${payment.username}">
                             </div>
@@ -401,10 +367,22 @@
                             </div>
                         </div>
 
-                        <div class="row" style="margin-top: 20px;">
-                            <div class="offset-sm-4 col-sm-4 d-grid">
+                        <div class="row mb-2">
+                            <div class="col-sm-6">
+                                <label for="bedName" class="col-form-label">Bed Name</label>
+                                <input readonly id="bedName" name="bedName" class="form-control border"
+                                       th:value="${bedName}">
+                            </div>
+                            <div class="col-sm-6">
+                            </div>
+                        </div>
+
+                        <div style="margin-top: 20px; display: flex; justify-content: center;">
+                            <div class="button-group" style="display: flex; gap: 10px;">
                                 <a class="btn secondary-default-btn" onclick="window.history.back()"
                                    role="button">Back</a>
+                                <a th:if="${contract != null}" class="btn secondary-default-btn"
+                                   th:href="${contract.contractLink}" role="button">Contract</a>
                             </div>
                         </div>
                     </div>

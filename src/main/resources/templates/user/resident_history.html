@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Complete Booking Form | User</title>
+    <title>Resident History</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/homepage_user/css/bootstrap.min.css" rel="stylesheet">
@@ -54,6 +54,23 @@
             margin-right: auto;
             margin-left: 40px;
         }
+        .rule {
+            width: 60%;
+            padding: 20px 5px;
+            font-size: 20px;
+            background-color: #ff4157;
+            color: #fff;
+            margin: 10px;
+            font-weight: 12;
+            border-radius: 60px;
+            text-align: center;
+        }
+
+        .rule:hover {
+            background-color: #162541;
+            color: #ff4157;
+            transition: 0.5s ease;
+        }
     </style>
 
     <script>
@@ -78,16 +95,7 @@
                 <div class="col-md-6">
                     <!-- Any top-left content -->
                 </div>
-                <div class="col-md-6">
-                    <div class="social-grid">
-                        <ul class="list-unstyled text-right">
-                            <li><a><i class="fa fa-facebook"></i></a></li>
-                            <li><a><i class="fa fa-twitter"></i></a></li>
-                            <li><a><i class="fa fa-linkedin"></i></a></li>
-                            <li><a><i class="fa fa-instagram"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
+
             </div>
         </div>
     </div>
@@ -107,6 +115,8 @@
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><USER></USER> <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/fpt-dorm/admin/home}">Admin Dashboard</a></li>
+                                    <li th:if="${role == 'EMPLOYEE'}"><a th:href="@{/fpt-dorm/employee/home}">Employee Dashboard</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -144,6 +154,8 @@
                                 <a href="#" class="book-now-btn dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">USERS <span class="caret"></span></a>
                                 <ul class="dropdown-menu">
                                     <li><a th:href="@{/fpt-dorm/user/profile}">Profile</a></li>
+                                    <li th:if="${role == 'ADMIN'}"><a th:href="@{/fpt-dorm/admin/home}">Admin Dashboard</a></li>
+                                    <li th:if="${role == 'EMPLOYEE'}"><a th:href="@{/fpt-dorm/employee/home}">Employee Dashboard</a></li>
                                     <li><a th:href="@{/fpt-dorm/change-password}">Change Password</a></li>
                                     <li><a th:href="@{/fpt-dorm/logout}">Logout</a></li>
                                 </ul>
@@ -161,13 +173,14 @@
         <div class="row justify-content-center">
             <div class="col-lg-7 col-sm-12 request_box">
                 <h1>Resident History</h1>
-                <form th:action="@{/fpt-dorm/user/search-by-room}" method="get" onsubmit="return validateForm()">
+                <form th:action="@{/fpt-dorm/user/resident-history/list}" method="get" onsubmit="return validateForm()">
                     <div class="form-group col-lg-4">
                         <label for="roomNumber">Search By Room Name</label>
-                        <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Enter Room Name">
+                        <input type="text" class="form-control" id="roomNumber" name="roomNumber" placeholder="Enter Room Name" th:value="${roomNumber}">
                         <button type="submit" class="btn btn-primary">Search</button>
                     </div>
                 </form>
+
 
                 <table class="table table-responsive table-bordered">
                     <thead>
@@ -198,16 +211,18 @@
 
                 <ul class="pagination justify-content-center" th:if="${residentHistoryPage.totalPages > 1}">
                     <li th:class="${residentHistoryPage.first} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=0)}">First</a>
+                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=0, size=${size}, roomNumber=${roomNumber})}">First</a>
                     </li>
                     <li th:each="i : ${#numbers.sequence(0, residentHistoryPage.totalPages - 1)}"
                         th:class="${residentHistoryPage.number == i} ? 'page-item active' : 'page-item'">
-                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=${i})}" th:text="${i + 1}"></a>
+                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=${i}, size=${size}, roomNumber=${roomNumber})}" th:text="${i + 1}"></a>
                     </li>
                     <li th:class="${residentHistoryPage.last} ? 'page-item disabled' : 'page-item'">
-                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=${residentHistoryPage.totalPages - 1})}">Last</a>
+                        <a class="page-link" th:href="@{/fpt-dorm/user/resident-history/list(page=${residentHistoryPage.totalPages - 1}, size=${size}, roomNumber=${roomNumber})}">Last</a>
                     </li>
                 </ul>
+
+
             </div>
             <div class="col-lg-4 col-sm-12 request_list">
                 <h2>General Policies</h2>
@@ -226,6 +241,10 @@
                     <li>Respect for residents, staff, property.</li>
                     <li>Keep shared areas clean.</li>
                 </ul>
+                <div class="row">
+                    <p class="rule" id="parent1" onclick="redirectToFeedbackPage()">Feedback</p>
+                </div>
+
             </div>
         </div>
     </div>
@@ -242,7 +261,7 @@
             background: white;
             border: 1px solid #ccc;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             display: none;
         }
@@ -287,7 +306,7 @@
             align-items: center;
             font-size: 24px;
             cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             z-index: 999;
         }
     </style>
@@ -299,8 +318,11 @@
             <button id="close-modal">&times;</button>
         </div>
         <div class="zapier-modal-content">
-            <script type='module' src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
-            <zapier-interfaces-page-embed page-id='clyk97vvi000nqe05q0vtzmx4' no-background='false' allow-query-params='true' query-params='' style='max-width: 900px; height: 120vh;'></zapier-interfaces-page-embed>
+            <script type='module'
+                    src='https://interfaces.zapier.com/assets/web-components/zapier-interfaces/zapier-interfaces.esm.js'></script>
+            <zapier-interfaces-page-embed page-id='clyk97vvi000nqe05q0vtzmx4' no-background='false'
+                                          allow-query-params='true' query-params=''
+                                          style='max-width: 900px; height: 120vh;'></zapier-interfaces-page-embed>
         </div>
     </div>
 
@@ -310,16 +332,16 @@
     </button>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             var modal = $('#zapier-modal');
             var openBtn = $('#open-modal');
             var closeBtn = $('#close-modal');
 
-            openBtn.on('click', function() {
+            openBtn.on('click', function () {
                 modal.show();
             });
 
-            closeBtn.on('click', function() {
+            closeBtn.on('click', function () {
                 modal.hide();
             });
         });
@@ -328,52 +350,40 @@
     <footer>
         <div class="container">
             <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12 width-set-50">
+                <div class="col-md-5 col-sm-6 col-xs-12 width-set-50">
                     <div class="footer-details">
                         <h4>Get in touch</h4>
                         <ul class="list-unstyled footer-contact-list">
                             <li>
                                 <i class="fa fa-map-marker fa-lg"></i>
-                                <p>Khu Giáo dục và Đào tạo – Khu Công nghệ cao Hòa Lạc – Km29 Đại lộ Thăng Long, Thạch Thất, TP. HN</p>
+                                <p>Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN</p>
                             </li>
                             <li>
                                 <i class="fa fa-phone fa-lg"></i>
-                                <p><a href="tel:+84-24-7300-1866"> +84-24-7300-1866</a></p>
+                                <p><a href="tel:+842473001866"> (024) 7300.1866 / (024) 7300.5588</a></p>
                             </li>
                             <li>
                                 <i class="fa fa-envelope-o fa-lg"></i>
-                                <p><a href="mailto:dormbooking@fpt.edu.vn"> dormbooking@fpt.edu.vn</a></p>
+                                <p><a href="mailto:daihocfpt@fpt.edu.vn"> daihocfpt@fpt.edu.vn</a></p>
                             </li>
                         </ul>
-                        <div class="footer-social-icon">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-google-plus"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        </div>
-                        <div class="input-group" id="subscribe">
-                            <input type="text" class="form-control subscribe-box" value="" name="subscribe" placeholder="EMAIL ID">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn subscribe-button"><i class="fa fa-paper-plane fa-lg"></i></button>
-                            </span>
-                        </div>
+
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-6 col-xs-12 width-50 width-set-50">
+                <div class="col-md-4 col-sm-6 col-xs-12 width-50 width-set-50">
                     <div class="footer-details">
-                        <h4>Explore</h4>
+                        <h4>explore</h4>
                         <ul class="list-unstyled footer-links">
                             <li><a th:href="@{/fpt-dorm/home}">Home</a></li>
                             <li><a th:href="@{/fpt-dorm/home/about}">About</a></li>
                             <li><a th:href="@{/fpt-dorm/home/room}">Rooms</a></li>
                             <li><a th:href="@{/fpt-dorm/home/gallery}">Gallery</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/dinning}">Dining</a></li>
-                            <li><a th:href="@{/fpt-dorm/home/contact}">Contact</a></li>
+                            <li><a th:href="@{/fpt-dorm/home/dinning}">Dinning</a></li>
+                            <li> <a th:href="@{/fpt-dorm/home/contact}">Contact</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-6 col-sm-12 col-xs-12">
+                <div class="col-md-2 col-sm-12 col-xs-12">
                     <div class="footer-details">
                         <h4>Now On Instagram</h4>
                         <div class="row">
@@ -386,9 +396,11 @@
             </div>
 
             <div class="copyright">
-                &copy; 2024 All rights reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home" target="_blank">SWP391</a>.
+                &copy; 2024 All right reserved. Designed by <a href="http://localhost:8080/fpt-dorm/home" target="_blank">SWP391</a>
             </div>
+
         </div>
+
     </footer>
 
     <!--back to top--->
@@ -399,15 +411,29 @@
 </div>
 
 <script type="text/javascript">
+    function normalizeRoomNumber(roomNumber) {
+        return roomNumber.replace(/\s+/g, '').toUpperCase();
+    }
+
     function validateForm() {
-        var roomNumber = document.getElementById("roomNumber").value;
-        if (roomNumber.trim() === "") {
-            alert("Room Name can not null");
+        var roomNumberInput = document.getElementById("roomNumber");
+        var roomNumber = roomNumberInput.value;
+
+        roomNumberInput.value = normalizeRoomNumber(roomNumber);
+
+        if (roomNumberInput.value.trim() === "") {
+            alert("Room Name can not be null");
             return false;
         }
         return true;
     }
 </script>
+<script>
+    function redirectToFeedbackPage() {
+        window.location.href = '/fpt-dorm/user/feedbackform';
+    }
+</script>
+
 
 </body>
 </html>

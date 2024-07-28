@@ -1,66 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <meta charset="UTF-8">
     <title>Complete Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-          crossorigin="anonymous">
-    <style>
-        .error {
-            color: red;
-            font-size: 0.9em;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        form {
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        input[type="text"], input[type="password"], input[type="date"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-            box-sizing: border-box;
-        }
-        input[type="radio"] {
-            margin-right: 5px;
-        }
-        input[type="file"] {
-            margin-bottom: 15px;
-        }
-        button[type="submit"] {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-        button[type="submit"]:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="/static/login/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/login/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/login/fonts/iconic/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/login/vendor/animate/animate.css">
+    <link rel="stylesheet" type="text/css" href="/static/login/vendor/css-hamburgers/hamburgers.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/login/vendor/animsition/css/animsition.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/login/vendor/select2/select2.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/login/vendor/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet" type="text/css" href="/static/login/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/static/login/css/main.css">
 
     <script>
+
         function validateGender() {
             var genderMale = document.querySelector("input[name='gender'][value='Male']").checked;
             var genderFemale = document.querySelector("input[name='gender'][value='Female']").checked;
@@ -78,17 +34,34 @@
         function validateBirthdate() {
             var birthdate = document.getElementById("birthdate").value;
             var birthdateError = document.getElementById("birthdateError");
+
             if (!birthdate) {
                 birthdateError.textContent = "Birth Date is required.";
                 return false;
-            } else {
-                birthdateError.textContent = "";
-                return true;
             }
+
+            var birthdateDate = new Date(birthdate);
+            var today = new Date();
+            var age = today.getFullYear() - birthdateDate.getFullYear();
+            var monthDifference = today.getMonth() - birthdateDate.getMonth();
+
+            // Check if the birthdate has not yet occurred this year
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthdateDate.getDate())) {
+                age--;
+            }
+
+            if (age < 18) {
+                birthdateError.textContent = "You must be at least 18 years old.";
+                return false;
+            }
+
+            birthdateError.textContent = "";
+            return true;
         }
 
+
         function validatePhone() {
-            var phone = document.getElementById("phoneNumber").value;
+            var phone = document.getElementById("phone").value;
             var phoneError = document.getElementById("phoneError");
             var phoneRegex = /^[0-9]+$/;
 
@@ -147,7 +120,7 @@
 
         function validateFrontFace() {
             var frontface = document.getElementById("frontCccdImage").files.length;
-            var frontfaceError = document.getElementById("frontCccdImage");
+            var frontfaceError = document.getElementById("frontfaceError");
             if (frontface === 0) {
                 frontfaceError.textContent = "Front face ID card is required.";
                 return false;
@@ -172,19 +145,18 @@
         function addValidationListeners() {
             document.querySelectorAll("input[name='gender']").forEach(input => input.addEventListener("blur", validateGender));
             document.getElementById("birthdate").addEventListener("blur", validateBirthdate);
-            document.getElementById("phoneNumber").addEventListener("blur", validatePhone);
+            document.getElementById("phone").addEventListener("blur", validatePhone);
             document.getElementById("address").addEventListener("blur", validateAddress);
             document.getElementById("avatar").addEventListener("change", validateAvatar);
             document.getElementById("idcard").addEventListener("blur", validateIDCard);
-            document.getElementById("frontCccdImage").addEventListener("change", validateFrontFace);
-            document.getElementById("backCccdImage").addEventListener("change", validateBackFace);
+            document.getElementById("frontface").addEventListener("change", validateFrontFace);
+            document.getElementById("backface").addEventListener("change", validateBackFace);
         }
 
         document.addEventListener("DOMContentLoaded", addValidationListeners);
 
         function validateForm() {
             var isValid = true;
-
             if (!validateGender()) isValid = false;
             if (!validateBirthdate()) isValid = false;
             if (!validatePhone()) isValid = false;
@@ -196,63 +168,129 @@
 
             return isValid;
         }
-    </script>
 
+
+
+    </script>
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
-<h1>Complete Profile</h1>
+<div class="limiter">
+    <div class="container-login100" style="background-image: url('/static/login/images/bg-01.jpg');">
+        <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54" style="width: 810px;">
+            <div th:if="${errorMessage}">
+                <div class="alert alert-danger" th:text="${errorMessage}"></div>
+            </div>
+            <div class="alert alert-danger">
+                <p>Note: Please complete your profile, otherwise you may not be able to access some features of our website </p>
+            </div>
+            <form class="login100-form validate-form" th:action="@{/fpt-dorm/profile/complete}" th:object="${user}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+                <span class="login100-form-title p-b-49">Complete Profile</span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Gender is required">
+                            <span class="label-input100">Gender</span>
+                            <div class="d-flex align-items-center" style="padding-left: 30px;">
+                                <div class="form-check form-check-inline">
+                                    <input id="genderMale" name="gender" th:field="*{gender}" value="Male" type="radio" class="form-check-input" style="margin-left: 0px">
+                                    <label for="genderMale" class="form-check-label">Male</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input id="genderFemale" name="gender" th:field="*{gender}" value="Female" type="radio" class="form-check-input" style="margin-left: 0px">
+                                    <label for="genderFemale" class="form-check-label">Female</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input id="genderOther" name="gender" th:field="*{gender}" value="Other" type="radio" class="form-check-input" style="margin-left: 0px">
+                                    <label for="genderOther" class="form-check-label">Other</label>
+                                </div>
+                            </div>
+                            <div id="genderError" class="error"></div>
+                        </div>
 
-<form th:action="@{/fpt-dorm/profile/complete}" th:object="${user}" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
-    <div th:if="${errorMessage}">
-        <div class="alert alert-danger" th:text="${errorMessage}"></div>
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Birth Date is required">
+                            <span class="label-input100">Birth Date</span>
+                            <input class="input100" id="birthdate" name="birthdate" th:field="*{birthdate}" type="date">
+                            <span class="focus-input100" data-symbol="&#xf206;"></span>
+                            <div id="birthdateError" class="error"></div>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Phone is required">
+                            <span class="label-input100">Phone</span>
+                            <input class="input100" id="phone" name="phoneNumber" th:field="*{phoneNumber}" type="text" placeholder="Type your phone number">
+                            <span class="focus-input100" data-symbol="&#xf2be;"></span>
+                            <div id="phoneError" class="error"></div>
+                        </div>
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Address is required">
+                            <span class="label-input100">Address</span>
+                            <input class="input100" id="address" name="address" th:field="*{address}" type="text" placeholder="Type your address">
+                            <span class="focus-input100" data-symbol="&#xf2bb;"></span>
+                            <div id="addressError" class="error"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+
+
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="ID Card is required">
+                            <span class="label-input100">Vietnamese Citizen ID Card</span>
+                            <input class="input100" id="idcard" name="cccdNumber" th:field="*{cccdNumber}" type="text" placeholder="Type your ID card number">
+                            <span class="focus-input100" data-symbol="&#xf2c2;"></span>
+                            <div id="idcardError" class="error"></div>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Avatar is required">
+                            <span class="label-input100">Avatar</span>
+                            <input class="input100" id="avatar" name="avatar" type="file">
+                            <span class="focus-input100" data-symbol="&#xf2c4;"></span>
+                            <div id="avatarError" class="error"></div>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Front face ID card is required">
+                            <span class="label-input100">Front face ID card</span>
+                            <input class="input100" type="file" id="frontCccdImage" name="frontCccdImage" accept="image/*">
+                            <span class="focus-input100" data-symbol="&#xf2c4;"></span>
+                            <div id="frontfaceError" class="error"></div>
+                        </div>
+
+                        <div class="wrap-input100 validate-input m-b-23" data-validate="Back face ID card is required">
+                            <span class="label-input100">Back face ID card</span>
+                            <input class="input100" type="file" id="backCccdImage" name="backCccdImage" accept="image/*">
+                            <span class="focus-input100" data-symbol="&#xf2c4;"></span>
+                            <div id="backfaceError" class="error"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="hidden" th:field="*{email}">
+                <div class="container-login100-form-btn">
+                    <div class="wrap-login100-form-btn">
+                        <div class="login100-form-bgbtn"></div>
+                        <button class="login100-form-btn" type="submit">Save</button>
+                    </div>
+                </div>
+
+                <div class="flex-col-c p-t-50">
+                    <span class="txt1 p-b-17">Already registered?</span>
+                    <a th:href="@{/fpt-dorm/login}" class="txt2">Login</a>
+                </div>
+            </form>
+        </div>
     </div>
-    <label>Gender:</label>
-    <div style="display: flex; align-items: center;">
-    <span>
-        <input id="genderMale" name="gender" th:field="*{gender}" value="Male" type="radio" class="form-check-input"/>
-        <label for="genderMale" class="form-check-label">Male</label>
-    </span>
-        <span style="margin-left: 10px;">
-        <input id="genderFemale" name="gender" th:field="*{gender}" value="Female" type="radio" class="form-check-input"/>
-            <label for="genderFemale" class="form-check-label">Female</label>
-    </span>
-        <span style="margin-left: 10px;">
-        <input id="genderOther" name="gender" th:field="*{gender}" value="Other" type="radio" class="form-check-input"/>
-            <label for="genderOther" class="form-check-label">Other</label>
-    </span>
-    </div>
-    <div id="genderError" class="error"></div>
+</div>
 
-    <label for="birthdate">Birthdate:</label>
-    <input type="date" id="birthdate" name="birthdate" th:field="*{birthdate}"><br>
-    <div id="birthdateError" class="error"></div>
-
-    <label for="phoneNumber">Phone Number:</label>
-    <input type="text" id="phoneNumber" name="phoneNumber" th:field="*{phoneNumber}"><br>
-    <div id="phoneError" class="error"></div>
-
-    <label for="address">Address:</label>
-    <input type="text" id="address" name="address" th:field="*{address}"><br>
-    <div id="addressError" class="error"></div>
-
-    <label for="idcard">ID Card:</label>
-    <input type="text" id="idcard" name="idcard" th:field="*{cccdNumber}"><br>
-    <div id="idcardError" class="error"></div>
-
-    <label for="avatar">Avatar:</label>
-    <input type="file" id="avatar" name="avatar" accept="image/*"><br>
-    <div id="avatarError" class="error"></div>
-
-    <label for="frontCccdImage">Front CCCD Image:</label>
-    <input type="file" id="frontCccdImage" name="frontCccdImage" accept="image/*"><br>
-    <div id="frontfaceError" class="error"></div>
-
-    <label for="backCccdImage">Back CCCD Image:</label>
-    <input type="file" id="backCccdImage" name="backCccdImage" accept="image/*"><br>
-    <div id="backfaceError" class="error"></div>
-
-    <input type="hidden" th:field="*{email}">
-    <button type="submit">Complete Profile</button>
-</form>
+<script src="/static/login/vendor/jquery/jquery-3.2.1.min.js"></script>
+<script src="/static/login/vendor/animsition/js/animsition.min.js"></script>
+<script src="/static/login/vendor/bootstrap/js/popper.js"></script>
+<script src="/static/login/vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/login/vendor/select2/select2.min.js"></script>
+<script src="/static/login/vendor/daterangepicker/moment.min.js"></script>
+<script src="/static/login/vendor/daterangepicker/daterangepicker.js"></script>
+<script src="/static/login/vendor/countdowntime/countdowntime.js"></script>
+<script src="/static/login/js/main.js"></script>
 </body>
 </html>

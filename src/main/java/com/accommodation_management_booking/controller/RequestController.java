@@ -9,6 +9,7 @@ import com.accommodation_management_booking.repository.ComplainRepository;
 import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.impl.ComplainService;
 import com.accommodation_management_booking.service.impl.NotificationService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 
@@ -45,7 +47,8 @@ public class RequestController {
     public String studentRequest(Model model,
                                  @RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "3") int size,
-                                 Authentication authentication) {
+                                 Authentication authentication, HttpSession session) {
+        model.addAttribute("role", session.getAttribute("role"));
         Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
@@ -62,6 +65,11 @@ public class RequestController {
             model.addAttribute("email", "Unknown");
         }
         try {
+            Integer userId = user.getUserId();
+            User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+            if(!user.isProfileComplete()){
+                return "redirect:/fpt-dorm/profile/complete";
+            }
             Page<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId(), pageable);
             if (complainList.isEmpty()) {
                 model.addAttribute("emptyMessage", "No data");
@@ -109,13 +117,7 @@ public class RequestController {
         try {
             List<User> Emp = userRepository.searchAllEmployees();
             complainService.saveComplain(complaint);
-//            for (User user : Emp) {
-//                Notification notification = new Notification();
-//                notification.setUser(user);
-//                notification.setContent("New request from your tenant");
-//                notification.setRead(false);
-//                notificationService.saveNotification(notification);
-//            }
+//
             try {
                 Page<Complaint> complainList = complainRepository.getRequestsByUserId(user.getUserId(), pageable);
                 model.addAttribute("complaintDTOList", complainList);

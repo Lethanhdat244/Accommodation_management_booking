@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
-    <title>Edit Student</title>
+    <title>Edit Profile | Employee</title>
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -18,244 +18,24 @@
         .form-control {
             line-height: 1.7;
         }
+
         .form-check-input {
             margin-top: auto;
         }
+
         .error {
             color: red;
             font-size: 0.9em;
         }
+
         .error-message {
             color: red;
         }
+
         .success-message {
             color: green;
         }
     </style>
-    <script>
-        function validateEmail(email) {
-            var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailPattern.test(email);
-        }
-
-        function validatePassword(password) {
-            var passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,}$/;
-            return passwordPattern.test(password);
-        }
-
-        function validateFullName() {
-            var fullname = document.getElementById("fullname").value.trim(); // Loại bỏ các khoảng trắng ở đầu và cuối chuỗi
-            var fullnameError = document.getElementById("fullnameError");
-            var containsNumber = /[0-9]/.test(fullname); // Kiểm tra xem chuỗi có chứa số không
-            var containsOnlySpaces = /^\s*$/.test(fullname); // Kiểm tra xem chuỗi chỉ chứa khoảng trắng không
-            var containsConsecutiveSpaces = /\s\s+/.test(fullname); // Kiểm tra xem chuỗi có chứa khoảng trắng liên tiếp không
-
-            if (!fullname || containsNumber || containsOnlySpaces || containsConsecutiveSpaces) {
-                if (!fullname) {
-                    fullnameError.textContent = "Full Name is required.";
-                } else if (containsNumber) {
-                    fullnameError.textContent = "Full Name cannot contain numbers.";
-                } else if (containsOnlySpaces) {
-                    fullnameError.textContent = "Full Name cannot be only spaces.";
-                } else {
-                    fullnameError.textContent = "Full Name cannot contain consecutive spaces.";
-                }
-                return false;
-            } else {
-                fullnameError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateEmailField() {
-            var email = document.getElementById("email").value;
-            var emailError = document.getElementById("emailError");
-            if (!email) {
-                emailError.textContent = "Email is required.";
-                return false;
-            } else if (!validateEmail(email)) {
-                emailError.textContent = "Please enter a valid email address.";
-                return false;
-            } else {
-                emailError.textContent = "";
-                return true;
-            }
-        }
-
-        function validatePasswordField() {
-            var password = document.getElementById("password").value;
-            var passwordError = document.getElementById("passwordError");
-            if (!password) {
-                passwordError.textContent = "Password is required.";
-                return false;
-            } else if (!validatePassword(password)) {
-                passwordError.textContent = "Password must be at least 10 characters long and include uppercase letters, lowercase letters, numbers, and special characters.";
-                return false;
-            } else {
-                passwordError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateGender() {
-            var genderMale = document.querySelector("input[name='gender'][value='Male']").checked;
-            var genderFemale = document.querySelector("input[name='gender'][value='Female']").checked;
-            var genderOther = document.querySelector("input[name='gender'][value='Other']").checked;
-            var genderError = document.getElementById("genderError");
-            if (!genderMale && !genderFemale && !genderOther) {
-                genderError.textContent = "Gender is required.";
-                return false;
-            } else {
-                genderError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateBirthdate() {
-            var birthdate = document.getElementById("birthdate").value;
-            var birthdateError = document.getElementById("birthdateError");
-            if (!birthdate) {
-                birthdateError.textContent = "Birth Date is required.";
-                return false;
-            } else {
-                birthdateError.textContent = "";
-                return true;
-            }
-        }
-
-        function validatePhone() {
-            var phone = document.getElementById("phone").value;
-            var phoneError = document.getElementById("phoneError");
-            var phoneRegex = /^[0-9]+$/;
-
-            if (!phone) {
-                phoneError.textContent = "Phone number is required.";
-                return false;
-            } else if (phone.includes(" ")) {
-                phoneError.textContent = "Phone number must not contain spaces.";
-                return false;
-            } else if (!phoneRegex.test(phone)) {
-                phoneError.textContent = "Phone number must contain only numbers.";
-                return false;
-            } else {
-                phoneError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateAddress() {
-            var address = document.getElementById("address").value;
-            var addressError = document.getElementById("addressError");
-            if (!address) {
-                addressError.textContent = "Address is required.";
-                return false;
-            } else {
-                addressError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateIDCard() {
-            var idcard = document.getElementById("idcard").value;
-            var idcardError = document.getElementById("idcardError");
-            if (!idcard) {
-                idcardError.textContent = "Vietnamese Citizen ID Card is required.";
-                return false;
-            } else {
-                idcardError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateAvatar() {
-            var avatar = document.getElementById("avatar").files.length;
-            var avatarError = document.getElementById("avatarError");
-            if (avatar === 0) {
-                avatarError.textContent = "Avatar is required.";
-                return false;
-            } else {
-                avatarError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateFrontFace() {
-            var frontface = document.getElementById("frontface").files.length;
-            var frontfaceError = document.getElementById("frontfaceError");
-            if (frontface === 0) {
-                frontfaceError.textContent = "Front face ID card is required.";
-                return false;
-            } else {
-                frontfaceError.textContent = "";
-                return true;
-            }
-        }
-
-        function validateBackFace() {
-            var backface = document.getElementById("backface").files.length;
-            var backfaceError = document.getElementById("backfaceError");
-            if (backface === 0) {
-                backfaceError.textContent = "Back face ID card is required.";
-                return false;
-            } else {
-                backfaceError.textContent = "";
-                return true;
-            }
-        }
-
-        function addValidationListeners() {
-            document.getElementById("fullname").addEventListener("blur", validateFullName);
-            document.getElementById("email").addEventListener("blur", validateEmailField);
-            document.getElementById("password").addEventListener("blur", validatePasswordField);
-            document.querySelectorAll("input[name='gender']").forEach(input => input.addEventListener("blur", validateGender));
-            document.getElementById("birthdate").addEventListener("blur", validateBirthdate);
-            document.getElementById("phone").addEventListener("blur", validatePhone);
-            document.getElementById("address").addEventListener("blur", validateAddress);
-            document.getElementById("avatar").addEventListener("change", validateAvatar);
-            document.getElementById("idcard").addEventListener("blur", validateIDCard);
-            document.getElementById("frontface").addEventListener("change", validateFrontFace);
-            document.getElementById("backface").addEventListener("change", validateBackFace);
-        }
-
-        document.addEventListener("DOMContentLoaded", addValidationListeners);
-
-        function validateForm() {
-            var isValid = true;
-
-            if (!validateFullName()) isValid = false;
-            if (!validateEmailField()) isValid = false;
-            if (!validatePasswordField()) isValid = false;
-            if (!validateGender()) isValid = false;
-            if (!validateBirthdate()) isValid = false;
-            if (!validatePhone()) isValid = false;
-            if (!validateAddress()) isValid = false;
-            if (!validateIDCard()) isValid = false;
-            if (!validateAvatar()) isValid = false;
-            if (!validateFrontFace()) isValid = false;
-            if (!validateBackFace()) isValid = false;
-
-            return isValid;
-        }
-        document.addEventListener("DOMContentLoaded", function() {
-            flatpickr('.flatpickr-input', {
-                dateFormat: "Y-m-d",
-            });
-        });
-        document.addEventListener('DOMContentLoaded', function () {
-            const A = document.getElementById('menu-student');
-            const B = document.getElementById('menu-all-students');
-
-            A.addEventListener('click', function () {
-                if (A.classList.contains('active')) {
-                    A.classList.remove('active');
-                    B.classList.add('active');
-                } else {
-                    A.classList.add('active');
-                    B.classList.remove('active');
-                }
-            });
-        });
-    </script>
 </head>
 
 <body>
@@ -271,7 +51,7 @@
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">Dormitory</span>
+                        <span class="logo-title">FPT Dorm</span>
                         <span class="logo-subtitle">EMPLOYEE</span>
                     </div>
 
@@ -284,11 +64,8 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home" aria-hidden="true"></span>Dashboard</a>
-                    </li>
-                    <li>
                         <a class="show-cat-btn" href="#">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -297,31 +74,19 @@
                         <ul class="cat-sub-menu">
                             <li>
                                 <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
-                                    Students</a>
+                                    Users</a>
                             </li>
                             <li>
                                 <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
-                                    student</a>
+                                    user</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                        <a th:href="@{/fpt-dorm/employee/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
-                            </li>
-
-                        </ul>
                     </li>
 
                     <li>
@@ -378,180 +143,418 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
-
-                    <li>
                         <a th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
                         </a>
                     </li>
-
-
-<!--                    <li>-->
-<!--                        <a th:href="@{/fpt-dorm/employee/notifications}">-->
-<!--                            <span class="icon folder" aria-hidden="true"></span>-->
-<!--                            Notifications-->
-<!--                        </a>-->
-<!--                    </li>-->
                 </ul>
             </div>
         </div>
-<!--        <div class="sidebar-footer">-->
-<!--            <a href="##" class="sidebar-user">-->
-<!--            <span class="sidebar-user-img">-->
-<!--                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img-->
-<!--                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>-->
-<!--            </span>-->
-<!--                <div class="sidebar-user-info">-->
-<!--                    <span class="sidebar-user__title">AI</span>-->
-<!--                    <span class="sidebar-user__subtitle">Support manager</span>-->
-<!--                </div>-->
-<!--            </a>-->
-<!--        </div>-->
+        <!--        <div class="sidebar-footer">-->
+        <!--            <a href="##" class="sidebar-user">-->
+        <!--            <span class="sidebar-user-img">-->
+        <!--                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img-->
+        <!--                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>-->
+        <!--            </span>-->
+        <!--                <div class="sidebar-user-info">-->
+        <!--                    <span class="sidebar-user__title">AI</span>-->
+        <!--                    <span class="sidebar-user__subtitle">Support manager</span>-->
+        <!--                </div>-->
+        <!--            </a>-->
+        <!--        </div>-->
     </aside>
     <div class="main-wrapper">
-
-        <!-- ! Main -->
-
-        <main class="main users chart-page" id="skip-target">
-            <div class="container">
-
-                <div class="row">
-
-                    <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
-                        <h2 class="main-title text-center">Edit Student</h2>
-                        <form th:action="@{/fpt-dorm/employee/update-user-profile}" method="post" enctype="multipart/form-data" th:object="${user}" onsubmit="return validateForm()">
-                            <div class="row mb-3">
-                                <label for="fullname" class="col-sm-4 col-form-label">Name</label>
-                                <div class="col-sm-8">
-                                    <input id="fullname" name="username" class="form-control border" th:field="*{username}">
-                                    <div id="fullnameError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="email" class="col-sm-4 col-form-label">Email</label>
-                                <div class="col-sm-8">
-                                    <input style="background-color: whitesmoke" id="email" class="form-control border" th:field="*{email}" type="email" readonly>
-                                    <div id="emailError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="phone" class="col-sm-4 col-form-label">Phone Number</label>
-                                <div class="col-sm-8">
-                                    <input type="number" id="phone" class="form-control border" th:field="*{phoneNumber}">
-                                    <div id="phoneError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="offset-sm-4 col-sm-8">
-                                    <img th:src="${user.avatar}" th:alt="*{avatar}" width="150">
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="avatar" class="col-sm-4 col-form-label">Avatar Upload</label>
-                                <div class="col-sm-8">
-                                    <input id="avatar" name="avatar" class="form-control border" type="file" multiple th:field="*{avatar}">
-                                    <div id="avatarError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3 align-items-center">
-                                <label class="col-sm-4 col-form-label">Gender</label>
-                                <div class="col-sm-8">
-                                    <div class="form-check form-check-inline">
-                                        <input id="genderMale" name="gender" class="form-check-input border" type="radio" th:field="*{gender}" value="Male"/>
-                                        <label for="genderMale" class="form-check-label">Male</label>
+        <!-- ! Main nav -->
+        <nav class="main-nav--bg">
+            <div class="container main-nav">
+                <div class="main-nav-start">
+                </div>
+                <div class="main-nav-end">
+                    <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
+                        <span class="sr-only">Toggle menu</span>
+                        <span class="icon menu-toggle--gray" aria-hidden="true"></span>
+                    </button>
+                    <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
+                        <span class="sr-only">Switch theme</span>
+                        <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
+                        <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
+                    </button>
+                    <div class="notification-wrapper">
+                        <ul class="users-item-dropdown notification-dropdown dropdown">
+                            <li>
+                                <a href="#">
+                                    <div class="notification-dropdown-icon info">
+                                        <i data-feather="check"></i>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <input id="genderFemale" name="gender" class="form-check-input border" type="radio" th:field="*{gender}" value="Female"/>
-                                        <label for="genderFemale" class="form-check-label">Female</label>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">System just updated</span>
+                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more
+                  here.</span>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <input id="genderOther" name="gender" class="form-check-input border" type="radio" th:field="*{gender}" value="Other"/>
-                                        <label for="genderOther" class="form-check-label">Other</label>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="notification-dropdown-icon danger">
+                                        <i data-feather="info" aria-hidden="true"></i>
                                     </div>
-                                    <div id="genderError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="birthdate" class="col-sm-4 col-form-label">Birth Date</label>
-                                <div class="col-sm-8">
-                                    <input id="birthdate" name="birthdate" class="form-control border flatpickr-input" type="date" th:value="*{birthdate}">
-                                    <div id="birthdateError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="address" class="col-sm-4 col-form-label">Address</label>
-                                <div class="col-sm-8">
-                                    <textarea id="address" name="address" class="form-control" th:field="*{address}"></textarea>
-                                    <div id="addressError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <label for="idcard" class="col-sm-4 col-form-label">CCCD</label>
-                                <div class="col-sm-8">
-                                    <input id="idcard" name="cccdNumber" class="form-control border" th:field="*{cccdNumber}" readonly>
-                                    <div id="idcardError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="offset-sm-4 col-sm-8">
-                                    <img th:src="${user.frontCccdImage}" th:alt="*{frontCccdImage}" width="150">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="frontface" class="col-sm-4 col-form-label">Front CCCD Upload</label>
-                                <div class="col-sm-8">
-                                    <input id="frontface" name="frontface" class="form-control border" type="file">
-                                    <div id="frontfaceError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="offset-sm-4 col-sm-8">
-                                    <img th:src="${user.backCccdImage}" th:alt="*{backCccdImage}" width="150">
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label for="backface" class="col-sm-4 col-form-label">Back CCCD Upload</label>
-                                <div class="col-sm-8">
-                                    <input id="backface" name="backface" class="form-control border" type="file">
-                                    <div id="backfaceError" class="error"></div>
-                                </div>
-                            </div>
-
-                            <div class="row" style="margin-top: 50px;">
-                                <div class="offset-sm-4 col-sm-4 d-grid">
-                                    <a class="btn secondary-default-btn" th:href="@{/fpt-dorm/employee/home}" role="button">Back</a>
-                                </div>
-                                <div class="col-sm-4 d-grid">
-                                    <button type="submit" class="btn primary-default-btn" role="button">Save</button>
-                                </div>
-                            </div>
-                            <div th:if="${errorMessage != null}" class="error-message">
-                                <p th:text="${errorMessage}"></p>
-                            </div>
-                            <div th:if="${param.success}" class="success-message">
-                                <p>Save successfully!</p>
-                            </div>
-                        </form>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">The cache is full!</span>
+                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and
+                  interfere ...</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="notification-dropdown-icon info">
+                                        <i data-feather="check" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">New Subscriber here!</span>
+                                        <span class="notification-dropdown__subtitle">A new subscriber has subscribed.</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="link-to-page" href="#">Go to Notifications page</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="nav-user-wrapper">
+                        <button href="#" class="nav-user-btn dropdown-btn" title="My profile" type="button">
+                            <span class="sr-only">My profile</span>
+                            <span class="nav-user-img">
+                                <picture><source srcset="/static/admin_homepage/img/avatar/avatar-illustrated-02.webp"
+                                                 type="image/webp"><img
+                                        src="/static/admin_homepage/img/avatar/avatar-illustrated-02.png"
+                                        alt="User name"></picture>
+                              </span>
+                        </button>
+                        <ul class="users-item-dropdown nav-user-dropdown dropdown">
+                            <li><a th:href="@{/fpt-dorm/employee/profile}">Profile</a></li>
+                            <li><a th:href="@{/fpt-dorm/user/news}">Home User</a></li>
+                            <li><a class="danger" th:href="@{/fpt-dorm/logout}">
+                                <i data-feather="log-out" aria-hidden="true"></i>
+                                <span>Log out</span>
+                            </a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </main>
+        </nav>
+        <div class="main-wrapper">
+            <!-- ! Main -->
+
+            <main class="main users chart-page" id="skip-target">
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col-md-8 col-lg-8 mx-auto border p-4 m-4 white-block">
+                            <h2 class="main-title text-center">Edit Employee Profile</h2>
+                            <form
+                                    th:action="@{/fpt-dorm/employee/update-user-profile}"
+                                    method="post"
+                                    enctype="multipart/form-data"
+                                    th:object="${user}"
+                                    onsubmit="return validateForm()"
+                            >
+                                <div class="row mb-3">
+                                    <label for="fullname" class="col-sm-4 col-form-label">Name</label>
+                                    <div class="col-sm-8">
+                                        <input
+                                                id="fullname"
+                                                name="username"
+                                                class="form-control border"
+                                                th:field="*{username}"
+                                        />
+                                        <div id="fullnameError" class="error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="email" class="col-sm-4 col-form-label">Email</label>
+                                    <div class="col-sm-8">
+                                        <input
+                                                style="background-color: whitesmoke"
+                                                id="email"
+                                                class="form-control border"
+                                                th:field="*{email}"
+                                                type="email"
+                                                readonly
+                                        />
+                                        <div id="emailError" class="error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="phone" class="col-sm-4 col-form-label">Phone Number</label>
+                                    <div class="col-sm-8">
+                                        <input
+                                                type="number"
+                                                id="phone"
+                                                class="form-control border"
+                                                th:field="*{phoneNumber}"
+                                        />
+                                        <div id="phoneError" class="error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="offset-sm-4 col-sm-8">
+                                        <img
+                                                th:src="${user.avatar}"
+                                                th:alt="*{avatar}"
+                                                width="150"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="avatar" class="col-sm-4 col-form-label">Avatar Upload</label>
+                                    <div class="col-sm-8">
+                                        <input
+                                                id="avatar"
+                                                name="avatar"
+                                                class="form-control border"
+                                                type="file"
+                                                multiple
+                                                th:field="*{avatar}"
+                                        />
+                                        <div id="avatarError" class="error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3 align-items-center">
+                                    <label class="col-sm-4 col-form-label">Gender</label>
+                                    <div class="col-sm-8">
+                                        <div class="form-check form-check-inline">
+                                            <input
+                                                    id="genderMale"
+                                                    name="gender"
+                                                    class="form-check-input border"
+                                                    type="radio"
+                                                    th:field="*{gender}"
+                                                    value="Male"
+                                            />
+                                            <label for="genderMale" class="form-check-label">Male</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input
+                                                    id="genderFemale"
+                                                    name="gender"
+                                                    class="form-check-input border"
+                                                    type="radio"
+                                                    th:field="*{gender}"
+                                                    value="Female"
+                                            />
+                                            <label for="genderFemale" class="form-check-label">Female</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input
+                                                    id="genderOther"
+                                                    name="gender"
+                                                    class="form-check-input border"
+                                                    type="radio"
+                                                    th:field="*{gender}"
+                                                    value="Other"
+                                            />
+                                            <label for="genderOther" class="form-check-label">Other</label>
+                                        </div>
+                                        <div id="genderError" class="error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="birthdate" class="col-sm-4 col-form-label">Birth Date</label>
+                                    <div class="col-sm-8">
+                                        <input
+                                                id="birthdate"
+                                                name="birthdate"
+                                                class="form-control border flatpickr-input"
+                                                type="date"
+                                                th:value="*{birthdate}"
+                                        />
+                                        <div id="birthdateError" class="error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="address" class="col-sm-4 col-form-label">Address</label>
+                                    <div class="col-sm-8">
+                                        <input
+                                                id="address"
+                                                name="username"
+                                                class="form-control border"
+                                                th:field="*{address}"
+                                        />
+                                        <div id="addressError" class="error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <label for="idcard" class="col-sm-4 col-form-label">CCCD</label>
+                                    <div class="col-sm-8">
+                                        <input
+                                                id="idcard"
+                                                name="cccdNumber"
+                                                class="form-control border"
+                                                th:field="*{cccdNumber}"
+                                                readonly
+                                        />
+                                        <div id="idcardError" class="error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="offset-sm-4 col-sm-8">
+                                        <img
+                                                th:src="${user.frontCccdImage}"
+                                                th:alt="*{frontCccdImage}"
+                                                width="150"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="frontface" class="col-sm-4 col-form-label">Front CCCD Upload</label>
+                                    <div class="col-sm-8">
+                                        <input id="frontface" name="frontface" class="form-control border" type="file">
+                                        <div id="frontfaceError" class="error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="offset-sm-4 col-sm-8">
+                                        <img th:src="${user.backCccdImage}" th:alt="*{backCccdImage}" width="150">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <label for="backface" class="col-sm-4 col-form-label">Back CCCD Upload</label>
+                                    <div class="col-sm-8">
+                                        <input id="backface" name="backface" class="form-control border" type="file">
+                                        <div id="backfaceError" class="error"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row" style="margin-top: 50px;">
+                                    <div class="offset-sm-4 col-sm-4 d-grid">
+                                        <a
+                                                class="btn secondary-default-btn"
+                                                th:href="@{/fpt-dorm/employee/profile}"
+                                                role="button"
+                                        >Back</a
+                                        >
+                                    </div>
+                                    <div class="col-sm-4 d-grid">
+                                        <button type="submit" class="btn primary-default-btn" role="button">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                                <div th:if="${errorMessage != null}" class="error-message">
+                                    <p th:text="${errorMessage}"></p>
+                                </div>
+                                <div th:if="${param.success}" class="success-message">
+                                    <p>Save successfully!</p>
+                                </div>
+                            </form>
+
+                            <script>
+                                document.getElementById("fullname").addEventListener("blur", validateFullName);
+                                document.getElementById("email").addEventListener("blur", validateEmailField);
+                                document.getElementById("phone").addEventListener("blur", validatePhoneField);
+                                document.getElementById("birthdate").addEventListener("blur", validateBirthdateField);
+                                document.getElementById("address").addEventListener("blur", validateAddressField);
+
+                                function validateFullName() {
+                                    var fullName = document.getElementById("fullname").value;
+                                    var fullNameError = document.getElementById("fullnameError");
+                                    var regex = /^[a-zA-Z\s]+$/; // Regex chỉ cho phép chữ cái và dấu cách
+                                    if (fullName.trim() === "") {
+                                        fullNameError.textContent = "Name is required.";
+                                        return false;
+                                    } else if (!regex.test(fullName)) {
+                                        fullNameError.textContent = "Name can only contain letters and spaces.";
+                                        return false;
+                                    } else {
+                                        fullNameError.textContent = ""; // Xóa thông báo lỗi
+                                        return true;
+                                    }
+                                }
+                                function validateAddressField() {
+                                    var address = document.getElementById("address").value;
+                                    var addressError = document.getElementById("addressError");
+                                    if (address.trim() === "") {
+                                        addressError.textContent = "Address is required.";
+                                        return false;
+                                    } else {
+                                        addressError.textContent = ""; // Xóa thông báo lỗi
+                                        return true;
+                                    }
+                                }
+
+                                function validateEmailField() {
+                                    var email = document.getElementById("email").value;
+                                    var emailError = document.getElementById("emailError");
+                                    var regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; // Regex cho định dạng email
+                                    if (email.trim() === "") {
+                                        emailError.textContent = "Email is required.";
+                                        return false;
+                                    } else if (!regex.test(email)) {
+                                        emailError.textContent = "Invalid email format.";
+                                        return false;
+                                    } else {
+                                        emailError.textContent = ""; // Xóa thông báo lỗi
+                                        return true;
+                                    }
+                                }
+
+                                function validatePhoneField() {
+                                    var phone = document.getElementById("phone").value;
+                                    var phoneError = document.getElementById("phoneError");
+                                    var regex = /^\d{10}$/; // Regex cho 10 chữ số
+                                    if (phone.trim() === "") {
+                                        phoneError.textContent = "Phone number is required.";
+                                        return false;
+                                    } else if (!regex.test(phone)) {
+                                        phoneError.textContent = "Phone number must be 10 digits.";
+                                        return false;
+                                    } else {
+                                        phoneError.textContent = ""; // Xóa thông báo lỗi
+                                        return true;
+                                    }
+                                }
+
+                                function validateBirthdateField() {
+                                    var birthdate = document.getElementById("birthdate").value;
+                                    var birthdateError = document.getElementById("birthdateError");
+                                    if (birthdate.trim() === "") {
+                                        birthdateError.textContent = "Birth date is required.";
+                                        return false;
+                                    } else {
+                                        birthdateError.textContent = ""; // Xóa thông báo lỗi
+                                        return true;
+                                    }
+                                }
+
+                                function validateForm() {
+                                    var isValid = true;
+                                    isValid &= validateFullName();
+                                    isValid &= validateEmailField();
+                                    isValid &= validatePhoneField();
+                                    isValid &= validateBirthdateField();
+                                    isValid &= validateAddressField();
+                                    return isValid;
+                                }
+                            </script>
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
 
 
         <!-- ! Footer -->

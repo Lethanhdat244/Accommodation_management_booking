@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add News | Employee</title>
-    <link rel="" href="/static/homepage_user/images/icons/favicon.png"/>
+    <link rel="icon" href="/static/homepage_user/images/icons/favicon.png"/>
     <!-- Custom styles -->
     <link rel="stylesheet" href="/static/admin_homepage/css/style.min.css">
     <style>
@@ -65,16 +65,35 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         .form-group button:hover {
             background-color: #0056b3;
         }
+
         .error-message {
             color: red;
         }
+
         .success-message {
             color: green;
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const A = document.getElementById('menu-news');
+            const B = document.getElementById('menu-add-news');
+
+            A.addEventListener('click', function () {
+                if (A.classList.contains('active')) {
+                    A.classList.remove('active');
+                    B.classList.add('active');
+                } else {
+                    A.classList.add('active');
+                    B.classList.remove('active');
+                }
+            });
+        });
+    </script>
 </head>
 <body>
 <div class="layer"></div>
@@ -87,7 +106,7 @@
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
-                        <span class="logo-title">Dormitory</span>
+                        <span class="logo-title">FPT Dorm</span>
                         <span class="logo-subtitle">EMPLOYEE</span>
                     </div>
 
@@ -100,11 +119,8 @@
             <div class="sidebar-body">
                 <ul class="sidebar-body-menu">
                     <li>
-                        <a th:href="@{/fpt-dorm/employee/home}"><span class="icon home"  aria-hidden="true"></span>Dashboard</a>
-                    </li>
-                    <li>
                         <a class="show-cat-btn" href="#">
-                            <span class="icon folder" aria-hidden="true"></span>Student
+                            <span class="icon folder" aria-hidden="true"></span>User
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
@@ -113,34 +129,23 @@
                         <ul class="cat-sub-menu">
                             <li>
                                 <a id="menu-all-students" class="" th:href="@{/fpt-dorm/employee/student/all-student}">All
-                                    Students</a>
+                                    Users</a>
                             </li>
                             <li>
                                 <a id="menu-add-student" class="" th:href="@{/fpt-dorm/employee/student/add}">Add new
-                                    student</a>
+                                    user</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a class="show-cat-btn">
-                            <span class="icon folder" aria-hidden="true"></span>Dorm Manage
-                            <span class="category__btn transparent-btn" title="Open list">
-                            <span class="sr-only">Open list</span>
-                            <span class="icon arrow-down" aria-hidden="true"></span>
-                        </span>
+                        <a th:href="@{/fpt-dorm/employee/view-dorm-list}">
+                            <span class="icon folder" aria-hidden="true"></span>
+                            Dorm
                         </a>
-                        <ul class="cat-sub-menu">
-                            <li>
-                                <a th:href="@{/fpt-dorm/employee/view-dorm-list}">Dorm List</a>
-                            </li>
-                            <li>
-                                <a th:href="@{/fpt-dorm/employee/all-room}">All Rooms</a>
-                            </li>
-                        </ul>
                     </li>
 
                     <li>
-                        <a class="show-cat-btn" >
+                        <a id="menu-news" class="show-cat-btn active">
                             <span class="icon folder" aria-hidden="true"></span>News
                             <span class="category__btn transparent-btn" title="Open list">
                             <span class="sr-only">Open list</span>
@@ -149,12 +154,11 @@
                         </a>
                         <ul class="cat-sub-menu">
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/view-news}">View News</a>
+                                <a id="menu-view-news" th:href="@{/fpt-dorm/employee/view-news}">View News</a>
                             </li>
                             <li>
-                                <a th:href="@{/fpt-dorm/employee/add-news}" class="active">Add news</a>
+                                <a id="menu-add-news" th:href="@{/fpt-dorm/employee/add-news}">Add news</a>
                             </li>
-
                         </ul>
                     </li>
 
@@ -193,13 +197,6 @@
                     </li>
 
                     <li>
-                        <a th:href="@{admin/admin_list_feedback}">
-                            <span class="icon folder" aria-hidden="true"></span>
-                            Feedback
-                        </a>
-                    </li>
-
-                    <li>
                         <a th:href="@{/fpt-dorm/employee/complain}">
                             <span class="icon folder" aria-hidden="true"></span>
                             Complaint
@@ -207,27 +204,27 @@
                     </li>
 
 
-<!--                    <li>-->
-<!--                        <a th:href="@{/fpt-dorm/employee/notifications}">-->
-<!--                            <span class="icon folder" aria-hidden="true"></span>-->
-<!--                            Notifications-->
-<!--                        </a>-->
-<!--                    </li>-->
+                    <!--                    <li>-->
+                    <!--                        <a th:href="@{/fpt-dorm/employee/notifications}">-->
+                    <!--                            <span class="icon folder" aria-hidden="true"></span>-->
+                    <!--                            Notifications-->
+                    <!--                        </a>-->
+                    <!--                    </li>-->
                 </ul>
             </div>
         </div>
-<!--        <div class="sidebar-footer">-->
-<!--            <a href="##" class="sidebar-user">-->
-<!--            <span class="sidebar-user-img">-->
-<!--                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img-->
-<!--                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>-->
-<!--            </span>-->
-<!--                <div class="sidebar-user-info">-->
-<!--                    <span class="sidebar-user__title">AI</span>-->
-<!--                    <span class="sidebar-user__subtitle">Support manager</span>-->
-<!--                </div>-->
-<!--            </a>-->
-<!--        </div>-->
+        <!--        <div class="sidebar-footer">-->
+        <!--            <a href="##" class="sidebar-user">-->
+        <!--            <span class="sidebar-user-img">-->
+        <!--                <picture><source srcset="/admin_homepage/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img-->
+        <!--                        src="/admin_homepage/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>-->
+        <!--            </span>-->
+        <!--                <div class="sidebar-user-info">-->
+        <!--                    <span class="sidebar-user__title">AI</span>-->
+        <!--                    <span class="sidebar-user__subtitle">Support manager</span>-->
+        <!--                </div>-->
+        <!--            </a>-->
+        <!--        </div>-->
     </aside>
 
     <div class="main-wrapper">
@@ -235,10 +232,6 @@
         <nav class="main-nav--bg">
             <div class="container main-nav">
                 <div class="main-nav-start">
-                    <div class="search-wrapper">
-                        <i data-feather="search" aria-hidden="true"></i>
-                        <!-- <input type="text" placeholder="Enter keywords ..." required> -->
-                    </div>
                 </div>
                 <div class="main-nav-end">
                     <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
@@ -250,48 +243,48 @@
                         <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
                         <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
                     </button>
-<!--                    <div class="notification-wrapper">-->
-<!--                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">-->
-<!--                            <span class="sr-only">To messages</span>-->
-<!--                            <span class="icon notification active" aria-hidden="true"></span>-->
-<!--                        </button>-->
-<!--                        <ul class="users-item-dropdown notification-dropdown dropdown">-->
-<!--                            <li>-->
-<!--                                <a href="##">-->
-<!--                                    <div class="notification-dropdown-icon info">-->
-<!--                                        <i data-feather="check"></i>-->
-<!--                                    </div>-->
-<!--                                    <div class="notification-dropdown-text">-->
-<!--                                        <span class="notification-dropdown__title">System just updated</span>-->
-<!--                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="##">-->
-<!--                                    <div class="notification-dropdown-icon danger">-->
-<!--                                        <i data-feather="info" aria-hidden="true"></i>-->
-<!--                                    </div>-->
-<!--                                    <div class="notification-dropdown-text">-->
-<!--                                        <span class="notification-dropdown__title">The cache is full!</span>-->
-<!--                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a href="##">-->
-<!--                                    <div class="notification-dropdown-icon info">-->
-<!--                                        <i data-feather="check" aria-hidden="true"></i>-->
-<!--                                    </div>-->
-<!--                                    <div class="notification-dropdown-text">-->
-<!--                                        <span class="notification-dropdown__title">New Subscriber here!</span>-->
-<!--                                        <span class="notification-dropdown__subtitle">A new subscriber has subscribed.</span>-->
-<!--                                    </div>-->
-<!--                                </a>-->
-<!--                            </li>-->
-<!--                            <li><a class="link-to-page" href="##">Go to Notifications page</a></li>-->
-<!--                        </ul>-->
-<!--                    </div>-->
+                    <!--                    <div class="notification-wrapper">-->
+                    <!--                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">-->
+                    <!--                            <span class="sr-only">To messages</span>-->
+                    <!--                            <span class="icon notification active" aria-hidden="true"></span>-->
+                    <!--                        </button>-->
+                    <!--                        <ul class="users-item-dropdown notification-dropdown dropdown">-->
+                    <!--                            <li>-->
+                    <!--                                <a href="##">-->
+                    <!--                                    <div class="notification-dropdown-icon info">-->
+                    <!--                                        <i data-feather="check"></i>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="notification-dropdown-text">-->
+                    <!--                                        <span class="notification-dropdown__title">System just updated</span>-->
+                    <!--                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more here.</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </a>-->
+                    <!--                            </li>-->
+                    <!--                            <li>-->
+                    <!--                                <a href="##">-->
+                    <!--                                    <div class="notification-dropdown-icon danger">-->
+                    <!--                                        <i data-feather="info" aria-hidden="true"></i>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="notification-dropdown-text">-->
+                    <!--                                        <span class="notification-dropdown__title">The cache is full!</span>-->
+                    <!--                                        <span class="notification-dropdown__subtitle">Unnecessary caches take up a lot of memory space and interfere ...</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </a>-->
+                    <!--                            </li>-->
+                    <!--                            <li>-->
+                    <!--                                <a href="##">-->
+                    <!--                                    <div class="notification-dropdown-icon info">-->
+                    <!--                                        <i data-feather="check" aria-hidden="true"></i>-->
+                    <!--                                    </div>-->
+                    <!--                                    <div class="notification-dropdown-text">-->
+                    <!--                                        <span class="notification-dropdown__title">New Subscriber here!</span>-->
+                    <!--                                        <span class="notification-dropdown__subtitle">A new subscriber has subscribed.</span>-->
+                    <!--                                    </div>-->
+                    <!--                                </a>-->
+                    <!--                            </li>-->
+                    <!--                            <li><a class="link-to-page" href="##">Go to Notifications page</a></li>-->
+                    <!--                        </ul>-->
+                    <!--                    </div>-->
                     <div class="nav-user-wrapper">
                         <button href="##" class="nav-user-btn dropdown-btn" title="My profile" type="button">
                             <span class="sr-only">My profile</span>

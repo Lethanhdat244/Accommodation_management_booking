@@ -4,34 +4,24 @@ import com.accommodation_management_booking.config.PaypalPaymentIntent;
 import com.accommodation_management_booking.config.PaypalPaymentMethod;
 import com.accommodation_management_booking.config.VNPayConfig;
 import com.accommodation_management_booking.dto.PaymentTransactionDTO;
-import com.accommodation_management_booking.entity.Bed;
-import com.accommodation_management_booking.entity.Booking;
-import com.accommodation_management_booking.entity.Room;
-import com.accommodation_management_booking.entity.User;
+import com.accommodation_management_booking.entity.*;
 import com.accommodation_management_booking.repository.*;
+import com.accommodation_management_booking.service.BedService;
 import com.accommodation_management_booking.service.EmailService;
 import com.accommodation_management_booking.service.PaymentService;
 import com.accommodation_management_booking.service.PaypalService;
 //import com.accommodation_management_booking.service.VNPayService;
 import com.accommodation_management_booking.utils.Utils;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import com.stripe.Stripe;
-import com.stripe.model.PaymentIntent;
-import com.stripe.param.PaymentIntentCreateParams;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpMethod;
@@ -49,18 +39,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
-
-import static com.accommodation_management_booking.config.VNPayConfig.hmacSHA512;
 
 @Controller
 @AllArgsConstructor
@@ -69,6 +52,13 @@ public class PaymentController {
     private final BookingRepository bookingRepository;
     private final PaymentService paymentService;
     private final PaymentRepository paymentRepository;
+    private final ContractRepository contractRepository;
+    private final BedService bedService;
+    private final UserRepository userRepository;
+    private final EmailService emailService;
+    private final PaypalService paypalService;
+    private final BedRepository bedRepository;
+
 
     @GetMapping("/fpt-dorm/employee/all-payment")
     public String showPaymentList(Model model,
@@ -169,58 +159,8 @@ public class PaymentController {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
-        Page<PaymentTransactionDTO> paymentPage;
-
-        System.out.println("paymentDate: " + keyword);
-
-        if (category == null || category.isEmpty()) {
-            if (keyword == null || keyword.isEmpty()) {
-                paymentPage = Page.empty(pageable);
-            } else {
-                paymentPage = paymentService.searchByUserWithPaymentSort(userId, pageable);
-            }
-        } else {
-            switch (category) {
-                case "ID":
-                    try {
-                        int paymentId = Integer.parseInt(keyword);
-                        if (paymentService.findByPaymentId(paymentId) != null) {
-                            paymentPage = paymentService.findByPaymentIdWithPage(paymentId, pageable);
-                        } else {
-                            paymentPage = Page.empty(pageable);
-                        }
-                    } catch (NumberFormatException e) {
-                        paymentPage = Page.empty(pageable);
-                    }
-                    break;
-                case "Date":
-                    try {
-                        List<DateTimeFormatter> formatters = Arrays.asList(
-                                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
-                                DateTimeFormatter.ofPattern("dd/MM/yyyy"),
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                        );
-                        LocalDate paymentDate = null;
-                        for (DateTimeFormatter formatter : formatters) {
-                            try {
-                                paymentDate = LocalDate.parse(keyword, formatter);
-                                break;
-                            } catch (DateTimeParseException _) {
-                            }
-                        }
-                        if (paymentDate == null) {
-                            paymentDate = LocalDate.parse(keyword);
-                        }
-                        paymentPage = paymentService.findByPaymentDateWithPage(paymentDate, userId, pageable);
-                    } catch (DateTimeParseException e) {
-                        paymentPage = Page.empty(pageable);
-                    }
-                    break;
-                default:
-                    paymentPage = Page.empty(pageable);
-                    break;
-            }
-        }
+        List<String> bookingSortFields = List.of("totalPrice");
+        Page<PaymentTransactionDTO> paymentPage = paymentService.searchAllPayment(userId, keyword, category, bookingSortFields, pageable);
         model.addAttribute("userId", userId);
         model.addAttribute("paymentPage", paymentPage);
         model.addAttribute("keyword", keyword);
@@ -236,6 +176,9 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+                model.addAttribute("contract", contractRepository.getContractByBookingId(paymentTransactionDTO.getBookingId()));
+                Bed b = bedService.getBedById(paymentTransactionDTO.getBedId());
+                model.addAttribute("bedName", b.getBedName());
             } else {
                 throw new Exception("Payment not found");
             }
@@ -278,62 +221,8 @@ public class PaymentController {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
-        Page<PaymentTransactionDTO> paymentPage;
-
-        System.out.println("paymentDate: " + keyword);
-
-        if (category == null || category.isEmpty()) {
-            if (keyword == null || keyword.isEmpty()) {
-                paymentPage = Page.empty(pageable);
-            } else {
-                model.addAttribute("paymentPage", Page.empty(pageable));
-                model.addAttribute("keyword", keyword);
-                model.addAttribute("selectedCategory", category);
-                model.addAttribute("sort", sort);
-                return "employee/payment/payment_request";
-            }
-        } else {
-            switch (category) {
-                case "ID":
-                    try {
-                        int paymentId = Integer.parseInt(keyword);
-                        if (paymentService.findByPaymentId(paymentId) != null) {
-                            paymentPage = paymentService.findPaymentRequestByPaymentId(paymentId, pageable);
-                        } else {
-                            paymentPage = Page.empty(pageable);
-                        }
-                    } catch (NumberFormatException e) {
-                        paymentPage = Page.empty(pageable);
-                    }
-                    break;
-                case "Date":
-                    try {
-                        List<DateTimeFormatter> formatters = Arrays.asList(
-                                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
-                                DateTimeFormatter.ofPattern("dd/MM/yyyy"),
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                        );
-                        LocalDate paymentDate = null;
-                        for (DateTimeFormatter formatter : formatters) {
-                            try {
-                                paymentDate = LocalDate.parse(keyword, formatter);
-                                break;
-                            } catch (DateTimeParseException ex) {
-                            }
-                        }
-                        if (paymentDate == null) {
-                            paymentDate = LocalDate.parse(keyword);
-                        }
-                        paymentPage = paymentService.findPaymentRequestByPaymentDate(paymentDate, pageable);
-                    } catch (DateTimeParseException e) {
-                        paymentPage = Page.empty(pageable);
-                    }
-                    break;
-                default:
-                    paymentPage = Page.empty(pageable);
-                    break;
-            }
-        }
+        List<String> bookingSortFields = List.of("totalPrice");
+        Page<PaymentTransactionDTO> paymentPage = paymentService.searchPaymentRequest(keyword, category, bookingSortFields, pageable);
         model.addAttribute("paymentPage", paymentPage);
         model.addAttribute("keyword", keyword);
         model.addAttribute("selectedCategory", category);
@@ -348,6 +237,8 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+                Bed b = bedService.getBedById(paymentTransactionDTO.getBedId());
+                model.addAttribute("bedName", b.getBedName());
             } else {
                 throw new Exception("Payment not found");
             }
@@ -391,6 +282,19 @@ public class PaymentController {
             booking.setRefundDate(refundDate);
             booking.setStatus(Booking.Status.Confirmed);
             bookingRepository.save(booking);
+
+            String encodedBookingId = encode(booking.getBookingId());
+
+            // Gửi email
+            String toEmail = booking.getUser().getEmail(); // Email người dùng
+            String subject = "Payment-Confirmed"; // Tiêu đề email
+            String body = "Dear " + booking.getUser().getUsername() + ",\n\n" +
+                    "Your payment was confirmed." +
+                    "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?token=" + encodedBookingId +
+                    "\n\nThank you for your booking."; // Nội dung email
+
+            emailService.sendBill(toEmail, subject, body);
+
             return ResponseEntity.ok("Payment confirmed successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
@@ -399,7 +303,7 @@ public class PaymentController {
 
     //User
     @GetMapping("/fpt-dorm/user/payment")
-    public String showPaymentUser(Model model, Authentication authentication,
+    public String showPaymentUser(Model model, Authentication authentication, HttpSession session,
                                   @RequestParam(defaultValue = "0") int page,
                                   @RequestParam(defaultValue = "3") int size,
                                   @RequestParam(defaultValue = "paymentDate,desc") String sort) {
@@ -427,12 +331,13 @@ public class PaymentController {
             model.addAttribute("sort", sort);
             model.addAttribute("email", email);
         }
-
+        model.addAttribute("role", session.getAttribute("role"));
         return "user/payment";
     }
 
     @GetMapping("/fpt-dorm/user/payment/id={id}")
-    public String showPaymentDetailUser(Model model, Authentication authentication, @PathVariable("id") int id) {
+    public String showPaymentDetailUser(Model model, Authentication authentication, HttpSession session, @PathVariable("id") int id) {
+        model.addAttribute("role", session.getAttribute("role"));
         String email;
         if (authentication instanceof OAuth2AuthenticationToken oauth2Token) {
             OAuth2User oauth2User = oauth2Token.getPrincipal();
@@ -447,6 +352,8 @@ public class PaymentController {
             PaymentTransactionDTO paymentTransactionDTO = paymentService.findByPaymentId(id);
             if (paymentTransactionDTO != null && paymentTransactionDTO.getEmail().equals(email)) {
                 model.addAttribute("payment", paymentTransactionDTO);
+                Bed b = bedService.getBedById(paymentTransactionDTO.getBedId());
+                model.addAttribute("bedName", b.getBedName());
             } else {
                 throw new Exception("Payment not found");
             }
@@ -531,13 +438,11 @@ public class PaymentController {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Page<PaymentTransactionDTO> paymentPage;
-        Pageable pageable;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
         List<String> bookingSortFields = List.of("totalPrice");
         if (bookingSortFields.contains(sortParams[0])) {
-            pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
             paymentPage = paymentService.searchByUserWithBookingSort(id, pageable);
         } else {
-            pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
             paymentPage = paymentService.searchByUserWithPaymentSort(id, pageable);
         }
         model.addAttribute("userId", id);
@@ -557,56 +462,8 @@ public class PaymentController {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
-        Page<PaymentTransactionDTO> paymentPage;
-
-        if (category == null || category.isEmpty()) {
-            if (keyword == null || keyword.isEmpty()) {
-                paymentPage = Page.empty(pageable);
-            } else {
-                paymentPage = paymentService.searchByUserWithPaymentSort(userId, pageable);
-            }
-        } else {
-            switch (category) {
-                case "ID":
-                    try {
-                        int paymentId = Integer.parseInt(keyword);
-                        if (paymentService.findByPaymentId(paymentId) != null) {
-                            paymentPage = paymentService.findByPaymentIdWithPage(paymentId, pageable);
-                        } else {
-                            paymentPage = Page.empty(pageable);
-                        }
-                    } catch (NumberFormatException e) {
-                        paymentPage = Page.empty(pageable);
-                    }
-                    break;
-                case "Date":
-                    try {
-                        List<DateTimeFormatter> formatters = Arrays.asList(
-                                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
-                                DateTimeFormatter.ofPattern("dd/MM/yyyy"),
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                        );
-                        LocalDate paymentDate = null;
-                        for (DateTimeFormatter formatter : formatters) {
-                            try {
-                                paymentDate = LocalDate.parse(keyword, formatter);
-                                break;
-                            } catch (DateTimeParseException _) {
-                            }
-                        }
-                        if (paymentDate == null) {
-                            paymentDate = LocalDate.parse(keyword);
-                        }
-                        paymentPage = paymentService.findByPaymentDateWithPage(paymentDate, userId, pageable);
-                    } catch (DateTimeParseException e) {
-                        paymentPage = Page.empty(pageable);
-                    }
-                    break;
-                default:
-                    paymentPage = Page.empty(pageable);
-                    break;
-            }
-        }
+        List<String> bookingSortFields = List.of("totalPrice");
+        Page<PaymentTransactionDTO> paymentPage = paymentService.searchAllPayment(userId, keyword, category, bookingSortFields, pageable);
         model.addAttribute("userId", userId);
         model.addAttribute("paymentPage", paymentPage);
         model.addAttribute("keyword", keyword);
@@ -622,6 +479,9 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+                model.addAttribute("contract", contractRepository.getContractByBookingId(paymentTransactionDTO.getBookingId()));
+                Bed b = bedService.getBedById(paymentTransactionDTO.getBedId());
+                model.addAttribute("bedName", b.getBedName());
             } else {
                 throw new Exception("Payment not found");
             }
@@ -640,13 +500,11 @@ public class PaymentController {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Page<PaymentTransactionDTO> paymentPage;
-        Pageable pageable;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
         List<String> bookingSortFields = List.of("totalPrice");
         if (bookingSortFields.contains(sortParams[0])) {
-            pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
             paymentPage = paymentService.searchByStatusWithBookingSort(Booking.Status.Pending, pageable);
         } else {
-            pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
             paymentPage = paymentService.searchByStatusWithPaymentSort(Booking.Status.Pending, pageable);
         }
         model.addAttribute("paymentPage", paymentPage);
@@ -664,63 +522,8 @@ public class PaymentController {
         String[] sortParams = sort.split(",");
         Sort.Direction direction = sortParams[1].equalsIgnoreCase("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortParams[0]));
-        Page<PaymentTransactionDTO> paymentPage;
-
-        System.out.println("paymentDate: " + keyword);
-
-        if (category == null || category.isEmpty()) {
-            if (keyword == null || keyword.isEmpty()) {
-                paymentPage = Page.empty(pageable);
-            } else {
-                model.addAttribute("paymentPage", Page.empty(pageable));
-                model.addAttribute("keyword", keyword);
-                model.addAttribute("selectedCategory", category);
-                model.addAttribute("sort", sort);
-                return "admin/payment/payment_request";
-//                return "redirect:/fpt-dorm/admin/payment-request";
-            }
-        } else {
-            switch (category) {
-                case "ID":
-                    try {
-                        int paymentId = Integer.parseInt(keyword);
-                        if (paymentService.findByPaymentId(paymentId) != null) {
-                            paymentPage = paymentService.findPaymentRequestByPaymentId(paymentId, pageable);
-                        } else {
-                            paymentPage = Page.empty(pageable);
-                        }
-                    } catch (NumberFormatException e) {
-                        paymentPage = Page.empty(pageable);
-                    }
-                    break;
-                case "Date":
-                    try {
-                        List<DateTimeFormatter> formatters = Arrays.asList(
-                                DateTimeFormatter.ofPattern("dd-MM-yyyy"),
-                                DateTimeFormatter.ofPattern("dd/MM/yyyy"),
-                                DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                        );
-                        LocalDate paymentDate = null;
-                        for (DateTimeFormatter formatter : formatters) {
-                            try {
-                                paymentDate = LocalDate.parse(keyword, formatter);
-                                break;
-                            } catch (DateTimeParseException ex) {
-                            }
-                        }
-                        if (paymentDate == null) {
-                            paymentDate = LocalDate.parse(keyword);
-                        }
-                        paymentPage = paymentService.findPaymentRequestByPaymentDate(paymentDate, pageable);
-                    } catch (DateTimeParseException e) {
-                        paymentPage = Page.empty(pageable);
-                    }
-                    break;
-                default:
-                    paymentPage = Page.empty(pageable);
-                    break;
-            }
-        }
+        List<String> bookingSortFields = List.of("totalPrice");
+        Page<PaymentTransactionDTO> paymentPage = paymentService.searchPaymentRequest(keyword, category, bookingSortFields, pageable);
         model.addAttribute("paymentPage", paymentPage);
         model.addAttribute("keyword", keyword);
         model.addAttribute("selectedCategory", category);
@@ -735,6 +538,8 @@ public class PaymentController {
             if (paymentTransactionDTO != null) {
                 model.addAttribute("payment", paymentTransactionDTO);
                 model.addAttribute("user", userRepository.findByEmail(paymentTransactionDTO.getEmail()));
+                Bed b = bedService.getBedById(paymentTransactionDTO.getBedId());
+                model.addAttribute("bedName", b.getBedName());
             } else {
                 throw new Exception("Payment not found");
             }
@@ -757,12 +562,12 @@ public class PaymentController {
 
             if (booking.getAmountPaid() > 0) {
                 Optional<com.accommodation_management_booking.entity.Payment> optionalPayment = paymentRepository.findByBooking(booking);
-                if(optionalPayment.isPresent()){
+                if (optionalPayment.isPresent()) {
                     if (optionalPayment.get().getPaymentMethod() == com.accommodation_management_booking.entity.Payment.PaymentMethod.PayPal) {
                         System.out.println("Paypal");
                         com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
                         System.out.println("Payment found: " + payment);
-                        try{
+                        try {
                             // Get the current exchange rate from VND to USD
                             float exchangeRate = getExchangeRateVNDToUSD();
                             if (exchangeRate == 0) {
@@ -770,8 +575,8 @@ public class PaymentController {
                             }
 
                             // Convert the amount paid from VND to USD
-                            float amountPaidInUSD = booking.getAmountPaid() * exchangeRate;
-                            float refundAmount = amountPaidInUSD /exchangeRate;
+                            float amountPaidInUSD = booking.getAmountPaid() * exchangeRate - 3;
+                            float refundAmount = amountPaidInUSD / exchangeRate;
                             // Logging for debugging
                             System.out.println("Amount paid in VND: " + booking.getAmountPaid());
                             System.out.println("Exchange rate VND to USD: " + exchangeRate);
@@ -791,12 +596,12 @@ public class PaymentController {
                             // Send email
                             String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
                             String subject = "Refund successful";
-                            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully"+
+                            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully" +
                                     "\n Please check your account: " + payment.getPaymentDetail() +
                                     "\nRefundAmount: " + booking.getRefundAmount() +
                                     "\nDate: " + booking.getRefundDate() +
-                                    "\nDue to PayPal's refund policy, your refund may vary from the amount you paid!"+
-                                    "\nAny questions or complaints please contact us:"+
+                                    "\nDue to PayPal's refund policy, your refund may vary from the amount you paid!" +
+                                    "\nAny questions or complaints please contact us:" +
                                     "\nAddress: Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN" +
                                     "\nPhone: (024) 7300.1866 / (024) 7300.5588" +
                                     "\n\nThank you for using our service.";
@@ -829,9 +634,9 @@ public class PaymentController {
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
                         String vnp_CreateDate = formatter.format(cld.getTime());
 
-                        String vnp_IpAddr = "127.0.0.1";;
+                        String vnp_IpAddr = "127.0.0.1";
 
-                        JsonObject  vnp_Params = new JsonObject ();
+                        JsonObject vnp_Params = new JsonObject();
 
                         vnp_Params.addProperty("vnp_RequestId", vnp_RequestId);
                         vnp_Params.addProperty("vnp_Version", vnp_Version);
@@ -849,7 +654,7 @@ public class PaymentController {
                         vnp_Params.addProperty("vnp_CreateDate", vnp_CreateDate);
                         vnp_Params.addProperty("vnp_IpAddr", vnp_IpAddr);
 
-                        String hash_Data= String.join("|", vnp_RequestId, vnp_Version, vnp_Command, vnp_TmnCode,
+                        String hash_Data = String.join("|", vnp_RequestId, vnp_Version, vnp_Command, vnp_TmnCode,
                                 vnp_TransactionType, vnp_TxnRef, vnp_Amount, vnp_TransactionNo, vnp_TransactionDate,
                                 vnp_CreateBy, vnp_CreateDate, vnp_IpAddr, vnp_OrderInfo);
 
@@ -872,8 +677,8 @@ public class PaymentController {
                         System.out.println("vnp_IpAddr: " + vnp_IpAddr);
                         System.out.println("vnp_SecureHash: " + vnp_SecureHash);
 
-                        URL url = new URL (VNPayConfig.vnp_ApiUrl);
-                        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+                        URL url = new URL(VNPayConfig.vnp_ApiUrl);
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
                         con.setRequestMethod("POST");
                         con.setRequestProperty("Content-Type", "application/json");
                         con.setDoOutput(true);
@@ -908,12 +713,12 @@ public class PaymentController {
                         // Send email
                         String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
                         String subject = "Refund successful";
-                        String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully"+
+                        String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully" +
                                 "\n Please check your account: " + payment.getPaymentDetail() +
                                 "\nRefundAmount: " + booking.getRefundAmount() +
                                 "\nDate: " + booking.getRefundDate() +
-                                "\nDue to VNPay's refund policy, your refund may vary from the amount you paid!"+
-                                "\nAny questions or complaints please contact us:"+
+                                "\nDue to VNPay's refund policy, your refund may vary from the amount you paid!" +
+                                "\nAny questions or complaints please contact us:" +
                                 "\nAddress: Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN" +
                                 "\nPhone: (024) 7300.1866 / (024) 7300.5588" +
                                 "\n\nThank you for using our service.";
@@ -953,165 +758,28 @@ public class PaymentController {
             booking.setRefundDate(refundDate);
             booking.setStatus(Booking.Status.Confirmed);
             bookingRepository.save(booking);
+
+            String encodedBookingId = encode(booking.getBookingId());
+
+            // Gửi email
+            String toEmail = booking.getUser().getEmail(); // Email người dùng
+            String subject = "Payment-Confirmed"; // Tiêu đề email
+            String body = "Dear " + booking.getUser().getUsername() + ",\n\n" +
+                    "Your payment was confirmed." +
+                    "\nPlease access this link to sign your contract: " + "http://localhost:8080/fpt-dorm/signature?token=" + encodedBookingId +
+                    "\n\nThank you for your booking."; // Nội dung email
+
+            emailService.sendBill(toEmail, subject, body);
+
             return ResponseEntity.ok("Payment confirmed successfully");
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Booking not found");
         }
     }
 
-    public static final String URL_PAYPAL_SUCCESS = "pay/success";
-    public static final String URL_PAYPAL_CANCEL = "pay/cancel";
-
-    //private Logger log = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private PaypalService paypalService;
-
-    @Autowired
-    private RoomRepository roomRepository;
-
-    @Autowired
-    private BedRepository bedRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private EmailService emailService;
-
-//    @Autowired
-//    private VNPayService vnPayService;
-
-    @GetMapping("/")
-    public String index() {
-        return "index";
-    }
-
-    private Integer getLoggedInUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            if (authentication.getPrincipal() instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-                User user = userRepository.findByEmail(userDetails.getUsername());
-                return user.getUserId(); // Assuming userId is the field name
-            } else if (authentication.getPrincipal() instanceof OAuth2User) {
-                OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
-                String email = oauth2User.getAttribute("email");
-                User user = userRepository.findByEmail(email);
-                return user.getUserId();
-            }
-        }
-        throw new IllegalStateException("User not found in context");
-    }
-
-    @PostMapping("/fpt-dorm/user/booking/pay")
-    public String pay(HttpServletRequest request,
-                      @RequestParam("bed") Integer bedId,
-                      @RequestParam("room") Integer roomId,
-                      @RequestParam("checkin") LocalDate checkinDate,
-                      @RequestParam("checkout") LocalDate checkoutDate,
-                      @RequestParam("totalPrice") float totalPrice,
-                      @RequestParam("totalPriceUSD") float price) {
-
-        Integer userId = getLoggedInUserId();
-        Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
-        Room room = roomRepository.findById(roomId).orElseThrow(() -> new IllegalArgumentException("Invalid room ID"));
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
-
-        Booking booking = new Booking();
-        booking.setBed(bed);
-        booking.setRoom(room);
-        booking.setUser(user);
-        booking.setStartDate(checkinDate);
-        booking.setEndDate(checkoutDate);
-        booking.setTotalPrice(totalPrice);
-//        booking.setAmountPaid(totalPrice);
-        bookingRepository.save(booking);
-
-//        bed.setIsAvailable(false);
-//        bedRepository.save(bed);
-
-        // Store booking ID in session
-        request.getSession().setAttribute("bookingId", booking.getBookingId());
-        request.getSession().setAttribute("bedId", bed.getBedId());
-
-        String cancelUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_CANCEL;
-        String successUrl = Utils.getBaseURL(request) + "/" + URL_PAYPAL_SUCCESS;
-        try{
-            Payment payment = paypalService.createPayment(
-                    price,
-                    "USD",
-                    PaypalPaymentMethod.paypal,
-                    PaypalPaymentIntent.sale,
-                    "Payment for booking",
-                    cancelUrl,
-                    successUrl);
-            for (Links link : ((com.paypal.api.payments.Payment) payment).getLinks()) {
-                if (link.getRel().equals("approval_url")) {
-                    return "redirect:" + link.getHref();
-                }
-            }
-        } catch (PayPalRESTException e) {
-            e.printStackTrace();
-        }
-        return "redirect:/";
-    }
-
-    @GetMapping(URL_PAYPAL_CANCEL)
-    public String cancelPay(HttpServletRequest request) {
-        // Store booking ID in session
-        Integer bookingId = (Integer) request.getSession().getAttribute("bookingId");
-        bookingRepository.deleteById(bookingId);
-        Integer bedId = (Integer) request.getSession().getAttribute("bedId");
-        Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
-        bed.setIsAvailable(true);
-        bedRepository.save(bed);
-        return "cancel";
-    }
-
-    @GetMapping(URL_PAYPAL_SUCCESS)
-    public String successPay(@RequestParam("paymentId") String paymentId,
-                             @RequestParam("PayerID") String payerId,
-                             HttpServletRequest request) {
-        try {
-            Payment payment = paypalService.executePayment(paymentId, payerId);
-            if (payment.getState().equals("approved")) {
-                Integer bookingId = (Integer) request.getSession().getAttribute("bookingId");
-                com.accommodation_management_booking.entity.Payment payment1 = new com.accommodation_management_booking.entity.Payment();
-                payment1.setPaymentMethod(com.accommodation_management_booking.entity.Payment.PaymentMethod.PayPal);
-                payment1.setPaymentDetail(paymentId);
-                payment1.setPaymentDate(LocalDateTime.now());
-                // Set booking ID in payment
-                Booking booking = bookingRepository.findById(bookingId).orElseThrow(() -> new IllegalArgumentException("Invalid booking ID"));
-                payment1.setBooking(booking);
-                paymentRepository.save(payment1);
-
-                Integer bedId = (Integer) request.getSession().getAttribute("bedId");
-                Bed bed = bedRepository.findById(bedId).orElseThrow(() -> new IllegalArgumentException("Invalid bed ID"));
-                bed.setIsAvailable(false);
-                bedRepository.save(bed);
-                booking.setAmountPaid(payment1.getBooking().getTotalPrice());
-                bookingRepository.save(booking);
-
-
-                // Send email
-                String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
-                String subject = "Payment Successful - Booking Confirmation";
-                String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment was successful."+
-                        "\n Payment code: " + payment1.getPaymentDetail() +
-                        "\nTotal Price: " + booking.getTotalPrice() +
-                        "\nAmount Paid: " + booking.getAmountPaid() +
-                        "\nDate: " + payment1.getPaymentDate() +
-                        "\n\nThank you for your booking.";
-                emailService.sendBill(toEmail, subject, body);
-
-                return "success";
-            }
-        } catch (PayPalRESTException e) {
-            e.printStackTrace();
-        }
-        bookingRepository.delete(bookingRepository.findById((Integer) request.getSession().getAttribute("bookingId")).get());
-        return "redirect:/";
+    public static String encode(int bookingId) {
+        String idAsString = String.valueOf(bookingId);
+        return Base64.getUrlEncoder().encodeToString(idAsString.getBytes());
     }
 
 
@@ -1127,12 +795,12 @@ public class PaymentController {
 
             if (booking.getAmountPaid() > 0) {
                 Optional<com.accommodation_management_booking.entity.Payment> optionalPayment = paymentRepository.findByBooking(booking);
-                if(optionalPayment.isPresent()){
+                if (optionalPayment.isPresent()) {
                     if (optionalPayment.get().getPaymentMethod() == com.accommodation_management_booking.entity.Payment.PaymentMethod.PayPal) {
                         System.out.println("Paypal");
                         com.accommodation_management_booking.entity.Payment payment = optionalPayment.get();
                         System.out.println("Payment found: " + payment);
-                        try{
+                        try {
                             // Get the current exchange rate from VND to USD
                             float exchangeRate = getExchangeRateVNDToUSD();
                             if (exchangeRate == 0) {
@@ -1140,8 +808,8 @@ public class PaymentController {
                             }
 
                             // Convert the amount paid from VND to USD
-                            float amountPaidInUSD = booking.getAmountPaid() * exchangeRate;
-                            float refundAmount = amountPaidInUSD /exchangeRate;
+                            float amountPaidInUSD = booking.getAmountPaid() * exchangeRate-3;
+                            float refundAmount = amountPaidInUSD / exchangeRate;
                             // Logging for debugging
                             System.out.println("Amount paid in VND: " + booking.getAmountPaid());
                             System.out.println("Exchange rate VND to USD: " + exchangeRate);
@@ -1161,12 +829,12 @@ public class PaymentController {
                             // Send email
                             String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
                             String subject = "Refund successful";
-                            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully"+
+                            String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully" +
                                     "\n Please check your account: " + payment.getPaymentDetail() +
                                     "\nRefundAmount: " + booking.getRefundAmount() +
                                     "\nDate: " + booking.getRefundDate() +
-                                    "\nDue to PayPal's refund policy, your refund may vary from the amount you paid!"+
-                                    "\nAny questions or complaints please contact us:"+
+                                    "\nDue to PayPal's refund policy, your refund may vary from the amount you paid!" +
+                                    "\nAny questions or complaints please contact us:" +
                                     "\nAddress: Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN" +
                                     "\nPhone: (024) 7300.1866 / (024) 7300.5588" +
                                     "\n\nThank you for using our service.";
@@ -1199,9 +867,9 @@ public class PaymentController {
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
                         String vnp_CreateDate = formatter.format(cld.getTime());
 
-                        String vnp_IpAddr = "127.0.0.1";;
+                        String vnp_IpAddr = "127.0.0.1";
 
-                        JsonObject  vnp_Params = new JsonObject ();
+                        JsonObject vnp_Params = new JsonObject();
 
                         vnp_Params.addProperty("vnp_RequestId", vnp_RequestId);
                         vnp_Params.addProperty("vnp_Version", vnp_Version);
@@ -1219,7 +887,7 @@ public class PaymentController {
                         vnp_Params.addProperty("vnp_CreateDate", vnp_CreateDate);
                         vnp_Params.addProperty("vnp_IpAddr", vnp_IpAddr);
 
-                        String hash_Data= String.join("|", vnp_RequestId, vnp_Version, vnp_Command, vnp_TmnCode,
+                        String hash_Data = String.join("|", vnp_RequestId, vnp_Version, vnp_Command, vnp_TmnCode,
                                 vnp_TransactionType, vnp_TxnRef, vnp_Amount, vnp_TransactionNo, vnp_TransactionDate,
                                 vnp_CreateBy, vnp_CreateDate, vnp_IpAddr, vnp_OrderInfo);
 
@@ -1242,8 +910,8 @@ public class PaymentController {
                         System.out.println("vnp_IpAddr: " + vnp_IpAddr);
                         System.out.println("vnp_SecureHash: " + vnp_SecureHash);
 
-                        URL url = new URL (VNPayConfig.vnp_ApiUrl);
-                        HttpURLConnection con = (HttpURLConnection)url.openConnection();
+                        URL url = new URL(VNPayConfig.vnp_ApiUrl);
+                        HttpURLConnection con = (HttpURLConnection) url.openConnection();
                         con.setRequestMethod("POST");
                         con.setRequestProperty("Content-Type", "application/json");
                         con.setDoOutput(true);
@@ -1278,12 +946,12 @@ public class PaymentController {
                         // Send email
                         String toEmail = booking.getUser().getEmail(); // Assuming you have a getEmail method in your Customer entity
                         String subject = "Refund successful";
-                        String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully"+
+                        String body = "Dear " + booking.getUser().getUsername() + ",\n\nYour payment has been refunded successfully" +
                                 "\n Please check your account: " + payment.getPaymentDetail() +
                                 "\nRefundAmount: " + booking.getRefundAmount() +
                                 "\nDate: " + booking.getRefundDate() +
-                                "\nDue to VNPay's refund policy, your refund may vary from the amount you paid!"+
-                                "\nAny questions or complaints please contact us:"+
+                                "\nDue to VNPay's refund policy, your refund may vary from the amount you paid!" +
+                                "\nAny questions or complaints please contact us:" +
                                 "\nAddress: Education and Training Area - Hoa Lac High-Tech Park - Km29 Thang Long Avenue, Thach That, City. HN" +
                                 "\nPhone: (024) 7300.1866 / (024) 7300.5588" +
                                 "\n\nThank you for using our service.";
@@ -1291,7 +959,6 @@ public class PaymentController {
 
                         return ResponseEntity.ok("Canceled successfully");
                     }
-
                 }
             }else {
                 System.out.println("No payment found for this booking");
@@ -1312,7 +979,8 @@ public class PaymentController {
             // Example: Using a service like ExchangeRate-API
             RestTemplate restTemplate = new RestTemplate();
             String url = "https://api.exchangerate-api.com/v4/latest/VND";
-            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {});
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {
+            });
             Map<String, Object> responseBody = response.getBody();
             if (responseBody != null && responseBody.containsKey("rates")) {
                 Map<String, Double> rates = (Map<String, Double>) responseBody.get("rates");

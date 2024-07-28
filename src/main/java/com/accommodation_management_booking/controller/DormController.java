@@ -9,10 +9,17 @@ import com.accommodation_management_booking.entity.Floor;
 import com.accommodation_management_booking.entity.Room;
 import com.accommodation_management_booking.repository.BedRepository;
 import com.accommodation_management_booking.repository.FloorRepository;
+import com.accommodation_management_booking.repository.RoomRepository;
+import com.accommodation_management_booking.repository.UserRepository;
 import com.accommodation_management_booking.service.BedService;
 import com.accommodation_management_booking.service.DormService;
 import com.accommodation_management_booking.service.FloorService;
 import com.accommodation_management_booking.service.RoomService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -41,6 +48,9 @@ public class DormController {
     private final FloorRepository floorRepository;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private BedRepository bedRepository;
 
     @Autowired
@@ -53,24 +63,29 @@ public class DormController {
     }
 
     @GetMapping("/fpt-dorm/user/detail-dorm")
-    public String getAllDormBedInfo(Model model) {
-        List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo();
+    public String getAllDormBedInfo(Model model, HttpSession session) {
+        List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo1();
         model.addAttribute("dormBedInfoList", dormBedInfoList);
-        return "user/available_bed"; // Thymeleaf view name
+        model.addAttribute("role", session.getAttribute("role"));
+        return "user/available_bed";
     }
 
     @GetMapping("/fpt-dorm/user/floor-list/{dormId}")
-    public String dormDetail(@PathVariable("dormId") int dormId, Model model) {
+    public String dormDetail(@PathVariable("dormId") int dormId, Model model, HttpSession session) {
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
         model.addAttribute("floorBedUsageList", floorBedUsageList);
+        String dormName = dormService.getDormNameById(dormId);
+        model.addAttribute("dormName" , dormName);
+        model.addAttribute("role", session.getAttribute("role"));
         return "user/floor_list";
     }
 
 
-    @GetMapping("/fpt-dorm/user/room-list-used/{floorId}")
-    public String floorDetail(@PathVariable("floorId") int floorId, Model model) {
+    @GetMapping("/fpt-dorm/user/room-list-used/{dormId}/{floorId}")
+    public String floorDetail(@PathVariable("dormId") int dormId, @PathVariable("floorId") int floorId, Model model, HttpSession session) {
         List<RoomBedUsage> roomBedUsageList = roomService.getRoomBedUsageByFloorId(floorId);
         model.addAttribute("roomBedUsageList", roomBedUsageList);
+        model.addAttribute("role", session.getAttribute("role"));
         return "user/used_room_list";
     }
 
@@ -103,7 +118,7 @@ public class DormController {
             dormService.deleteDorm(dormId);
             return "redirect:/fpt-dorm/admin/view-dorm-list";
         } catch (Exception e) {
-            model.addAttribute("error", "Trong dorm đang có phòng đang sử dụng, bạn không thể xóa nó");
+            model.addAttribute("error", "In a dorm room that is in use, you cannot delete it.");
             // Trả về lại view admin_dorm_list để hiển thị lỗi
             List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo();
             model.addAttribute("dormBedInfoList", dormBedInfoList);
@@ -155,17 +170,37 @@ public class DormController {
 
     @GetMapping("/fpt-dorm/admin/delete-floor/{floorId}")
     public String deleteFloor(@PathVariable("floorId") int floorId, RedirectAttributes redirectAttributes) {
+        // Lấy thông tin tầng cần xóa
         Floor floor = floorService.getFloorById(floorId);
+        if (floor == null) {
+            // Tầng không tồn tại
+            redirectAttributes.addFlashAttribute("error", "Floor not found.");
+            return "redirect:/fpt-dorm/admin/view-floor-list";
+        }
+
+        // Lấy tầng cao nhất trong cùng một ký túc xá
         Floor highestFloor = floorService.getHighestFloorByDormId(floor.getDorm().getDormId());
 
+        // Kiểm tra nếu tầng cần xóa có phải là tầng cao nhất không
         if (floor.getFloorNumber().equals(highestFloor.getFloorNumber())) {
-            floorService.deleteFloor(floorId);
+            // Kiểm tra nếu tầng có phòng nào không
+            List<Room> rooms = roomService.getRoomsByFloorId(floorId);
+            if (rooms != null && !rooms.isEmpty()) {
+                // Tầng có chứa phòng, không cho phép xóa
+                redirectAttributes.addFlashAttribute("error", "The floor cannot be deleted because it contains rooms.");
+            } else {
+                // Xóa tầng nếu không có phòng
+                floorService.deleteFloor(floorId);
+            }
         } else {
+            // Tầng không phải là tầng cao nhất, không cho phép xóa
             redirectAttributes.addFlashAttribute("error", "Only the highest floor can be deleted.");
         }
 
+        // Chuyển hướng về danh sách tầng
         return "redirect:/fpt-dorm/admin/view-floor-list/" + floor.getDorm().getDormId();
     }
+
 
 
     @GetMapping("/fpt-dorm/admin/edit-floor-form/{dormId}/{floorId}")
@@ -176,6 +211,8 @@ public class DormController {
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
         model.addAttribute("dormId", dormId);
         model.addAttribute("floorBedUsageList", floorBedUsageList);
+        String dormName = dormService.getDormNameById(dormId);
+        model.addAttribute("dormName", dormName);
         if (floor != null) {
             model.addAttribute("floor", floor);
             return "admin/dorm-manager/admin_edit_floor_form";
@@ -370,7 +407,7 @@ public class DormController {
             roomService.deleteRoom(roomId);
             return "redirect:/fpt-dorm/admin/view-rooms/" + dormId + "/" + floorId;
         } catch (RuntimeException e) {
-            model.addAttribute("error", "Trong phòng đang có giường đang sử dụng, bạn không thể xóa nó");
+            model.addAttribute("error", "In a room with a bed in use, you cannot delete it.");
             Floor floor = floorService.getFloorById(floorId);
             List<Room> rooms = roomService.getRoomsByFloorId(floorId);
             model.addAttribute("floor", floor);
@@ -393,7 +430,8 @@ public class DormController {
 
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
-        model.addAttribute("roomId", roomId);
+        Room room = roomService.getRoomById(roomId);
+        model.addAttribute("roomNumber", room.getRoomNumber());
         model.addAttribute("roomId", roomId);
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
@@ -410,6 +448,8 @@ public class DormController {
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
         model.addAttribute("roomId", roomId);
+        Room room = roomService.getRoomById(roomId);
+        model.addAttribute("roomNumber", room.getRoomNumber());
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
         model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
@@ -438,6 +478,8 @@ public class DormController {
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
         model.addAttribute("roomId", roomId);
+        Room room = roomService.getRoomById(roomId);
+        model.addAttribute("roomNumber", room.getRoomNumber());
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
         model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
@@ -509,7 +551,7 @@ public class DormController {
             dormService.deleteDorm(dormId);
             return "redirect:/fpt-dorm/employee/view-dorm-list";
         } catch (Exception e) {
-            model.addAttribute("error", "Trong dorm đang có phòng đang sử dụng, bạn không thể xóa nó");
+            model.addAttribute("error", "In a dorm room that is in use, you cannot delete it.");
             // Trả về lại view admin_dorm_list để hiển thị lỗi
             List<DormBedInfoDTO> dormBedInfoList = dormService.getAllDormBedInfo();
             model.addAttribute("dormBedInfoList", dormBedInfoList);
@@ -560,18 +602,38 @@ public class DormController {
 
 
     @GetMapping("/fpt-dorm/employee/delete-floor/{floorId}")
-    public String employeeDeleteFloor(@PathVariable("floorId") int floorId, RedirectAttributes redirectAttributes) {
+    public String DeleteFloor(@PathVariable("floorId") int floorId, RedirectAttributes redirectAttributes) {
+        // Lấy thông tin tầng cần xóa
         Floor floor = floorService.getFloorById(floorId);
+        if (floor == null) {
+            // Tầng không tồn tại
+            redirectAttributes.addFlashAttribute("error", "Floor not found.");
+            return "redirect:/fpt-dorm/admin/view-floor-list";
+        }
+
+        // Lấy tầng cao nhất trong cùng một ký túc xá
         Floor highestFloor = floorService.getHighestFloorByDormId(floor.getDorm().getDormId());
 
+        // Kiểm tra nếu tầng cần xóa có phải là tầng cao nhất không
         if (floor.getFloorNumber().equals(highestFloor.getFloorNumber())) {
-            floorService.deleteFloor(floorId);
+            // Kiểm tra nếu tầng có phòng nào không
+            List<Room> rooms = roomService.getRoomsByFloorId(floorId);
+            if (rooms != null && !rooms.isEmpty()) {
+                // Tầng có chứa phòng, không cho phép xóa
+                redirectAttributes.addFlashAttribute("error", "The floor cannot be deleted because it contains rooms.");
+            } else {
+                // Xóa tầng nếu không có phòng
+                floorService.deleteFloor(floorId);
+            }
         } else {
+            // Tầng không phải là tầng cao nhất, không cho phép xóa
             redirectAttributes.addFlashAttribute("error", "Only the highest floor can be deleted.");
         }
 
-        return "redirect:/fpt-dorm/employee/view-floor-list/" + floor.getDorm().getDormId();
+        // Chuyển hướng về danh sách tầng
+        return "redirect:/fpt-dorm/admin/view-floor-list/" + floor.getDorm().getDormId();
     }
+
 
 
     @GetMapping("/fpt-dorm/employee/edit-floor-form/{dormId}/{floorId}")
@@ -582,6 +644,8 @@ public class DormController {
         List<FloorBedUsage> floorBedUsageList = floorService.getFloorBedUsageByDormId(dormId);
         model.addAttribute("dormId", dormId);
         model.addAttribute("floorBedUsageList", floorBedUsageList);
+        String dormName = dormService.getDormNameById(dormId);
+        model.addAttribute("dormName", dormName);
         if (floor != null) {
             model.addAttribute("floor", floor);
             return "employee/dorm-manager/edit_floor";
@@ -789,7 +853,7 @@ public class DormController {
             roomService.deleteRoom(roomId);
             return "redirect:/fpt-dorm/employee/view-rooms/" + dormId + "/" + floorId;
         } catch (RuntimeException e) {
-            model.addAttribute("error", "Trong phòng đang có giường đang sử dụng, bạn không thể xóa nó");
+            model.addAttribute("error", "In a room with a bed in use, you cannot delete it.");
             Floor floor = floorService.getFloorById(floorId);
             List<Room> rooms = roomService.getRoomsByFloorId(floorId);
             model.addAttribute("floor", floor);
@@ -812,6 +876,8 @@ public class DormController {
 
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
+        Room room = roomService.getRoomById(roomId);
+        model.addAttribute("roomNumber", room.getRoomNumber());
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
         model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages
@@ -827,6 +893,8 @@ public class DormController {
         // Fetch the paginated and sorted list of beds
         Page<Bed> bedsPage = bedRepository.findByRoomRoomId(roomId, pageRequest);
         model.addAttribute("roomId", roomId);
+        Room room = roomService.getRoomById(roomId);
+        model.addAttribute("roomNumber", room.getRoomNumber());
         model.addAttribute("beds", bedsPage);
         model.addAttribute("currentPage", page); // Current page number
         model.addAttribute("totalPages", bedsPage.getTotalPages()); // Total number of pages

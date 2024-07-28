@@ -20,7 +20,7 @@ public class ContactController {
         String content = "Name: " + name + "\n" +
                 "Email: " + email + "\n" +
                 "Message: " + message;
-        emailService.sendMailGuess("datlthe176015@fpt.edu.vn", content);
+        emailService.sendMailGuess("datleidol@gmail.com", content);
         model.addAttribute("successMessage", "Your message has been sent successfully. Please pay attention!" +
                 " We will respond as soon as possible.");
         return "contact";

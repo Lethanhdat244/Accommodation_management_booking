@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UsageServiceRepository extends JpaRepository<UsageService, Integer> {
@@ -25,4 +26,9 @@ public interface UsageServiceRepository extends JpaRepository<UsageService, Inte
             "JOIN Room r ON b.room.roomId = r.roomId " +
             "WHERE r.roomId = :roomId AND CURRENT_DATE BETWEEN bo.startDate AND bo.endDate")
     Page<UserBookingDTO> findUsersByRoomIdAndCurrentDate(@Param("roomId") Integer roomId, Pageable pageable);
+
+    List<UsageService> findByCreatedAtBetween(LocalDateTime startDate, LocalDateTime endDate);
+
+    @Query("SELECT DISTINCT YEAR(u.createdAt) FROM UsageService u ORDER BY YEAR(u.createdAt) DESC")
+    List<Integer> findAllYears();
 }

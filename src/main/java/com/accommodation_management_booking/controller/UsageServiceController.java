@@ -4,6 +4,7 @@ import com.accommodation_management_booking.entity.UsageService;
 import com.accommodation_management_booking.entity.User;
 import com.accommodation_management_booking.repository.UsageServiceRepository;
 import com.accommodation_management_booking.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,7 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UsageServiceController {
@@ -33,7 +36,9 @@ public class UsageServiceController {
     public String fptDormUsedServices(Model model,
                                       @RequestParam(defaultValue = "0") int page,
                                       @RequestParam(defaultValue = "3") int size,
-                                      Authentication authentication) {
+                                      Authentication authentication,
+                                      HttpSession session) {
+        model.addAttribute("role", session.getAttribute("role"));
         Pageable pageable = PageRequest.of(page, size);
         if (authentication instanceof OAuth2AuthenticationToken) {
             OAuth2AuthenticationToken oauth2Token = (OAuth2AuthenticationToken) authentication;
@@ -59,6 +64,29 @@ public class UsageServiceController {
         }
         model.addAttribute("emptyMessage", null);
         model.addAttribute("usageServiceList", usageServiceList);
+
         return "student_usage_services";
     }
+
+//    @GetMapping("/abc")
+//    public String getServiceUsage(@RequestParam(name = "year", required = false, defaultValue = "0") int year,
+//                                  @RequestParam(name = "month", required = false, defaultValue = "0") int month,
+//                                  Model model) {
+//
+//        // Get years for dropdown
+//        List<Integer> years = usageServiceRepository.findDistinctYears();
+//        model.addAttribute("years", years);
+//
+//        // Get service usage counts for the selected month and year
+//        Map<String, Long> serviceUsageCounts = new HashMap<>();
+//        if (year > 0 && month > 0) {
+//            serviceUsageCounts = usageServiceRepository.findServiceUsageCountsByMonth(year, month);
+//        }
+//
+//        model.addAttribute("selectedYear", year);
+//        model.addAttribute("selectedMonth", month);
+//        model.addAttribute("serviceUsageCounts", serviceUsageCounts);
+//
+//        return "abc";  // Ensure this matches the name of your template file without .html
+//    }
 }
