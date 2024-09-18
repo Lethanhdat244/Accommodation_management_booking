@@ -13,20 +13,20 @@ public class CloudinaryConfiguration {
     @Bean
     public Cloudinary cloudinaryConfig() {
         Map<String, String> config = new HashMap<>();
-        config.put("cloud_name", "djuwlqgvb");
-        config.put("api_key", "259649773865917");
-        config.put("api_secret", "mU3eWPUkQ1QFbWaXgbLB8Pfxrd8");
-        config.put("secure", "true");
+        config.put("cloud_name", "");
+        config.put("api_key", "");
+        config.put("api_secret", "");
+        config.put("secure", "");
 
         return new Cloudinary(config);
     }
 
     public Cloudinary cloudinaryConfigPDF() {
         Map<String, String> config = new HashMap<>();
-        config.put("cloud_name", "dp0y8eiyx");
-        config.put("api_key", "548662748595134");
-        config.put("api_secret", "9wyS08SggZjPRFUs5_tTBAgqGgE");
-        config.put("secure", "true");
+        config.put("cloud_name", "");
+        config.put("api_key", "");
+        config.put("api_secret", "");
+        config.put("secure", "");
 
         Cloudinary cloudinary = null;
         try {
